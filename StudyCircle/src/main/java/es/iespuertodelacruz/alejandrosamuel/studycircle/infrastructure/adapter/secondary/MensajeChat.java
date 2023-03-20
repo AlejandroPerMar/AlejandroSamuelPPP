@@ -31,12 +31,12 @@ public class MensajeChat implements Serializable {
 	//bi-directional many-to-one association to Usuario
 	@ManyToOne
 	@JoinColumn(name="id_user_sender")
-	private Usuario user1;
+	private UsuarioEntity user1;
 
 	//bi-directional many-to-one association to Usuario
 	@ManyToOne
 	@JoinColumn(name="id_user_receptor")
-	private Usuario user2;
+	private UsuarioEntity user2;
 
 	public MensajeChat() {
 	}
@@ -73,19 +73,19 @@ public class MensajeChat implements Serializable {
 		this.fechaEnvio = fechaEnvio;
 	}
 
-	public Usuario getUser1() {
+	public UsuarioEntity getUser1() {
 		return this.user1;
 	}
 
-	public void setUser1(Usuario user1) {
+	public void setUser1(UsuarioEntity user1) {
 		this.user1 = user1;
 	}
 
-	public Usuario getUser2() {
+	public UsuarioEntity getUser2() {
 		return this.user2;
 	}
 
-	public void setUser2(Usuario user2) {
+	public void setUser2(UsuarioEntity user2) {
 		this.user2 = user2;
 	}
 

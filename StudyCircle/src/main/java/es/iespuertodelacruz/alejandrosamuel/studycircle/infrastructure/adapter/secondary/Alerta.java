@@ -34,7 +34,7 @@ public class Alerta implements Serializable {
 	//bi-directional many-to-one association to Usuario
 	@ManyToOne
 	@JoinColumn(name="id_user")
-	private Usuario user;
+	private UsuarioEntity user;
 
 	public Alerta() {
 	}
@@ -79,11 +79,11 @@ public class Alerta implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public Usuario getUser() {
+	public UsuarioEntity getUser() {
 		return this.user;
 	}
 
-	public void setUser(Usuario user) {
+	public void setUser(UsuarioEntity user) {
 		this.user = user;
 	}
 

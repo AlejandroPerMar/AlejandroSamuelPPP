@@ -16,6 +16,6 @@
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.TarifaTutor</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.MateriaTutor</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.PerfilTutor</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.Usuario</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.UsuarioEntity</class>
 	</persistence-unit>
 </persistence>

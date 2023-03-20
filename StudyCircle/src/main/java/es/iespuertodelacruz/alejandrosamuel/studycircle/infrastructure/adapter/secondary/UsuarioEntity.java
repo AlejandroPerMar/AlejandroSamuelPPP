@@ -13,8 +13,8 @@ import java.util.List;
  */
 @Entity
 @Table(name="users")
-@NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
-public class Usuario implements Serializable {
+@NamedQuery(name="Usuario.findAll", query="SELECT u FROM UsuarioEntity u")
+public class UsuarioEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -78,7 +78,7 @@ public class Usuario implements Serializable {
 	@JoinColumn(name="id")
 	private PerfilTutor tutor;
 
-	public Usuario() {
+	public UsuarioEntity() {
 	}
 
 	public int getId() {

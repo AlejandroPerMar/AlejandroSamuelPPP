@@ -22,7 +22,7 @@ public class UserStatus implements Serializable {
 
 	//bi-directional many-to-one association to Usuario
 	@OneToMany(mappedBy="userStatus")
-	private List<Usuario> users;
+	private List<UsuarioEntity> users;
 
 	public UserStatus() {
 	}
@@ -43,22 +43,22 @@ public class UserStatus implements Serializable {
 		this.status = status;
 	}
 
-	public List<Usuario> getUsers() {
+	public List<UsuarioEntity> getUsers() {
 		return this.users;
 	}
 
-	public void setUsers(List<Usuario> users) {
+	public void setUsers(List<UsuarioEntity> users) {
 		this.users = users;
 	}
 
-	public Usuario addUser(Usuario user) {
+	public UsuarioEntity addUser(UsuarioEntity user) {
 		getUsers().add(user);
 		user.setUserStatus(this);
 
 		return user;
 	}
 
-	public Usuario removeUser(Usuario user) {
+	public UsuarioEntity removeUser(UsuarioEntity user) {
 		getUsers().remove(user);
 		user.setUserStatus(null);
 

@@ -45,7 +45,7 @@ public class PerfilAlumno implements Serializable {
 
 	//bi-directional one-to-one association to Usuario
 	@OneToOne(mappedBy="student")
-	private Usuario user;
+	private UsuarioEntity user;
 
 	public PerfilAlumno() {
 	}
@@ -148,11 +148,11 @@ public class PerfilAlumno implements Serializable {
 		return studentsTutorSubject;
 	}
 
-	public Usuario getUser() {
+	public UsuarioEntity getUser() {
 		return this.user;
 	}
 
-	public void setUser(Usuario user) {
+	public void setUser(UsuarioEntity user) {
 		this.user = user;
 	}
 
