@@ -1,4 +1,4 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -11,8 +11,8 @@ import java.math.BigInteger;
  */
 @Entity
 @Table(name="alerts")
-@NamedQuery(name="Alerta.findAll", query="SELECT a FROM Alerta a")
-public class Alerta implements Serializable {
+@NamedQuery(name="AlertaEntity.findAll", query="SELECT a FROM AlertaEntity a")
+public class AlertaEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -22,21 +22,25 @@ public class Alerta implements Serializable {
 	@Column(name="created_at")
 	private BigInteger fechaCreacion;
 
-	@Column(name="id_status")
-	private int idStatus;
-
 	@Column(name="message")
 	private String mensaje;
 
-	@Column(name="type")
-	private String tipo;
+	//uni-directional many-to-one association to EstadoAlertaEntity
+	@ManyToOne
+	@JoinColumn(name="id_status")
+	private EstadoAlertaEntity alertStatus;
 
-	//bi-directional many-to-one association to Usuario
+	//uni-directional many-to-one association to TipoAlertaEntity
+	@ManyToOne
+	@JoinColumn(name="id_type")
+	private TipoAlertaEntity alertType;
+
+	//bi-directional many-to-one association to UsuarioEntity
 	@ManyToOne
 	@JoinColumn(name="id_user")
 	private UsuarioEntity user;
 
-	public Alerta() {
+	public AlertaEntity() {
 	}
 
 	public int getId() {
@@ -55,14 +59,6 @@ public class Alerta implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public int getIdStatus() {
-		return this.idStatus;
-	}
-
-	public void setIdStatus(int idStatus) {
-		this.idStatus = idStatus;
-	}
-
 	public String getMensaje() {
 		return this.mensaje;
 	}
@@ -71,12 +67,20 @@ public class Alerta implements Serializable {
 		this.mensaje = mensaje;
 	}
 
-	public String getTipo() {
-		return this.tipo;
+	public EstadoAlertaEntity getAlertStatus() {
+		return this.alertStatus;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setAlertStatus(EstadoAlertaEntity alertStatus) {
+		this.alertStatus = alertStatus;
+	}
+
+	public TipoAlertaEntity getAlertType() {
+		return this.alertType;
+	}
+
+	public void setAlertType(TipoAlertaEntity alertType) {
+		this.alertType = alertType;
 	}
 
 	public UsuarioEntity getUser() {

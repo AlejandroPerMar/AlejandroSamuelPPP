@@ -1,4 +1,4 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -11,16 +11,13 @@ import java.math.BigInteger;
  */
 @Entity
 @Table(name="chat_messages")
-@NamedQuery(name="MensajeChat.findAll", query="SELECT m FROM MensajeChat m")
-public class MensajeChat implements Serializable {
+@NamedQuery(name="MensajeChatEntity.findAll", query="SELECT m FROM MensajeChatEntity m")
+public class MensajeChatEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-
-	@Column(name="id_status")
-	private int idStatus;
 
 	@Column(name="message")
 	private String mensaje;
@@ -28,17 +25,22 @@ public class MensajeChat implements Serializable {
 	@Column(name="send_at")
 	private BigInteger fechaEnvio;
 
-	//bi-directional many-to-one association to Usuario
+	//uni-directional many-to-one association to EstadoMensajeEntity
+	@ManyToOne
+	@JoinColumn(name="id_status")
+	private EstadoMensajeEntity chatMessagesStatus;
+
+	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
 	@JoinColumn(name="id_user_sender")
 	private UsuarioEntity user1;
 
-	//bi-directional many-to-one association to Usuario
+	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
 	@JoinColumn(name="id_user_receptor")
 	private UsuarioEntity user2;
 
-	public MensajeChat() {
+	public MensajeChatEntity() {
 	}
 
 	public int getId() {
@@ -47,14 +49,6 @@ public class MensajeChat implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getIdStatus() {
-		return this.idStatus;
-	}
-
-	public void setIdStatus(int idStatus) {
-		this.idStatus = idStatus;
 	}
 
 	public String getMensaje() {
@@ -71,6 +65,14 @@ public class MensajeChat implements Serializable {
 
 	public void setFechaEnvio(BigInteger fechaEnvio) {
 		this.fechaEnvio = fechaEnvio;
+	}
+
+	public EstadoMensajeEntity getChatMessagesStatus() {
+		return this.chatMessagesStatus;
+	}
+
+	public void setChatMessagesStatus(EstadoMensajeEntity chatMessagesStatus) {
+		this.chatMessagesStatus = chatMessagesStatus;
 	}
 
 	public UsuarioEntity getUser1() {

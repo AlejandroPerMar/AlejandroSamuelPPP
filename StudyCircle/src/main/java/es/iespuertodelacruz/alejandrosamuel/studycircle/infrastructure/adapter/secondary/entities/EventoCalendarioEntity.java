@@ -1,4 +1,4 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -11,8 +11,8 @@ import java.math.BigInteger;
  */
 @Entity
 @Table(name="calendar_events")
-@NamedQuery(name="EventoCalendario.findAll", query="SELECT e FROM EventoCalendario e")
-public class EventoCalendario implements Serializable {
+@NamedQuery(name="EventoCalendarioEntity.findAll", query="SELECT e FROM EventoCalendarioEntity e")
+public class EventoCalendarioEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -31,22 +31,22 @@ public class EventoCalendario implements Serializable {
 	@Column(name="time_event")
 	private BigInteger fechaEvento;
 
-	//bi-directional many-to-one association to Actividad
+	//uni-directional many-to-one association to ActividadEntity
 	@ManyToOne
 	@JoinColumn(name="id_activity")
-	private Actividad activity;
+	private ActividadEntity activity;
 
-	//bi-directional many-to-one association to PerfilTutor
-	@ManyToOne
-	@JoinColumn(name="id_tutor")
-	private PerfilTutor tutor;
-
-	//bi-directional many-to-one association to PerfilAlumno
+	//bi-directional many-to-one association to AlumnoEntity
 	@ManyToOne
 	@JoinColumn(name="id_student")
-	private PerfilAlumno student;
+	private AlumnoEntity student;
 
-	public EventoCalendario() {
+	//bi-directional many-to-one association to TutorEntity
+	@ManyToOne
+	@JoinColumn(name="id_tutor")
+	private TutorEntity tutor;
+
+	public EventoCalendarioEntity() {
 	}
 
 	public int getId() {
@@ -89,28 +89,28 @@ public class EventoCalendario implements Serializable {
 		this.fechaEvento = fechaEvento;
 	}
 
-	public Actividad getActivity() {
+	public ActividadEntity getActivity() {
 		return this.activity;
 	}
 
-	public void setActivity(Actividad activity) {
+	public void setActivity(ActividadEntity activity) {
 		this.activity = activity;
 	}
 
-	public PerfilTutor getTutor() {
-		return this.tutor;
-	}
-
-	public void setTutor(PerfilTutor tutor) {
-		this.tutor = tutor;
-	}
-
-	public PerfilAlumno getStudent() {
+	public AlumnoEntity getStudent() {
 		return this.student;
 	}
 
-	public void setStudent(PerfilAlumno student) {
+	public void setStudent(AlumnoEntity student) {
 		this.student = student;
+	}
+
+	public TutorEntity getTutor() {
+		return this.tutor;
+	}
+
+	public void setTutor(TutorEntity tutor) {
+		this.tutor = tutor;
 	}
 
 }

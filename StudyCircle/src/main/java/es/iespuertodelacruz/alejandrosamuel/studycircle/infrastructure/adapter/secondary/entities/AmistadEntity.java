@@ -1,8 +1,7 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.math.BigInteger;
 
 
@@ -12,33 +11,36 @@ import java.math.BigInteger;
  */
 @Entity
 @Table(name="friendships")
-@NamedQuery(name="Amistad.findAll", query="SELECT a FROM Amistad a")
-public class Amistad implements Serializable {
+@NamedQuery(name="AmistadEntity.findAll", query="SELECT a FROM AmistadEntity a")
+public class AmistadEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
 	@Column(name="created_at")
 	private BigInteger fechaCreacion;
 
 	@Column(name="friends_from")
-	private Timestamp friendsFrom;
+	private BigInteger fechaAmigos;
 
-	@Column(name="id_status")
-	private int idStatus;
+	//uni-directional many-to-one association to EstadoAmistadEntity
+	@ManyToOne
+	@JoinColumn(name="id_status")
+	private EstadoAmistadEntity friendshipStatus;
 
-	//bi-directional many-to-one association to Usuario
+	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
 	@JoinColumn(name="id_user1")
 	private UsuarioEntity user1;
 
-	//bi-directional many-to-one association to Usuario
+	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
 	@JoinColumn(name="id_user2")
 	private UsuarioEntity user2;
 
-	public Amistad() {
+	public AmistadEntity() {
 	}
 
 	public int getId() {
@@ -57,20 +59,20 @@ public class Amistad implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public Timestamp getFriendsFrom() {
-		return this.friendsFrom;
+	public BigInteger getFechaAmigos() {
+		return this.fechaAmigos;
 	}
 
-	public void setFriendsFrom(Timestamp friendsFrom) {
-		this.friendsFrom = friendsFrom;
+	public void setFechaAmigos(BigInteger fechaAmigos) {
+		this.fechaAmigos = fechaAmigos;
 	}
 
-	public int getIdStatus() {
-		return this.idStatus;
+	public EstadoAmistadEntity getFriendshipStatus() {
+		return this.friendshipStatus;
 	}
 
-	public void setIdStatus(int idStatus) {
-		this.idStatus = idStatus;
+	public void setFriendshipStatus(EstadoAmistadEntity friendshipStatus) {
+		this.friendshipStatus = friendshipStatus;
 	}
 
 	public UsuarioEntity getUser1() {

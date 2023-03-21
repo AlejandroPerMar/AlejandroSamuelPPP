@@ -1,4 +1,4 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -10,8 +10,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="roles")
-@NamedQuery(name="Rol.findAll", query="SELECT r FROM Rol r")
-public class Rol implements Serializable {
+@NamedQuery(name="RolEntity.findAll", query="SELECT r FROM RolEntity r")
+public class RolEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -20,7 +20,7 @@ public class Rol implements Serializable {
 
 	private String rol;
 
-	public Rol() {
+	public RolEntity() {
 	}
 
 	public int getId() {

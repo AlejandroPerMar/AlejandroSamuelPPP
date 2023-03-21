@@ -26,7 +26,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("es.iespuertodelacruz.jc.lapices.infrastructure.adapter.primary"))
+                .apis(RequestHandlerSelectors.basePackage("es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())
@@ -37,11 +37,11 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "Todo API",
-                "La API REST de ToDo App.",
+                "API REST StudyCircle",
+                "La API REST para la gestión e interacción con la app Android StudyCircle.",
                 "v1",
                 "Terms of service",
-                new Contact("IES Puerto", "www.iespuerto.es", "jc.iespuertodelacruz@gmx.es"),
+                new Contact("StudyCircle", "", "studycirclecontact@gmail.com"),
                 "License of API", "API license URL", Collections.emptyList());
     }
     

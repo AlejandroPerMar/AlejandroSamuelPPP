@@ -2,20 +2,20 @@
 <persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
 	<persistence-unit name="StudyCircle">
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.UserStatus</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.Actividad</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.Alerta</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.Anuncio</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.EventoCalendario</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.MensajeChat</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.Amistad</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.Rol</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.ActividadEntity</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.AlertaEntity</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.AnuncioEntity</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.EventoCalendarioEntity</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.MensajeChatEntity</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.AmistadEntity</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.RolEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.PerfilAlumno</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.EstudianteMateria</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.NivelEstudios</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.Materia</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.TarifaTutor</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.MateriaTutor</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.NivelEstudiosEntity</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.MateriaEntity</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.TarifaTutorEntity</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.MateriaTutorEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.PerfilTutor</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.Usuario</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.UsuarioEntity</class>
 	</persistence-unit>
 </persistence>

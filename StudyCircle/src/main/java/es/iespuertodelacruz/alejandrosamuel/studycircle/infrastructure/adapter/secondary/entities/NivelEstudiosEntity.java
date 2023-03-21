@@ -1,4 +1,4 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -12,8 +12,8 @@ import java.util.List;
  */
 @Entity
 @Table(name="study_levels")
-@NamedQuery(name="NivelEstudios.findAll", query="SELECT n FROM NivelEstudios n")
-public class NivelEstudios implements Serializable {
+@NamedQuery(name="NivelEstudiosEntity.findAll", query="SELECT n FROM NivelEstudiosEntity n")
+public class NivelEstudiosEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -26,15 +26,11 @@ public class NivelEstudios implements Serializable {
 	@Column(name="name")
 	private String nombre;
 
-	//bi-directional many-to-one association to PerfilAlumno
+	//bi-directional many-to-one association to MateriaEntity
 	@OneToMany(mappedBy="studyLevel")
-	private List<PerfilAlumno> students;
+	private List<MateriaEntity> subjects;
 
-	//bi-directional many-to-one association to Materia
-	@OneToMany(mappedBy="studyLevel")
-	private List<Materia> subjects;
-
-	public NivelEstudios() {
+	public NivelEstudiosEntity() {
 	}
 
 	public int getId() {
@@ -61,44 +57,22 @@ public class NivelEstudios implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public List<PerfilAlumno> getStudents() {
-		return this.students;
-	}
-
-	public void setStudents(List<PerfilAlumno> students) {
-		this.students = students;
-	}
-
-	public PerfilAlumno addStudent(PerfilAlumno student) {
-		getStudents().add(student);
-		student.setStudyLevel(this);
-
-		return student;
-	}
-
-	public PerfilAlumno removeStudent(PerfilAlumno student) {
-		getStudents().remove(student);
-		student.setStudyLevel(null);
-
-		return student;
-	}
-
-	public List<Materia> getSubjects() {
+	public List<MateriaEntity> getSubjects() {
 		return this.subjects;
 	}
 
-	public void setSubjects(List<Materia> subjects) {
+	public void setSubjects(List<MateriaEntity> subjects) {
 		this.subjects = subjects;
 	}
 
-	public Materia addSubject(Materia subject) {
+	public MateriaEntity addSubject(MateriaEntity subject) {
 		getSubjects().add(subject);
 		subject.setStudyLevel(this);
 
 		return subject;
 	}
 
-	public Materia removeSubject(Materia subject) {
+	public MateriaEntity removeSubject(MateriaEntity subject) {
 		getSubjects().remove(subject);
 		subject.setStudyLevel(null);
 

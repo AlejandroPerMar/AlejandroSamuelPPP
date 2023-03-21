@@ -7,13 +7,15 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.UsuarioEntity;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.UsuarioEntityJPARepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.RolEntity;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.UsuarioEntity;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repositories.UsuarioEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
+import java.util.List;
+import java.util.ArrayList;
 
 @Configuration
 public class ApplicationConfig {
@@ -33,10 +35,15 @@ public class ApplicationConfig {
 			UserDetailsLogin user = new UserDetailsLogin();
 		    user.setUsername(ur.getNombre());
 		    user.setPassword(ur.getHashpswd());
+		    
 		    /*
 		     * Generar una List<String> con los roles
 		     */
-		    user.setRoles(ur.getRoles());
+		    List<String> roles = new ArrayList<>();
+		    for (RolEntity rol : ur.getRoles()) {
+				roles.add(rol.getRol());
+			}
+		    user.setRoles(roles);
 			return user;
 		};
 				//.orElseThrow(() -> new UsernameNotFoundException("User not found"));
