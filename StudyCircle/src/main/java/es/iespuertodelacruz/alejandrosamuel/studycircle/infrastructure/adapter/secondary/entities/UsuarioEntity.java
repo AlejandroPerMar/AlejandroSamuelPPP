@@ -26,10 +26,10 @@ public class UsuarioEntity implements Serializable {
 	private String email;
 
 	@Column(name="email_verification_sent_at")
-	private BigInteger fechaEnvioCorreoVerificacion;
+	private BigInteger fechaEnvioEmailVerificacion;
 
 	@Column(name="email_verification_token")
-	private String tokenVerificacion;
+	private String tokenVerificacionEmail;
 
 	@Column(name="email_verified_at")
 	private BigInteger fechaVerificacion;
@@ -38,6 +38,9 @@ public class UsuarioEntity implements Serializable {
 	private String nombre;
 
 	private String hashpswd;
+
+	@Column(name="status")
+	private String estado;
 
 	private String username;
 
@@ -68,11 +71,6 @@ public class UsuarioEntity implements Serializable {
 	@JoinColumn(name="id")
 	private TutorEntity tutor;
 
-	//uni-directional many-to-one association to EstadoUsuarioEntity
-	@ManyToOne
-	@JoinColumn(name="id_status")
-	private EstadoUsuarioEntity userStatus;
-
 	public UsuarioEntity() {
 	}
 
@@ -100,20 +98,20 @@ public class UsuarioEntity implements Serializable {
 		this.email = email;
 	}
 
-	public BigInteger getFechaEnvioCorreoVerificacion() {
-		return this.fechaEnvioCorreoVerificacion;
+	public BigInteger getFechaEnvioEmailVerificacion() {
+		return this.fechaEnvioEmailVerificacion;
 	}
 
-	public void setFechaEnvioCorreoVerificacion(BigInteger fechaEnvioCorreoVerificacion) {
-		this.fechaEnvioCorreoVerificacion = fechaEnvioCorreoVerificacion;
+	public void setFechaEnvioEmailVerificacion(BigInteger fechaEnvioEmailVerificacion) {
+		this.fechaEnvioEmailVerificacion = fechaEnvioEmailVerificacion;
 	}
 
-	public String getTokenVerificacion() {
-		return this.tokenVerificacion;
+	public String getTokenVerificacionEmail() {
+		return this.tokenVerificacionEmail;
 	}
 
-	public void setTokenVerificacion(String tokenVerificacion) {
-		this.tokenVerificacion = tokenVerificacion;
+	public void setTokenVerificacionEmail(String tokenVerificacionEmail) {
+		this.tokenVerificacionEmail = tokenVerificacionEmail;
 	}
 
 	public BigInteger getFechaVerificacion() {
@@ -138,6 +136,14 @@ public class UsuarioEntity implements Serializable {
 
 	public void setHashpswd(String hashpswd) {
 		this.hashpswd = hashpswd;
+	}
+
+	public String getEstado() {
+		return this.estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	public String getUsername() {
@@ -192,14 +198,6 @@ public class UsuarioEntity implements Serializable {
 
 	public void setTutor(TutorEntity tutor) {
 		this.tutor = tutor;
-	}
-
-	public EstadoUsuarioEntity getUserStatus() {
-		return this.userStatus;
-	}
-
-	public void setUserStatus(EstadoUsuarioEntity userStatus) {
-		this.userStatus = userStatus;
 	}
 
 }

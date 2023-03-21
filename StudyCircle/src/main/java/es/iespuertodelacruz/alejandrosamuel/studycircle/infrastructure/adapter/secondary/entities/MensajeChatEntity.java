@@ -19,26 +19,20 @@ public class MensajeChatEntity implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
+	@Column(name="id_user_receptor")
+	private int idUserReceptor;
+
+	@Column(name="id_user_sender")
+	private int idUserSender;
+
 	@Column(name="message")
 	private String mensaje;
 
 	@Column(name="send_at")
 	private BigInteger fechaEnvio;
 
-	//uni-directional many-to-one association to EstadoMensajeEntity
-	@ManyToOne
-	@JoinColumn(name="id_status")
-	private EstadoMensajeEntity chatMessagesStatus;
-
-	//uni-directional many-to-one association to UsuarioEntity
-	@ManyToOne
-	@JoinColumn(name="id_user_sender")
-	private UsuarioEntity user1;
-
-	//uni-directional many-to-one association to UsuarioEntity
-	@ManyToOne
-	@JoinColumn(name="id_user_receptor")
-	private UsuarioEntity user2;
+	@Column(name="status")
+	private String estado;
 
 	public MensajeChatEntity() {
 	}
@@ -49,6 +43,22 @@ public class MensajeChatEntity implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getIdUserReceptor() {
+		return this.idUserReceptor;
+	}
+
+	public void setIdUserReceptor(int idUserReceptor) {
+		this.idUserReceptor = idUserReceptor;
+	}
+
+	public int getIdUserSender() {
+		return this.idUserSender;
+	}
+
+	public void setIdUserSender(int idUserSender) {
+		this.idUserSender = idUserSender;
 	}
 
 	public String getMensaje() {
@@ -67,28 +77,12 @@ public class MensajeChatEntity implements Serializable {
 		this.fechaEnvio = fechaEnvio;
 	}
 
-	public EstadoMensajeEntity getChatMessagesStatus() {
-		return this.chatMessagesStatus;
+	public String getEstado() {
+		return this.estado;
 	}
 
-	public void setChatMessagesStatus(EstadoMensajeEntity chatMessagesStatus) {
-		this.chatMessagesStatus = chatMessagesStatus;
-	}
-
-	public UsuarioEntity getUser1() {
-		return this.user1;
-	}
-
-	public void setUser1(UsuarioEntity user1) {
-		this.user1 = user1;
-	}
-
-	public UsuarioEntity getUser2() {
-		return this.user2;
-	}
-
-	public void setUser2(UsuarioEntity user2) {
-		this.user2 = user2;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 }

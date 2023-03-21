@@ -25,15 +25,11 @@ public class AlertaEntity implements Serializable {
 	@Column(name="message")
 	private String mensaje;
 
-	//uni-directional many-to-one association to EstadoAlertaEntity
-	@ManyToOne
-	@JoinColumn(name="id_status")
-	private EstadoAlertaEntity alertStatus;
+	@Column(name="status")
+	private String estado;
 
-	//uni-directional many-to-one association to TipoAlertaEntity
-	@ManyToOne
-	@JoinColumn(name="id_type")
-	private TipoAlertaEntity alertType;
+	@Column(name="type")
+	private String tipo;
 
 	//bi-directional many-to-one association to UsuarioEntity
 	@ManyToOne
@@ -67,20 +63,20 @@ public class AlertaEntity implements Serializable {
 		this.mensaje = mensaje;
 	}
 
-	public EstadoAlertaEntity getAlertStatus() {
-		return this.alertStatus;
+	public String getEstado() {
+		return this.estado;
 	}
 
-	public void setAlertStatus(EstadoAlertaEntity alertStatus) {
-		this.alertStatus = alertStatus;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
-	public TipoAlertaEntity getAlertType() {
-		return this.alertType;
+	public String getTipo() {
+		return this.tipo;
 	}
 
-	public void setAlertType(TipoAlertaEntity alertType) {
-		this.alertType = alertType;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public UsuarioEntity getUser() {

@@ -138,7 +138,7 @@ CREATE TABLE `announcement_reasons` (
 CREATE TABLE `alerts` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `id_user` int NOT NULL,
-  `id_type` int NOT NULL,
+  `type` int NOT NULL,
   `message` varchar(255) NOT NULL,
   `id_status` int NOT NULL,
   `created_at` timestamp NOT NULL
@@ -344,7 +344,7 @@ ALTER TABLE `alerts` ADD FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 ALTER TABLE `alerts` ADD FOREIGN KEY (`id_status`) REFERENCES `alert_statuses` (`id`);
 
-ALTER TABLE `alerts` ADD FOREIGN KEY (`id_type`) REFERENCES `alert_types` (`id`);
+ALTER TABLE `alerts` ADD FOREIGN KEY (`id_status`) REFERENCES `alert_types` (`id`);
 
 ALTER TABLE `students_tutor_subjects` ADD FOREIGN KEY (`id_student`) REFERENCES `students` (`id`);
 

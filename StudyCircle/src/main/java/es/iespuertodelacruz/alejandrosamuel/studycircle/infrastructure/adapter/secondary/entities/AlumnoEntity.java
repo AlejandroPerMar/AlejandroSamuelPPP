@@ -35,7 +35,7 @@ public class AlumnoEntity implements Serializable {
 	@OneToMany(mappedBy="student")
 	private List<EventoCalendarioEntity> calendarEvents;
 
-	//uni-directional many-to-one association to NivelEstudiosEntity
+	//uni-directional many-to-one association to NivelEstudioEntity
 	@ManyToOne
 	@JoinColumn(name="id_study_level")
 	private NivelEstudiosEntity studyLevel;

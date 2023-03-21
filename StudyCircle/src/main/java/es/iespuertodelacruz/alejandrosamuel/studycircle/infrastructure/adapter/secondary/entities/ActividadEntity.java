@@ -2,7 +2,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -30,13 +29,11 @@ public class ActividadEntity implements Serializable {
 	@Column(name="name")
 	private String nombre;
 
-	@Column(name="time_activity")
-	private Timestamp fechaActividad;
+	@Column(name="status")
+	private String estado;
 
-	//uni-directional many-to-one association to EstadoActividadEntity
-	@ManyToOne
-	@JoinColumn(name="id_status")
-	private EstadoActividadEntity activityStatus;
+	@Column(name="time_activity")
+	private BigInteger fechaActividad;
 
 	//bi-directional many-to-many association to AlumnoEntity
 	@ManyToMany
@@ -96,20 +93,20 @@ public class ActividadEntity implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Timestamp getFechaActividad() {
+	public String getEstado() {
+		return this.estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public BigInteger getFechaActividad() {
 		return this.fechaActividad;
 	}
 
-	public void setFechaActividad(Timestamp fechaActividad) {
+	public void setFechaActividad(BigInteger fechaActividad) {
 		this.fechaActividad = fechaActividad;
-	}
-
-	public EstadoActividadEntity getActivityStatus() {
-		return this.activityStatus;
-	}
-
-	public void setActivityStatus(EstadoActividadEntity activityStatus) {
-		this.activityStatus = activityStatus;
 	}
 
 	public List<AlumnoEntity> getStudents() {

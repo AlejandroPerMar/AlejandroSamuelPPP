@@ -23,22 +23,16 @@ public class AmistadEntity implements Serializable {
 	private BigInteger fechaCreacion;
 
 	@Column(name="friends_from")
-	private BigInteger fechaAmigos;
+	private BigInteger fechaAmistad;
 
-	//uni-directional many-to-one association to EstadoAmistadEntity
-	@ManyToOne
-	@JoinColumn(name="id_status")
-	private EstadoAmistadEntity friendshipStatus;
+	@Column(name="id_user1")
+	private int idUser1;
 
-	//uni-directional many-to-one association to UsuarioEntity
-	@ManyToOne
-	@JoinColumn(name="id_user1")
-	private UsuarioEntity user1;
+	@Column(name="id_user2")
+	private int idUser2;
 
-	//uni-directional many-to-one association to UsuarioEntity
-	@ManyToOne
-	@JoinColumn(name="id_user2")
-	private UsuarioEntity user2;
+	@Column(name="status")
+	private String estado;
 
 	public AmistadEntity() {
 	}
@@ -59,36 +53,36 @@ public class AmistadEntity implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public BigInteger getFechaAmigos() {
-		return this.fechaAmigos;
+	public BigInteger getFechaAmistad() {
+		return this.fechaAmistad;
 	}
 
-	public void setFechaAmigos(BigInteger fechaAmigos) {
-		this.fechaAmigos = fechaAmigos;
+	public void setFechaAmistad(BigInteger fechaAmistad) {
+		this.fechaAmistad = fechaAmistad;
 	}
 
-	public EstadoAmistadEntity getFriendshipStatus() {
-		return this.friendshipStatus;
+	public int getIdUser1() {
+		return this.idUser1;
 	}
 
-	public void setFriendshipStatus(EstadoAmistadEntity friendshipStatus) {
-		this.friendshipStatus = friendshipStatus;
+	public void setIdUser1(int idUser1) {
+		this.idUser1 = idUser1;
 	}
 
-	public UsuarioEntity getUser1() {
-		return this.user1;
+	public int getIdUser2() {
+		return this.idUser2;
 	}
 
-	public void setUser1(UsuarioEntity user1) {
-		this.user1 = user1;
+	public void setIdUser2(int idUser2) {
+		this.idUser2 = idUser2;
 	}
 
-	public UsuarioEntity getUser2() {
-		return this.user2;
+	public String getEstado() {
+		return this.estado;
 	}
 
-	public void setUser2(UsuarioEntity user2) {
-		this.user2 = user2;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 }

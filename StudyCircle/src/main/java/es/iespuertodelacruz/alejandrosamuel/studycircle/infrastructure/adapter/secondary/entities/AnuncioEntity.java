@@ -25,18 +25,14 @@ public class AnuncioEntity implements Serializable {
 	@Column(name="description")
 	private String descripcion;
 
+	@Column(name="reason")
+	private String motivo;
+
+	@Column(name="status")
+	private String estado;
+
 	@Column(name="title")
 	private String titulo;
-
-	//uni-directional many-to-one association to MotivoAnuncioEntity
-	@ManyToOne
-	@JoinColumn(name="id_reason")
-	private MotivoAnuncioEntity announcementReason;
-
-	//uni-directional many-to-one association to EstadoAnuncioEntity
-	@ManyToOne
-	@JoinColumn(name="id_status")
-	private EstadoAnuncioEntity announcementStatus;
 
 	//bi-directional many-to-one association to AlumnoEntity
 	@ManyToOne
@@ -80,28 +76,28 @@ public class AnuncioEntity implements Serializable {
 		this.descripcion = descripcion;
 	}
 
+	public String getMotivo() {
+		return this.motivo;
+	}
+
+	public void setMotivo(String motivo) {
+		this.motivo = motivo;
+	}
+
+	public String getEstado() {
+		return this.estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
 	public String getTitulo() {
 		return this.titulo;
 	}
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
-	}
-
-	public MotivoAnuncioEntity getAnnouncementReason() {
-		return this.announcementReason;
-	}
-
-	public void setAnnouncementReason(MotivoAnuncioEntity announcementReason) {
-		this.announcementReason = announcementReason;
-	}
-
-	public EstadoAnuncioEntity getAnnouncementStatus() {
-		return this.announcementStatus;
-	}
-
-	public void setAnnouncementStatus(EstadoAnuncioEntity announcementStatus) {
-		this.announcementStatus = announcementStatus;
 	}
 
 	public AlumnoEntity getStudent() {
