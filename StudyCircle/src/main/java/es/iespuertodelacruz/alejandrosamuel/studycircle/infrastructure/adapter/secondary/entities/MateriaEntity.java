@@ -25,7 +25,7 @@ public class MateriaEntity implements Serializable {
 	@Column(name="name")
 	private String nombre;
 
-	//bi-directional many-to-one association to NivelEstudioEntity
+	//bi-directional many-to-one association to NivelEstudiosEntity
 	@ManyToOne
 	@JoinColumn(name="id_study_level")
 	private NivelEstudiosEntity studyLevel;

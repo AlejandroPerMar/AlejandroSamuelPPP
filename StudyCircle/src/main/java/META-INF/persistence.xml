@@ -10,12 +10,11 @@
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.RolEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.AlumnoEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.MateriaAlumnoEntity</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.NivelEstudiosEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.MateriaEntity</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.TarifaTutorEntity</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.TarifaEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.MateriaTutorEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.TutorEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.UsuarioEntity</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.NivelEstudiosEntity</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities.TarifaEntity</class>
 	</persistence-unit>
 </persistence>
