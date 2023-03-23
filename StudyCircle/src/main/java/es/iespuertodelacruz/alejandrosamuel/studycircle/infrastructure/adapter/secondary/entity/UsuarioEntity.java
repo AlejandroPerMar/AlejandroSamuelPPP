@@ -26,10 +26,10 @@ public class UsuarioEntity implements Serializable {
 	private String email;
 
 	@Column(name="email_verification_sent_at")
-	private BigInteger fechaEnvioEmailVerificacion;
+	private BigInteger fechaEnvioCorreoVerificacion;
 
 	@Column(name="email_verification_token")
-	private String tokenVerificacionEmail;
+	private String tokenVerificacion;
 
 	@Column(name="email_verified_at")
 	private BigInteger fechaVerificacion;
@@ -39,8 +39,7 @@ public class UsuarioEntity implements Serializable {
 
 	private String hashpswd;
 
-	@Column(name="status")
-	private String estado;
+	private String status;
 
 	private String username;
 
@@ -98,20 +97,20 @@ public class UsuarioEntity implements Serializable {
 		this.email = email;
 	}
 
-	public BigInteger getFechaEnvioEmailVerificacion() {
-		return this.fechaEnvioEmailVerificacion;
+	public BigInteger getFechaEnvioCorreoVerificacion() {
+		return this.fechaEnvioCorreoVerificacion;
 	}
 
-	public void setFechaEnvioEmailVerificacion(BigInteger fechaEnvioEmailVerificacion) {
-		this.fechaEnvioEmailVerificacion = fechaEnvioEmailVerificacion;
+	public void setFechaEnvioCorreoVerificacion(BigInteger fechaEnvioCorreoVerificacion) {
+		this.fechaEnvioCorreoVerificacion = fechaEnvioCorreoVerificacion;
 	}
 
-	public String getTokenVerificacionEmail() {
-		return this.tokenVerificacionEmail;
+	public String getTokenVerificacion() {
+		return this.tokenVerificacion;
 	}
 
-	public void setTokenVerificacionEmail(String tokenVerificacionEmail) {
-		this.tokenVerificacionEmail = tokenVerificacionEmail;
+	public void setTokenVerificacion(String tokenVerificacion) {
+		this.tokenVerificacion = tokenVerificacion;
 	}
 
 	public BigInteger getFechaVerificacion() {
@@ -138,12 +137,12 @@ public class UsuarioEntity implements Serializable {
 		this.hashpswd = hashpswd;
 	}
 
-	public String getEstado() {
-		return this.estado;
+	public String getStatus() {
+		return this.status;
 	}
 
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getUsername() {

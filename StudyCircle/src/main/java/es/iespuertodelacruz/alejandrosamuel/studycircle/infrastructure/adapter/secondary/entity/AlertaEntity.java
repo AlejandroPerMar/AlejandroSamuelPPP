@@ -25,8 +25,7 @@ public class AlertaEntity implements Serializable {
 	@Column(name="message")
 	private String mensaje;
 
-	@Column(name="status")
-	private String estado;
+	private String status;
 
 	@Column(name="type")
 	private String tipo;
@@ -63,12 +62,12 @@ public class AlertaEntity implements Serializable {
 		this.mensaje = mensaje;
 	}
 
-	public String getEstado() {
-		return this.estado;
+	public String getStatus() {
+		return this.status;
 	}
 
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getTipo() {

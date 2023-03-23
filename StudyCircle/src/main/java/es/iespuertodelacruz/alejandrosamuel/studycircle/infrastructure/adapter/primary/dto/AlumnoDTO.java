@@ -3,29 +3,25 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import java.math.BigInteger;
 import java.util.List;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Anuncio;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.EventoCalendario;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.MateriaAlumno;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.NivelEstudios;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 
 public class AlumnoDTO {
 	private int id;
 
 	private BigInteger fechaCreacion;
 
-	private List<Actividad> actividades;
+	private List<ActividadDTO> actividades;
 
-	private List<Anuncio> anuncios;
+	private List<AnuncioDTO> anuncios;
 
-	private List<EventoCalendario> eventosCalendario;
+	private List<EventoCalendarioDTO> eventosCalendario;
 
-	private NivelEstudios nivelEstudios;
+	private NivelEstudiosDTO nivelEstudios;
 
-	private List<MateriaAlumno> materiasAlumno;
+	private List<MateriaAlumnoDTO> materiasAlumno;
 
-	private Usuario usuario;
+	private List<MateriaDTO> materias;
+
+	private UsuarioDTO usuario;
 	
 	public AlumnoDTO() {}
 
@@ -45,51 +41,59 @@ public class AlumnoDTO {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public List<Actividad> getActividades() {
+	public List<ActividadDTO> getActividades() {
 		return actividades;
 	}
 
-	public void setActividades(List<Actividad> actividades) {
+	public void setActividades(List<ActividadDTO> actividades) {
 		this.actividades = actividades;
 	}
 
-	public List<Anuncio> getAnuncios() {
+	public List<AnuncioDTO> getAnuncios() {
 		return anuncios;
 	}
 
-	public void setAnuncios(List<Anuncio> anuncios) {
+	public void setAnuncios(List<AnuncioDTO> anuncios) {
 		this.anuncios = anuncios;
 	}
 
-	public List<EventoCalendario> getEventosCalendario() {
+	public List<EventoCalendarioDTO> getEventosCalendario() {
 		return eventosCalendario;
 	}
 
-	public void setEventosCalendario(List<EventoCalendario> eventosCalendario) {
+	public void setEventosCalendario(List<EventoCalendarioDTO> eventosCalendario) {
 		this.eventosCalendario = eventosCalendario;
 	}
 
-	public NivelEstudios getNivelEstudios() {
+	public NivelEstudiosDTO getNivelEstudios() {
 		return nivelEstudios;
 	}
 
-	public void setNivelEstudios(NivelEstudios nivelEstudios) {
+	public void setNivelEstudios(NivelEstudiosDTO nivelEstudios) {
 		this.nivelEstudios = nivelEstudios;
 	}
 
-	public List<MateriaAlumno> getMateriasAlumno() {
+	public List<MateriaAlumnoDTO> getMateriasAlumno() {
 		return materiasAlumno;
 	}
 
-	public void setMateriasAlumno(List<MateriaAlumno> materiasAlumno) {
+	public void setMateriasAlumno(List<MateriaAlumnoDTO> materiasAlumno) {
 		this.materiasAlumno = materiasAlumno;
 	}
 
-	public Usuario getUsuario() {
+	public List<MateriaDTO> getMaterias() {
+		return materias;
+	}
+
+	public void setMaterias(List<MateriaDTO> materias) {
+		this.materias = materias;
+	}
+
+	public UsuarioDTO getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
+	public void setUsuario(UsuarioDTO usuario) {
 		this.usuario = usuario;
 	}
 }

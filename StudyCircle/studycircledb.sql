@@ -70,6 +70,12 @@ CREATE TABLE `subjects` (
   `created_at` timestamp NOT NULL
 );
 
+CREATE TABLE `student_subjects` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `id_student` int NOT NULL,
+  `id_subject` int NOT NULL
+);
+
 CREATE TABLE `activities` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
@@ -237,6 +243,10 @@ ALTER TABLE `tutor_subjects` ADD FOREIGN KEY (`id_tutor`) REFERENCES `tutors` (`
 ALTER TABLE `tutor_subjects` ADD FOREIGN KEY (`id_subject`) REFERENCES `subjects` (`id`);
 
 ALTER TABLE `subjects` ADD FOREIGN KEY (`id_study_level`) REFERENCES `study_levels` (`id`);
+
+ALTER TABLE `student_subjects` ADD FOREIGN KEY (`id_student`) REFERENCES `students` (`id`);
+
+ALTER TABLE `student_subjects` ADD FOREIGN KEY (`id_subject`) REFERENCES `subjects` (`id`);
 
 ALTER TABLE `activities` ADD FOREIGN KEY (`id_tutor`) REFERENCES `tutors` (`id`);
 

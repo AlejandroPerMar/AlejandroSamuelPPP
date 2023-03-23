@@ -18,6 +18,8 @@ public class Alumno {
 	private NivelEstudios nivelEstudios;
 
 	private List<MateriaAlumno> materiasAlumno;
+	
+	private List<Materia> materias;
 
 	private Usuario usuario;
 	
@@ -41,6 +43,14 @@ public class Alumno {
 
 	public List<Actividad> getActividades() {
 		return actividades;
+	}
+
+	public List<Materia> getMaterias() {
+		return materias;
+	}
+
+	public void setMaterias(List<Materia> materias) {
+		this.materias = materias;
 	}
 
 	public void setActividades(List<Actividad> actividades) {

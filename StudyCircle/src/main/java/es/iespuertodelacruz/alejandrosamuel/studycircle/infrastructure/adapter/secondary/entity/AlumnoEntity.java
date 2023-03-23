@@ -48,6 +48,19 @@ public class AlumnoEntity implements Serializable {
 	@OneToOne(mappedBy="student")
 	private UsuarioEntity user;
 
+	//uni-directional many-to-many association to MateriaEntity
+	@ManyToMany
+	@JoinTable(
+		name="student_subjects"
+		, joinColumns={
+			@JoinColumn(name="id_student")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="id_subject")
+			}
+		)
+	private List<MateriaEntity> subjects;
+
 	public AlumnoEntity() {
 	}
 
@@ -155,6 +168,14 @@ public class AlumnoEntity implements Serializable {
 
 	public void setUser(UsuarioEntity user) {
 		this.user = user;
+	}
+
+	public List<MateriaEntity> getSubjects() {
+		return this.subjects;
+	}
+
+	public void setSubjects(List<MateriaEntity> subjects) {
+		this.subjects = subjects;
 	}
 
 }

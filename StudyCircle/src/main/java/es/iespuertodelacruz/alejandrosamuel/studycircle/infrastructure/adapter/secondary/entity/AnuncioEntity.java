@@ -25,11 +25,9 @@ public class AnuncioEntity implements Serializable {
 	@Column(name="description")
 	private String descripcion;
 
-	@Column(name="reason")
-	private String motivo;
+	private String reason;
 
-	@Column(name="status")
-	private String estado;
+	private String status;
 
 	@Column(name="title")
 	private String titulo;
@@ -76,20 +74,20 @@ public class AnuncioEntity implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public String getMotivo() {
-		return this.motivo;
+	public String getReason() {
+		return this.reason;
 	}
 
-	public void setMotivo(String motivo) {
-		this.motivo = motivo;
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 
-	public String getEstado() {
-		return this.estado;
+	public String getStatus() {
+		return this.status;
 	}
 
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getTitulo() {

@@ -35,9 +35,9 @@ public class TutorEntity implements Serializable {
 	@OneToMany(mappedBy="tutor")
 	private List<EventoCalendarioEntity> calendarEvents;
 
-	//bi-directional many-to-one association to TarifaEntity
+	//bi-directional many-to-one association to TarifaTutorEntity
 	@OneToMany(mappedBy="tutor")
-	private List<TarifaEntity> tutorRates;
+	private List<TarifaTutorEntity> tutorRates;
 
 	//bi-directional many-to-one association to MateriaTutorEntity
 	@OneToMany(mappedBy="tutor")
@@ -132,22 +132,22 @@ public class TutorEntity implements Serializable {
 		return calendarEvent;
 	}
 
-	public List<TarifaEntity> getTutorRates() {
+	public List<TarifaTutorEntity> getTutorRates() {
 		return this.tutorRates;
 	}
 
-	public void setTutorRates(List<TarifaEntity> tutorRates) {
+	public void setTutorRates(List<TarifaTutorEntity> tutorRates) {
 		this.tutorRates = tutorRates;
 	}
 
-	public TarifaEntity addTutorRate(TarifaEntity tutorRate) {
+	public TarifaTutorEntity addTutorRate(TarifaTutorEntity tutorRate) {
 		getTutorRates().add(tutorRate);
 		tutorRate.setTutor(this);
 
 		return tutorRate;
 	}
 
-	public TarifaEntity removeTutorRate(TarifaEntity tutorRate) {
+	public TarifaTutorEntity removeTutorRate(TarifaTutorEntity tutorRate) {
 		getTutorRates().remove(tutorRate);
 		tutorRate.setTutor(null);
 

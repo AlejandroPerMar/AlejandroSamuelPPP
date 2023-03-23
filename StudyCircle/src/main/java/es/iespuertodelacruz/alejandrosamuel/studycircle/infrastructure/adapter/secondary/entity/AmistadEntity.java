@@ -23,10 +23,9 @@ public class AmistadEntity implements Serializable {
 	private BigInteger fechaCreacion;
 
 	@Column(name="friends_from")
-	private BigInteger fechaAmistad;
+	private BigInteger fechaAmigos;
 
-	@Column(name="status")
-	private String estado;
+	private String status;
 
 	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
@@ -57,20 +56,20 @@ public class AmistadEntity implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public BigInteger getFechaAmistad() {
-		return this.fechaAmistad;
+	public BigInteger getFechaAmigos() {
+		return this.fechaAmigos;
 	}
 
-	public void setFechaAmistad(BigInteger fechaAmistad) {
-		this.fechaAmistad = fechaAmistad;
+	public void setFechaAmigos(BigInteger fechaAmigos) {
+		this.fechaAmigos = fechaAmigos;
 	}
 
-	public String getEstado() {
-		return this.estado;
+	public String getStatus() {
+		return this.status;
 	}
 
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public UsuarioEntity getUser1() {

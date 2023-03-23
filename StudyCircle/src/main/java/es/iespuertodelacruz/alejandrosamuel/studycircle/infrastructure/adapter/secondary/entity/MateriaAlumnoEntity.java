@@ -22,8 +22,7 @@ public class MateriaAlumnoEntity implements Serializable {
 	@Column(name="created_at")
 	private BigInteger fechaCreacion;
 
-	@Column(name="status")
-	private String estado;
+	private String status;
 
 	//bi-directional many-to-one association to AlumnoEntity
 	@ManyToOne
@@ -54,12 +53,12 @@ public class MateriaAlumnoEntity implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public String getEstado() {
-		return this.estado;
+	public String getStatus() {
+		return this.status;
 	}
 
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public AlumnoEntity getStudent() {
