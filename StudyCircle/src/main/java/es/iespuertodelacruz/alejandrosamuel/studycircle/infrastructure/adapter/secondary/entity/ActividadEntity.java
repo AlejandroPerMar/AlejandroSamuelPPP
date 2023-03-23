@@ -1,18 +1,19 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entities;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.List;
 
 
 /**
- * The persistent class for the announcements database table.
+ * The persistent class for the activities database table.
  * 
  */
 @Entity
-@Table(name="announcements")
-@NamedQuery(name="AnuncioEntity.findAll", query="SELECT a FROM AnuncioEntity a")
-public class AnuncioEntity implements Serializable {
+@Table(name="activities")
+@NamedQuery(name="ActividadEntity.findAll", query="SELECT a FROM ActividadEntity a")
+public class ActividadEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -25,19 +26,27 @@ public class AnuncioEntity implements Serializable {
 	@Column(name="description")
 	private String descripcion;
 
-	@Column(name="reason")
-	private String motivo;
+	@Column(name="name")
+	private String nombre;
 
 	@Column(name="status")
 	private String estado;
 
-	@Column(name="title")
-	private String titulo;
+	@Column(name="time_activity")
+	private BigInteger fechaActividad;
 
-	//bi-directional many-to-one association to AlumnoEntity
-	@ManyToOne
-	@JoinColumn(name="id_student")
-	private AlumnoEntity student;
+	//bi-directional many-to-many association to AlumnoEntity
+	@ManyToMany
+	@JoinTable(
+		name="activities_students"
+		, joinColumns={
+			@JoinColumn(name="id_activity")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="id_student")
+			}
+		)
+	private List<AlumnoEntity> students;
 
 	//uni-directional many-to-one association to MateriaEntity
 	@ManyToOne
@@ -49,7 +58,7 @@ public class AnuncioEntity implements Serializable {
 	@JoinColumn(name="id_tutor")
 	private TutorEntity tutor;
 
-	public AnuncioEntity() {
+	public ActividadEntity() {
 	}
 
 	public int getId() {
@@ -76,12 +85,12 @@ public class AnuncioEntity implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public String getMotivo() {
-		return this.motivo;
+	public String getNombre() {
+		return this.nombre;
 	}
 
-	public void setMotivo(String motivo) {
-		this.motivo = motivo;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public String getEstado() {
@@ -92,20 +101,20 @@ public class AnuncioEntity implements Serializable {
 		this.estado = estado;
 	}
 
-	public String getTitulo() {
-		return this.titulo;
+	public BigInteger getFechaActividad() {
+		return this.fechaActividad;
 	}
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+	public void setFechaActividad(BigInteger fechaActividad) {
+		this.fechaActividad = fechaActividad;
 	}
 
-	public AlumnoEntity getStudent() {
-		return this.student;
+	public List<AlumnoEntity> getStudents() {
+		return this.students;
 	}
 
-	public void setStudent(AlumnoEntity student) {
-		this.student = student;
+	public void setStudents(List<AlumnoEntity> students) {
+		this.students = students;
 	}
 
 	public MateriaEntity getSubject() {
