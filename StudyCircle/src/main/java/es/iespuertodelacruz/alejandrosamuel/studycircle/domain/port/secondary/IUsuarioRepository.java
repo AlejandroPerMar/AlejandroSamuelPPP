@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.UserDTO;
 
 
 @Repository
@@ -16,6 +17,6 @@ public interface IUsuarioRepository {
 
 	List<Usuario> findAll();
 
-	Usuario create(String username, String plainPassword, String rol);
+	Usuario create(UserDTO user);
 	
 }

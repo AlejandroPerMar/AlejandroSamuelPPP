@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IUsuarioRepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.UserDTO;
 
 @Service
 public class UsuarioService implements IUsuarioService{
@@ -20,9 +21,8 @@ public class UsuarioService implements IUsuarioService{
 	}
 
 	@Override
-	public Usuario create(String username, String ppass, String role) {
-			
-		return usuarioRepository.create(username, ppass, role);
+	public Usuario create(UserDTO user) {
+		return usuarioRepository.create(user);
 	}
 
 	@Override
