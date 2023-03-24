@@ -15,7 +15,6 @@ public class AlumnoService implements IAlumnoService {
 
 	@Override
 	public Alumno create(Alumno alumno) {
-		
 		return repository.create(alumno);
 	}
 
