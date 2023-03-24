@@ -23,6 +23,9 @@ public class TutorEntity implements Serializable {
 	@Column(name="created_at")
 	private BigInteger fechaCreacion;
 
+	@Column(name="id_user")
+	private int idUser;
+
 	//bi-directional many-to-one association to ActividadEntity
 	@OneToMany(mappedBy="tutor")
 	private List<ActividadEntity> activities;
@@ -35,9 +38,9 @@ public class TutorEntity implements Serializable {
 	@OneToMany(mappedBy="tutor")
 	private List<EventoCalendarioEntity> calendarEvents;
 
-	//bi-directional many-to-one association to TarifaTutorEntity
+	//bi-directional many-to-one association to TarifaEntity
 	@OneToMany(mappedBy="tutor")
-	private List<TarifaTutorEntity> tutorRates;
+	private List<TarifaEntity> tutorRates;
 
 	//bi-directional many-to-one association to MateriaTutorEntity
 	@OneToMany(mappedBy="tutor")
@@ -64,6 +67,14 @@ public class TutorEntity implements Serializable {
 
 	public void setFechaCreacion(BigInteger fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
+	}
+
+	public int getIdUser() {
+		return this.idUser;
+	}
+
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
 	}
 
 	public List<ActividadEntity> getActivities() {
@@ -132,22 +143,22 @@ public class TutorEntity implements Serializable {
 		return calendarEvent;
 	}
 
-	public List<TarifaTutorEntity> getTutorRates() {
+	public List<TarifaEntity> getTutorRates() {
 		return this.tutorRates;
 	}
 
-	public void setTutorRates(List<TarifaTutorEntity> tutorRates) {
+	public void setTutorRates(List<TarifaEntity> tutorRates) {
 		this.tutorRates = tutorRates;
 	}
 
-	public TarifaTutorEntity addTutorRate(TarifaTutorEntity tutorRate) {
+	public TarifaEntity addTutorRate(TarifaEntity tutorRate) {
 		getTutorRates().add(tutorRate);
 		tutorRate.setTutor(this);
 
 		return tutorRate;
 	}
 
-	public TarifaTutorEntity removeTutorRate(TarifaTutorEntity tutorRate) {
+	public TarifaEntity removeTutorRate(TarifaEntity tutorRate) {
 		getTutorRates().remove(tutorRate);
 		tutorRate.setTutor(null);
 

@@ -2,7 +2,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -30,23 +29,11 @@ public class ActividadEntity implements Serializable {
 	@Column(name="name")
 	private String nombre;
 
-	private String status;
+	@Column(name="status")
+	private String estado;
 
 	@Column(name="time_activity")
-	private Timestamp fechaActividad;
-
-	//bi-directional many-to-many association to AlumnoEntity
-	@ManyToMany
-	@JoinTable(
-		name="activities_students"
-		, joinColumns={
-			@JoinColumn(name="id_activity")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="id_student")
-			}
-		)
-	private List<AlumnoEntity> students;
+	private BigInteger fechaActividad;
 
 	//uni-directional many-to-one association to MateriaEntity
 	@ManyToOne
@@ -57,6 +44,10 @@ public class ActividadEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_tutor")
 	private TutorEntity tutor;
+
+	//bi-directional many-to-many association to AlumnoEntity
+	@ManyToMany(mappedBy="activities")
+	private List<AlumnoEntity> students;
 
 	public ActividadEntity() {
 	}
@@ -93,28 +84,20 @@ public class ActividadEntity implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getStatus() {
-		return this.status;
+	public String getEstado() {
+		return this.estado;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
-	public Timestamp getFechaActividad() {
+	public BigInteger getFechaActividad() {
 		return this.fechaActividad;
 	}
 
-	public void setFechaActividad(Timestamp fechaActividad) {
+	public void setFechaActividad(BigInteger fechaActividad) {
 		this.fechaActividad = fechaActividad;
-	}
-
-	public List<AlumnoEntity> getStudents() {
-		return this.students;
-	}
-
-	public void setStudents(List<AlumnoEntity> students) {
-		this.students = students;
 	}
 
 	public MateriaEntity getSubject() {
@@ -131,6 +114,14 @@ public class ActividadEntity implements Serializable {
 
 	public void setTutor(TutorEntity tutor) {
 		this.tutor = tutor;
+	}
+
+	public List<AlumnoEntity> getStudents() {
+		return this.students;
+	}
+
+	public void setStudents(List<AlumnoEntity> students) {
+		this.students = students;
 	}
 
 }

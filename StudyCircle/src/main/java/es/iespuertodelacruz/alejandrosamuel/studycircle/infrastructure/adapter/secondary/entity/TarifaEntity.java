@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 
 /**
@@ -19,7 +20,7 @@ public class TarifaEntity implements Serializable {
 	private int id;
 
 	@Column(name="price_per__hour")
-	private Double precioHora;
+	private BigDecimal precioHora;
 
 	//uni-directional many-to-one association to MateriaEntity
 	@ManyToOne
@@ -42,11 +43,11 @@ public class TarifaEntity implements Serializable {
 		this.id = id;
 	}
 
-	public Double getPrecioHora() {
+	public BigDecimal getPrecioHora() {
 		return this.precioHora;
 	}
 
-	public void setPrecioHora(Double precioHora) {
+	public void setPrecioHora(BigDecimal precioHora) {
 		this.precioHora = precioHora;
 	}
 

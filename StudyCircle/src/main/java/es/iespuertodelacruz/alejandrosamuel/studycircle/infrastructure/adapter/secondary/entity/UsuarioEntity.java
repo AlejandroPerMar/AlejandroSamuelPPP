@@ -26,20 +26,21 @@ public class UsuarioEntity implements Serializable {
 	private String email;
 
 	@Column(name="email_verification_sent_at")
-	private BigInteger fechaEnvioCorreoVerificacion;
+	private BigInteger fechaEnvioEmailVerificacion;
 
 	@Column(name="email_verification_token")
-	private String tokenVerificacion;
+	private String tokenEmailVerificacion;
 
 	@Column(name="email_verified_at")
-	private BigInteger fechaVerificacion;
+	private BigInteger fechaVerificacionEmail;
 
 	@Column(name="full_name")
 	private String nombre;
 
 	private String hashpswd;
 
-	private String status;
+	@Column(name="status")
+	private String estado;
 
 	private String username;
 
@@ -62,12 +63,12 @@ public class UsuarioEntity implements Serializable {
 
 	//bi-directional one-to-one association to AlumnoEntity
 	@OneToOne
-	@JoinColumn(name="id")
+	@JoinColumn(name="id_student")
 	private AlumnoEntity student;
 
 	//bi-directional one-to-one association to TutorEntity
 	@OneToOne
-	@JoinColumn(name="id")
+	@JoinColumn(name="id_tutor")
 	private TutorEntity tutor;
 
 	public UsuarioEntity() {
@@ -97,28 +98,28 @@ public class UsuarioEntity implements Serializable {
 		this.email = email;
 	}
 
-	public BigInteger getFechaEnvioCorreoVerificacion() {
-		return this.fechaEnvioCorreoVerificacion;
+	public BigInteger getFechaEnvioEmailVerificacion() {
+		return this.fechaEnvioEmailVerificacion;
 	}
 
-	public void setFechaEnvioCorreoVerificacion(BigInteger fechaEnvioCorreoVerificacion) {
-		this.fechaEnvioCorreoVerificacion = fechaEnvioCorreoVerificacion;
+	public void setFechaEnvioEmailVerificacion(BigInteger fechaEnvioEmailVerificacion) {
+		this.fechaEnvioEmailVerificacion = fechaEnvioEmailVerificacion;
 	}
 
-	public String getTokenVerificacion() {
-		return this.tokenVerificacion;
+	public String getTokenEmailVerificacion() {
+		return this.tokenEmailVerificacion;
 	}
 
-	public void setTokenVerificacion(String tokenVerificacion) {
-		this.tokenVerificacion = tokenVerificacion;
+	public void setTokenEmailVerificacion(String tokenEmailVerificacion) {
+		this.tokenEmailVerificacion = tokenEmailVerificacion;
 	}
 
-	public BigInteger getFechaVerificacion() {
-		return this.fechaVerificacion;
+	public BigInteger getFechaVerificacionEmail() {
+		return this.fechaVerificacionEmail;
 	}
 
-	public void setFechaVerificacion(BigInteger fechaVerificacion) {
-		this.fechaVerificacion = fechaVerificacion;
+	public void setFechaVerificacionEmail(BigInteger fechaVerificacionEmail) {
+		this.fechaVerificacionEmail = fechaVerificacionEmail;
 	}
 
 	public String getNombre() {
@@ -137,12 +138,12 @@ public class UsuarioEntity implements Serializable {
 		this.hashpswd = hashpswd;
 	}
 
-	public String getStatus() {
-		return this.status;
+	public String getEstado() {
+		return this.estado;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	public String getUsername() {

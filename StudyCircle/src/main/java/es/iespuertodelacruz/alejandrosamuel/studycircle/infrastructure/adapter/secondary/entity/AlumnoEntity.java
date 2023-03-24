@@ -23,9 +23,8 @@ public class AlumnoEntity implements Serializable {
 	@Column(name="created_at")
 	private BigInteger fechaCreacion;
 
-	//bi-directional many-to-many association to ActividadEntity
-	@ManyToMany(mappedBy="students")
-	private List<ActividadEntity> activities;
+	@Column(name="id_user")
+	private int idUser;
 
 	//bi-directional many-to-one association to AnuncioEntity
 	@OneToMany(mappedBy="student")
@@ -35,20 +34,25 @@ public class AlumnoEntity implements Serializable {
 	@OneToMany(mappedBy="student")
 	private List<EventoCalendarioEntity> calendarEvents;
 
+	//bi-directional many-to-many association to ActividadEntity
+	@ManyToMany
+	@JoinTable(
+		name="activities_students"
+		, joinColumns={
+			@JoinColumn(name="id_student")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="id_activity")
+			}
+		)
+	private List<ActividadEntity> activities;
+
 	//uni-directional many-to-one association to NivelEstudiosEntity
 	@ManyToOne
 	@JoinColumn(name="id_study_level")
 	private NivelEstudiosEntity studyLevel;
 
-	//bi-directional many-to-one association to MateriaAlumnoEntity
-	@OneToMany(mappedBy="student")
-	private List<MateriaAlumnoEntity> studentsTutorSubjects;
-
-	//bi-directional one-to-one association to UsuarioEntity
-	@OneToOne(mappedBy="student")
-	private UsuarioEntity user;
-
-	//uni-directional many-to-many association to MateriaEntity
+	//bi-directional many-to-many association to MateriaEntity
 	@ManyToMany
 	@JoinTable(
 		name="student_subjects"
@@ -60,6 +64,14 @@ public class AlumnoEntity implements Serializable {
 			}
 		)
 	private List<MateriaEntity> subjects;
+
+	//bi-directional many-to-one association to MateriaAlumnoEntity
+	@OneToMany(mappedBy="student")
+	private List<MateriaAlumnoEntity> studentsTutorSubjects;
+
+	//bi-directional one-to-one association to UsuarioEntity
+	@OneToOne(mappedBy="student")
+	private UsuarioEntity user;
 
 	public AlumnoEntity() {
 	}
@@ -80,12 +92,12 @@ public class AlumnoEntity implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public List<ActividadEntity> getActivities() {
-		return this.activities;
+	public int getIdUser() {
+		return this.idUser;
 	}
 
-	public void setActivities(List<ActividadEntity> activities) {
-		this.activities = activities;
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
 	}
 
 	public List<AnuncioEntity> getAnnouncements() {
@@ -132,12 +144,28 @@ public class AlumnoEntity implements Serializable {
 		return calendarEvent;
 	}
 
+	public List<ActividadEntity> getActivities() {
+		return this.activities;
+	}
+
+	public void setActivities(List<ActividadEntity> activities) {
+		this.activities = activities;
+	}
+
 	public NivelEstudiosEntity getStudyLevel() {
 		return this.studyLevel;
 	}
 
 	public void setStudyLevel(NivelEstudiosEntity studyLevel) {
 		this.studyLevel = studyLevel;
+	}
+
+	public List<MateriaEntity> getSubjects() {
+		return this.subjects;
+	}
+
+	public void setSubjects(List<MateriaEntity> subjects) {
+		this.subjects = subjects;
 	}
 
 	public List<MateriaAlumnoEntity> getStudentsTutorSubjects() {
@@ -168,14 +196,6 @@ public class AlumnoEntity implements Serializable {
 
 	public void setUser(UsuarioEntity user) {
 		this.user = user;
-	}
-
-	public List<MateriaEntity> getSubjects() {
-		return this.subjects;
-	}
-
-	public void setSubjects(List<MateriaEntity> subjects) {
-		this.subjects = subjects;
 	}
 
 }

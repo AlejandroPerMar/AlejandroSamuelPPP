@@ -25,7 +25,8 @@ public class MensajeChatEntity implements Serializable {
 	@Column(name="send_at")
 	private BigInteger fechaEnvio;
 
-	private String status;
+	@Column(name="status")
+	private String estado;
 
 	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
@@ -64,12 +65,12 @@ public class MensajeChatEntity implements Serializable {
 		this.fechaEnvio = fechaEnvio;
 	}
 
-	public String getStatus() {
-		return this.status;
+	public String getEstado() {
+		return this.estado;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	public UsuarioEntity getUser1() {

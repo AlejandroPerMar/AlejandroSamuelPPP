@@ -8,6 +8,8 @@ CREATE TABLE `users` (
   `email_verification_sent_at` timestamp,
   `status` varchar(100) NOT NULL,
   `hashpswd` varchar(255) NOT NULL,
+  `id_student` int UNIQUE,
+  `id_tutor` int UNIQUE,
   `created_at` timestamp NOT NULL
 );
 
@@ -228,11 +230,11 @@ ALTER TABLE `friendships` ADD FOREIGN KEY (`id_user1`) REFERENCES `users` (`id`)
 
 ALTER TABLE `friendships` ADD FOREIGN KEY (`id_user2`) REFERENCES `users` (`id`);
 
-ALTER TABLE `users` ADD FOREIGN KEY (`id`) REFERENCES `students` (`id_user`);
+ALTER TABLE `users` ADD FOREIGN KEY (`id_student`) REFERENCES `students` (`id`);
+
+ALTER TABLE `users` ADD FOREIGN KEY (`id_tutor`) REFERENCES `tutors` (`id`);
 
 ALTER TABLE `students` ADD FOREIGN KEY (`id_study_level`) REFERENCES `study_levels` (`id`);
-
-ALTER TABLE `users` ADD FOREIGN KEY (`id`) REFERENCES `tutors` (`id_user`);
 
 ALTER TABLE `tutor_rates` ADD FOREIGN KEY (`id_tutor`) REFERENCES `tutors` (`id`);
 

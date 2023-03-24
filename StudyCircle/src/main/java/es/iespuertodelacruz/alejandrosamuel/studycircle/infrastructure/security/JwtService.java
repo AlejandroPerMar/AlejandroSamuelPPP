@@ -2,12 +2,8 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security
 
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 
@@ -16,7 +12,6 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 class KeyGenerator{
@@ -54,12 +49,12 @@ public class JwtService {
 		return subject;
 	}
 
-    public String generateToken(String username, String rol) {
+    public String generateToken(String username, List<String> roles) {
     	KeyGenerator keygenerator = KeyGenerator.getInstance();
     	
         String token = Jwts
                 .builder()
-                .claim("authorities", rol)
+                .claim("authorities", roles)
                 .setSubject(username)
                 .setExpiration(getExpirationDate())
                 .signWith(keygenerator.getKey())
