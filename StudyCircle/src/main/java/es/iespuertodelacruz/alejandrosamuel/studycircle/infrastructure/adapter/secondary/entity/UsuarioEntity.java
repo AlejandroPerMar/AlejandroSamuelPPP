@@ -25,15 +25,6 @@ public class UsuarioEntity implements Serializable {
 
 	private String email;
 
-	@Column(name="email_verification_sent_at")
-	private BigInteger fechaEnvioCorreoVerificacion;
-
-	@Column(name="email_verification_token")
-	private String tokenVerificacion;
-
-	@Column(name="email_verified_at")
-	private BigInteger fechaVerificacion;
-
 	@Column(name="full_name")
 	private String nombre;
 
@@ -95,30 +86,6 @@ public class UsuarioEntity implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public BigInteger getFechaEnvioCorreoVerificacion() {
-		return this.fechaEnvioCorreoVerificacion;
-	}
-
-	public void setFechaEnvioCorreoVerificacion(BigInteger fechaEnvioCorreoVerificacion) {
-		this.fechaEnvioCorreoVerificacion = fechaEnvioCorreoVerificacion;
-	}
-
-	public String getTokenVerificacion() {
-		return this.tokenVerificacion;
-	}
-
-	public void setTokenVerificacion(String tokenVerificacion) {
-		this.tokenVerificacion = tokenVerificacion;
-	}
-
-	public BigInteger getFechaVerificacion() {
-		return this.fechaVerificacion;
-	}
-
-	public void setFechaVerificacion(BigInteger fechaVerificacion) {
-		this.fechaVerificacion = fechaVerificacion;
 	}
 
 	public String getNombre() {

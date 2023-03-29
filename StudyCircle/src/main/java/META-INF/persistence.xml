@@ -5,7 +5,6 @@
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlertaEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AnuncioEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.EventoCalendarioEntity</class>
-		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.MensajeChatEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AmistadEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.RolEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlumnoEntity</class>
@@ -17,5 +16,6 @@
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TutorEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity</class>
 		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TarifaTutorEntity</class>
+		<class>es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.ConfirmacionToken</class>
 	</persistence-unit>
 </persistence>
