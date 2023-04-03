@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IUsuarioRepository;
@@ -15,6 +16,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.UsuarioLoginEntityMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.UsuarioRegisterEntityMapper;
 
+@Service
 public class UsuarioEntityService implements IUsuarioRepository {
 
 	@Autowired
@@ -22,7 +24,7 @@ public class UsuarioEntityService implements IUsuarioRepository {
 
 	@Autowired
 	private UsuarioEntityJPARepository repository;
-	
+
 	@Override
 	public List<Usuario> findAll() {
 		// TODO Auto-generated method stub
@@ -33,7 +35,7 @@ public class UsuarioEntityService implements IUsuarioRepository {
 	public Usuario create(UsuarioRegisterDTO usuario) {
 		UsuarioRegisterEntityMapper mapper = new UsuarioRegisterEntityMapper();
 		UsuarioEntity usuarioEntity = new UsuarioEntity();
-		usuarioEntity.setNombre(usuario.getNombre());
+		usuarioEntity.setNombreCompleto(usuario.getNombre());
 		usuarioEntity.setHashpswd(passwordEncoder.encode(usuario.getClave()));
 		usuarioEntity.setFechaCreacion(null);
 		List<RolEntity> roles = new ArrayList<>();
@@ -46,20 +48,23 @@ public class UsuarioEntityService implements IUsuarioRepository {
 	public boolean checkPassword(String username, String pswd) {
 		boolean ok = false;
 		Usuario usuario = findByUsername(username);
-		if(usuario != null) {
+		System.out.println("adios");
+		if (usuario != null) {
+			System.out.println("hola");
 			ok = passwordEncoder.matches(pswd, usuario.getHashpswd());
 		}
 		return ok;
-		
+
 	}
 
 	@Override
 	public Usuario findByUsername(String username) {
-		UsuarioEntity ue = repository.findByName(username);
-		if( ue != null) {
+		UsuarioEntity ue = repository.findByUsername(username);
+		if (ue != null) {
+			System.out.println("adios23");
 			UsuarioLoginEntityMapper mapper = new UsuarioLoginEntityMapper();
-			return mapper.toDomain(ue);			
-		}else {
+			return mapper.toDomain(ue);
+		} else {
 			return null;
 		}
 	}

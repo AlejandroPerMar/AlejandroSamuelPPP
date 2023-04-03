@@ -2,7 +2,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -18,10 +17,6 @@ public class MateriaTutorEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-
-	//bi-directional many-to-one association to MateriaAlumnoEntity
-	@OneToMany(mappedBy="tutorSubject")
-	private List<MateriaAlumnoEntity> studentsTutorSubjects;
 
 	//uni-directional many-to-one association to MateriaEntity
 	@ManyToOne
@@ -42,28 +37,6 @@ public class MateriaTutorEntity implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public List<MateriaAlumnoEntity> getStudentsTutorSubjects() {
-		return this.studentsTutorSubjects;
-	}
-
-	public void setStudentsTutorSubjects(List<MateriaAlumnoEntity> studentsTutorSubjects) {
-		this.studentsTutorSubjects = studentsTutorSubjects;
-	}
-
-	public MateriaAlumnoEntity addStudentsTutorSubject(MateriaAlumnoEntity studentsTutorSubject) {
-		getStudentsTutorSubjects().add(studentsTutorSubject);
-		studentsTutorSubject.setTutorSubject(this);
-
-		return studentsTutorSubject;
-	}
-
-	public MateriaAlumnoEntity removeStudentsTutorSubject(MateriaAlumnoEntity studentsTutorSubject) {
-		getStudentsTutorSubjects().remove(studentsTutorSubject);
-		studentsTutorSubject.setTutorSubject(null);
-
-		return studentsTutorSubject;
 	}
 
 	public MateriaEntity getSubject() {

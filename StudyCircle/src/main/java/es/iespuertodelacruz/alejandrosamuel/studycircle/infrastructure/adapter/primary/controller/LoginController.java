@@ -8,14 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.JwtService;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @CrossOrigin
@@ -29,11 +29,13 @@ public class LoginController {
 	  private JwtService jwtService;  
 	  
 	  @PostMapping
-	  public ResponseEntity<String> login(@RequestBody UserDetailsLogin request) {
+	  public ResponseEntity<String> login(@RequestBody UsuarioLoginDTO request) {
+		  System.out.println(request.getUsername());
+		  System.out.println(request.getClave());
 		  String username = request.getUsername();
-		  String plainPassword = request.getPassword();
+		  String plainPassword = request.getClave();
 		  String token = null;
-		  if( usuarioService.checkCredentials(username, plainPassword) ) {
+		  if(usuarioService.checkCredentials(username, plainPassword) ) {
 			  Usuario usuario = usuarioService.findByUsername(username);
 			  List<String> roles = usuario.getRoles()
 					  .stream()

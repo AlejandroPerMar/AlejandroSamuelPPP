@@ -12,6 +12,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 @Repository
 public interface UsuarioEntityJPARepository extends JpaRepository<UsuarioEntity, Integer> {
 	
-	@Query("SELECT u from UsuarioEntity u where u.nombre=:nombre")
-	public UsuarioEntity findByName(@Param("nombre") String nombre);
+	@Query("SELECT u from UsuarioEntity u where u.username = :username")
+	public UsuarioEntity findByUsername(@Param("username") String username);
 }

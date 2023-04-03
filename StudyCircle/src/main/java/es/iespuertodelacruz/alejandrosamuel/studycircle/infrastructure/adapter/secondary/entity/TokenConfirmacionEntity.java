@@ -6,13 +6,13 @@ import java.sql.Timestamp;
 
 
 /**
- * The persistent class for the alerts database table.
+ * The persistent class for the confirmation_token database table.
  * 
  */
 @Entity
-@Table(name="alerts")
-@NamedQuery(name="AlertaEntity.findAll", query="SELECT a FROM AlertaEntity a")
-public class AlertaEntity implements Serializable {
+@Table(name="confirmation_token")
+@NamedQuery(name="TokenConfirmacionEntity.findAll", query="SELECT t FROM TokenConfirmacionEntity t")
+public class TokenConfirmacionEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -22,21 +22,14 @@ public class AlertaEntity implements Serializable {
 	@Column(name="created_at")
 	private Timestamp fechaCreacion;
 
-	@Column(name="message")
-	private String mensaje;
-
-	@Column(name="status")
-	private String estado;
-
-	@Column(name="type")
-	private String tipo;
+	private String token;
 
 	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
 	@JoinColumn(name="id_user")
 	private UsuarioEntity user;
 
-	public AlertaEntity() {
+	public TokenConfirmacionEntity() {
 	}
 
 	public int getId() {
@@ -55,28 +48,12 @@ public class AlertaEntity implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public String getMensaje() {
-		return this.mensaje;
+	public String getToken() {
+		return this.token;
 	}
 
-	public void setMensaje(String mensaje) {
-		this.mensaje = mensaje;
-	}
-
-	public String getEstado() {
-		return this.estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	public String getTipo() {
-		return this.tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public UsuarioEntity getUser() {

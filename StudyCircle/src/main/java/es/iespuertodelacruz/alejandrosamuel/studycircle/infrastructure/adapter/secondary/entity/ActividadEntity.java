@@ -2,8 +2,8 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.math.BigInteger;
-import java.util.List;
 
 
 /**
@@ -33,21 +33,7 @@ public class ActividadEntity implements Serializable {
 	private String estado;
 
 	@Column(name="time_activity")
-	private BigInteger fechaActividad;
-
-	//uni-directional many-to-one association to MateriaEntity
-	@ManyToOne
-	@JoinColumn(name="id_subject")
-	private MateriaEntity subject;
-
-	//bi-directional many-to-one association to TutorEntity
-	@ManyToOne
-	@JoinColumn(name="id_tutor")
-	private TutorEntity tutor;
-
-	//bi-directional many-to-many association to AlumnoEntity
-	@ManyToMany(mappedBy="activities")
-	private List<AlumnoEntity> students;
+	private Timestamp fechaActividad;
 
 	public ActividadEntity() {
 	}
@@ -92,36 +78,12 @@ public class ActividadEntity implements Serializable {
 		this.estado = estado;
 	}
 
-	public BigInteger getFechaActividad() {
+	public Timestamp getFechaActividad() {
 		return this.fechaActividad;
 	}
 
-	public void setFechaActividad(BigInteger fechaActividad) {
+	public void setFechaActividad(Timestamp fechaActividad) {
 		this.fechaActividad = fechaActividad;
-	}
-
-	public MateriaEntity getSubject() {
-		return this.subject;
-	}
-
-	public void setSubject(MateriaEntity subject) {
-		this.subject = subject;
-	}
-
-	public TutorEntity getTutor() {
-		return this.tutor;
-	}
-
-	public void setTutor(TutorEntity tutor) {
-		this.tutor = tutor;
-	}
-
-	public List<AlumnoEntity> getStudents() {
-		return this.students;
-	}
-
-	public void setStudents(List<AlumnoEntity> students) {
-		this.students = students;
 	}
 
 }

@@ -31,19 +31,19 @@ public class ApplicationConfig {
 	public UserDetailsService userDetailsService() {
 		
 		return username -> {
-			UsuarioEntity ur = repository.findByName(username);
+			UsuarioEntity ur = repository.findByUsername(username);
 			UserDetailsLogin user = new UserDetailsLogin();
-		    user.setUsername(ur.getNombre());
+		    user.setUsername(ur.getUsername());
 		    user.setPassword(ur.getHashpswd());
 		    
 		    /*
 		     * Generar una List<String> con los roles
 		     */
 		    List<String> roles = new ArrayList<>();
-		    for (RolEntity rol : ur.getRoles()) {
-				roles.add(rol.getRol());
-			}
+		    
+		    ur.getRoles().stream().map(r -> roles.add(r.getRol()));
 		    user.setRoles(roles);
+		    
 			return user;
 		};
 				//.orElseThrow(() -> new UsernameNotFoundException("User not found"));

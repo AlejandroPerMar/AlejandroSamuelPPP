@@ -2,7 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigInteger;
+import java.sql.Timestamp;
 
 
 /**
@@ -20,7 +20,7 @@ public class AnuncioEntity implements Serializable {
 	private int id;
 
 	@Column(name="created_at")
-	private BigInteger fechaCreacion;
+	private Timestamp fechaCreacion;
 
 	@Column(name="description")
 	private String descripcion;
@@ -34,20 +34,15 @@ public class AnuncioEntity implements Serializable {
 	@Column(name="title")
 	private String titulo;
 
-	//bi-directional many-to-one association to AlumnoEntity
-	@ManyToOne
-	@JoinColumn(name="id_student")
-	private AlumnoEntity student;
-
 	//uni-directional many-to-one association to MateriaEntity
 	@ManyToOne
 	@JoinColumn(name="id_subject")
 	private MateriaEntity subject;
 
-	//bi-directional many-to-one association to TutorEntity
+	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
-	@JoinColumn(name="id_tutor")
-	private TutorEntity tutor;
+	@JoinColumn(name="id_user")
+	private UsuarioEntity user;
 
 	public AnuncioEntity() {
 	}
@@ -60,11 +55,11 @@ public class AnuncioEntity implements Serializable {
 		this.id = id;
 	}
 
-	public BigInteger getFechaCreacion() {
+	public Timestamp getFechaCreacion() {
 		return this.fechaCreacion;
 	}
 
-	public void setFechaCreacion(BigInteger fechaCreacion) {
+	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
@@ -100,14 +95,6 @@ public class AnuncioEntity implements Serializable {
 		this.titulo = titulo;
 	}
 
-	public AlumnoEntity getStudent() {
-		return this.student;
-	}
-
-	public void setStudent(AlumnoEntity student) {
-		this.student = student;
-	}
-
 	public MateriaEntity getSubject() {
 		return this.subject;
 	}
@@ -116,12 +103,12 @@ public class AnuncioEntity implements Serializable {
 		this.subject = subject;
 	}
 
-	public TutorEntity getTutor() {
-		return this.tutor;
+	public UsuarioEntity getUser() {
+		return this.user;
 	}
 
-	public void setTutor(TutorEntity tutor) {
-		this.tutor = tutor;
+	public void setUser(UsuarioEntity user) {
+		this.user = user;
 	}
 
 }

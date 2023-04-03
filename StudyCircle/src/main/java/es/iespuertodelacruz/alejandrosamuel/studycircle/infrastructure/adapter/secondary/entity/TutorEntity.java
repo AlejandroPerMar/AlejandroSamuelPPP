@@ -2,7 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -21,33 +21,15 @@ public class TutorEntity implements Serializable {
 	private int id;
 
 	@Column(name="created_at")
-	private BigInteger fechaCreacion;
-
-	@Column(name="id_user")
-	private int idUser;
-
-	//bi-directional many-to-one association to ActividadEntity
-	@OneToMany(mappedBy="tutor")
-	private List<ActividadEntity> activities;
-
-	//bi-directional many-to-one association to AnuncioEntity
-	@OneToMany(mappedBy="tutor")
-	private List<AnuncioEntity> announcements;
-
-	//bi-directional many-to-one association to EventoCalendarioEntity
-	@OneToMany(mappedBy="tutor")
-	private List<EventoCalendarioEntity> calendarEvents;
-
-	//bi-directional many-to-one association to TarifaEntity
-	@OneToMany(mappedBy="tutor")
-	private List<TarifaEntity> tutorRates;
+	private Timestamp fechaCreacion;
 
 	//bi-directional many-to-one association to MateriaTutorEntity
 	@OneToMany(mappedBy="tutor")
 	private List<MateriaTutorEntity> tutorSubjects;
 
-	//bi-directional one-to-one association to UsuarioEntity
-	@OneToOne(mappedBy="tutor")
+	//uni-directional many-to-one association to UsuarioEntity
+	@ManyToOne
+	@JoinColumn(name="id_user")
 	private UsuarioEntity user;
 
 	public TutorEntity() {
@@ -61,108 +43,12 @@ public class TutorEntity implements Serializable {
 		this.id = id;
 	}
 
-	public BigInteger getFechaCreacion() {
+	public Timestamp getFechaCreacion() {
 		return this.fechaCreacion;
 	}
 
-	public void setFechaCreacion(BigInteger fechaCreacion) {
+	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
-	}
-
-	public int getIdUser() {
-		return this.idUser;
-	}
-
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
-	}
-
-	public List<ActividadEntity> getActivities() {
-		return this.activities;
-	}
-
-	public void setActivities(List<ActividadEntity> activities) {
-		this.activities = activities;
-	}
-
-	public ActividadEntity addActivity(ActividadEntity activity) {
-		getActivities().add(activity);
-		activity.setTutor(this);
-
-		return activity;
-	}
-
-	public ActividadEntity removeActivity(ActividadEntity activity) {
-		getActivities().remove(activity);
-		activity.setTutor(null);
-
-		return activity;
-	}
-
-	public List<AnuncioEntity> getAnnouncements() {
-		return this.announcements;
-	}
-
-	public void setAnnouncements(List<AnuncioEntity> announcements) {
-		this.announcements = announcements;
-	}
-
-	public AnuncioEntity addAnnouncement(AnuncioEntity announcement) {
-		getAnnouncements().add(announcement);
-		announcement.setTutor(this);
-
-		return announcement;
-	}
-
-	public AnuncioEntity removeAnnouncement(AnuncioEntity announcement) {
-		getAnnouncements().remove(announcement);
-		announcement.setTutor(null);
-
-		return announcement;
-	}
-
-	public List<EventoCalendarioEntity> getCalendarEvents() {
-		return this.calendarEvents;
-	}
-
-	public void setCalendarEvents(List<EventoCalendarioEntity> calendarEvents) {
-		this.calendarEvents = calendarEvents;
-	}
-
-	public EventoCalendarioEntity addCalendarEvent(EventoCalendarioEntity calendarEvent) {
-		getCalendarEvents().add(calendarEvent);
-		calendarEvent.setTutor(this);
-
-		return calendarEvent;
-	}
-
-	public EventoCalendarioEntity removeCalendarEvent(EventoCalendarioEntity calendarEvent) {
-		getCalendarEvents().remove(calendarEvent);
-		calendarEvent.setTutor(null);
-
-		return calendarEvent;
-	}
-
-	public List<TarifaEntity> getTutorRates() {
-		return this.tutorRates;
-	}
-
-	public void setTutorRates(List<TarifaEntity> tutorRates) {
-		this.tutorRates = tutorRates;
-	}
-
-	public TarifaEntity addTutorRate(TarifaEntity tutorRate) {
-		getTutorRates().add(tutorRate);
-		tutorRate.setTutor(this);
-
-		return tutorRate;
-	}
-
-	public TarifaEntity removeTutorRate(TarifaEntity tutorRate) {
-		getTutorRates().remove(tutorRate);
-		tutorRate.setTutor(null);
-
-		return tutorRate;
 	}
 
 	public List<MateriaTutorEntity> getTutorSubjects() {

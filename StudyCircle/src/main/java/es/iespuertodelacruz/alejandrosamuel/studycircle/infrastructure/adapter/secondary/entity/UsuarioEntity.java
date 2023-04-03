@@ -2,7 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -21,21 +21,12 @@ public class UsuarioEntity implements Serializable {
 	private int id;
 
 	@Column(name="created_at")
-	private BigInteger fechaCreacion;
+	private Timestamp fechaCreacion;
 
 	private String email;
 
-	@Column(name="email_verification_sent_at")
-	private BigInteger fechaEnvioEmailVerificacion;
-
-	@Column(name="email_verification_token")
-	private String tokenEmailVerificacion;
-
-	@Column(name="email_verified_at")
-	private BigInteger fechaVerificacionEmail;
-
 	@Column(name="full_name")
-	private String nombre;
+	private String nombreCompleto;
 
 	private String hashpswd;
 
@@ -43,10 +34,6 @@ public class UsuarioEntity implements Serializable {
 	private String estado;
 
 	private String username;
-
-	//bi-directional many-to-one association to AlertaEntity
-	@OneToMany(mappedBy="user")
-	private List<AlertaEntity> alerts;
 
 	//uni-directional many-to-many association to RolEntity
 	@ManyToMany
@@ -61,16 +48,6 @@ public class UsuarioEntity implements Serializable {
 		)
 	private List<RolEntity> roles;
 
-	//bi-directional one-to-one association to AlumnoEntity
-	@OneToOne
-	@JoinColumn(name="id_student")
-	private AlumnoEntity student;
-
-	//bi-directional one-to-one association to TutorEntity
-	@OneToOne
-	@JoinColumn(name="id_tutor")
-	private TutorEntity tutor;
-
 	public UsuarioEntity() {
 	}
 
@@ -82,11 +59,11 @@ public class UsuarioEntity implements Serializable {
 		this.id = id;
 	}
 
-	public BigInteger getFechaCreacion() {
+	public Timestamp getFechaCreacion() {
 		return this.fechaCreacion;
 	}
 
-	public void setFechaCreacion(BigInteger fechaCreacion) {
+	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
@@ -98,36 +75,12 @@ public class UsuarioEntity implements Serializable {
 		this.email = email;
 	}
 
-	public BigInteger getFechaEnvioEmailVerificacion() {
-		return this.fechaEnvioEmailVerificacion;
+	public String getNombreCompleto() {
+		return this.nombreCompleto;
 	}
 
-	public void setFechaEnvioEmailVerificacion(BigInteger fechaEnvioEmailVerificacion) {
-		this.fechaEnvioEmailVerificacion = fechaEnvioEmailVerificacion;
-	}
-
-	public String getTokenEmailVerificacion() {
-		return this.tokenEmailVerificacion;
-	}
-
-	public void setTokenEmailVerificacion(String tokenEmailVerificacion) {
-		this.tokenEmailVerificacion = tokenEmailVerificacion;
-	}
-
-	public BigInteger getFechaVerificacionEmail() {
-		return this.fechaVerificacionEmail;
-	}
-
-	public void setFechaVerificacionEmail(BigInteger fechaVerificacionEmail) {
-		this.fechaVerificacionEmail = fechaVerificacionEmail;
-	}
-
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
 	}
 
 	public String getHashpswd() {
@@ -154,50 +107,12 @@ public class UsuarioEntity implements Serializable {
 		this.username = username;
 	}
 
-	public List<AlertaEntity> getAlerts() {
-		return this.alerts;
-	}
-
-	public void setAlerts(List<AlertaEntity> alerts) {
-		this.alerts = alerts;
-	}
-
-	public AlertaEntity addAlert(AlertaEntity alert) {
-		getAlerts().add(alert);
-		alert.setUser(this);
-
-		return alert;
-	}
-
-	public AlertaEntity removeAlert(AlertaEntity alert) {
-		getAlerts().remove(alert);
-		alert.setUser(null);
-
-		return alert;
-	}
-
 	public List<RolEntity> getRoles() {
 		return this.roles;
 	}
 
 	public void setRoles(List<RolEntity> roles) {
 		this.roles = roles;
-	}
-
-	public AlumnoEntity getStudent() {
-		return this.student;
-	}
-
-	public void setStudent(AlumnoEntity student) {
-		this.student = student;
-	}
-
-	public TutorEntity getTutor() {
-		return this.tutor;
-	}
-
-	public void setTutor(TutorEntity tutor) {
-		this.tutor = tutor;
 	}
 
 }

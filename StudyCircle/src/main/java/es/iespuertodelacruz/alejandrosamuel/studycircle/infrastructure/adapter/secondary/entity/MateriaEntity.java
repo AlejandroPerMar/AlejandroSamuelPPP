@@ -2,8 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigInteger;
-import java.util.List;
+import java.sql.Timestamp;
 
 
 /**
@@ -21,14 +20,10 @@ public class MateriaEntity implements Serializable {
 	private int id;
 
 	@Column(name="created_at")
-	private BigInteger fechaCreacion;
+	private Timestamp fechaCreacion;
 
 	@Column(name="name")
 	private String nombre;
-
-	//bi-directional many-to-many association to AlumnoEntity
-	@ManyToMany(mappedBy="subjects")
-	private List<AlumnoEntity> students;
 
 	//bi-directional many-to-one association to NivelEstudiosEntity
 	@ManyToOne
@@ -46,11 +41,11 @@ public class MateriaEntity implements Serializable {
 		this.id = id;
 	}
 
-	public BigInteger getFechaCreacion() {
+	public Timestamp getFechaCreacion() {
 		return this.fechaCreacion;
 	}
 
-	public void setFechaCreacion(BigInteger fechaCreacion) {
+	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
@@ -60,14 +55,6 @@ public class MateriaEntity implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public List<AlumnoEntity> getStudents() {
-		return this.students;
-	}
-
-	public void setStudents(List<AlumnoEntity> students) {
-		this.students = students;
 	}
 
 	public NivelEstudiosEntity getStudyLevel() {
