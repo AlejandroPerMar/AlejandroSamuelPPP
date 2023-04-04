@@ -7,6 +7,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IUsuarioRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioRegisterDTO;
 
 @Service
 public class UsuarioService implements IUsuarioService {
@@ -20,9 +21,8 @@ public class UsuarioService implements IUsuarioService {
 	}
 
 	@Override
-	public Usuario create(UsuarioDTO user) {
-		// TODO Auto-generated method stub
-		return null;
+	public Usuario create(String nombreCompleto, String username, String email, String clave) {
+		return usuarioRepository.create(nombreCompleto, username, email, clave);
 	}
 
 	@Override

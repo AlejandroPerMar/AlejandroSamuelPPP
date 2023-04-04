@@ -1,15 +1,10 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
-import java.util.List;
 
 public class MateriaTutor {
 
 	private int id;
-
-	private List<MateriaAlumno> alumnosMaterias;
-
-	private Materia materia;
-
+	private Materia subject;
 	private Tutor tutor;
 
 	public MateriaTutor() {
@@ -23,20 +18,12 @@ public class MateriaTutor {
 		this.id = id;
 	}
 
-	public List<MateriaAlumno> getAlumnosMaterias() {
-		return alumnosMaterias;
+	public Materia getSubject() {
+		return subject;
 	}
 
-	public void setAlumnosMaterias(List<MateriaAlumno> alumnosMaterias) {
-		this.alumnosMaterias = alumnosMaterias;
-	}
-
-	public Materia getMateria() {
-		return materia;
-	}
-
-	public void setMateria(Materia materia) {
-		this.materia = materia;
+	public void setSubject(Materia subject) {
+		this.subject = subject;
 	}
 
 	public Tutor getTutor() {

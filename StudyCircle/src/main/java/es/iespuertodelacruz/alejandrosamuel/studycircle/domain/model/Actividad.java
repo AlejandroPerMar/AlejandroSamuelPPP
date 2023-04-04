@@ -1,13 +1,13 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
-import java.math.BigInteger;
-import java.util.List;
+import java.sql.Timestamp;
+
 
 public class Actividad {
 
 	private int id;
 
-	private BigInteger fechaCreacion;
+	private Timestamp fechaCreacion;
 
 	private String descripcion;
 
@@ -15,15 +15,10 @@ public class Actividad {
 
 	private String estado;
 
-	private BigInteger fechaActividad;
+	private Timestamp fechaActividad;
 
-	private List<Alumno> alumnos;
-
-	private Materia materia;
-
-	private Tutor tutor;
-	
-	public Actividad() {}
+	public Actividad() {
+	}
 
 	public int getId() {
 		return id;
@@ -33,11 +28,11 @@ public class Actividad {
 		this.id = id;
 	}
 
-	public BigInteger getFechaCreacion() {
+	public Timestamp getFechaCreacion() {
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(BigInteger fechaCreacion) {
+	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
@@ -65,35 +60,11 @@ public class Actividad {
 		this.estado = estado;
 	}
 
-	public BigInteger getFechaActividad() {
+	public Timestamp getFechaActividad() {
 		return fechaActividad;
 	}
 
-	public void setFechaActividad(BigInteger fechaActividad) {
+	public void setFechaActividad(Timestamp fechaActividad) {
 		this.fechaActividad = fechaActividad;
-	}
-
-	public List<Alumno> getAlumnos() {
-		return alumnos;
-	}
-
-	public void setAlumnos(List<Alumno> alumnos) {
-		this.alumnos = alumnos;
-	}
-
-	public Materia getMateria() {
-		return materia;
-	}
-
-	public void setMateria(Materia materia) {
-		this.materia = materia;
-	}
-
-	public Tutor getTutor() {
-		return tutor;
-	}
-
-	public void setTutor(Tutor tutor) {
-		this.tutor = tutor;
 	}
 }

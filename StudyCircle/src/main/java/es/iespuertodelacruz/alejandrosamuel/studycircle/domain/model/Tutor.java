@@ -1,25 +1,15 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
-import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.List;
+
 
 public class Tutor {
 
 	private int id;
-
-	private BigInteger fechaCreacion;
-
-	private List<Actividad> actividades;
-
-	private List<Anuncio> anuncios;
-
-	private List<EventoCalendario> eventosCalendario;
-
-	private List<Tarifa> tarifas;
-
-	private List<MateriaTutor> materiasTutor;
-
-	private Usuario usuario;
+	private Timestamp fechaCreacion;
+	private List<MateriaTutor> tutorSubjects;
+	private Usuario user;
 
 	public Tutor() {
 	}
@@ -32,59 +22,27 @@ public class Tutor {
 		this.id = id;
 	}
 
-	public BigInteger getFechaCreacion() {
+	public Timestamp getFechaCreacion() {
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(BigInteger fechaCreacion) {
+	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public List<Actividad> getActividades() {
-		return actividades;
+	public List<MateriaTutor> getTutorSubjects() {
+		return tutorSubjects;
 	}
 
-	public void setActividades(List<Actividad> actividades) {
-		this.actividades = actividades;
+	public void setTutorSubjects(List<MateriaTutor> tutorSubjects) {
+		this.tutorSubjects = tutorSubjects;
 	}
 
-	public List<Anuncio> getAnuncios() {
-		return anuncios;
+	public Usuario getUser() {
+		return user;
 	}
 
-	public void setAnuncios(List<Anuncio> anuncios) {
-		this.anuncios = anuncios;
-	}
-
-	public List<EventoCalendario> getEventosCalendario() {
-		return eventosCalendario;
-	}
-
-	public void setEventosCalendario(List<EventoCalendario> eventosCalendario) {
-		this.eventosCalendario = eventosCalendario;
-	}
-
-	public List<Tarifa> getTarifas() {
-		return tarifas;
-	}
-
-	public void setTarifas(List<Tarifa> tarifas) {
-		this.tarifas = tarifas;
-	}
-
-	public List<MateriaTutor> getMateriasTutor() {
-		return materiasTutor;
-	}
-
-	public void setMateriasTutor(List<MateriaTutor> materiasTutor) {
-		this.materiasTutor = materiasTutor;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setUser(Usuario user) {
+		this.user = user;
 	}
 }

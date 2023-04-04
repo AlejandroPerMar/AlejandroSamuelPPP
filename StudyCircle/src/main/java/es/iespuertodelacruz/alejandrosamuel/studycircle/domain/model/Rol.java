@@ -3,7 +3,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 public class Rol {
 
 	private int id;
-
 	private String rol;
 
 	public Rol() {

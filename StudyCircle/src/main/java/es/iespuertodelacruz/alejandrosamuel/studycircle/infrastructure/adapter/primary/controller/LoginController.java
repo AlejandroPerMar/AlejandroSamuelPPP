@@ -30,8 +30,6 @@ public class LoginController {
 	  
 	  @PostMapping
 	  public ResponseEntity<String> login(@RequestBody UsuarioLoginDTO request) {
-		  System.out.println(request.getUsername());
-		  System.out.println(request.getClave());
 		  String username = request.getUsername();
 		  String plainPassword = request.getClave();
 		  String token = null;

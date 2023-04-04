@@ -13,5 +13,5 @@ public interface IUsuarioRepository {
 	
 	List<Usuario> findAll();
 	
-	Usuario create(UsuarioRegisterDTO user);
+	Usuario create(String nombreCompleto, String username, String email, String clave);
 }

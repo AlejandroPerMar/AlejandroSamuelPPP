@@ -1,24 +1,17 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
-import java.math.BigInteger;
+import java.sql.Timestamp;
+
 
 public class EventoCalendario {
 
 	private int id;
-
-	private BigInteger fechaCreacion;
-
+	private Timestamp fechaCreacion;
 	private String descripcion;
-
 	private String nombre;
-
-	private BigInteger fechaEvento;
-
+	private Timestamp fechaEvento;
 	private Actividad activity;
-
-	private Alumno student;
-
-	private Tutor tutor;
+	private Usuario user;
 
 	public EventoCalendario() {
 	}
@@ -31,11 +24,11 @@ public class EventoCalendario {
 		this.id = id;
 	}
 
-	public BigInteger getFechaCreacion() {
+	public Timestamp getFechaCreacion() {
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(BigInteger fechaCreacion) {
+	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
@@ -55,11 +48,11 @@ public class EventoCalendario {
 		this.nombre = nombre;
 	}
 
-	public BigInteger getFechaEvento() {
+	public Timestamp getFechaEvento() {
 		return fechaEvento;
 	}
 
-	public void setFechaEvento(BigInteger fechaEvento) {
+	public void setFechaEvento(Timestamp fechaEvento) {
 		this.fechaEvento = fechaEvento;
 	}
 
@@ -71,19 +64,11 @@ public class EventoCalendario {
 		this.activity = activity;
 	}
 
-	public Alumno getStudent() {
-		return student;
+	public Usuario getUser() {
+		return user;
 	}
 
-	public void setStudent(Alumno student) {
-		this.student = student;
-	}
-
-	public Tutor getTutor() {
-		return tutor;
-	}
-
-	public void setTutor(Tutor tutor) {
-		this.tutor = tutor;
+	public void setUser(Usuario user) {
+		this.user = user;
 	}
 }

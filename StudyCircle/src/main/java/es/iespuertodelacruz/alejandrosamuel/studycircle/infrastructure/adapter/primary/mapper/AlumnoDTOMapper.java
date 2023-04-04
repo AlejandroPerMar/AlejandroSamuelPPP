@@ -8,14 +8,12 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Anuncio;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.EventoCalendario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.MateriaAlumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.NivelEstudios;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.ActividadDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AnuncioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.EventoCalendarioDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.MateriaAlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.NivelEstudiosDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioDTO;
@@ -28,35 +26,6 @@ public class AlumnoDTOMapper {
 		
 		Alumno alumno = new Alumno();
 		alumno.setId(in.getId());
-		alumno.setFechaCreacion(in.getFechaCreacion());
-		List<Actividad> actividades = in.getActividades()
-				.stream()
-				.map(a->toDomain(a))
-				.collect(Collectors.toList());
-		alumno.setActividades(actividades);
-		alumno.setNivelEstudios(toDomain(in.getNivelEstudios()));
-		List<Anuncio> anuncios = in.getAnuncios()
-				.stream()
-				.map(a->toDomain(a))
-				.collect(Collectors.toList());
-		alumno.setAnuncios(anuncios);
-		List<EventoCalendario> eventosCalendario = in.getEventosCalendario()
-				.stream()
-				.map(e->toDomain(e))
-				.collect(Collectors.toList());
-		alumno.setEventosCalendario(eventosCalendario);
-		alumno.setNivelEstudios(toDomain(in.getNivelEstudios()));
-		List<MateriaAlumno> materiasAlumno = in.getMateriasAlumno()
-				.stream()
-				.map(m->toDomain(m))
-				.collect(Collectors.toList());
-		alumno.setMateriasAlumno(materiasAlumno);
-		List<Materia> materias = in.getMaterias()
-				.stream()
-				.map(m->toDomain(m))
-				.collect(Collectors.toList());
-		alumno.setMaterias(materias);
-		alumno.setUsuario(toDomain(in.getUsuario()));
 		return alumno;
 	}
 	
@@ -66,35 +35,6 @@ public class AlumnoDTOMapper {
 		
 		AlumnoDTO alumno = new AlumnoDTO();
 		alumno.setId(in.getId());
-		alumno.setFechaCreacion(in.getFechaCreacion());
-		List<ActividadDTO> actividades = in.getActividades()
-				.stream()
-				.map(a->toDTO(a))
-				.collect(Collectors.toList());
-		alumno.setActividades(actividades);
-		alumno.setNivelEstudios(toDTO(in.getNivelEstudios()));
-		List<AnuncioDTO> anuncios = in.getAnuncios()
-				.stream()
-				.map(a->toDTO(a))
-				.collect(Collectors.toList());
-		alumno.setAnuncios(anuncios);
-		List<EventoCalendarioDTO> eventosCalendario = in.getEventosCalendario()
-				.stream()
-				.map(e->toDTO(e))
-				.collect(Collectors.toList());
-		alumno.setEventosCalendario(eventosCalendario);
-		alumno.setNivelEstudios(toDTO(in.getNivelEstudios()));
-		List<MateriaAlumnoDTO> materiasAlumno = in.getMateriasAlumno()
-				.stream()
-				.map(m->toDTO(m))
-				.collect(Collectors.toList());
-		alumno.setMateriasAlumno(materiasAlumno);
-		List<MateriaDTO> materias = in.getMaterias()
-				.stream()
-				.map(m->toDTO(m))
-				.collect(Collectors.toList());
-		alumno.setMaterias(materias);
-		alumno.setUsuario(toDTO(in.getUsuario()));
 		return alumno;
 	}
 	
@@ -187,25 +127,6 @@ public class AlumnoDTOMapper {
 		usuario.setId(in.getId());
 		return usuario;
 	}
-	
-	public MateriaAlumno toDomain(MateriaAlumnoDTO in) {
-		if(in == null)
-			return null;
-		
-		MateriaAlumno materiaAlumno = new MateriaAlumno();
-		materiaAlumno.setId(in.getId());
-		return materiaAlumno;
-	}
-	
-	public MateriaAlumnoDTO toDTO(MateriaAlumno in) {
-		if(in == null)
-			return null;
-		
-		MateriaAlumnoDTO materiaAlumno = new MateriaAlumnoDTO();
-		materiaAlumno.setId(in.getId());
-		return materiaAlumno;
-	}
-	
 	public Materia toDomain(MateriaDTO in) {
 		if(in == null)
 			return null;

@@ -15,24 +15,24 @@ public class AlumnoGetEntityMapper {
 	public Alumno toDomain(AlumnoEntity in) {
 		Alumno alumno = new Alumno();
 		alumno.setId(in.getId());
-		alumno.setNivelEstudios(toDomain(in.getStudyLevel()));
+		/*alumno.setNivelEstudios(toDomain(in.getStudyLevel()));
 		List<Materia> materias = in.getSubjects()
 				.stream()
 				.map(m->toDomain(m))
 				.collect(Collectors.toList());
-		alumno.setMaterias(materias);
+		alumno.setMaterias(materias);*/
 		return alumno;
 	}
 	
 	public AlumnoEntity toEntity(Alumno in) {
 		AlumnoEntity alumno = new AlumnoEntity();
 		alumno.setId(in.getId());
-		alumno.setStudyLevel(toEntity(in.getNivelEstudios()));
+		/*alumno.setStudyLevel(toEntity(in.getNivelEstudios()));
 		List<MateriaEntity> materiasEntity = in.getMaterias()
 				.stream()
 				.map(m->toEntity(m))
 				.collect(Collectors.toList());
-		alumno.setSubjects(materiasEntity);
+		alumno.setSubjects(materiasEntity);*/
 		return alumno;
 	}
 	

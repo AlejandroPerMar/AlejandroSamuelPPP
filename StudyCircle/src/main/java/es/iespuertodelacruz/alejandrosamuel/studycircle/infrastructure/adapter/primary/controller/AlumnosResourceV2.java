@@ -67,7 +67,7 @@ public class AlumnosResourceV2 {
 		Alumno alumno = mapper.toDomain(alumnoDTO);
 		if(alumno == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Formato incorrecto");
-		alumno.setFechaCreacion(getFechaInBigInteger());
+		//alumno.setFechaCreacion(getFechaInBigInteger());
 		alumnoDTO = mapper.toDTO(service.create(alumno));
 		
 		if(alumnoDTO == null) 
