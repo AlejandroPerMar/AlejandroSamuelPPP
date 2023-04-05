@@ -50,7 +50,7 @@ public class RegisterController {
 		//return ResponseEntity.ok(token);
 	}
 
-	@PostMapping("confirm")
+	@GetMapping("confirm")
 	public ResponseEntity<?> confirmarUsuario(@RequestParam("token") String token) {
 		String estadoToken = usuarioService.confirmarToken(token);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(estadoToken);
