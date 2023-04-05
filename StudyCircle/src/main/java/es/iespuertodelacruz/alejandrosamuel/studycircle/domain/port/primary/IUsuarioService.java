@@ -8,7 +8,12 @@ public interface IUsuarioService {
 	
 	public boolean checkCredentials(String username, String pass);
 
-	public Usuario create(String nombreCompleto, String username, String email, String clave);
+	public String create(String nombreCompleto, String username, String email, String clave);
+
+	public String confirmarToken(String token);
 
 	public Usuario findByUsername(String username);
+
+	public Usuario findByEmail(String email);
+
 }

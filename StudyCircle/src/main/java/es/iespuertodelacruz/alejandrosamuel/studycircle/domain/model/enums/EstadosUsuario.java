@@ -1,4 +1,4 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.status;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums;
 
 public enum EstadosUsuario {
 	STATUS_ACTIVE,

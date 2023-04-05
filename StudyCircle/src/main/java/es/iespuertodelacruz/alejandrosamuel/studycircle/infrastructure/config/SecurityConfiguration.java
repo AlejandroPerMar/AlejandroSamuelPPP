@@ -38,6 +38,7 @@ public class SecurityConfiguration {
 				"/webjars/**",
 				"/api/login",
 				"/api/register",
+				"/api/register/**",
 				"/login",
 				"/register",				
 				"/api/v1/**").permitAll()

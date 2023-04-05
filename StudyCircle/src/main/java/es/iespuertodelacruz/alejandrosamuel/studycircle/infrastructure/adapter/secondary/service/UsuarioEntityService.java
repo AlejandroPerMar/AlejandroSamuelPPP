@@ -1,18 +1,23 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.service;
 
+import java.time.Clock;
+import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.status.EstadosUsuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.EstadosUsuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.Roles;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IUsuarioRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.RolEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
@@ -33,6 +38,9 @@ public class UsuarioEntityService implements IUsuarioRepository {
 	@Autowired
 	private RolEntityJPARepository rolRepository;
 
+	@Autowired
+	private TokenConfirmacionEntityService tokenService;
+
 	@Override
 	public List<Usuario> findAll() {
 		// TODO Auto-generated method stub
@@ -40,24 +48,33 @@ public class UsuarioEntityService implements IUsuarioRepository {
 	}
 
 	@Override
-	public Usuario create(String nombreCompleto, String username, String email, String clave) {
-		if(!validateDatos(nombreCompleto, username, email, clave))
-			return null;
-			
+	public String create(String nombreCompleto, String username, String email, String clave) {
 		UsuarioEntity usuarioEntity = new UsuarioEntity();
 		usuarioEntity.setNombreCompleto(nombreCompleto);
 		usuarioEntity.setUsername(username);
 		usuarioEntity.setEmail(email);
 		usuarioEntity.setHashpswd(passwordEncoder.encode(clave));
 		usuarioEntity.setFechaCreacion(Timestamp.from(Instant.now()));
-		usuarioEntity.setEstado(EstadosUsuario.STATUS_PENDING_VERIFICATION.toString());
+		usuarioEntity.setEstado(EstadosUsuario.STATUS_PENDING_VERIFICATION.name());
 		List<RolEntity> roles = new ArrayList<>();
-		roles.add(rolRepository.findByRol("ROLE_USER"));
+		roles.add(rolRepository.findByRol(Roles.ROLE_USER.name()));
 		usuarioEntity.setRoles(roles);
+
 		UsuarioEntity savedEntity = usuarioRepository.save(usuarioEntity);
-		
-		UsuarioEntityMapper mapper = new UsuarioEntityMapper();
-		return mapper.toDomain(savedEntity);
+
+		TokenConfirmacionEntity tokenConfirmacion = new TokenConfirmacionEntity();
+		String token = UUID.randomUUID().toString();
+		tokenConfirmacion.setToken(token);
+		tokenConfirmacion.setFechaCreacion(Timestamp.from(Instant.now()));
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MINUTE, 15);
+		Timestamp fechaExpiracion = new Timestamp(calendar.getTimeInMillis());
+		tokenConfirmacion.setFechaExpiracion(fechaExpiracion);
+		tokenConfirmacion.setUser(savedEntity);
+
+		tokenService.saveTokenConfirmacion(tokenConfirmacion);
+
+		return token;
 	}
 
 	@Override
@@ -81,39 +98,20 @@ public class UsuarioEntityService implements IUsuarioRepository {
 			return null;
 		}
 	}
-	
-	private boolean validateDatos(String nombreCompleto, String username, String email, String clave) {
-		return validateNombreCompleto(nombreCompleto) && 
-				validateUsername(username) && 
-				validateEmail(email) && 
-				validateClave(clave);
+
+	@Override
+	public Usuario findByEmail(String email) {
+		UsuarioEntity ue = usuarioRepository.findByEmail(email);
+		if (ue != null) {
+			UsuarioEntityMapper mapper = new UsuarioEntityMapper();
+			return mapper.toDomain(ue);
+		} else {
+			return null;
+		}
 	}
-	
-	/*
-	 *  Must have at least one numeric character
-	 *	Must have at least one lowercase character
-	 *	Must have at least one uppercase character
-	 *	Must have at least one special symbol among @#$%
-	 *	Password length should be between 8 and 20
-	 */
-	private boolean validateClave(String clave) {
-		String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
-		Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(clave);
-        return matcher.matches();
-	}
-	
-	private boolean validateNombreCompleto(String nombreCompleto) {
-		return !nombreCompleto.trim().equals("");
-	}
-	
-	private boolean validateUsername(String username) {
-		return findByUsername(username) == null;
-	}
-	
-	private boolean validateEmail(String email) {
-		return EmailValidator.getInstance().isValid(email);
-		
+
+	public Integer confirmarEmailUsuario(String email) {
+		return usuarioRepository.confirmarUsuario(email);
 	}
 
 }

@@ -22,6 +22,12 @@ public class TokenConfirmacionEntity implements Serializable {
 	@Column(name="created_at")
 	private Timestamp fechaCreacion;
 
+	@Column(name="expires_at")
+	private Timestamp fechaExpiracion;
+
+	@Column(name="confirmed_at")
+	private Timestamp fechaConfirmacion;
+
 	private String token;
 
 	//uni-directional many-to-one association to UsuarioEntity
@@ -47,6 +53,21 @@ public class TokenConfirmacionEntity implements Serializable {
 	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
+	public Timestamp getFechaExpiracion() {
+		return fechaExpiracion;
+	}
+
+	public void setFechaExpiracion(Timestamp fechaExpiracion) {
+		this.fechaExpiracion = fechaExpiracion;
+	}
+
+	public Timestamp getFechaConfirmacion() {
+		return fechaConfirmacion;
+	}
+
+	public void setFechaConfirmacion(Timestamp fechaConfirmacion) {
+		this.fechaConfirmacion = fechaConfirmacion;
+	}
 
 	public String getToken() {
 		return this.token;
@@ -63,5 +84,6 @@ public class TokenConfirmacionEntity implements Serializable {
 	public void setUser(UsuarioEntity user) {
 		this.user = user;
 	}
+
 
 }

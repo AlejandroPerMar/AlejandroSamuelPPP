@@ -10,8 +10,10 @@ public interface IUsuarioRepository {
 	boolean checkPassword(String username, String pswd);
 	
 	Usuario findByUsername(String username);
-	
+
+	Usuario findByEmail(String email);
+
 	List<Usuario> findAll();
 	
-	Usuario create(String nombreCompleto, String username, String email, String clave);
+	String create(String nombreCompleto, String username, String email, String clave);
 }
