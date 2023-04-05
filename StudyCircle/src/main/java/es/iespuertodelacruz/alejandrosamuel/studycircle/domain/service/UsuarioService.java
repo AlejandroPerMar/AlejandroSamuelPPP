@@ -34,13 +34,7 @@ public class UsuarioService implements IUsuarioService {
 
 	@Override
 	public String create(String nombreCompleto, String username, String email, String clave) {
-		String token = usuarioRepository.create(nombreCompleto, username, email, clave);
-		String link = "http://localhost:8080/api/register/confirm?token=" + token;
-		//emailSender.send(
-		//		email,
-		//		buildEmail(nombreCompleto, link));
-
-		return token;
+		return usuarioRepository.create(nombreCompleto, username, email, clave);
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.EstadosUsuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ public interface UsuarioEntityJPARepository extends JpaRepository<UsuarioEntity,
 	@Query("SELECT u FROM UsuarioEntity u WHERE u.email = :email")
 	public UsuarioEntity findByEmail(@Param("email") String email);
 
-	@Transactional
-	@Query("UPDATE UsuarioEntity u SET u.estado = 'STATUS_ACTIVE' + EstadosUsuario.STATUS_ACTIVE.name() WHERE u.email = :email")
-	public Integer confirmarUsuario(String email);
+	@Modifying
+	@Query("UPDATE UsuarioEntity u SET u.estado = 'STATUS_ACTIVE' WHERE u.email = :email")
+	public Integer confirmarUsuario(@Param("email") String email);
 }

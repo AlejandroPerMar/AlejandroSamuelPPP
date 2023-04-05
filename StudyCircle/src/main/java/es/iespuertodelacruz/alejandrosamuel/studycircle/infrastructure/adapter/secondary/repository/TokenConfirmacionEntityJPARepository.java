@@ -17,6 +17,7 @@ public interface TokenConfirmacionEntityJPARepository extends JpaRepository<Toke
     @Query("SELECT t FROM TokenConfirmacionEntity t WHERE t.token = :token")
     public Optional<TokenConfirmacionEntity> findByToken(@Param("token") String token);
 
+    @Modifying
     @Query("UPDATE TokenConfirmacionEntity t SET t.fechaConfirmacion = :fechaConfirmacion WHERE t.token = :token")
-    public Integer updateConfirmado(String token, Timestamp fechaConfirmacion);
+    public Integer updateConfirmado(@Param("token") String token, @Param("fechaConfirmacion") Timestamp fechaConfirmacion);
 }
