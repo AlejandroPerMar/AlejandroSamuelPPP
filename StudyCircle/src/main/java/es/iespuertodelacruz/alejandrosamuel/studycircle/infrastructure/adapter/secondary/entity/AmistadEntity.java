@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 
@@ -20,10 +21,10 @@ public class AmistadEntity implements Serializable {
 	private int id;
 
 	@Column(name="created_at")
-	private Timestamp fechaCreacion;
+	private BigInteger fechaCreacion;
 
 	@Column(name="friends_from")
-	private Timestamp fechaAmistad;
+	private BigInteger fechaAmistad;
 
 	@Column(name="status")
 	private String estado;
@@ -49,19 +50,19 @@ public class AmistadEntity implements Serializable {
 		this.id = id;
 	}
 
-	public Timestamp getFechaCreacion() {
+	public BigInteger getFechaCreacion() {
 		return this.fechaCreacion;
 	}
 
-	public void setFechaCreacion(Timestamp fechaCreacion) {
+	public void setFechaCreacion(BigInteger fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public Timestamp getFechaAmistad() {
+	public BigInteger getFechaAmistad() {
 		return this.fechaAmistad;
 	}
 
-	public void setFechaAmistad(Timestamp fechaAmistad) {
+	public void setFechaAmistad(BigInteger fechaAmistad) {
 		this.fechaAmistad = fechaAmistad;
 	}
 

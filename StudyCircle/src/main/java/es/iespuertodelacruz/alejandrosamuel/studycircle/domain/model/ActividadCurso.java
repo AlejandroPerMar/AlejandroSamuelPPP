@@ -1,12 +1,11 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.ActividadEntity;
 
 public class ActividadCurso {
 	
 	private int id;
 
-	private ActividadEntity activity;
+	private Actividad activity;
 
 	private Curso course;
 
@@ -21,11 +20,11 @@ public class ActividadCurso {
 		this.id = id;
 	}
 
-	public ActividadEntity getActivity() {
+	public Actividad getActivity() {
 		return activity;
 	}
 
-	public void setActivity(ActividadEntity activity) {
+	public void setActivity(Actividad activity) {
 		this.activity = activity;
 	}
 

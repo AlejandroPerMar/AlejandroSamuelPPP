@@ -5,8 +5,10 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -14,14 +16,14 @@ public class TokenConfirmacionEntityService {
     @Autowired
     private TokenConfirmacionEntityJPARepository tokenRepository;
 
-    public void saveTokenConfirmacion(TokenConfirmacionEntity token) {
-        tokenRepository.save(token);
+    public TokenConfirmacionEntity saveTokenConfirmacion(TokenConfirmacionEntity token) {
+        return tokenRepository.save(token);
     }
     public Optional<TokenConfirmacionEntity> getToken(String token) {
         return tokenRepository.findByToken(token);
     }
 
     public Integer setConfirmado(String token) {
-        return tokenRepository.updateConfirmado(token, Timestamp.from(Instant.now()));
+        return tokenRepository.updateConfirmado(token, new BigInteger(new Date().getTime() + ""));
     }
 }

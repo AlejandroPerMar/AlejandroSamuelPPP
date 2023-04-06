@@ -1,20 +1,20 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto;
 
 import java.math.BigInteger;
 import java.util.List;
 
-public class Curso {
+public class CursoDTO {
 	
 	private int id;
 	private Double precioHora;
 	private String estado;
 	private String titulo;
 	private BigInteger fechaCreacion;
-	private MateriaTutor tutorSubject;
-	private List<ActividadCurso> courseActivities;
-	private List<AlumnoCurso> courseStudents;
+	private MateriaTutorDTO tutorSubject;
+	private List<ActividadCursoDTO> courseActivities;
+	private List<AlumnoCursoDTO> courseStudents;
 
-	public Curso() {
+	public CursoDTO() {
 	}
 
 	public int getId() {
@@ -57,27 +57,27 @@ public class Curso {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public MateriaTutor getTutorSubject() {
+	public MateriaTutorDTO getTutorSubject() {
 		return tutorSubject;
 	}
 
-	public void setTutorSubject(MateriaTutor tutorSubject) {
+	public void setTutorSubject(MateriaTutorDTO tutorSubject) {
 		this.tutorSubject = tutorSubject;
 	}
 
-	public List<ActividadCurso> getCourseActivities() {
+	public List<ActividadCursoDTO> getCourseActivities() {
 		return courseActivities;
 	}
 
-	public void setCourseActivities(List<ActividadCurso> courseActivities) {
+	public void setCourseActivities(List<ActividadCursoDTO> courseActivities) {
 		this.courseActivities = courseActivities;
 	}
 
-	public List<AlumnoCurso> getCourseStudents() {
+	public List<AlumnoCursoDTO> getCourseStudents() {
 		return courseStudents;
 	}
 
-	public void setCourseStudents(List<AlumnoCurso> courseStudents) {
+	public void setCourseStudents(List<AlumnoCursoDTO> courseStudents) {
 		this.courseStudents = courseStudents;
 	}
 }

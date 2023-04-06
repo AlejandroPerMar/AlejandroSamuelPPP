@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Optional;
 
@@ -19,5 +20,5 @@ public interface TokenConfirmacionEntityJPARepository extends JpaRepository<Toke
 
     @Modifying
     @Query("UPDATE TokenConfirmacionEntity t SET t.fechaConfirmacion = :fechaConfirmacion WHERE t.token = :token")
-    public Integer updateConfirmado(@Param("token") String token, @Param("fechaConfirmacion") Timestamp fechaConfirmacion);
+    public Integer updateConfirmado(@Param("token") String token, @Param("fechaConfirmacion") BigInteger fechaConfirmacion);
 }

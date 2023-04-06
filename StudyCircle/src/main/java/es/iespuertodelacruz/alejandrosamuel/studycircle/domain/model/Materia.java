@@ -1,12 +1,13 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 
 public class Materia {
 
 	private int id;
-	private Timestamp fechaCreacion;
+	private BigInteger fechaCreacion;
 	private String nombre;
 	private NivelEstudios studyLevel;
 
@@ -21,11 +22,11 @@ public class Materia {
 		this.id = id;
 	}
 
-	public Timestamp getFechaCreacion() {
+	public BigInteger getFechaCreacion() {
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(Timestamp fechaCreacion) {
+	public void setFechaCreacion(BigInteger fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 

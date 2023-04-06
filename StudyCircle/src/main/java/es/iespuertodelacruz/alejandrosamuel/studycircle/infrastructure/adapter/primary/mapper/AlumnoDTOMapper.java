@@ -1,8 +1,5 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Anuncio;
@@ -10,13 +7,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.EventoCalen
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.NivelEstudios;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.ActividadDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AnuncioDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.EventoCalendarioDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.MateriaDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.NivelEstudiosDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.*;
 
 public class AlumnoDTOMapper {
 	

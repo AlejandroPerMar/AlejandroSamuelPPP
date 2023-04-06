@@ -11,8 +11,10 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsu
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IUsuarioRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -33,7 +35,7 @@ public class UsuarioService implements IUsuarioService {
 	}
 
 	@Override
-	public String create(String nombreCompleto, String username, String email, String clave) {
+	public TokenConfirmacionEntity create(String nombreCompleto, String username, String email, String clave) {
 		return usuarioRepository.create(nombreCompleto, username, email, clave);
 	}
 
@@ -51,9 +53,9 @@ public class UsuarioService implements IUsuarioService {
 			return "email ya confirmado";
 		}
 
-		Timestamp fechaExpiracion = tokenConfirmacion.getFechaExpiracion();
+		BigInteger fechaExpiracion = tokenConfirmacion.getFechaExpiracion();
 
-		if (fechaExpiracion.before(Timestamp.from(Instant.now()))) {
+		if (fechaExpiracion.longValue() < new Date().getTime()) {
 			return "token expirado";
 		}
 

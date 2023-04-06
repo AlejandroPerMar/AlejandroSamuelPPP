@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.List;
 
 
@@ -24,6 +25,9 @@ public class CursoEntity implements Serializable {
 
 	@Column(name="status")
 	private String estado;
+
+	@Column(name="created_at")
+	private BigInteger fechaCreacion;
 
 	@Column(name="title")
 	private String titulo;
@@ -74,6 +78,14 @@ public class CursoEntity implements Serializable {
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
+	}
+
+	public BigInteger getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(BigInteger fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
 	}
 
 	public MateriaTutorEntity getTutorSubject() {

@@ -3,6 +3,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import java.math.BigInteger;
 import java.util.Date;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAlumnoService;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlumnoDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import io.swagger.annotations.Api;

@@ -1,14 +1,12 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.service;
 
+import java.math.BigInteger;
 import java.time.Clock;
-import java.util.Calendar;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.UsuarioEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.UsuarioEntityMapper;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UsuarioEntityService implements IUsuarioRepository {
@@ -48,13 +47,14 @@ public class UsuarioEntityService implements IUsuarioRepository {
 	}
 
 	@Override
-	public String create(String nombreCompleto, String username, String email, String clave) {
+	@Transactional
+	public TokenConfirmacionEntity create(String nombreCompleto, String username, String email, String clave) {
 		UsuarioEntity usuarioEntity = new UsuarioEntity();
 		usuarioEntity.setNombreCompleto(nombreCompleto);
 		usuarioEntity.setUsername(username);
 		usuarioEntity.setEmail(email);
 		usuarioEntity.setHashpswd(passwordEncoder.encode(clave));
-		usuarioEntity.setFechaCreacion(Timestamp.from(Instant.now()));
+		usuarioEntity.setFechaCreacion(new BigInteger(new Date().getTime() + ""));
 		usuarioEntity.setEstado(EstadosUsuario.STATUS_PENDING_VERIFICATION.name());
 		List<RolEntity> roles = new ArrayList<>();
 		roles.add(rolRepository.findByRol(Roles.ROLE_USER.name()));
@@ -65,16 +65,16 @@ public class UsuarioEntityService implements IUsuarioRepository {
 		TokenConfirmacionEntity tokenConfirmacion = new TokenConfirmacionEntity();
 		String token = UUID.randomUUID().toString();
 		tokenConfirmacion.setToken(token);
-		tokenConfirmacion.setFechaCreacion(Timestamp.from(Instant.now()));
+		tokenConfirmacion.setFechaCreacion(new BigInteger(new Date().getTime() + ""));
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.MINUTE, 15);
-		Timestamp fechaExpiracion = new Timestamp(calendar.getTimeInMillis());
+		BigInteger fechaExpiracion = new BigInteger((usuarioEntity.getFechaCreacion().longValue() + 900000) + "");
 		tokenConfirmacion.setFechaExpiracion(fechaExpiracion);
 		tokenConfirmacion.setUser(savedEntity);
 
-		tokenService.saveTokenConfirmacion(tokenConfirmacion);
+		tokenConfirmacion = tokenService.saveTokenConfirmacion(tokenConfirmacion);
 
-		return token;
+		return tokenConfirmacion;
 	}
 
 	@Override

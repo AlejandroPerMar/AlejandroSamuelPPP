@@ -4,6 +4,7 @@ import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioRegisterDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 
 public interface IUsuarioRepository {
 	
@@ -15,5 +16,5 @@ public interface IUsuarioRepository {
 
 	List<Usuario> findAll();
 	
-	String create(String nombreCompleto, String username, String email, String clave);
+	TokenConfirmacionEntity create(String nombreCompleto, String username, String email, String clave);
 }

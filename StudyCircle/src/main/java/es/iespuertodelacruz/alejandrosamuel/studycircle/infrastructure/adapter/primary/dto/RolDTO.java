@@ -2,16 +2,17 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 public class RolDTO {
 
-	private Integer id;
+	private int id;
 	private String rol;
-	
-	public RolDTO() {}
 
-	public Integer getId() {
+	public RolDTO() {
+	}
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

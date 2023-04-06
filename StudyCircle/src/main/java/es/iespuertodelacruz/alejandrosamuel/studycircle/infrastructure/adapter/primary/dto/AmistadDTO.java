@@ -2,22 +2,16 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.math.BigInteger;
 
-
-public class ActividadDTO {
+public class AmistadDTO {
 
 	private int id;
-
 	private BigInteger fechaCreacion;
-
-	private String descripcion;
-
-	private String nombre;
-
+	private BigInteger fechaAmistad;
 	private String estado;
+	private UsuarioDTO user1;
+	private UsuarioDTO user2;
 
-	private BigInteger fechaActividad;
-
-	public ActividadDTO() {
+	public AmistadDTO() {
 	}
 
 	public int getId() {
@@ -36,20 +30,12 @@ public class ActividadDTO {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
+	public BigInteger getFechaAmistad() {
+		return fechaAmistad;
 	}
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setFechaAmistad(BigInteger fechaAmistad) {
+		this.fechaAmistad = fechaAmistad;
 	}
 
 	public String getEstado() {
@@ -60,11 +46,19 @@ public class ActividadDTO {
 		this.estado = estado;
 	}
 
-	public BigInteger getFechaActividad() {
-		return fechaActividad;
+	public UsuarioDTO getUser1() {
+		return user1;
 	}
 
-	public void setFechaActividad(BigInteger fechaActividad) {
-		this.fechaActividad = fechaActividad;
+	public void setUser1(UsuarioDTO user1) {
+		this.user1 = user1;
+	}
+
+	public UsuarioDTO getUser2() {
+		return user2;
+	}
+
+	public void setUser2(UsuarioDTO user2) {
+		this.user2 = user2;
 	}
 }

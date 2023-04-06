@@ -1,75 +1,27 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.math.BigInteger;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UsuarioDTO {
-	
+
 	private int id;
-
 	private BigInteger fechaCreacion;
-
 	private String email;
-
-	private BigInteger fechaEnvioEmailVerificacion;
-
-	private String tokenVerificacionEmail;
-
-	private BigInteger fechaVerificacion;
-
-	private String nombre;
-
+	private String nombreCompleto;
 	private String hashpswd;
-
 	private String estado;
-
 	private String username;
-
-	private List<AlertaDTO> alertas;
-
 	private List<RolDTO> roles;
-
-	private AlumnoDTO alumno;
-
-	private TutorDTO tutor;
 
 	public UsuarioDTO() {
 	}
 
 	public int getId() {
 		return id;
-	}
-
-	public List<AlertaDTO> getAlertas() {
-		return alertas;
-	}
-
-	public void setAlertas(List<AlertaDTO> alertas) {
-		this.alertas = alertas;
-	}
-
-	public List<RolDTO> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<RolDTO> roles) {
-		this.roles = roles;
-	}
-
-	public AlumnoDTO getAlumno() {
-		return alumno;
-	}
-
-	public void setAlumno(AlumnoDTO alumno) {
-		this.alumno = alumno;
-	}
-
-	public TutorDTO getTutor() {
-		return tutor;
-	}
-
-	public void setTutor(TutorDTO tutor) {
-		this.tutor = tutor;
 	}
 
 	public void setId(int id) {
@@ -92,36 +44,12 @@ public class UsuarioDTO {
 		this.email = email;
 	}
 
-	public BigInteger getFechaEnvioEmailVerificacion() {
-		return fechaEnvioEmailVerificacion;
+	public String getNombreCompleto() {
+		return nombreCompleto;
 	}
 
-	public void setFechaEnvioEmailVerificacion(BigInteger fechaEnvioEmailVerificacion) {
-		this.fechaEnvioEmailVerificacion = fechaEnvioEmailVerificacion;
-	}
-
-	public String getTokenVerificacionEmail() {
-		return tokenVerificacionEmail;
-	}
-
-	public void setTokenVerificacionEmail(String tokenVerificacionEmail) {
-		this.tokenVerificacionEmail = tokenVerificacionEmail;
-	}
-
-	public BigInteger getFechaVerificacion() {
-		return fechaVerificacion;
-	}
-
-	public void setFechaVerificacion(BigInteger fechaVerificacion) {
-		this.fechaVerificacion = fechaVerificacion;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
 	}
 
 	public String getHashpswd() {
@@ -146,5 +74,13 @@ public class UsuarioDTO {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public List<RolDTO> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<RolDTO> roles) {
+		this.roles = roles;
 	}
 }

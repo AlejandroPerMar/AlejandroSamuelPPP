@@ -1,13 +1,11 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlumnoEntity;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.CursoEntity;
 
 public class AlumnoCurso {
 	
 	private int id;
-	private CursoEntity course;
-	private AlumnoEntity student;
+	private Curso course;
+	private Alumno student;
 
 	public AlumnoCurso() {
 	}
@@ -20,19 +18,19 @@ public class AlumnoCurso {
 		this.id = id;
 	}
 
-	public CursoEntity getCourse() {
+	public Curso getCourse() {
 		return course;
 	}
 
-	public void setCourse(CursoEntity course) {
+	public void setCourse(Curso course) {
 		this.course = course;
 	}
 
-	public AlumnoEntity getStudent() {
+	public Alumno getStudent() {
 		return student;
 	}
 
-	public void setStudent(AlumnoEntity student) {
+	public void setStudent(Alumno student) {
 		this.student = student;
 	}
 }

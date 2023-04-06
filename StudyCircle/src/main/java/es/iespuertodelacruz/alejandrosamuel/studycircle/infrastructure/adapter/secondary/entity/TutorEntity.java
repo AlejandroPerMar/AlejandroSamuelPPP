@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class TutorEntity implements Serializable {
 	private int id;
 
 	@Column(name="created_at")
-	private Timestamp fechaCreacion;
+	private BigInteger fechaCreacion;
 
 	//bi-directional many-to-one association to MateriaTutorEntity
 	@OneToMany(mappedBy="tutor")
@@ -43,11 +44,11 @@ public class TutorEntity implements Serializable {
 		this.id = id;
 	}
 
-	public Timestamp getFechaCreacion() {
+	public BigInteger getFechaCreacion() {
 		return this.fechaCreacion;
 	}
 
-	public void setFechaCreacion(Timestamp fechaCreacion) {
+	public void setFechaCreacion(BigInteger fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 

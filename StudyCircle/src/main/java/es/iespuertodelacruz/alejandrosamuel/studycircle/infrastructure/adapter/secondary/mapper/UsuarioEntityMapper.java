@@ -17,7 +17,7 @@ public class UsuarioEntityMapper {
 		usuario.setFechaCreacion(in.getFechaCreacion());
 		usuario.setHashpswd(in.getHashpswd());
 		RolEntityMapper rolMapper = new RolEntityMapper();
-		usuario.setRoles(in.getRoles().stream().map(r -> rolMapper.toDomain(r)).collect(Collectors.toList()));
+		usuario.setRoles(in.getRoles().stream().map(rolMapper::toDomain).collect(Collectors.toList()));
 		return usuario;
 	}
 	

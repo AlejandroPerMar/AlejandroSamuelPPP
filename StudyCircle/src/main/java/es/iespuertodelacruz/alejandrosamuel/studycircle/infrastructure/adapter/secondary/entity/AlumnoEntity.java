@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class AlumnoEntity implements Serializable {
 	private int id;
 
 	@Column(name="created_at")
-	private Timestamp fechaCreacion;
+	private BigInteger fechaCreacion;
 
 	//uni-directional many-to-one association to NivelEstudiosEntity
 	@ManyToOne
@@ -57,11 +58,11 @@ public class AlumnoEntity implements Serializable {
 		this.id = id;
 	}
 
-	public Timestamp getFechaCreacion() {
+	public BigInteger getFechaCreacion() {
 		return this.fechaCreacion;
 	}
 
-	public void setFechaCreacion(Timestamp fechaCreacion) {
+	public void setFechaCreacion(BigInteger fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 

@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
 public class Usuario {
 
 	private int id;
-	private Timestamp fechaCreacion;
+	private BigInteger fechaCreacion;
 	private String email;
 	private String nombreCompleto;
 	private String hashpswd;
@@ -26,11 +27,11 @@ public class Usuario {
 		this.id = id;
 	}
 
-	public Timestamp getFechaCreacion() {
+	public BigInteger getFechaCreacion() {
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(Timestamp fechaCreacion) {
+	public void setFechaCreacion(BigInteger fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 

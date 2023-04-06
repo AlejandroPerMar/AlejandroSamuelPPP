@@ -1,13 +1,13 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
-import java.sql.Timestamp;
+import java.math.BigInteger;
 
 
 
 public class Alerta {
 
 	private int id;
-	private Timestamp fechaCreacion;
+	private BigInteger fechaCreacion;
 	private String mensaje;
 	private String estado;
 	private String tipo;
@@ -24,11 +24,11 @@ public class Alerta {
 		this.id = id;
 	}
 
-	public Timestamp getFechaCreacion() {
+	public BigInteger getFechaCreacion() {
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(Timestamp fechaCreacion) {
+	public void setFechaCreacion(BigInteger fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 

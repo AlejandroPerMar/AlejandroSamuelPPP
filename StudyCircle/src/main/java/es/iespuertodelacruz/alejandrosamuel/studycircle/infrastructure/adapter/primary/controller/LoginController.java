@@ -3,6 +3,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import java.util.List;
 import java.util.stream.Collectors;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Rol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class LoginController {
 			  Usuario usuario = usuarioService.findByUsername(username);
 			  List<String> roles = usuario.getRoles()
 					  .stream()
-					  .map(r -> r.getRol())
+					  .map(Rol::getRol)
 					  .collect(Collectors.toList());
 			  token = jwtService.generateToken(usuario.getUsername(), roles);
 		  }

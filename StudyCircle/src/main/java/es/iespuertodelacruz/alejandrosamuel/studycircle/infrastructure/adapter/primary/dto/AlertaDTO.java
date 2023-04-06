@@ -1,15 +1,66 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto;
 
-public class AlertaDTO {
-	private Integer id;
-	
-	public AlertaDTO() {}
+import java.math.BigInteger;
 
-	public Integer getId() {
+
+
+public class AlertaDTO {
+
+	private int id;
+	private BigInteger fechaCreacion;
+	private String mensaje;
+	private String estado;
+	private String tipo;
+	private UsuarioDTO user;
+
+	public AlertaDTO() {
+	}
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
+	}
+
+	public BigInteger getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(BigInteger fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+	public UsuarioDTO getUser() {
+		return user;
+	}
+
+	public void setUser(UsuarioDTO user) {
+		this.user = user;
 	}
 }

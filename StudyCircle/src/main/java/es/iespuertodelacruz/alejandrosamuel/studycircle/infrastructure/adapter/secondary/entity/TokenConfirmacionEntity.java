@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 
@@ -20,13 +21,13 @@ public class TokenConfirmacionEntity implements Serializable {
 	private int id;
 
 	@Column(name="created_at")
-	private Timestamp fechaCreacion;
+	private BigInteger fechaCreacion;
 
 	@Column(name="expires_at")
-	private Timestamp fechaExpiracion;
+	private BigInteger fechaExpiracion;
 
 	@Column(name="confirmed_at")
-	private Timestamp fechaConfirmacion;
+	private BigInteger fechaConfirmacion;
 
 	private String token;
 
@@ -46,26 +47,26 @@ public class TokenConfirmacionEntity implements Serializable {
 		this.id = id;
 	}
 
-	public Timestamp getFechaCreacion() {
+	public BigInteger getFechaCreacion() {
 		return this.fechaCreacion;
 	}
 
-	public void setFechaCreacion(Timestamp fechaCreacion) {
+	public void setFechaCreacion(BigInteger fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
-	public Timestamp getFechaExpiracion() {
+	public BigInteger getFechaExpiracion() {
 		return fechaExpiracion;
 	}
 
-	public void setFechaExpiracion(Timestamp fechaExpiracion) {
+	public void setFechaExpiracion(BigInteger fechaExpiracion) {
 		this.fechaExpiracion = fechaExpiracion;
 	}
 
-	public Timestamp getFechaConfirmacion() {
+	public BigInteger getFechaConfirmacion() {
 		return fechaConfirmacion;
 	}
 
-	public void setFechaConfirmacion(Timestamp fechaConfirmacion) {
+	public void setFechaConfirmacion(BigInteger fechaConfirmacion) {
 		this.fechaConfirmacion = fechaConfirmacion;
 	}
 
