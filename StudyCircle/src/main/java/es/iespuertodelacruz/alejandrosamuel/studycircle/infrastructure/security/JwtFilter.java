@@ -2,7 +2,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -43,17 +42,27 @@ public class JwtFilter extends OncePerRequestFilter {
 		roles = jwtService.extractRoles(jwt);
 
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
+			logger.debug("Token received: {}" + jwt);
+			logger.debug("Username: {}" + username);
+			logger.debug("Roles: {}" + roles);
 			UserDetailsLogin userDetails = new UserDetailsLogin();
 			userDetails.setUsername(username);
 			userDetails.setRoles(roles);
-
+			logger.debug("UserDetailsLogin created: {}" + userDetails.getRoles().size());
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null,
 					userDetails.getAuthorities());
+			logger.debug("Authentication token created: {}" + authToken);
 			authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+			logger.debug("Authentication token created: {}" + authToken);
 			SecurityContextHolder.getContext().setAuthentication(authToken);
+			logger.debug("Authentication token created: {}" + authToken);
+			logger.debug("Security context updated with authentication token.");
+
 		}
 
 		filterChain.doFilter(request, response);
+
+		logger.debug("Filter chain continued.");
 	}
 }

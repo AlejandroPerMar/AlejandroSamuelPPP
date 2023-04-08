@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,8 +23,12 @@ public class UserDetailsLogin  implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 	    List<GrantedAuthority> authorities = new ArrayList<>();
-	    
-	    roles.stream().map(r -> authorities.add(new SimpleGrantedAuthority(r)));
+
+		Logger LOGGER = LoggerFactory.getLogger(UserDetailsLogin.class);
+		LOGGER.debug("SIZE of roles is: " + roles.size());
+	    roles.stream().forEach(r -> authorities.add(new SimpleGrantedAuthority(r)));
+
+		LOGGER.debug("SIZE of authorities is: " + authorities.size());
 
 	    return authorities;
 	}

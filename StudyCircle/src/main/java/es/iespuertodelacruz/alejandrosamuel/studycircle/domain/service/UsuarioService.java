@@ -58,9 +58,13 @@ public class UsuarioService implements IUsuarioService {
 		}
 
 		tokenService.setConfirmado(token);
-		usuarioEntityService.confirmarEmailUsuario(
+		Integer confirmado = usuarioEntityService.confirmarEmailUsuario(
 				tokenConfirmacion.getUsuario().getEmail());
-		return "confirmado";
+
+		if(confirmado != 0)
+			return "confirmado";
+
+		return "no confirmado";
 	}
 
 	@Override

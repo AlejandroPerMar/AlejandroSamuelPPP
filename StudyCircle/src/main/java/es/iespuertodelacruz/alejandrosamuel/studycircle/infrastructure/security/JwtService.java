@@ -3,6 +3,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ class KeyGenerator{
 
 @Service
 public class JwtService {
-
+	private static final Logger LOGGER = Logger.getLogger(JwtService.class.getName());
 	private static final long DURACION_TOKEN = 24 * 60 * 60 * 1000;
 	public JwtService() {
 	}
@@ -40,6 +41,8 @@ public class JwtService {
 	public List<String> extractRoles(String token) {
 		Claims claims = extractAllClaims(token);
 		List<String> roles = (List<String>) claims.get("authorities");
+
+		LOGGER.info("LOS ROLES DEL USUARIO SON: " + roles.get(0));
 		return roles;
 	}	
 	
@@ -63,9 +66,6 @@ public class JwtService {
         return token;
     }
 
-    
- 
-
     public Claims getClaims(String token) throws ExpiredJwtException, MalformedJwtException {
     	KeyGenerator keygenerator = KeyGenerator.getInstance();
         return Jwts.parserBuilder()
@@ -76,8 +76,6 @@ public class JwtService {
                 
                 
     }
-  
-
 
     private Date getExpirationDate() {
         return new Date(System.currentTimeMillis() + DURACION_TOKEN);
@@ -92,7 +90,4 @@ public class JwtService {
 				.parseClaimsJws(token)
 				.getBody();
 	}
-
-
-
 }
