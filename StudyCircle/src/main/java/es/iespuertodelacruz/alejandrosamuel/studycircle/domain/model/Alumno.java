@@ -7,9 +7,9 @@ public class Alumno {
 
 	private int id;
 	private BigInteger fechaCreacion;
-	private NivelEstudios studyLevel;
-	private List<Materia> subjects;
-	private Usuario user;
+	private NivelEstudios nivelEstudios;
+	private List<Materia> materias;
+	private Usuario usuario;
 
 	public Alumno() {
 	}
@@ -30,27 +30,27 @@ public class Alumno {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public NivelEstudios getStudyLevel() {
-		return studyLevel;
+	public NivelEstudios getNivelEstudios() {
+		return nivelEstudios;
 	}
 
-	public void setStudyLevel(NivelEstudios studyLevel) {
-		this.studyLevel = studyLevel;
+	public void setNivelEstudios(NivelEstudios nivelEstudios) {
+		this.nivelEstudios = nivelEstudios;
 	}
 
-	public List<Materia> getSubjects() {
-		return subjects;
+	public List<Materia> getMaterias() {
+		return materias;
 	}
 
-	public void setSubjects(List<Materia> subjects) {
-		this.subjects = subjects;
+	public void setMaterias(List<Materia> materias) {
+		this.materias = materias;
 	}
 
-	public Usuario getUser() {
-		return user;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(Usuario user) {
-		this.user = user;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

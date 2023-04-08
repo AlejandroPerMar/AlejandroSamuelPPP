@@ -3,7 +3,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -26,12 +25,12 @@ public class TutorEntity implements Serializable {
 
 	//bi-directional many-to-one association to MateriaTutorEntity
 	@OneToMany(mappedBy="tutor")
-	private List<MateriaTutorEntity> tutorSubjects;
+	private List<MateriaTutorEntity> materiasTutor;
 
 	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
 	@JoinColumn(name="id_user")
-	private UsuarioEntity user;
+	private UsuarioEntity usuario;
 
 	public TutorEntity() {
 	}
@@ -52,34 +51,34 @@ public class TutorEntity implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public List<MateriaTutorEntity> getTutorSubjects() {
-		return this.tutorSubjects;
+	public List<MateriaTutorEntity> getMateriasTutor() {
+		return this.materiasTutor;
 	}
 
-	public void setTutorSubjects(List<MateriaTutorEntity> tutorSubjects) {
-		this.tutorSubjects = tutorSubjects;
+	public void setMateriasTutor(List<MateriaTutorEntity> materiasTutor) {
+		this.materiasTutor = materiasTutor;
 	}
 
 	public MateriaTutorEntity addTutorSubject(MateriaTutorEntity tutorSubject) {
-		getTutorSubjects().add(tutorSubject);
+		getMateriasTutor().add(tutorSubject);
 		tutorSubject.setTutor(this);
 
 		return tutorSubject;
 	}
 
 	public MateriaTutorEntity removeTutorSubject(MateriaTutorEntity tutorSubject) {
-		getTutorSubjects().remove(tutorSubject);
+		getMateriasTutor().remove(tutorSubject);
 		tutorSubject.setTutor(null);
 
 		return tutorSubject;
 	}
 
-	public UsuarioEntity getUser() {
-		return this.user;
+	public UsuarioEntity getUsuario() {
+		return this.usuario;
 	}
 
-	public void setUser(UsuarioEntity user) {
-		this.user = user;
+	public void setUsuario(UsuarioEntity usuario) {
+		this.usuario = usuario;
 	}
 
 }

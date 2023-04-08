@@ -10,8 +10,8 @@ public class AnuncioDTO {
 	private String motivo;
 	private String estado;
 	private String titulo;
-	private MateriaDTO subject;
-	private UsuarioDTO user;
+	private MateriaDTO materia;
+	private UsuarioDTO usuario;
 
 	public AnuncioDTO() {
 	}
@@ -64,19 +64,19 @@ public class AnuncioDTO {
 		this.titulo = titulo;
 	}
 
-	public MateriaDTO getSubject() {
-		return subject;
+	public MateriaDTO getMateria() {
+		return materia;
 	}
 
-	public void setSubject(MateriaDTO subject) {
-		this.subject = subject;
+	public void setMateria(MateriaDTO materia) {
+		this.materia = materia;
 	}
 
-	public UsuarioDTO getUser() {
-		return user;
+	public UsuarioDTO getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(UsuarioDTO user) {
-		this.user = user;
+	public void setUsuario(UsuarioDTO usuario) {
+		this.usuario = usuario;
 	}
 }

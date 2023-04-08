@@ -8,8 +8,8 @@ public class TutorDTO {
 
 	private int id;
 	private BigInteger fechaCreacion;
-	private List<MateriaTutorDTO> tutorSubjects;
-	private UsuarioDTO user;
+	private List<MateriaTutorDTO> materiasTutor;
+	private UsuarioDTO usuario;
 
 	public TutorDTO() {
 	}
@@ -30,19 +30,19 @@ public class TutorDTO {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public List<MateriaTutorDTO> getTutorSubjects() {
-		return tutorSubjects;
+	public List<MateriaTutorDTO> getMateriasTutor() {
+		return materiasTutor;
 	}
 
-	public void setTutorSubjects(List<MateriaTutorDTO> tutorSubjects) {
-		this.tutorSubjects = tutorSubjects;
+	public void setMateriasTutor(List<MateriaTutorDTO> materiasTutor) {
+		this.materiasTutor = materiasTutor;
 	}
 
-	public UsuarioDTO getUser() {
-		return user;
+	public UsuarioDTO getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(UsuarioDTO user) {
-		this.user = user;
+	public void setUsuario(UsuarioDTO usuario) {
+		this.usuario = usuario;
 	}
 }

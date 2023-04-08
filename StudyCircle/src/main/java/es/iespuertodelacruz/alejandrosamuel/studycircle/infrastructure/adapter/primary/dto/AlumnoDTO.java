@@ -7,9 +7,9 @@ public class AlumnoDTO {
 
 	private int id;
 	private BigInteger fechaCreacion;
-	private NivelEstudiosDTO studyLevel;
-	private List<MateriaDTO> subjects;
-	private UsuarioDTO user;
+	private NivelEstudiosDTO nivelEstudios;
+	private List<MateriaDTO> materias;
+	private UsuarioDTO usuario;
 
 	public AlumnoDTO() {
 	}
@@ -30,27 +30,27 @@ public class AlumnoDTO {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public NivelEstudiosDTO getStudyLevel() {
-		return studyLevel;
+	public NivelEstudiosDTO getNivelEstudios() {
+		return nivelEstudios;
 	}
 
-	public void setStudyLevel(NivelEstudiosDTO studyLevel) {
-		this.studyLevel = studyLevel;
+	public void setNivelEstudios(NivelEstudiosDTO nivelEstudios) {
+		this.nivelEstudios = nivelEstudios;
 	}
 
-	public List<MateriaDTO> getSubjects() {
-		return subjects;
+	public List<MateriaDTO> getMaterias() {
+		return materias;
 	}
 
-	public void setSubjects(List<MateriaDTO> subjects) {
-		this.subjects = subjects;
+	public void setMaterias(List<MateriaDTO> materias) {
+		this.materias = materias;
 	}
 
-	public UsuarioDTO getUser() {
-		return user;
+	public UsuarioDTO getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(UsuarioDTO user) {
-		this.user = user;
+	public void setUsuario(UsuarioDTO usuario) {
+		this.usuario = usuario;
 	}
 }

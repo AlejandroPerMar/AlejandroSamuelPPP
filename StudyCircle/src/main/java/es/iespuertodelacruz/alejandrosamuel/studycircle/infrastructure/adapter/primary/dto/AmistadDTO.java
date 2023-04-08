@@ -8,8 +8,8 @@ public class AmistadDTO {
 	private BigInteger fechaCreacion;
 	private BigInteger fechaAmistad;
 	private String estado;
-	private UsuarioDTO user1;
-	private UsuarioDTO user2;
+	private UsuarioDTO usuario1;
+	private UsuarioDTO usuario2;
 
 	public AmistadDTO() {
 	}
@@ -46,19 +46,19 @@ public class AmistadDTO {
 		this.estado = estado;
 	}
 
-	public UsuarioDTO getUser1() {
-		return user1;
+	public UsuarioDTO getUsuario1() {
+		return usuario1;
 	}
 
-	public void setUser1(UsuarioDTO user1) {
-		this.user1 = user1;
+	public void setUsuario1(UsuarioDTO usuario1) {
+		this.usuario1 = usuario1;
 	}
 
-	public UsuarioDTO getUser2() {
-		return user2;
+	public UsuarioDTO getUsuario2() {
+		return usuario2;
 	}
 
-	public void setUser2(UsuarioDTO user2) {
-		this.user2 = user2;
+	public void setUsuario2(UsuarioDTO usuario2) {
+		this.usuario2 = usuario2;
 	}
 }

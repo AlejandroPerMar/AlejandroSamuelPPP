@@ -1,7 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
 import java.math.BigInteger;
-import java.sql.Timestamp;
 
 
 public class EventoCalendario {
@@ -11,8 +10,8 @@ public class EventoCalendario {
 	private String descripcion;
 	private String nombre;
 	private BigInteger fechaEvento;
-	private Actividad activity;
-	private Usuario user;
+	private Actividad actividad;
+	private Usuario usuario;
 
 	public EventoCalendario() {
 	}
@@ -57,19 +56,19 @@ public class EventoCalendario {
 		this.fechaEvento = fechaEvento;
 	}
 
-	public Actividad getActivity() {
-		return activity;
+	public Actividad getActividad() {
+		return actividad;
 	}
 
-	public void setActivity(Actividad activity) {
-		this.activity = activity;
+	public void setActividad(Actividad actividad) {
+		this.actividad = actividad;
 	}
 
-	public Usuario getUser() {
-		return user;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(Usuario user) {
-		this.user = user;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

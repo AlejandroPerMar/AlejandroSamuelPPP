@@ -8,7 +8,7 @@ public class MateriaDTO {
 	private int id;
 	private BigInteger fechaCreacion;
 	private String nombre;
-	private NivelEstudiosDTO studyLevel;
+	private NivelEstudiosDTO nivelEstudios;
 
 	public MateriaDTO() {
 	}
@@ -37,11 +37,11 @@ public class MateriaDTO {
 		this.nombre = nombre;
 	}
 
-	public NivelEstudiosDTO getStudyLevel() {
-		return studyLevel;
+	public NivelEstudiosDTO getNivelEstudios() {
+		return nivelEstudios;
 	}
 
-	public void setStudyLevel(NivelEstudiosDTO studyLevel) {
-		this.studyLevel = studyLevel;
+	public void setNivelEstudios(NivelEstudiosDTO nivelEstudios) {
+		this.nivelEstudios = nivelEstudios;
 	}
 }

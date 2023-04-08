@@ -4,8 +4,8 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 public class MateriaTutorDTO {
 
 	private int id;
-	private MateriaDTO subject;
-	private TutorDTO tutorDTO;
+	private MateriaDTO materia;
+	private TutorDTO tutor;
 
 	public MateriaTutorDTO() {
 	}
@@ -18,19 +18,19 @@ public class MateriaTutorDTO {
 		this.id = id;
 	}
 
-	public MateriaDTO getSubject() {
-		return subject;
+	public MateriaDTO getMateria() {
+		return materia;
 	}
 
-	public void setSubject(MateriaDTO subject) {
-		this.subject = subject;
+	public void setMateria(MateriaDTO materia) {
+		this.materia = materia;
 	}
 
 	public TutorDTO getTutor() {
-		return tutorDTO;
+		return tutor;
 	}
 
-	public void setTutor(TutorDTO tutorDTO) {
-		this.tutorDTO = tutorDTO;
+	public void setTutor(TutorDTO tutor) {
+		this.tutor = tutor;
 	}
 }

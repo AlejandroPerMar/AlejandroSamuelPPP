@@ -3,7 +3,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 
 
 /**
@@ -32,12 +31,12 @@ public class AmistadEntity implements Serializable {
 	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
 	@JoinColumn(name="id_user1")
-	private UsuarioEntity user1;
+	private UsuarioEntity usuario1;
 
 	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
 	@JoinColumn(name="id_user2")
-	private UsuarioEntity user2;
+	private UsuarioEntity usuario2;
 
 	public AmistadEntity() {
 	}
@@ -74,20 +73,20 @@ public class AmistadEntity implements Serializable {
 		this.estado = estado;
 	}
 
-	public UsuarioEntity getUser1() {
-		return this.user1;
+	public UsuarioEntity getUsuario1() {
+		return this.usuario1;
 	}
 
-	public void setUser1(UsuarioEntity user1) {
-		this.user1 = user1;
+	public void setUsuario1(UsuarioEntity usuario1) {
+		this.usuario1 = usuario1;
 	}
 
-	public UsuarioEntity getUser2() {
-		return this.user2;
+	public UsuarioEntity getUsuario2() {
+		return this.usuario2;
 	}
 
-	public void setUser2(UsuarioEntity user2) {
-		this.user2 = user2;
+	public void setUsuario2(UsuarioEntity usuario2) {
+		this.usuario2 = usuario2;
 	}
 
 }

@@ -4,7 +4,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 public class MateriaTutor {
 
 	private int id;
-	private Materia subject;
+	private Materia materia;
 	private Tutor tutor;
 
 	public MateriaTutor() {
@@ -18,12 +18,12 @@ public class MateriaTutor {
 		this.id = id;
 	}
 
-	public Materia getSubject() {
-		return subject;
+	public Materia getMateria() {
+		return materia;
 	}
 
-	public void setSubject(Materia subject) {
-		this.subject = subject;
+	public void setMateria(Materia materia) {
+		this.materia = materia;
 	}
 
 	public Tutor getTutor() {

@@ -4,8 +4,8 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 public class AlumnoCursoDTO {
 	
 	private int id;
-	private CursoDTO course;
-	private AlumnoDTO student;
+	private CursoDTO curso;
+	private AlumnoDTO alumno;
 
 	public AlumnoCursoDTO() {
 	}
@@ -18,19 +18,19 @@ public class AlumnoCursoDTO {
 		this.id = id;
 	}
 
-	public CursoDTO getCourse() {
-		return course;
+	public CursoDTO getCurso() {
+		return curso;
 	}
 
-	public void setCourse(CursoDTO course) {
-		this.course = course;
+	public void setCurso(CursoDTO curso) {
+		this.curso = curso;
 	}
 
-	public AlumnoDTO getStudent() {
-		return student;
+	public AlumnoDTO getAlumno() {
+		return alumno;
 	}
 
-	public void setStudent(AlumnoDTO student) {
-		this.student = student;
+	public void setAlumno(AlumnoDTO alumno) {
+		this.alumno = alumno;
 	}
 }

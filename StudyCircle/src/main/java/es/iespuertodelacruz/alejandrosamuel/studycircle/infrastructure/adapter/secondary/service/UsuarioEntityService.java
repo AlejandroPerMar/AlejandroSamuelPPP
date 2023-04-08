@@ -1,12 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.service;
 
 import java.math.BigInteger;
-import java.time.Clock;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.sql.Timestamp;
-import java.time.Instant;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +17,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.RolEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.UsuarioEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.UsuarioEntityMapper;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -70,7 +64,7 @@ public class UsuarioEntityService implements IUsuarioRepository {
 		calendar.add(Calendar.MINUTE, 15);
 		BigInteger fechaExpiracion = new BigInteger((usuarioEntity.getFechaCreacion().longValue() + 900000) + "");
 		tokenConfirmacion.setFechaExpiracion(fechaExpiracion);
-		tokenConfirmacion.setUser(savedEntity);
+		tokenConfirmacion.setUsuario(savedEntity);
 
 		tokenConfirmacion = tokenService.saveTokenConfirmacion(tokenConfirmacion);
 

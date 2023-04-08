@@ -1,12 +1,12 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto;
 
-public class UsuarioRegisterDTO {
+public class UsuarioLogin {
+
 	private String username;
-	private String nombre;
 	private String clave;
 	private String email;
 
-	public UsuarioRegisterDTO() {}
+	public UsuarioLogin() {}
 
 	public String getUsername() {
 		return username;
@@ -14,14 +14,6 @@ public class UsuarioRegisterDTO {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 	public String getClave() {

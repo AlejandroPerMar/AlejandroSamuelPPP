@@ -3,7 +3,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 
 
 /**
@@ -35,12 +34,12 @@ public class EventoCalendarioEntity implements Serializable {
 	//uni-directional many-to-one association to ActividadEntity
 	@ManyToOne
 	@JoinColumn(name="id_activity")
-	private ActividadEntity activity;
+	private ActividadEntity actividad;
 
 	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
 	@JoinColumn(name="id_user")
-	private UsuarioEntity user;
+	private UsuarioEntity usuario;
 
 	public EventoCalendarioEntity() {
 	}
@@ -85,20 +84,20 @@ public class EventoCalendarioEntity implements Serializable {
 		this.fechaEvento = fechaEvento;
 	}
 
-	public ActividadEntity getActivity() {
-		return this.activity;
+	public ActividadEntity getActividad() {
+		return this.actividad;
 	}
 
-	public void setActivity(ActividadEntity activity) {
-		this.activity = activity;
+	public void setActividad(ActividadEntity actividad) {
+		this.actividad = actividad;
 	}
 
-	public UsuarioEntity getUser() {
-		return this.user;
+	public UsuarioEntity getUsuario() {
+		return this.usuario;
 	}
 
-	public void setUser(UsuarioEntity user) {
-		this.user = user;
+	public void setUsuario(UsuarioEntity usuario) {
+		this.usuario = usuario;
 	}
 
 }

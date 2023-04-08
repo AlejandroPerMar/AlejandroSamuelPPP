@@ -3,7 +3,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -27,7 +26,7 @@ public class AlumnoEntity implements Serializable {
 	//uni-directional many-to-one association to NivelEstudiosEntity
 	@ManyToOne
 	@JoinColumn(name="id_study_level")
-	private NivelEstudiosEntity studyLevel;
+	private NivelEstudiosEntity nivelEstudios;
 
 	//uni-directional many-to-many association to MateriaEntity
 	@ManyToMany
@@ -40,12 +39,12 @@ public class AlumnoEntity implements Serializable {
 			@JoinColumn(name="id_subject")
 			}
 		)
-	private List<MateriaEntity> subjects;
+	private List<MateriaEntity> materias;
 
 	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
 	@JoinColumn(name="id_user")
-	private UsuarioEntity user;
+	private UsuarioEntity usuario;
 
 	public AlumnoEntity() {
 	}
@@ -66,28 +65,28 @@ public class AlumnoEntity implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public NivelEstudiosEntity getStudyLevel() {
-		return this.studyLevel;
+	public NivelEstudiosEntity getNivelEstudios() {
+		return this.nivelEstudios;
 	}
 
-	public void setStudyLevel(NivelEstudiosEntity studyLevel) {
-		this.studyLevel = studyLevel;
+	public void setNivelEstudios(NivelEstudiosEntity nivelEstudios) {
+		this.nivelEstudios = nivelEstudios;
 	}
 
-	public List<MateriaEntity> getSubjects() {
-		return this.subjects;
+	public List<MateriaEntity> getMaterias() {
+		return this.materias;
 	}
 
-	public void setSubjects(List<MateriaEntity> subjects) {
-		this.subjects = subjects;
+	public void setMaterias(List<MateriaEntity> materias) {
+		this.materias = materias;
 	}
 
-	public UsuarioEntity getUser() {
-		return this.user;
+	public UsuarioEntity getUsuario() {
+		return this.usuario;
 	}
 
-	public void setUser(UsuarioEntity user) {
-		this.user = user;
+	public void setUsuario(UsuarioEntity usuario) {
+		this.usuario = usuario;
 	}
 
 }

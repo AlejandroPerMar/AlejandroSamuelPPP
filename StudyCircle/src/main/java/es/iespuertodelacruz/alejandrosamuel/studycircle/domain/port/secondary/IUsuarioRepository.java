@@ -3,7 +3,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary;
 import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioRegisterDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 
 public interface IUsuarioRepository {

@@ -21,12 +21,12 @@ public class AlumnoCursoEntity implements Serializable {
 	//bi-directional many-to-one association to CursoEntity
 	@ManyToOne
 	@JoinColumn(name="id_course")
-	private CursoEntity course;
+	private CursoEntity curso;
 
 	//uni-directional many-to-one association to AlumnoEntity
 	@ManyToOne
 	@JoinColumn(name="id_student")
-	private AlumnoEntity student;
+	private AlumnoEntity alumno;
 
 	public AlumnoCursoEntity() {
 	}
@@ -39,20 +39,20 @@ public class AlumnoCursoEntity implements Serializable {
 		this.id = id;
 	}
 
-	public CursoEntity getCourse() {
-		return this.course;
+	public CursoEntity getCurso() {
+		return this.curso;
 	}
 
-	public void setCourse(CursoEntity course) {
-		this.course = course;
+	public void setCurso(CursoEntity curso) {
+		this.curso = curso;
 	}
 
-	public AlumnoEntity getStudent() {
-		return this.student;
+	public AlumnoEntity getAlumno() {
+		return this.alumno;
 	}
 
-	public void setStudent(AlumnoEntity student) {
-		this.student = student;
+	public void setAlumno(AlumnoEntity alumno) {
+		this.alumno = alumno;
 	}
 
 }

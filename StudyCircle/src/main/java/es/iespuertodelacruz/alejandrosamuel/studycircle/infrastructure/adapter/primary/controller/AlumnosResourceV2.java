@@ -7,20 +7,13 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.p
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAlumnoService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlumnoDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import io.swagger.annotations.Api;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @Api(tags = {SwaggerConfig.ALUMNO_TAG})
 @RestController
@@ -65,13 +58,11 @@ public class AlumnosResourceV2 {
 	public ResponseEntity<?> createAlumno(@RequestBody AlumnoDTO alumnoDTO) {
 		AlumnoDTOMapper mapper = new AlumnoDTOMapper();
 		Alumno alumno = mapper.toDomain(alumnoDTO);
-		if(alumno == null)
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Formato incorrecto");
-		//alumno.setFechaCreacion(getFechaInBigInteger());
+		alumno.setFechaCreacion(new BigInteger(new Date().getTime() + ""));
 		alumnoDTO = mapper.toDTO(service.create(alumno));
 		
 		if(alumnoDTO == null) 
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no guardado");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no creado");
 
 		return ResponseEntity.ok().body(alumnoDTO);
 	}

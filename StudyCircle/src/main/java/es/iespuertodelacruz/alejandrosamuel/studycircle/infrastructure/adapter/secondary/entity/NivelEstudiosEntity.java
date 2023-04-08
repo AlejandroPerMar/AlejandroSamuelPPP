@@ -3,7 +3,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -28,8 +27,8 @@ public class NivelEstudiosEntity implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-one association to MateriaEntity
-	@OneToMany(mappedBy="studyLevel")
-	private List<MateriaEntity> subjects;
+	@OneToMany(mappedBy="nivelEstudios")
+	private List<MateriaEntity> materias;
 
 	public NivelEstudiosEntity() {
 	}
@@ -58,24 +57,24 @@ public class NivelEstudiosEntity implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public List<MateriaEntity> getSubjects() {
-		return this.subjects;
+	public List<MateriaEntity> getMaterias() {
+		return this.materias;
 	}
 
-	public void setSubjects(List<MateriaEntity> subjects) {
-		this.subjects = subjects;
+	public void setMaterias(List<MateriaEntity> materias) {
+		this.materias = materias;
 	}
 
 	public MateriaEntity addSubject(MateriaEntity subject) {
-		getSubjects().add(subject);
-		subject.setStudyLevel(this);
+		getMaterias().add(subject);
+		subject.setNivelEstudios(this);
 
 		return subject;
 	}
 
 	public MateriaEntity removeSubject(MateriaEntity subject) {
-		getSubjects().remove(subject);
-		subject.setStudyLevel(null);
+		getMaterias().remove(subject);
+		subject.setNivelEstudios(null);
 
 		return subject;
 	}

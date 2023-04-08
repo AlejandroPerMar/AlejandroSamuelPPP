@@ -5,9 +5,9 @@ public class ActividadCursoDTO {
 	
 	private int id;
 
-	private ActividadDTO activity;
+	private ActividadDTO actividad;
 
-	private CursoDTO course;
+	private CursoDTO curso;
 
 	public ActividadCursoDTO() {
 	}
@@ -20,19 +20,19 @@ public class ActividadCursoDTO {
 		this.id = id;
 	}
 
-	public ActividadDTO getActivity() {
-		return activity;
+	public ActividadDTO getActividad() {
+		return actividad;
 	}
 
-	public void setActivity(ActividadDTO activity) {
-		this.activity = activity;
+	public void setActividad(ActividadDTO actividad) {
+		this.actividad = actividad;
 	}
 
-	public CursoDTO getCourse() {
-		return course;
+	public CursoDTO getCurso() {
+		return curso;
 	}
 
-	public void setCourse(CursoDTO course) {
-		this.course = course;
+	public void setCurso(CursoDTO curso) {
+		this.curso = curso;
 	}
 }

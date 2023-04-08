@@ -21,7 +21,7 @@ public class MateriaTutorEntity implements Serializable {
 	//uni-directional many-to-one association to MateriaEntity
 	@ManyToOne
 	@JoinColumn(name="id_subject")
-	private MateriaEntity subject;
+	private MateriaEntity materia;
 
 	//bi-directional many-to-one association to TutorEntity
 	@ManyToOne
@@ -39,12 +39,12 @@ public class MateriaTutorEntity implements Serializable {
 		this.id = id;
 	}
 
-	public MateriaEntity getSubject() {
-		return this.subject;
+	public MateriaEntity getMateria() {
+		return this.materia;
 	}
 
-	public void setSubject(MateriaEntity subject) {
-		this.subject = subject;
+	public void setMateria(MateriaEntity materia) {
+		this.materia = materia;
 	}
 
 	public TutorEntity getTutor() {

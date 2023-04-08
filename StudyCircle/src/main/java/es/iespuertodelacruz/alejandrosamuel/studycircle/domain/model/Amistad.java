@@ -8,8 +8,8 @@ public class Amistad {
 	private BigInteger fechaCreacion;
 	private BigInteger fechaAmistad;
 	private String estado;
-	private Usuario user1;
-	private Usuario user2;
+	private Usuario usuario1;
+	private Usuario usuario2;
 
 	public Amistad() {
 	}
@@ -46,19 +46,19 @@ public class Amistad {
 		this.estado = estado;
 	}
 
-	public Usuario getUser1() {
-		return user1;
+	public Usuario getUsuario1() {
+		return usuario1;
 	}
 
-	public void setUser1(Usuario user1) {
-		this.user1 = user1;
+	public void setUsuario1(Usuario usuario1) {
+		this.usuario1 = usuario1;
 	}
 
-	public Usuario getUser2() {
-		return user2;
+	public Usuario getUsuario2() {
+		return usuario2;
 	}
 
-	public void setUser2(Usuario user2) {
-		this.user2 = user2;
+	public void setUsuario2(Usuario usuario2) {
+		this.usuario2 = usuario2;
 	}
 }

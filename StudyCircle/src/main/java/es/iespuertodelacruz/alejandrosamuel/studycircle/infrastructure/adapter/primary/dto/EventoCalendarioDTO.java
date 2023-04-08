@@ -10,8 +10,8 @@ public class EventoCalendarioDTO {
 	private String descripcion;
 	private String nombre;
 	private BigInteger fechaEvento;
-	private ActividadDTO activity;
-	private UsuarioDTO user;
+	private ActividadDTO actividad;
+	private UsuarioDTO usuario;
 
 	public EventoCalendarioDTO() {
 	}
@@ -56,19 +56,19 @@ public class EventoCalendarioDTO {
 		this.fechaEvento = fechaEvento;
 	}
 
-	public ActividadDTO getActivity() {
-		return activity;
+	public ActividadDTO getActividad() {
+		return actividad;
 	}
 
-	public void setActivity(ActividadDTO activity) {
-		this.activity = activity;
+	public void setActividad(ActividadDTO actividad) {
+		this.actividad = actividad;
 	}
 
-	public UsuarioDTO getUser() {
-		return user;
+	public UsuarioDTO getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(UsuarioDTO user) {
-		this.user = user;
+	public void setUsuario(UsuarioDTO usuario) {
+		this.usuario = usuario;
 	}
 }

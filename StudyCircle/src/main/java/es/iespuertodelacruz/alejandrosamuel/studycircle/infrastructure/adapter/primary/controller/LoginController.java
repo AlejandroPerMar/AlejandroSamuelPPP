@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioLoginDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioLogin;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.JwtService;
 
 @RestController
@@ -30,7 +30,7 @@ public class LoginController {
 	  private JwtService jwtService;  
 	  
 	  @PostMapping
-	  public ResponseEntity<String> login(@RequestBody UsuarioLoginDTO request) {
+	  public ResponseEntity<String> login(@RequestBody UsuarioLogin request) {
 		  String username = request.getUsername();
 		  String plainPassword = request.getClave();
 		  String token = null;

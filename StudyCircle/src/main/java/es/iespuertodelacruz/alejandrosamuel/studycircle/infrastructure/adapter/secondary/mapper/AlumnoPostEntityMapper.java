@@ -1,6 +1,5 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
@@ -15,23 +14,28 @@ public class AlumnoPostEntityMapper {
 	public Alumno toDomain(AlumnoEntity in) {
 		Alumno alumno = new Alumno();
 		alumno.setId(in.getId());
-		/*alumno.setNivelEstudios(toDomain(in.getStudyLevel()));
-		List<Materia> materias = in.getSubjects()
-				.stream()
-				.map(m->toDomain(m))
-				.collect(Collectors.toList());
-		alumno.setMaterias(materias);*/
+		alumno.setNivelEstudios(toDomain(in.getNivelEstudios()));
+		if(in.getMaterias() == null)
+			alumno.setMaterias(null);
+		else
+			alumno.setMaterias(in.getMaterias()
+					.stream()
+					.map(this::toDomain)
+					.collect(Collectors.toList()));
 		return alumno;
 	}
 	
 	public AlumnoEntity toEntity(Alumno in) {
 		AlumnoEntity alumno = new AlumnoEntity();
-		/*alumno.setStudyLevel(toEntity(in.getNivelEstudios()));
-		List<MateriaEntity> materiasEntity = in.getMaterias()
+		alumno.setFechaCreacion(in.getFechaCreacion());
+		alumno.setNivelEstudios(toEntity(in.getNivelEstudios()));
+		if(in.getMaterias() == null)
+			alumno.setMaterias(null);
+		else
+			alumno.setMaterias(in.getMaterias()
 				.stream()
-				.map(m->toEntity(m))
-				.collect(Collectors.toList());
-		alumno.setSubjects(materiasEntity);*/
+				.map(this::toEntity)
+				.collect(Collectors.toList()));
 		return alumno;
 	}
 	

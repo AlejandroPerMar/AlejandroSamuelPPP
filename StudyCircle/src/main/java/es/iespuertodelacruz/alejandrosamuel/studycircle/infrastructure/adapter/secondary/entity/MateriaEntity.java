@@ -3,7 +3,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 
 
 /**
@@ -29,7 +28,7 @@ public class MateriaEntity implements Serializable {
 	//bi-directional many-to-one association to NivelEstudiosEntity
 	@ManyToOne
 	@JoinColumn(name="id_study_level")
-	private NivelEstudiosEntity studyLevel;
+	private NivelEstudiosEntity nivelEstudios;
 
 	public MateriaEntity() {
 	}
@@ -58,12 +57,12 @@ public class MateriaEntity implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public NivelEstudiosEntity getStudyLevel() {
-		return this.studyLevel;
+	public NivelEstudiosEntity getNivelEstudios() {
+		return this.nivelEstudios;
 	}
 
-	public void setStudyLevel(NivelEstudiosEntity studyLevel) {
-		this.studyLevel = studyLevel;
+	public void setNivelEstudios(NivelEstudiosEntity nivelEstudios) {
+		this.nivelEstudios = nivelEstudios;
 	}
 
 }

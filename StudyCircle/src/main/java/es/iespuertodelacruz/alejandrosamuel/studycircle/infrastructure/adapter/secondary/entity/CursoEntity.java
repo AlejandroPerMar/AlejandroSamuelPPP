@@ -35,15 +35,15 @@ public class CursoEntity implements Serializable {
 	//uni-directional many-to-one association to MateriaTutorEntity
 	@ManyToOne
 	@JoinColumn(name="id_tutor_subject")
-	private MateriaTutorEntity tutorSubject;
+	private MateriaTutorEntity materiaTutor;
 
 	//bi-directional many-to-one association to ActividadCursoEntity
-	@OneToMany(mappedBy="course")
-	private List<ActividadCursoEntity> courseActivities;
+	@OneToMany(mappedBy="curso")
+	private List<ActividadCursoEntity> actividadesCurso;
 
 	//bi-directional many-to-one association to AlumnoCursoEntity
-	@OneToMany(mappedBy="course")
-	private List<AlumnoCursoEntity> courseStudents;
+	@OneToMany(mappedBy="curso")
+	private List<AlumnoCursoEntity> alumnosCurso;
 
 	public CursoEntity() {
 	}
@@ -88,54 +88,54 @@ public class CursoEntity implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public MateriaTutorEntity getTutorSubject() {
-		return this.tutorSubject;
+	public MateriaTutorEntity getMateriaTutor() {
+		return this.materiaTutor;
 	}
 
-	public void setTutorSubject(MateriaTutorEntity tutorSubject) {
-		this.tutorSubject = tutorSubject;
+	public void setMateriaTutor(MateriaTutorEntity materiaTutor) {
+		this.materiaTutor = materiaTutor;
 	}
 
-	public List<ActividadCursoEntity> getCourseActivities() {
-		return this.courseActivities;
+	public List<ActividadCursoEntity> getActividadesCurso() {
+		return this.actividadesCurso;
 	}
 
-	public void setCourseActivities(List<ActividadCursoEntity> courseActivities) {
-		this.courseActivities = courseActivities;
+	public void setActividadesCurso(List<ActividadCursoEntity> actividadesCurso) {
+		this.actividadesCurso = actividadesCurso;
 	}
 
 	public ActividadCursoEntity addCourseActivity(ActividadCursoEntity courseActivity) {
-		getCourseActivities().add(courseActivity);
-		courseActivity.setCourse(this);
+		getActividadesCurso().add(courseActivity);
+		courseActivity.setCurso(this);
 
 		return courseActivity;
 	}
 
 	public ActividadCursoEntity removeCourseActivity(ActividadCursoEntity courseActivity) {
-		getCourseActivities().remove(courseActivity);
-		courseActivity.setCourse(null);
+		getActividadesCurso().remove(courseActivity);
+		courseActivity.setCurso(null);
 
 		return courseActivity;
 	}
 
-	public List<AlumnoCursoEntity> getCourseStudents() {
-		return this.courseStudents;
+	public List<AlumnoCursoEntity> getAlumnosCurso() {
+		return this.alumnosCurso;
 	}
 
-	public void setCourseStudents(List<AlumnoCursoEntity> courseStudents) {
-		this.courseStudents = courseStudents;
+	public void setAlumnosCurso(List<AlumnoCursoEntity> alumnosCurso) {
+		this.alumnosCurso = alumnosCurso;
 	}
 
 	public AlumnoCursoEntity addCourseStudent(AlumnoCursoEntity courseStudent) {
-		getCourseStudents().add(courseStudent);
-		courseStudent.setCourse(this);
+		getAlumnosCurso().add(courseStudent);
+		courseStudent.setCurso(this);
 
 		return courseStudent;
 	}
 
 	public AlumnoCursoEntity removeCourseStudent(AlumnoCursoEntity courseStudent) {
-		getCourseStudents().remove(courseStudent);
-		courseStudent.setCourse(null);
+		getAlumnosCurso().remove(courseStudent);
+		courseStudent.setCurso(null);
 
 		return courseStudent;
 	}

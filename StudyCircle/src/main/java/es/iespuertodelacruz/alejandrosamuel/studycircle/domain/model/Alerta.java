@@ -11,7 +11,7 @@ public class Alerta {
 	private String mensaje;
 	private String estado;
 	private String tipo;
-	private Usuario user;
+	private Usuario usuario;
 
 	public Alerta() {
 	}
@@ -56,11 +56,11 @@ public class Alerta {
 		this.tipo = tipo;
 	}
 
-	public Usuario getUser() {
-		return user;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(Usuario user) {
-		this.user = user;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

@@ -9,7 +9,7 @@ public class NivelEstudiosDTO {
 	private int id;
 	private BigInteger fechaCreacion;
 	private String nombre;
-	private List<MateriaDTO> subjects;
+	private List<MateriaDTO> materias;
 
 	public NivelEstudiosDTO() {
 	}
@@ -38,11 +38,11 @@ public class NivelEstudiosDTO {
 		this.nombre = nombre;
 	}
 
-	public List<MateriaDTO> getSubjects() {
-		return subjects;
+	public List<MateriaDTO> getMaterias() {
+		return materias;
 	}
 
-	public void setSubjects(List<MateriaDTO> subjects) {
-		this.subjects = subjects;
+	public void setMaterias(List<MateriaDTO> materias) {
+		this.materias = materias;
 	}
 }

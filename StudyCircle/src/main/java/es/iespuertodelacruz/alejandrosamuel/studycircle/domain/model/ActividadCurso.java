@@ -5,9 +5,9 @@ public class ActividadCurso {
 	
 	private int id;
 
-	private Actividad activity;
+	private Actividad actividad;
 
-	private Curso course;
+	private Curso curso;
 
 	public ActividadCurso() {
 	}
@@ -20,19 +20,19 @@ public class ActividadCurso {
 		this.id = id;
 	}
 
-	public Actividad getActivity() {
-		return activity;
+	public Actividad getActividad() {
+		return actividad;
 	}
 
-	public void setActivity(Actividad activity) {
-		this.activity = activity;
+	public void setActividad(Actividad actividad) {
+		this.actividad = actividad;
 	}
 
-	public Curso getCourse() {
-		return course;
+	public Curso getCurso() {
+		return curso;
 	}
 
-	public void setCourse(Curso course) {
-		this.course = course;
+	public void setCurso(Curso curso) {
+		this.curso = curso;
 	}
 }

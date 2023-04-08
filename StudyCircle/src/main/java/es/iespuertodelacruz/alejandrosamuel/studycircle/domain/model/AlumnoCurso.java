@@ -4,8 +4,8 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 public class AlumnoCurso {
 	
 	private int id;
-	private Curso course;
-	private Alumno student;
+	private Curso curso;
+	private Alumno alumno;
 
 	public AlumnoCurso() {
 	}
@@ -18,19 +18,19 @@ public class AlumnoCurso {
 		this.id = id;
 	}
 
-	public Curso getCourse() {
-		return course;
+	public Curso getCurso() {
+		return curso;
 	}
 
-	public void setCourse(Curso course) {
-		this.course = course;
+	public void setCurso(Curso curso) {
+		this.curso = curso;
 	}
 
-	public Alumno getStudent() {
-		return student;
+	public Alumno getAlumno() {
+		return alumno;
 	}
 
-	public void setStudent(Alumno student) {
-		this.student = student;
+	public void setAlumno(Alumno alumno) {
+		this.alumno = alumno;
 	}
 }

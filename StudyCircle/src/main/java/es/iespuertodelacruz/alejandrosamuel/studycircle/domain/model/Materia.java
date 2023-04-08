@@ -1,7 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
 import java.math.BigInteger;
-import java.sql.Timestamp;
 
 
 public class Materia {
@@ -9,7 +8,7 @@ public class Materia {
 	private int id;
 	private BigInteger fechaCreacion;
 	private String nombre;
-	private NivelEstudios studyLevel;
+	private NivelEstudios nivelEstudios;
 
 	public Materia() {
 	}
@@ -38,11 +37,11 @@ public class Materia {
 		this.nombre = nombre;
 	}
 
-	public NivelEstudios getStudyLevel() {
-		return studyLevel;
+	public NivelEstudios getNivelEstudios() {
+		return nivelEstudios;
 	}
 
-	public void setStudyLevel(NivelEstudios studyLevel) {
-		this.studyLevel = studyLevel;
+	public void setNivelEstudios(NivelEstudios nivelEstudios) {
+		this.nivelEstudios = nivelEstudios;
 	}
 }

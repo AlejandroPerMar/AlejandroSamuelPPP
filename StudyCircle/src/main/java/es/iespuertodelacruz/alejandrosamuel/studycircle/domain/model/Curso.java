@@ -10,9 +10,9 @@ public class Curso {
 	private String estado;
 	private String titulo;
 	private BigInteger fechaCreacion;
-	private MateriaTutor tutorSubject;
-	private List<ActividadCurso> courseActivities;
-	private List<AlumnoCurso> courseStudents;
+	private MateriaTutor materiaTutor;
+	private List<ActividadCurso> actividadesCurso;
+	private List<AlumnoCurso> alumnosCurso;
 
 	public Curso() {
 	}
@@ -57,27 +57,27 @@ public class Curso {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public MateriaTutor getTutorSubject() {
-		return tutorSubject;
+	public MateriaTutor getMateriaTutor() {
+		return materiaTutor;
 	}
 
-	public void setTutorSubject(MateriaTutor tutorSubject) {
-		this.tutorSubject = tutorSubject;
+	public void setMateriaTutor(MateriaTutor materiaTutor) {
+		this.materiaTutor = materiaTutor;
 	}
 
-	public List<ActividadCurso> getCourseActivities() {
-		return courseActivities;
+	public List<ActividadCurso> getActividadesCurso() {
+		return actividadesCurso;
 	}
 
-	public void setCourseActivities(List<ActividadCurso> courseActivities) {
-		this.courseActivities = courseActivities;
+	public void setActividadesCurso(List<ActividadCurso> actividadesCurso) {
+		this.actividadesCurso = actividadesCurso;
 	}
 
-	public List<AlumnoCurso> getCourseStudents() {
-		return courseStudents;
+	public List<AlumnoCurso> getAlumnosCurso() {
+		return alumnosCurso;
 	}
 
-	public void setCourseStudents(List<AlumnoCurso> courseStudents) {
-		this.courseStudents = courseStudents;
+	public void setAlumnosCurso(List<AlumnoCurso> alumnosCurso) {
+		this.alumnosCurso = alumnosCurso;
 	}
 }

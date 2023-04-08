@@ -10,9 +10,9 @@ public class CursoDTO {
 	private String estado;
 	private String titulo;
 	private BigInteger fechaCreacion;
-	private MateriaTutorDTO tutorSubject;
-	private List<ActividadCursoDTO> courseActivities;
-	private List<AlumnoCursoDTO> courseStudents;
+	private MateriaTutorDTO materiaTutor;
+	private List<ActividadCursoDTO> actividadesCurso;
+	private List<AlumnoCursoDTO> alumnosCurso;
 
 	public CursoDTO() {
 	}
@@ -57,27 +57,27 @@ public class CursoDTO {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public MateriaTutorDTO getTutorSubject() {
-		return tutorSubject;
+	public MateriaTutorDTO getMateriaTutor() {
+		return materiaTutor;
 	}
 
-	public void setTutorSubject(MateriaTutorDTO tutorSubject) {
-		this.tutorSubject = tutorSubject;
+	public void setMateriaTutor(MateriaTutorDTO materiaTutor) {
+		this.materiaTutor = materiaTutor;
 	}
 
-	public List<ActividadCursoDTO> getCourseActivities() {
-		return courseActivities;
+	public List<ActividadCursoDTO> getActividadesCurso() {
+		return actividadesCurso;
 	}
 
-	public void setCourseActivities(List<ActividadCursoDTO> courseActivities) {
-		this.courseActivities = courseActivities;
+	public void setActividadesCurso(List<ActividadCursoDTO> actividadesCurso) {
+		this.actividadesCurso = actividadesCurso;
 	}
 
-	public List<AlumnoCursoDTO> getCourseStudents() {
-		return courseStudents;
+	public List<AlumnoCursoDTO> getAlumnosCurso() {
+		return alumnosCurso;
 	}
 
-	public void setCourseStudents(List<AlumnoCursoDTO> courseStudents) {
-		this.courseStudents = courseStudents;
+	public void setAlumnosCurso(List<AlumnoCursoDTO> alumnosCurso) {
+		this.alumnosCurso = alumnosCurso;
 	}
 }

@@ -12,8 +12,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IU
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
 
@@ -61,7 +59,7 @@ public class UsuarioService implements IUsuarioService {
 
 		tokenService.setConfirmado(token);
 		usuarioEntityService.confirmarEmailUsuario(
-				tokenConfirmacion.getUser().getEmail());
+				tokenConfirmacion.getUsuario().getEmail());
 		return "confirmado";
 	}
 

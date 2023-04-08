@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioRegisterDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioRegister;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.JwtService;
 
 @RestController
@@ -33,7 +33,7 @@ public class RegisterController {
 	private JwtService jwtService;
 
 	@PostMapping
-	public ResponseEntity<?> register(@RequestBody UsuarioRegisterDTO request) {
+	public ResponseEntity<?> register(@RequestBody UsuarioRegister request) {
 		if(!validateNombreCompleto(request.getNombre()))
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Nombre no válido");
 		if(!validateUsername(request.getUsername()))
@@ -47,7 +47,7 @@ public class RegisterController {
 
 		UsuarioEntityMapper entityMapper = new UsuarioEntityMapper();
 
-		Usuario usuario = entityMapper.toDomain(token.getUser());
+		Usuario usuario = entityMapper.toDomain(token.getUsuario());
 
 		String link = "http://localhost:8080/api/register/confirm?token=" + token.getToken();
 		emailSender.enviar(

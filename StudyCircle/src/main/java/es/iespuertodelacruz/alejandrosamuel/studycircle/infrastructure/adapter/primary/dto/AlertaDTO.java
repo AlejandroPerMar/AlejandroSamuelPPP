@@ -11,7 +11,7 @@ public class AlertaDTO {
 	private String mensaje;
 	private String estado;
 	private String tipo;
-	private UsuarioDTO user;
+	private UsuarioDTO usuario;
 
 	public AlertaDTO() {
 	}
@@ -56,11 +56,11 @@ public class AlertaDTO {
 		this.tipo = tipo;
 	}
 
-	public UsuarioDTO getUser() {
-		return user;
+	public UsuarioDTO getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(UsuarioDTO user) {
-		this.user = user;
+	public void setUsuario(UsuarioDTO usuario) {
+		this.usuario = usuario;
 	}
 }
