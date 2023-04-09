@@ -14,6 +14,8 @@ public interface INivelEstudiosService {
 
     public NivelEstudios update(NivelEstudios nivelEstudios);
 
+    public boolean delete(Integer id);
+
     public List<NivelEstudios> findAll();
 
 }

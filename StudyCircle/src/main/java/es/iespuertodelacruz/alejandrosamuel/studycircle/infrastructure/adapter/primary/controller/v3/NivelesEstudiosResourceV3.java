@@ -43,6 +43,16 @@ public class NivelesEstudiosResourceV3 {
         return ResponseEntity.ok(mapper.toDTO(nivelEstudiosService.update(mapper.toDomain(request))));
     }
 
+    @DeleteMapping(params = "id")
+    public ResponseEntity<?> delete(@RequestParam("id") Integer id) {
+        boolean eliminado = nivelEstudiosService.delete(id);
+
+        if(eliminado)
+            return ResponseEntity.ok("Nivel de estudios eliminado correctamente");
+        else
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha eliminado ningún nivel de estudios");
+    }
+
     @GetMapping(params = "id")
     public ResponseEntity<?> findById(@RequestParam("id") Integer id) {
         NivelEstudios nivelEstudios = nivelEstudiosService.findById(id);

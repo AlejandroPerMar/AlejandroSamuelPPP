@@ -56,6 +56,16 @@ public class NivelEstudiosEntityService implements INivelEstudiosRepository {
     }
 
     @Override
+    public boolean delete(Integer id) {
+        Optional<NivelEstudiosEntity> optNivelEstudios = repository.findById(id);
+        if(optNivelEstudios.isEmpty())
+            return false;
+
+        repository.delete(optNivelEstudios.get());
+        return repository.findById(id).isPresent();
+    }
+
+    @Override
     public List<NivelEstudios> findAll() {
         return repository.findAll().stream().map(n -> mapper.toDomain(n)).collect(Collectors.toList());
     }

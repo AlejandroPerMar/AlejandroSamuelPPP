@@ -36,6 +36,11 @@ public class NivelEstudiosService implements INivelEstudiosService {
     }
 
     @Override
+    public boolean delete(Integer id) {
+        return repository.delete(id);
+    }
+
+    @Override
     public List<NivelEstudios> findAll() {
         return repository.findAll();
     }
