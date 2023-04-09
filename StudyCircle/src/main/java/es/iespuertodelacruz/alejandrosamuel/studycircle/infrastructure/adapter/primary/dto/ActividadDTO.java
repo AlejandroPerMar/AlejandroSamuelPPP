@@ -1,8 +1,10 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.math.BigInteger;
 
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ActividadDTO {
 
 	private int id;

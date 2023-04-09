@@ -1,8 +1,11 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.math.BigInteger;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AlumnoDTO {
 
 	private int id;

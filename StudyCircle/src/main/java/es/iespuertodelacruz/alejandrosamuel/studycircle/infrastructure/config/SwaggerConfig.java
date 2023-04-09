@@ -33,12 +33,13 @@ public class SwaggerConfig {
 	public static final String MATERIA_TAG = "Materia";
 	public static final String MATERIA_ALUMNO_TAG = "MateriaAlumno";
 	public static final String MATERIA_TUTOR_TAG = "MateriaTutor";
-	public static final String MENSAJE_CHAT_TAG = "MensajeChat";
-	public static final String NIVEL_ESTUDIOS_TAG = "NivelEstudios";
+	public static final String NIVEL_ESTUDIOS_V2_TAG = "NivelEstudiosV2";
+	public static final String NIVEL_ESTUDIOS_V3_TAG = "NivelEstudiosV3";
 	public static final String ROL_TAG = "Rol";
-	public static final String TARIFA_TAG = "Tarifa";
 	public static final String TUTOR_TAG = "Tutor";
 	public static final String USUARIO_TAG = "Usuario";
+	public static final String LOGIN_TAG = "Login";
+	public static final String REGISTER_TAG = "Register";
 	
     @Bean
     public Docket api() {
@@ -56,12 +57,13 @@ public class SwaggerConfig {
                 		new Tag(MATERIA_TAG, ""),
                 		new Tag(MATERIA_ALUMNO_TAG, ""),
                 		new Tag(MATERIA_TUTOR_TAG, ""),
-                		new Tag(MENSAJE_CHAT_TAG, ""),
-                		new Tag(NIVEL_ESTUDIOS_TAG, ""),
+                		new Tag(NIVEL_ESTUDIOS_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad NivelEstudios para la versión 3 (ADMIN)"),
+						new Tag(NIVEL_ESTUDIOS_V3_TAG, "Controlador REST para las peticiones asociadas con la entidad NivelEstudios para la versión 2"),
                 		new Tag(ROL_TAG, ""),
-                		new Tag(TARIFA_TAG, ""),
                 		new Tag(TUTOR_TAG, ""),
-                		new Tag(USUARIO_TAG, ""))
+                		new Tag(USUARIO_TAG, ""),
+						new Tag(LOGIN_TAG, "Controlador REST para la acción de Inicio de Sesión del Usuario"),
+						new Tag(REGISTER_TAG, "Controlador REST para la acción de Registro del Usuario en la app"))
                 .apiInfo(apiInfo())
 				.securityContexts(Arrays.asList(securityContext()))
 				.securitySchemes(Arrays.asList(apiKey()));                

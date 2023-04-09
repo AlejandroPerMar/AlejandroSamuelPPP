@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Rol;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsu
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioLogin;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.JwtService;
 
+@Api(tags = {SwaggerConfig.LOGIN_TAG})
 @RestController
 @CrossOrigin
 @RequestMapping("/api/login")

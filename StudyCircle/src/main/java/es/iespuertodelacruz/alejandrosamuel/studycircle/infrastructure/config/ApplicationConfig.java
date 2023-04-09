@@ -1,5 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.NivelEstudiosDTOMapper;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.NivelEstudiosEntityMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +28,16 @@ public class ApplicationConfig {
 	}
 
 	private final UsuarioEntityJPARepository repository;
+
+	@Bean
+	public NivelEstudiosDTOMapper nivelEstudiosDTOMapper() {
+		return new NivelEstudiosDTOMapper();
+	}
+
+	@Bean
+	public NivelEstudiosEntityMapper nivelEstudiosEntityMapper() {
+		return new NivelEstudiosEntityMapper();
+	}
 
 	@Bean
 	public UserDetailsService userDetailsService() {

@@ -8,6 +8,8 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.p
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.UsuarioEntityMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.EmailSender;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
+import io.swagger.annotations.Api;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsu
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioRegister;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.JwtService;
 
+@Api(tags = {SwaggerConfig.REGISTER_TAG})
 @RestController
 @CrossOrigin
 @RequestMapping("api/register")
