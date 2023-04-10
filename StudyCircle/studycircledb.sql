@@ -1,281 +1,660 @@
-CREATE TABLE `users` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `username` varchar(25) UNIQUE NOT NULL,
-  `full_name` varchar(255) NOT NULL,
-  `email` varchar(100) UNIQUE NOT NULL,
-  `email_verification_token` varchar(255),
-  `email_verified_at` timestamp,
-  `email_verification_sent_at` timestamp,
-  `status` varchar(100) NOT NULL,
-  `hashpswd` varchar(255) NOT NULL,
-  `id_student` int UNIQUE,
-  `id_tutor` int UNIQUE,
-  `created_at` timestamp NOT NULL
-);
+-- phpMyAdmin SQL Dump
+-- version 5.1.1deb5ubuntu1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: localhost:3306
+-- Tiempo de generación: 09-04-2023 a las 22:14:51
+-- Versión del servidor: 8.0.32-0ubuntu0.22.04.2
+-- Versión de PHP: 8.1.2-1ubuntu2.11
 
-CREATE TABLE `role_user` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `id_user` int NOT NULL,
-  `id_role` int NOT NULL
-);
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
-CREATE TABLE `roles` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `rol` varchar(40) NOT NULL
-);
 
-CREATE TABLE `friendships` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `id_user1` int NOT NULL,
-  `id_user2` int NOT NULL,
-  `status` varchar(100) NOT NULL,
-  `friends_from` timestamp,
-  `created_at` timestamp NOT NULL
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
-CREATE TABLE `students` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `id_user` int UNIQUE NOT NULL,
-  `id_study_level` int NOT NULL,
-  `created_at` timestamp NOT NULL
-);
+--
+-- Base de datos: `studycircledb`
+--
 
-CREATE TABLE `tutors` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `id_user` int UNIQUE NOT NULL,
-  `created_at` timestamp NOT NULL
-);
+-- --------------------------------------------------------
 
-CREATE TABLE `tutor_rates` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `id_tutor` int NOT NULL,
-  `id_subject` int NOT NULL,
-  `price_per__hour` decimal(4,2)
-);
-
-CREATE TABLE `tutor_subjects` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `id_tutor` int NOT NULL,
-  `id_subject` int NOT NULL
-);
-
-CREATE TABLE `study_levels` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL
-);
-
-CREATE TABLE `subjects` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `id_study_level` int NOT NULL,
-  `created_at` timestamp NOT NULL
-);
-
-CREATE TABLE `student_subjects` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `id_student` int NOT NULL,
-  `id_subject` int NOT NULL
-);
+--
+-- Estructura de tabla para la tabla `activities`
+--
 
 CREATE TABLE `activities` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `id` int NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `id_tutor` int NOT NULL,
-  `id_subject` int NOT NULL,
   `status` varchar(100) NOT NULL,
-  `time_activity` timestamp NOT NULL,
-  `created_at` timestamp NOT NULL
-);
+  `time_activity` bigint NOT NULL,
+  `created_at` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `activities_students` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `id_activity` int NOT NULL,
-  `id_student` int NOT NULL
-);
+-- --------------------------------------------------------
 
-CREATE TABLE `calendar_events` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `time_event` timestamp NOT NULL,
-  `id_activity` int,
-  `id_tutor` int,
-  `id_student` int,
-  `created_at` timestamp NOT NULL
-);
+--
+-- Estructura de tabla para la tabla `alerts`
+--
+
+CREATE TABLE `alerts` (
+  `id` int NOT NULL,
+  `id_user` int NOT NULL,
+  `type` varchar(100) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `status` varchar(100) NOT NULL,
+  `created_at` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `announcements`
+--
 
 CREATE TABLE `announcements` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `id` int NOT NULL,
+  `id_user` int NOT NULL,
   `title` varchar(100) NOT NULL,
   `description` varchar(255) NOT NULL,
   `reason` varchar(100) NOT NULL,
   `status` varchar(100) NOT NULL,
   `id_subject` int NOT NULL,
-  `id_tutor` int,
-  `id_student` int,
-  `created_at` timestamp NOT NULL
-);
+  `created_at` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `alerts` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `calendar_events`
+--
+
+CREATE TABLE `calendar_events` (
+  `id` int NOT NULL,
   `id_user` int NOT NULL,
-  `type` varchar(100) NOT NULL,
-  `message` varchar(255) NOT NULL,
-  `status` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL
-);
+  `name` varchar(100) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `time_event` bigint NOT NULL,
+  `id_activity` int DEFAULT NULL,
+  `created_at` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `students_tutor_subjects` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `id_student` int NOT NULL,
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `confirmation_token`
+--
+
+CREATE TABLE `confirmation_token` (
+  `id` int NOT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `created_at` bigint DEFAULT NULL,
+  `expires_at` bigint DEFAULT NULL,
+  `confirmed_at` bigint DEFAULT NULL,
+  `id_user` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `confirmation_token`
+--
+
+INSERT INTO `confirmation_token` (`id`, `token`, `created_at`, `expires_at`, `confirmed_at`, `id_user`) VALUES
+(20, '9d7d6871-bb78-4814-97fd-571c9017c6c7', 1680957383707, 1680958283678, 1680957418714, 24);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `course`
+--
+
+CREATE TABLE `course` (
+  `id` int NOT NULL,
   `id_tutor_subject` int NOT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `price_per_hour` decimal(4,2) DEFAULT NULL,
+  `created_at` bigint NOT NULL,
+  `status` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `course_activities`
+--
+
+CREATE TABLE `course_activities` (
+  `id` int NOT NULL,
+  `id_course` int NOT NULL,
+  `id_activity` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `course_students`
+--
+
+CREATE TABLE `course_students` (
+  `id` int NOT NULL,
+  `id_course` int NOT NULL,
+  `id_student` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `friendships`
+--
+
+CREATE TABLE `friendships` (
+  `id` int NOT NULL,
+  `id_user1` int NOT NULL,
+  `id_user2` int NOT NULL,
   `status` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL
-);
+  `friends_from` bigint DEFAULT NULL,
+  `created_at` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `chat_messages` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `id_user_sender` int NOT NULL,
-  `id_user_receptor` int NOT NULL,
-  `message` varchar(255) NOT NULL,
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int NOT NULL,
+  `rol` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id`, `rol`) VALUES
+(1, 'ROLE_ADMIN'),
+(2, 'ROLE_USER');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `role_user`
+--
+
+CREATE TABLE `role_user` (
+  `id` int NOT NULL,
+  `id_user` int NOT NULL,
+  `id_role` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `role_user`
+--
+
+INSERT INTO `role_user` (`id`, `id_user`, `id_role`) VALUES
+(23, 24, 2),
+(24, 25, 1),
+(25, 26, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `students`
+--
+
+CREATE TABLE `students` (
+  `id` int NOT NULL,
+  `id_user` int NOT NULL,
+  `id_study_level` int NOT NULL,
+  `created_at` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `student_subjects`
+--
+
+CREATE TABLE `student_subjects` (
+  `id` int NOT NULL,
+  `id_student` int NOT NULL,
+  `id_subject` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `study_levels`
+--
+
+CREATE TABLE `study_levels` (
+  `id` int NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `created_at` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `study_levels`
+--
+
+INSERT INTO `study_levels` (`id`, `name`, `created_at`) VALUES
+(2, 'prueba2', 1680987449039),
+(3, 'string', 1681042746494),
+(4, 'xd2', 1681043303441);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `subjects`
+--
+
+CREATE TABLE `subjects` (
+  `id` int NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `id_study_level` int NOT NULL,
+  `created_at` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tutors`
+--
+
+CREATE TABLE `tutors` (
+  `id` int NOT NULL,
+  `id_user` int NOT NULL,
+  `created_at` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tutor_subjects`
+--
+
+CREATE TABLE `tutor_subjects` (
+  `id` int NOT NULL,
+  `id_tutor` int NOT NULL,
+  `id_subject` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users`
+--
+
+CREATE TABLE `users` (
+  `id` int NOT NULL,
+  `username` varchar(25) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `status` varchar(100) NOT NULL,
-  `send_at` timestamp NOT NULL
-);
+  `hashpswd` varchar(255) NOT NULL,
+  `created_at` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-ALTER TABLE `users` COMMENT = 'La tabla users refleja cada usuario registrado en la app con
-  sus datos. Tiene una relacion N a M con la tabla roles, generando
-  una tabla intermedia. El correo electrónico debe ser verificado
-  para poder activar la cuenta, por lo que se agrega el campo
-  state_account para conocer su situación.';
+--
+-- Volcado de datos para la tabla `users`
+--
 
-ALTER TABLE `role_user` COMMENT = 'Tabla intermedia para albergar los roles que pueda tener un usuario.';
+INSERT INTO `users` (`id`, `username`, `full_name`, `email`, `status`, `hashpswd`, `created_at`) VALUES
+(24, 'sam1', 'Samuel González Machado', 'samuglezmachado@gmail.com', 'STATUS_ACTIVE', '$2a$10$JaVxA9Y08HEe0YXCUIiz1.njj7FOa1nokZiAQvAiSiNR9QoiKMKmO', 1680957383678),
+(25, 'admin', 'admin', 'stdycircleofficial@gmail.com', 'STATUS_ACTIVE', '$2y$10$5C5XrxjkI4aQIDag8wcNa.7hV/KBYgSdcHT6d1vudS0W2wcW53Zou', 1680972623000),
+(26, 'string', 'string', 'string@gm.com', 'STATUS_ACTIVE', '$2y$10$BgGhuwMrs6LkoJ0rFlXpQObUhhFPVOeqPRMW0bMkInXh6PLXoOU9C', 1680957399999);
 
-ALTER TABLE `roles` COMMENT = 'Tabla con los roles existentes en la aplicación.';
+--
+-- Índices para tablas volcadas
+--
 
-ALTER TABLE `friendships` COMMENT = 'La tabla friendships representa las amistades entre usuarios.
-  Su estado determina la situación en la que se encuentra la amistad
-  (pendiente, amigos, eliminada, etc.).';
+--
+-- Indices de la tabla `activities`
+--
+ALTER TABLE `activities`
+  ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `students` COMMENT = 'La tabla students representa el perfil de alumno del usuario,
-  por lo que se relaciona con la tabla users de forma que cada 
-  registro de students debe pertenecer a un único usuario.
-  En el momento de configurar el perfil de alumno, el usuario debe
-  seleccionar un nivel de estudios, por lo que generamos una relación 
-  N a 1 con study_levels.';
+--
+-- Indices de la tabla `alerts`
+--
+ALTER TABLE `alerts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`);
 
-ALTER TABLE `tutors` COMMENT = 'La tabla tutors representa el perfil de tutor del usuario,
-  por lo que se relaciona con la tabla users de forma que cada 
-  registro de tutors debe pertenecer a un único usuario.';
+--
+-- Indices de la tabla `announcements`
+--
+ALTER TABLE `announcements`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_subject` (`id_subject`);
 
-ALTER TABLE `tutor_rates` COMMENT = 'La tabla tutor_rates guarda en cada registro el valor por hora de las
-  sesiones de un tutor para cada materia que imparte, siendo la relación
-  con la tabla subjects de 1 a N.';
+--
+-- Indices de la tabla `calendar_events`
+--
+ALTER TABLE `calendar_events`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_activity` (`id_activity`);
 
-ALTER TABLE `tutor_subjects` COMMENT = 'La tabla tutor_subjects es una tabla intermedia para persistir
-  qué asignaturas los tutores han marcado como cursables por ellos.
-  Al relacionarse las materias de forma que cada materia solo pertenece a
-  un nivel de estudios, no es necesario dedicar una tabla para conocer qué
-  niveles de estudios imparte el tutor, desde esta tabla podemos conocer esa
-  información.';
+--
+-- Indices de la tabla `confirmation_token`
+--
+ALTER TABLE `confirmation_token`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_user` (`id_user`);
 
-ALTER TABLE `study_levels` COMMENT = 'Tablas para los niveles de estudios y las materias, cada materia 
-  pertenece a un nivel de estudios y un nivel de estudios puede abarcar 
-  varias materias (Relacion 1 a N).';
+--
+-- Indices de la tabla `course`
+--
+ALTER TABLE `course`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_tutor_subject` (`id_tutor_subject`);
 
-ALTER TABLE `subjects` COMMENT = 'La tabla subjects representa las materias existentes para cada nivel de estudios.';
+--
+-- Indices de la tabla `course_activities`
+--
+ALTER TABLE `course_activities`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_course_activity` (`id_course`,`id_activity`),
+  ADD KEY `id_activity` (`id_activity`);
 
-ALTER TABLE `activities` COMMENT = 'La tabla activities genera la persistencia de las actividades que un
-  tutor crea para sus alumnos. Es necesario identificarla por tutor, y por la
-  materia con la que se relaciona.';
+--
+-- Indices de la tabla `course_students`
+--
+ALTER TABLE `course_students`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_course_student` (`id_course`,`id_student`),
+  ADD KEY `id_student` (`id_student`);
 
-ALTER TABLE `activities_students` COMMENT = 'La intención es que el tutor pueda generar actividades escogiendo a los
-  alumnos a los que va enfocada (es posible que tenga alumnos suscritos a una misma
-  materia, pero se encuentren en distintos puntos del temario o necesiten apoyo en
-  en diferentes temas). Por lo que se genera una tabla intermedia para relacionar
-  a los alumnos con las actividades que tienen marcadas.';
+--
+-- Indices de la tabla `friendships`
+--
+ALTER TABLE `friendships`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_friendships` (`id_user1`,`id_user2`),
+  ADD KEY `id_user2` (`id_user2`);
 
-ALTER TABLE `calendar_events` COMMENT = 'Cada perfil del usuario tiene su propio calendario, por lo que es necesario
-  separar eventos por perfil, usando los campos id_tutor e id_student para ello (si es
-  un evento de tutor, el campo id_student es nulo y viceversa). Se agrega un campo para
-  generar una relación con la tabla activities para esos eventos que se crean en el
-  momento que un tutor sube una nueva actividad (tanto para el tutor como para los 
-  estudiantes a los que se ha marcado la actividad se genera un evento con una referencia
-  a la actividad). En caso de ser un evento personalizado creado por el usuario, este campo
-  será nulo.';
+--
+-- Indices de la tabla `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `announcements` COMMENT = 'La tabla announcements representa los anuncios que los usuarios crean 
-  para el tablón de anuncios, relacionándose con su perfil de alumno o tutor, 
-  a elección del usuario. El campo reason determina qué tipo de anuncio es.';
+--
+-- Indices de la tabla `role_user`
+--
+ALTER TABLE `role_user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_role_user` (`id_user`,`id_role`),
+  ADD KEY `id_role` (`id_role`);
 
-ALTER TABLE `alerts` COMMENT = 'La tabla alerts guarda las notificaciones que se muestran  al usuario 
-  en la app. Estas guardan el tipo de mensaje que es (amistad, evento, actividad, 
-  etc.) y su estado (no leído, leído, eliminado, etc.)';
+--
+-- Indices de la tabla `students`
+--
+ALTER TABLE `students`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_user` (`id_user`),
+  ADD KEY `id_study_level` (`id_study_level`);
 
-ALTER TABLE `students_tutor_subjects` COMMENT = 'Para identificar qué alumnos están suscritos a una materia de un tutor,
-  relacionamos la tabla students con la tabla tutor_subjects. Generamos así, una
-  tabla intermedia (Relación N a M) donde estudiantes pueden pertenecer a varios
-  cursos de un tutor y un curso de un tutor puede impartirse a varios alumnos';
+--
+-- Indices de la tabla `student_subjects`
+--
+ALTER TABLE `student_subjects`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_student_subject` (`id_student`,`id_subject`),
+  ADD KEY `id_subject` (`id_subject`);
 
-ALTER TABLE `chat_messages` COMMENT = 'La tabla chat_messages se encarga de la persistencia de los mensajes que se
-  envíen a través de chat los usuarios. Guardando campos como el remitente, el receptor,
-  su estado (leído, no leído, etc.)';
+--
+-- Indices de la tabla `study_levels`
+--
+ALTER TABLE `study_levels`
+  ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `role_user` ADD FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+--
+-- Indices de la tabla `subjects`
+--
+ALTER TABLE `subjects`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_study_level` (`id_study_level`);
 
-ALTER TABLE `role_user` ADD FOREIGN KEY (`id_role`) REFERENCES `roles` (`id`);
+--
+-- Indices de la tabla `tutors`
+--
+ALTER TABLE `tutors`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_user` (`id_user`);
 
-ALTER TABLE `friendships` ADD FOREIGN KEY (`id_user1`) REFERENCES `users` (`id`);
+--
+-- Indices de la tabla `tutor_subjects`
+--
+ALTER TABLE `tutor_subjects`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_tutor` (`id_tutor`),
+  ADD KEY `id_subject` (`id_subject`);
 
-ALTER TABLE `friendships` ADD FOREIGN KEY (`id_user2`) REFERENCES `users` (`id`);
+--
+-- Indices de la tabla `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`);
 
-ALTER TABLE `users` ADD FOREIGN KEY (`id_student`) REFERENCES `students` (`id`);
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
 
-ALTER TABLE `users` ADD FOREIGN KEY (`id_tutor`) REFERENCES `tutors` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `activities`
+--
+ALTER TABLE `activities`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `students` ADD FOREIGN KEY (`id_study_level`) REFERENCES `study_levels` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `alerts`
+--
+ALTER TABLE `alerts`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `tutor_rates` ADD FOREIGN KEY (`id_tutor`) REFERENCES `tutors` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `announcements`
+--
+ALTER TABLE `announcements`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `tutor_rates` ADD FOREIGN KEY (`id_subject`) REFERENCES `subjects` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `calendar_events`
+--
+ALTER TABLE `calendar_events`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `tutor_subjects` ADD FOREIGN KEY (`id_tutor`) REFERENCES `tutors` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `confirmation_token`
+--
+ALTER TABLE `confirmation_token`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
-ALTER TABLE `tutor_subjects` ADD FOREIGN KEY (`id_subject`) REFERENCES `subjects` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `course`
+--
+ALTER TABLE `course`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `subjects` ADD FOREIGN KEY (`id_study_level`) REFERENCES `study_levels` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `course_activities`
+--
+ALTER TABLE `course_activities`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `student_subjects` ADD FOREIGN KEY (`id_student`) REFERENCES `students` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `course_students`
+--
+ALTER TABLE `course_students`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `student_subjects` ADD FOREIGN KEY (`id_subject`) REFERENCES `subjects` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `friendships`
+--
+ALTER TABLE `friendships`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `activities` ADD FOREIGN KEY (`id_tutor`) REFERENCES `tutors` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
-ALTER TABLE `activities` ADD FOREIGN KEY (`id_subject`) REFERENCES `subjects` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `role_user`
+--
+ALTER TABLE `role_user`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
-ALTER TABLE `activities_students` ADD FOREIGN KEY (`id_activity`) REFERENCES `activities` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `students`
+--
+ALTER TABLE `students`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `activities_students` ADD FOREIGN KEY (`id_student`) REFERENCES `students` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `student_subjects`
+--
+ALTER TABLE `student_subjects`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `calendar_events` ADD FOREIGN KEY (`id_activity`) REFERENCES `activities` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `study_levels`
+--
+ALTER TABLE `study_levels`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
-ALTER TABLE `calendar_events` ADD FOREIGN KEY (`id_tutor`) REFERENCES `tutors` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `subjects`
+--
+ALTER TABLE `subjects`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `calendar_events` ADD FOREIGN KEY (`id_student`) REFERENCES `students` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `tutors`
+--
+ALTER TABLE `tutors`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `announcements` ADD FOREIGN KEY (`id_tutor`) REFERENCES `tutors` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `tutor_subjects`
+--
+ALTER TABLE `tutor_subjects`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `announcements` ADD FOREIGN KEY (`id_student`) REFERENCES `students` (`id`);
+--
+-- AUTO_INCREMENT de la tabla `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
-ALTER TABLE `announcements` ADD FOREIGN KEY (`id_subject`) REFERENCES `subjects` (`id`);
+--
+-- Restricciones para tablas volcadas
+--
 
-ALTER TABLE `alerts` ADD FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+--
+-- Filtros para la tabla `alerts`
+--
+ALTER TABLE `alerts`
+  ADD CONSTRAINT `alerts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
-ALTER TABLE `students_tutor_subjects` ADD FOREIGN KEY (`id_student`) REFERENCES `students` (`id`);
+--
+-- Filtros para la tabla `announcements`
+--
+ALTER TABLE `announcements`
+  ADD CONSTRAINT `announcements_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `announcements_ibfk_2` FOREIGN KEY (`id_subject`) REFERENCES `subjects` (`id`);
 
-ALTER TABLE `students_tutor_subjects` ADD FOREIGN KEY (`id_tutor_subject`) REFERENCES `tutor_subjects` (`id`);
+--
+-- Filtros para la tabla `calendar_events`
+--
+ALTER TABLE `calendar_events`
+  ADD CONSTRAINT `calendar_events_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `calendar_events_ibfk_2` FOREIGN KEY (`id_activity`) REFERENCES `activities` (`id`);
 
-ALTER TABLE `chat_messages` ADD FOREIGN KEY (`id_user_sender`) REFERENCES `users` (`id`);
+--
+-- Filtros para la tabla `confirmation_token`
+--
+ALTER TABLE `confirmation_token`
+  ADD CONSTRAINT `confirmation_token_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
-ALTER TABLE `chat_messages` ADD FOREIGN KEY (`id_user_receptor`) REFERENCES `users` (`id`);
+--
+-- Filtros para la tabla `course`
+--
+ALTER TABLE `course`
+  ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`id_tutor_subject`) REFERENCES `tutor_subjects` (`id`);
+
+--
+-- Filtros para la tabla `course_activities`
+--
+ALTER TABLE `course_activities`
+  ADD CONSTRAINT `course_activities_ibfk_1` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`),
+  ADD CONSTRAINT `course_activities_ibfk_2` FOREIGN KEY (`id_activity`) REFERENCES `activities` (`id`);
+
+--
+-- Filtros para la tabla `course_students`
+--
+ALTER TABLE `course_students`
+  ADD CONSTRAINT `course_students_ibfk_1` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`),
+  ADD CONSTRAINT `course_students_ibfk_2` FOREIGN KEY (`id_student`) REFERENCES `students` (`id`);
+
+--
+-- Filtros para la tabla `friendships`
+--
+ALTER TABLE `friendships`
+  ADD CONSTRAINT `friendships_ibfk_1` FOREIGN KEY (`id_user1`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `friendships_ibfk_2` FOREIGN KEY (`id_user2`) REFERENCES `users` (`id`);
+
+--
+-- Filtros para la tabla `role_user`
+--
+ALTER TABLE `role_user`
+  ADD CONSTRAINT `role_user_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `role_user_ibfk_2` FOREIGN KEY (`id_role`) REFERENCES `roles` (`id`);
+
+--
+-- Filtros para la tabla `students`
+--
+ALTER TABLE `students`
+  ADD CONSTRAINT `students_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `students_ibfk_2` FOREIGN KEY (`id_study_level`) REFERENCES `study_levels` (`id`);
+
+--
+-- Filtros para la tabla `student_subjects`
+--
+ALTER TABLE `student_subjects`
+  ADD CONSTRAINT `student_subjects_ibfk_1` FOREIGN KEY (`id_student`) REFERENCES `students` (`id`),
+  ADD CONSTRAINT `student_subjects_ibfk_2` FOREIGN KEY (`id_subject`) REFERENCES `subjects` (`id`);
+
+--
+-- Filtros para la tabla `subjects`
+--
+ALTER TABLE `subjects`
+  ADD CONSTRAINT `subjects_ibfk_1` FOREIGN KEY (`id_study_level`) REFERENCES `study_levels` (`id`);
+
+--
+-- Filtros para la tabla `tutors`
+--
+ALTER TABLE `tutors`
+  ADD CONSTRAINT `tutors_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+
+--
+-- Filtros para la tabla `tutor_subjects`
+--
+ALTER TABLE `tutor_subjects`
+  ADD CONSTRAINT `tutor_subjects_ibfk_1` FOREIGN KEY (`id_tutor`) REFERENCES `tutors` (`id`),
+  ADD CONSTRAINT `tutor_subjects_ibfk_2` FOREIGN KEY (`id_subject`) REFERENCES `subjects` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

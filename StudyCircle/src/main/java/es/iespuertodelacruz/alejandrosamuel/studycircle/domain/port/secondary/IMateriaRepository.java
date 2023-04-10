@@ -5,15 +5,19 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
 import java.util.List;
 
 public interface IMateriaRepository {
-    public Materia findById(Integer id);
+    Materia findById(Integer id);
 
-    public Materia findByNombre(String nombre);
+    Materia findByNombre(String nombre);
 
-    public Materia create(Materia nivelEstudios);
+    List<Materia> findByNivelEstudiosId(Integer id);
 
-    public Materia update(Materia nivelEstudios);
+    List<Materia> findByNivelEstudiosNombre(String nombre);
 
-    public boolean delete(Integer id);
+    Materia create(Materia nivelEstudios);
 
-    public List<Materia> findAll();
+    Materia update(Materia nivelEstudios);
+
+    boolean delete(Integer id);
+
+    List<Materia> findAll();
 }

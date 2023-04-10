@@ -1,6 +1,8 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.MateriaDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.NivelEstudiosDTOMapper;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.MateriaEntityMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.NivelEstudiosEntityMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +39,16 @@ public class ApplicationConfig {
 	@Bean
 	public NivelEstudiosEntityMapper nivelEstudiosEntityMapper() {
 		return new NivelEstudiosEntityMapper();
+	}
+
+	@Bean
+	public MateriaDTOMapper materiaDTOMapper() {
+		return new MateriaDTOMapper();
+	}
+
+	@Bean
+	public MateriaEntityMapper materiaEntityMapper() {
+		return new MateriaEntityMapper();
 	}
 
 	@Bean

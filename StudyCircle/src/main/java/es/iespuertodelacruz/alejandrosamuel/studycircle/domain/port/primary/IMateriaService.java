@@ -9,6 +9,10 @@ public interface IMateriaService {
 
     public Materia findByNombre(String nombre);
 
+    public List<Materia> findByNivelEstudiosId(Integer id);
+
+    public List<Materia> findByNivelEstudiosNombre(String nombre);
+
     public Materia create(Materia nivelEstudios);
 
     public Materia update(Materia nivelEstudios);
