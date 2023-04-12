@@ -1,9 +1,13 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlumnoDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.MateriaDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.NivelEstudiosDTOMapper;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.UsuarioDTOMapper;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.AlumnoEntityMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.MateriaEntityMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.NivelEstudiosEntityMapper;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.UsuarioEntityMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,12 +18,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.RolEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.UsuarioEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Configuration
 public class ApplicationConfig {
@@ -52,10 +56,31 @@ public class ApplicationConfig {
 	}
 
 	@Bean
+	public AlumnoDTOMapper alumnoDTOMapper() {
+		return new AlumnoDTOMapper();
+	}
+
+	@Bean
+	public AlumnoEntityMapper alumnoEntityMapper() {
+		return new AlumnoEntityMapper();
+	}
+
+	@Bean
+	public UsuarioDTOMapper usuarioDTOMapper() {
+		return new UsuarioDTOMapper();
+	}
+
+	@Bean
+	public UsuarioEntityMapper usuarioEntityMapper() {
+		return new UsuarioEntityMapper();
+	}
+
+	@Bean
 	public UserDetailsService userDetailsService() {
 		
 		return username -> {
-			UsuarioEntity ur = repository.findByUsername(username);
+			Optional<UsuarioEntity> optUsuario = repository.findByUsername(username);
+			UsuarioEntity ur = optUsuario.orElse(null);
 			UserDetailsLogin user = new UserDetailsLogin();
 		    user.setUsername(ur.getUsername());
 		    user.setPassword(ur.getHashpswd());

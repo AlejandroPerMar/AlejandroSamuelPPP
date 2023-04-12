@@ -77,4 +77,9 @@ public class UsuarioService implements IUsuarioService {
 		return usuarioRepository.findByEmail(email);
 	}
 
+	@Override
+	public Usuario findById(Integer id) {
+		return usuarioRepository.findById(id);
+	}
+
 }

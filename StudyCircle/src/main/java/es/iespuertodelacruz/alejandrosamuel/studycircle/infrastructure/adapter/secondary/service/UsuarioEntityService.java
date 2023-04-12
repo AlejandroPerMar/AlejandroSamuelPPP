@@ -34,10 +34,13 @@ public class UsuarioEntityService implements IUsuarioRepository {
 	@Autowired
 	private TokenConfirmacionEntityService tokenService;
 
+	@Autowired
+	private UsuarioEntityMapper mapper;
+
 	@Override
 	public List<Usuario> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<UsuarioEntity> usuarios = usuarioRepository.findAll();
+		return usuarios.stream().map(u -> mapper.toDomain(u)).toList();
 	}
 
 	@Override
@@ -72,36 +75,31 @@ public class UsuarioEntityService implements IUsuarioRepository {
 	}
 
 	@Override
+	public Usuario findById(Integer id) {
+		Optional<UsuarioEntity> optUsuario = usuarioRepository.findById(id);
+		return optUsuario.map(u -> mapper.toDomain(u)).orElse(null);
+	}
+
+	@Override
 	public boolean checkPassword(String username, String pswd) {
 		boolean ok = false;
 		Usuario usuario = findByUsername(username);
-		if (usuario != null) {
+		if (usuario != null)
 			ok = passwordEncoder.matches(pswd, usuario.getHashpswd());
-		}
 		return ok;
 
 	}
 
 	@Override
 	public Usuario findByUsername(String username) {
-		UsuarioEntity ue = usuarioRepository.findByUsername(username);
-		if (ue != null) {
-			UsuarioEntityMapper mapper = new UsuarioEntityMapper();
-			return mapper.toDomain(ue);
-		} else {
-			return null;
-		}
+		Optional<UsuarioEntity> optUsuario = usuarioRepository.findByUsername(username);
+		return optUsuario.map(u -> mapper.toDomain(u)).orElse(null);
 	}
 
 	@Override
 	public Usuario findByEmail(String email) {
-		UsuarioEntity ue = usuarioRepository.findByEmail(email);
-		if (ue != null) {
-			UsuarioEntityMapper mapper = new UsuarioEntityMapper();
-			return mapper.toDomain(ue);
-		} else {
-			return null;
-		}
+		Optional<UsuarioEntity> optUsuario = usuarioRepository.findByUsername(email);
+		return optUsuario.map(u -> mapper.toDomain(u)).orElse(null);
 	}
 
 	public Integer confirmarEmailUsuario(String email) {

@@ -16,4 +16,6 @@ public interface IUsuarioRepository {
 	List<Usuario> findAll();
 	
 	TokenConfirmacionEntity create(String nombreCompleto, String username, String email, String clave);
+
+    Usuario findById(Integer id);
 }

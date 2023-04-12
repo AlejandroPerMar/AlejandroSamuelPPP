@@ -1,12 +1,12 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
-import java.math.BigInteger;
-import java.util.Date;
-
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
@@ -23,6 +23,12 @@ public class AlumnosResourceV2 {
 
 	@Autowired
 	private IAlumnoService service;
+
+	@Autowired
+	private IUsuarioService usuarioService;
+
+	@Autowired
+	private AlumnoDTOMapper mapper;
 	
 	@GetMapping(params = "id")
 	public ResponseEntity<?> getAlumnoById(@RequestParam("id") Integer id) {
@@ -57,8 +63,8 @@ public class AlumnosResourceV2 {
 	@PostMapping
 	public ResponseEntity<?> createAlumno(@RequestBody AlumnoDTO alumnoDTO) {
 		AlumnoDTOMapper mapper = new AlumnoDTOMapper();
+		usuarioService.findById(alumnoDTO.getUsuario().getId());
 		Alumno alumno = mapper.toDomain(alumnoDTO);
-		alumno.setFechaCreacion(new BigInteger(new Date().getTime() + ""));
 		alumnoDTO = mapper.toDTO(service.create(alumno));
 		
 		if(alumnoDTO == null) 
@@ -79,8 +85,10 @@ public class AlumnosResourceV2 {
 
 		return ResponseEntity.ok().body(alumnoDTO);
 	}
-	
-	private BigInteger getFechaInBigInteger() {
-		return new BigInteger(new Date().getTime() + "");
+
+	private String getUsernameUsuario() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String nombreAutenticado = ((UserDetailsLogin) principal).getUsername();
+		return nombreAutenticado;
 	}
 }

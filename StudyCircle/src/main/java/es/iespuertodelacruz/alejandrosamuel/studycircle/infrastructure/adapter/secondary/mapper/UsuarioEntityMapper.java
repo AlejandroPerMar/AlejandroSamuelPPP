@@ -22,6 +22,12 @@ public class UsuarioEntityMapper {
 	}
 	
 	public UsuarioEntity toEntity(Usuario in) {
-		return null;
+		UsuarioEntity usuario = new UsuarioEntity();
+		usuario.setId(in.getId());
+		usuario.setNombreCompleto(in.getNombreCompleto());
+		usuario.setEmail(in.getEmail());
+		usuario.setUsername(in.getUsername());
+
+		return usuario;
 	}
 }
