@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.EstadosVerificacionCorreo;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.UsuarioDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.UsuarioEntityMapper;
@@ -65,7 +66,10 @@ public class RegisterController {
 	@GetMapping("confirm")
 	public ResponseEntity<?> confirmarUsuario(@RequestParam("token") String token) {
 		String estadoToken = usuarioService.confirmarToken(token);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(estadoToken);
+		if(estadoToken.equals(EstadosVerificacionCorreo.STATUS_CONFIRMED.name()))
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(correoVerificacionExitosa());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error");
 	}
 
 	/*
@@ -1098,6 +1102,79 @@ public class RegisterController {
 				"    </div>\n" +
 				"</body>\n" +
 				"\n" +
+				"</html>";
+	}
+
+	private String correoVerificacionExitosa() {
+		return "<!DOCTYPE html>\n" +
+				"<html>\n" +
+				"<head>\n" +
+				"\t<title>Verificación de correo electrónico</title>\n" +
+				"\t<style>\n" +
+				"\t\tbody {\n" +
+				"\t\t\tfont-family: Arial, sans-serif;\n" +
+				"\t\t\tbackground-color: #f2f2f2;\n" +
+				"\t\t}\n" +
+				"\n" +
+				"\t\t.container {\n" +
+				"\t\t\tmax-width: 600px;\n" +
+				"\t\t\tmargin: 0 auto;\n" +
+				"\t\t\tpadding: 20px;\n" +
+				"\t\t\tbackground-color: #fff;\n" +
+				"\t\t\tborder-radius: 5px;\n" +
+				"\t\t\tbox-shadow: 0px 0px 10px rgba(0,0,0,0.2);\n" +
+				"\t\t\tposition: relative;\n" +
+				"\t\t}\n" +
+				"\n" +
+				"\t\t.icon {\n" +
+				"\t\t\tposition: absolute;\n" +
+				"\t\t\ttop: 0;\n" +
+				"\t\t\tleft: 0;\n" +
+				"\t\t\tpadding: 10px;\n" +
+				"\t\t\tcolor: #4CAF50;\n" +
+				"\t\t\tfont-size: 10px;\n" +
+				"\t\t\tfont-weight: bold;\n" +
+				"\t\t\tborder-top-left-radius: 5px;\n" +
+				"\t\t\tborder-bottom-right-radius: 5px;\n" +
+				"\t\t}\n" +
+				"\n" +
+				"\t\th1 {\n" +
+				"\t\t\tcolor: #4CAF50;\n" +
+				"\t\t\ttext-align: center;\n" +
+				"\t\t\tmargin-top: 60px;\n" +
+				"\t\t}\n" +
+				"\n" +
+				"\t\tp {\n" +
+				"\t\t\tfont-size: 18px;\n" +
+				"\t\t\tline-height: 1.5;\n" +
+				"\t\t\ttext-align: center;\n" +
+				"\t\t\tmargin-top: 30px;\n" +
+				"\t\t\tmargin-bottom: 30px;\n" +
+				"\t\t}\n" +
+				"\n" +
+				"\t\t.success {\n" +
+				"\t\t\tfont-size: 24px;\n" +
+				"\t\t\tfont-weight: bold;\n" +
+				"\t\t\tcolor: #4CAF50;\n" +
+				"\t\t\ttext-align: center;\n" +
+				"\t\t}\n" +
+				"\n" +
+				"\t\t.message {\n" +
+				"\t\t\tmargin-top: 30px;\n" +
+				"\t\t\tmargin-bottom: 30px;\n" +
+				"\t\t\ttext-align: center;\n" +
+				"\t\t}\n" +
+				"\t</style>\n" +
+				"</head>\n" +
+				"<body>\n" +
+				"\t<div class=\"container\">\n" +
+				"\t\t<div class=\"icon\"><img src=\"https://gtnwuz.stripocdn.email/content/guids/CABINET_4505201e31a9675ec0a542be3e157fde4df6c230ab8c671d2329a18263233064/images/looped_square_on_white_background_NOH.png\" style=\"display:block;margin:0 auto;width:20px;height:20px;\" alt=\"Icono\">StudyCircle</div>\n" +
+				"\t\t<h1>Verificación de correo electrónico</h1>\n" +
+				"\t\t<p>Su correo electrónico ha sido verificado correctamente. Ya puede abandonar esta página.</p>\n" +
+				"\t\t<div class=\"success\">¡Éxito!</div>\n" +
+				"\t\t<div class=\"message\">Gracias por verificar su correo electrónico con nosotros.</div>\n" +
+				"\t</div>\n" +
+				"</body>\n" +
 				"</html>";
 	}
 }

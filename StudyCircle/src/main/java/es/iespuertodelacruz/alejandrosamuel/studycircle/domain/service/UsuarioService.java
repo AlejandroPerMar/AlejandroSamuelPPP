@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.service;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.EstadosVerificacionCorreo;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.service.TokenConfirmacionEntityService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.service.UsuarioEntityService;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 @Service
 public class UsuarioService implements IUsuarioService {
-	
+
 	@Autowired
 	private IUsuarioRepository usuarioRepository;
 
@@ -43,18 +44,18 @@ public class UsuarioService implements IUsuarioService {
 		Optional<TokenConfirmacionEntity> optToken = tokenService
 				.getToken(token);
 		if(optToken.isEmpty())
-			return "token no encontrado";
+			return EstadosVerificacionCorreo.STATUS_NOT_FOUND.name();
 
 		TokenConfirmacionEntity tokenConfirmacion = optToken.get();
 
 		if (tokenConfirmacion.getFechaConfirmacion() != null) {
-			return "email ya confirmado";
+			return EstadosVerificacionCorreo.STATUS_ALREADY_CONFIRMED.name();
 		}
 
 		BigInteger fechaExpiracion = tokenConfirmacion.getFechaExpiracion();
 
 		if (fechaExpiracion.longValue() < new Date().getTime()) {
-			return "token expirado";
+			return EstadosVerificacionCorreo.STATUS_EXPIRED.name();
 		}
 
 		tokenService.setConfirmado(token);
@@ -62,9 +63,9 @@ public class UsuarioService implements IUsuarioService {
 				tokenConfirmacion.getUsuario().getEmail());
 
 		if(confirmado != 0)
-			return "confirmado";
+			return EstadosVerificacionCorreo.STATUS_CONFIRMED.name();
 
-		return "no confirmado";
+		return EstadosVerificacionCorreo.STATUS_NOT_CONFIRMED.name();
 	}
 
 	@Override
