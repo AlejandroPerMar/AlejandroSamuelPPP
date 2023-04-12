@@ -9,8 +9,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.NivelEstudi
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.*;
 
-import java.util.stream.Collectors;
-
 public class AlumnoDTOMapper {
 	
 	public Alumno toDomain(AlumnoDTO in) {
@@ -23,20 +21,21 @@ public class AlumnoDTOMapper {
 		if(in.getMaterias() == null)
 			alumno.setMaterias(null);
 		else
-			alumno.setMaterias(
-					in.getMaterias()
-					.stream()
-					.map(this::toDomain)
-					.collect(Collectors.toList()));
+			alumno.setMaterias(in.getMaterias().stream().map(this::toDomain).toList());
 		return alumno;
 	}
 	
-	public AlumnoDTO toDTO(Alumno in) {
+	public AlumnoDTO toDTOGet(Alumno in) {
 		if(in == null)
 			return null;
 		
 		AlumnoDTO alumno = new AlumnoDTO();
 		alumno.setId(in.getId());
+		alumno.setNivelEstudios(toDTO(in.getNivelEstudios()));
+		if(in.getMaterias() == null)
+			alumno.setMaterias(null);
+		else
+			alumno.setMaterias(in.getMaterias().stream().map(this::toDTO).toList());
 		return alumno;
 	}
 	

@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
@@ -32,8 +33,7 @@ public class AlumnosResourceV2 {
 	
 	@GetMapping(params = "id")
 	public ResponseEntity<?> getAlumnoById(@RequestParam("id") Integer id) {
-		AlumnoDTOMapper mapper = new AlumnoDTOMapper();
-		AlumnoDTO alumnoDTO = mapper.toDTO(service.findAlumnoById(id));
+		AlumnoDTO alumnoDTO = mapper.toDTOGet(service.findAlumnoById(id));
 		if(alumnoDTO == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no encontrado");
 		
@@ -42,8 +42,7 @@ public class AlumnosResourceV2 {
 	
 	@GetMapping(params = "idUsuario")
 	public ResponseEntity<?> getAlumnoByIdUsuario(@RequestParam("idUsuario") Integer id) {
-		AlumnoDTOMapper mapper = new AlumnoDTOMapper();
-		AlumnoDTO alumnoDTO = mapper.toDTO(service.findAlumnoByIdUsuario(id));
+		AlumnoDTO alumnoDTO = mapper.toDTOGet(service.findAlumnoByIdUsuario(id));
 		if(alumnoDTO == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no encontrado");
 		
@@ -52,8 +51,7 @@ public class AlumnosResourceV2 {
 	
 	@GetMapping(params = "username")
 	public ResponseEntity<?> getAlumnoByUsername(@RequestParam("username") String username) {
-		AlumnoDTOMapper mapper = new AlumnoDTOMapper();
-		AlumnoDTO alumnoDTO = mapper.toDTO(service.findAlumnoByUsername(username));
+		AlumnoDTO alumnoDTO = mapper.toDTOGet(service.findAlumnoByUsername(username));
 		if(alumnoDTO == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no encontrado");
 		
@@ -62,11 +60,10 @@ public class AlumnosResourceV2 {
 	
 	@PostMapping
 	public ResponseEntity<?> createAlumno(@RequestBody AlumnoDTO alumnoDTO) {
-		AlumnoDTOMapper mapper = new AlumnoDTOMapper();
-		usuarioService.findById(alumnoDTO.getUsuario().getId());
+		Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+		alumnoDTO.setUsuario(mapper.toDTO(usuario));
 		Alumno alumno = mapper.toDomain(alumnoDTO);
-		alumnoDTO = mapper.toDTO(service.create(alumno));
-		
+		alumnoDTO = mapper.toDTOGet(service.create(alumno));
 		if(alumnoDTO == null) 
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no creado");
 
@@ -75,11 +72,10 @@ public class AlumnosResourceV2 {
 	
 	@PutMapping
 	public ResponseEntity<?> updateAlumno(@RequestBody AlumnoDTO alumnoDTO) {
-		AlumnoDTOMapper mapper = new AlumnoDTOMapper();
 		Alumno alumno = mapper.toDomain(alumnoDTO);
 		if(alumno == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Formato incorrecto");
-		alumnoDTO = mapper.toDTO(service.update(alumno));
+		alumnoDTO = mapper.toDTOGet(service.update(alumno));
 		if(alumnoDTO == null) 
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no guardado");
 

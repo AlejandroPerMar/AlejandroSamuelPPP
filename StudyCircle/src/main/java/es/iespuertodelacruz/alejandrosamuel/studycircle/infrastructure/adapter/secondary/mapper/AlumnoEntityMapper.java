@@ -15,24 +15,12 @@ public class AlumnoEntityMapper {
     public Alumno toDomain(AlumnoEntity in) {
         Alumno alumno = new Alumno();
         alumno.setId(in.getId());
-		/*alumno.setNivelEstudios(toDomain(in.getStudyLevel()));
-		List<Materia> materias = in.getSubjects()
+		alumno.setNivelEstudios(toDomain(in.getNivelEstudios()));
+		List<Materia> materias = in.getMaterias()
 				.stream()
 				.map(m->toDomain(m))
 				.collect(Collectors.toList());
-		alumno.setMaterias(materias);*/
-        return alumno;
-    }
-
-    public AlumnoEntity toEntityGet(Alumno in) {
-        AlumnoEntity alumno = new AlumnoEntity();
-        alumno.setId(in.getId());
-		alumno.setNivelEstudios(toEntity(in.getNivelEstudios()));
-		List<MateriaEntity> materiasEntity = in.getMaterias()
-				.stream()
-				.map(m->toEntity(m))
-				.collect(Collectors.toList());
-		alumno.setMaterias(materiasEntity);
+		alumno.setMaterias(materias);
         return alumno;
     }
 
@@ -43,10 +31,7 @@ public class AlumnoEntityMapper {
         if(in.getMaterias() == null)
             alumno.setMaterias(null);
         else
-            alumno.setMaterias(in.getMaterias()
-                    .stream()
-                    .map(this::toEntity)
-                    .collect(Collectors.toList()));
+            alumno.setMaterias(in.getMaterias().stream().map(this::toEntity).toList());
         return alumno;
     }
 
@@ -54,11 +39,10 @@ public class AlumnoEntityMapper {
         AlumnoEntity alumno = new AlumnoEntity();
         alumno.setId(in.getId());
 		alumno.setNivelEstudios(toEntity(in.getNivelEstudios()));
-		List<MateriaEntity> materiasEntity = in.getMaterias()
-				.stream()
-				.map(m->toEntity(m))
-				.collect(Collectors.toList());
-		alumno.setMaterias(materiasEntity);
+        if(in.getMaterias() == null)
+            alumno.setMaterias(null);
+        else
+		    alumno.setMaterias(in.getMaterias().stream().map(m->toEntity(m)).toList());
         return alumno;
     }
 
