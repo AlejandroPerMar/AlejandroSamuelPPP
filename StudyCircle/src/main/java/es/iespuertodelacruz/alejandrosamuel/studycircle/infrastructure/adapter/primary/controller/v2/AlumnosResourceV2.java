@@ -31,16 +31,17 @@ public class AlumnosResourceV2 {
 	@Autowired
 	private AlumnoDTOMapper mapper;
 	
-	@GetMapping(params = "id")
-	public ResponseEntity<?> getAlumnoById(@RequestParam("id") Integer id) {
-		AlumnoDTO alumnoDTO = mapper.toDTOGet(service.findAlumnoById(id));
+	@GetMapping
+	public ResponseEntity<?> getAlumno() {
+		Alumno alumno = service.findAlumnoByUsername(getUsernameUsuario());
+		AlumnoDTO alumnoDTO = mapper.toDTOGet(alumno);
 		if(alumnoDTO == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no encontrado");
 		
 		return ResponseEntity.ok().body(alumnoDTO);
 	}
 	
-	@GetMapping(params = "idUsuario")
+	/*@GetMapping(params = "idUsuario")
 	public ResponseEntity<?> getAlumnoByIdUsuario(@RequestParam("idUsuario") Integer id) {
 		AlumnoDTO alumnoDTO = mapper.toDTOGet(service.findAlumnoByIdUsuario(id));
 		if(alumnoDTO == null)
@@ -56,7 +57,7 @@ public class AlumnosResourceV2 {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no encontrado");
 		
 		return ResponseEntity.ok().body(alumnoDTO);
-	}
+	}*/
 	
 	@PostMapping
 	public ResponseEntity<?> createAlumno(@RequestBody AlumnoDTO alumnoDTO) {
@@ -75,6 +76,7 @@ public class AlumnosResourceV2 {
 		Alumno alumno = mapper.toDomain(alumnoDTO);
 		if(alumno == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Formato incorrecto");
+		alumno.setId(service.findAlumnoByUsername(getUsernameUsuario()).getId());
 		alumnoDTO = mapper.toDTOGet(service.update(alumno));
 		if(alumnoDTO == null) 
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no guardado");

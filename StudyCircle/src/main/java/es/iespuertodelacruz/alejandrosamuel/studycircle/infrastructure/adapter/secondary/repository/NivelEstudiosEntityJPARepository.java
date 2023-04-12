@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface NivelEstudiosEntityJPARepository extends JpaRepository<NivelEstudiosEntity, Integer> {
 
     @Query("SELECT n FROM NivelEstudiosEntity n WHERE n.nombre = :nombre")
-    public Optional<NivelEstudiosEntity> findByNombre(@Param("nombre") String nombre);
+    Optional<NivelEstudiosEntity> findByNombre(@Param("nombre") String nombre);
 
 }

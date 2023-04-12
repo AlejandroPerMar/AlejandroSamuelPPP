@@ -15,12 +15,12 @@ import java.util.Optional;
 public interface UsuarioEntityJPARepository extends JpaRepository<UsuarioEntity, Integer> {
 	
 	@Query("SELECT u FROM UsuarioEntity u WHERE u.username = :username")
-	public Optional<UsuarioEntity> findByUsername(@Param("username") String username);
+	Optional<UsuarioEntity> findByUsername(@Param("username") String username);
 
 	@Query("SELECT u FROM UsuarioEntity u WHERE u.email = :email")
-	public Optional<UsuarioEntity> findByEmail(@Param("email") String email);
+	Optional<UsuarioEntity> findByEmail(@Param("email") String email);
 
 	@Modifying
 	@Query("UPDATE UsuarioEntity u SET u.estado = 'STATUS_ACTIVE' WHERE u.email = :email")
-	public Integer confirmarUsuario(@Param("email") String email);
+	Integer confirmarUsuario(@Param("email") String email);
 }
