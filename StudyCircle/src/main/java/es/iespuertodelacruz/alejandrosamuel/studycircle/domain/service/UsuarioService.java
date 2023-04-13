@@ -58,6 +58,9 @@ public class UsuarioService implements IUsuarioService {
 			return EstadosVerificacionCorreo.STATUS_EXPIRED.name();
 		}
 
+		if(!tokenConfirmacion.isValido())
+			return EstadosVerificacionCorreo.STATUS_INVALID.name();
+
 		tokenService.setConfirmado(token);
 		Integer confirmado = usuarioEntityService.confirmarEmailUsuario(
 				tokenConfirmacion.getUsuario().getEmail());
@@ -66,6 +69,11 @@ public class UsuarioService implements IUsuarioService {
 			return EstadosVerificacionCorreo.STATUS_CONFIRMED.name();
 
 		return EstadosVerificacionCorreo.STATUS_NOT_CONFIRMED.name();
+	}
+
+	@Override
+	public TokenConfirmacionEntity resendConfirmationToken(Usuario usuario) {
+		return usuarioRepository.resendConfirmationToken(usuario);
 	}
 
 	@Override

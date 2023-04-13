@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.service.HTMLBuilder;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlumnoDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.MateriaDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.NivelEstudiosDTOMapper;
@@ -73,6 +74,11 @@ public class ApplicationConfig {
 	@Bean
 	public UsuarioEntityMapper usuarioEntityMapper() {
 		return new UsuarioEntityMapper();
+	}
+
+	@Bean
+	public HTMLBuilder htmlBuilder() {
+		return new HTMLBuilder();
 	}
 
 	@Bean
