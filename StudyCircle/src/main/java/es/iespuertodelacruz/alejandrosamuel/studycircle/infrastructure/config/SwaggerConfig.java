@@ -26,6 +26,8 @@ public class SwaggerConfig {
 	
 	public static final String ALUMNO_TAG = "Alumno";
 	public static final String ACTIVIDAD_TAG = "Actividad";
+	public static final String ACTIVIDAD_V2_TAG = "Actividad2";
+	public static final String ACTIVIDAD_V3_TAG = "Actividad3";
 	public static final String ALERTA_TAG = "Alerta";
 	public static final String AMISTAD_TAG = "Amistad";
 	public static final String ANUNCIO_TAG = "Anuncio";
