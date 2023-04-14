@@ -23,6 +23,8 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsu
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioRegister;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.JwtService;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Api(tags = {SwaggerConfig.REGISTER_TAG})
 @RestController
 @CrossOrigin
@@ -41,6 +43,9 @@ public class RegisterController {
 	@Autowired
 	private JwtService jwtService;
 
+	@Autowired
+	private HttpServletRequest request;
+
 	@PostMapping
 	public ResponseEntity<?> register(@RequestBody UsuarioRegister request) {
 		if(!validateNombreCompleto(request.getNombre()))
@@ -58,7 +63,7 @@ public class RegisterController {
 
 		Usuario usuario = entityMapper.toDomain(token.getUsuario());
 
-		String link = "http://localhost:8080/api/register/confirm?token=" + token.getToken();
+		String link = getBaseUrl() + "/api/register/confirm?token=" + token.getToken();
 		emailSender.enviar(
 				request.getEmail(),
 				htmlBuilder.buildEmail(usuario.getNombreCompleto(), link));
@@ -110,5 +115,9 @@ public class RegisterController {
 		if(usuarioService.findByEmail(email) != null)
 			return false;
 		return EmailValidator.getInstance().isValid(email);
+	}
+
+	public String getBaseUrl() {
+		return String.format("%s://%s:%d", request.getScheme(), request.getServerName(), request.getServerPort());
 	}
 }

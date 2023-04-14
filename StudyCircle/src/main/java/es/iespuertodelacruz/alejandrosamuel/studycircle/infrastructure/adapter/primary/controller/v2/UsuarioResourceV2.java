@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v2/usuarios")
@@ -30,16 +32,20 @@ public class UsuarioResourceV2 {
     @Autowired
     private IHTMLBuilder htmlBuilder;
 
+    @Autowired
+    private HttpServletRequest request;
+
     @GetMapping("resendconfirmationemail")
     public ResponseEntity<?> reenviarConfirmacionToken() {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
 
         if(usuario.getEstado().equals(EstadosUsuario.STATUS_PENDING_VERIFICATION.name())) {
             TokenConfirmacionEntity token = usuarioService.resendConfirmationToken(usuario);
-            String link = "http://localhost:8080/api/register/confirm?token=" + token.getToken();
+            String link = getBaseUrl() + "/api/register/confirm?token=" + token.getToken();
             emailSender.enviar(
                     usuario.getEmail(),
                     htmlBuilder.buildEmail(usuario.getNombreCompleto(), link));
+            return ResponseEntity.ok(token.getToken());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(usuario.getEstado());
     }
@@ -47,5 +53,9 @@ public class UsuarioResourceV2 {
     private String getUsernameUsuario() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ((UserDetailsLogin) principal).getUsername();
+    }
+
+    public String getBaseUrl() {
+        return String.format("%s://%s:%d", request.getScheme(), request.getServerName(), request.getServerPort());
     }
 }
