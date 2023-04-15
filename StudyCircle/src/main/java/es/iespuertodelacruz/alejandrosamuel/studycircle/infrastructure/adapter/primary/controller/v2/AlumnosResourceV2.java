@@ -41,24 +41,6 @@ public class AlumnosResourceV2 {
 		return ResponseEntity.ok().body(alumnoDTO);
 	}
 	
-	/*@GetMapping(params = "idUsuario")
-	public ResponseEntity<?> getAlumnoByIdUsuario(@RequestParam("idUsuario") Integer id) {
-		AlumnoDTO alumnoDTO = mapper.toDTOGet(service.findAlumnoByIdUsuario(id));
-		if(alumnoDTO == null)
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no encontrado");
-		
-		return ResponseEntity.ok().body(alumnoDTO);
-	}
-	
-	@GetMapping(params = "username")
-	public ResponseEntity<?> getAlumnoByUsername(@RequestParam("username") String username) {
-		AlumnoDTO alumnoDTO = mapper.toDTOGet(service.findAlumnoByUsername(username));
-		if(alumnoDTO == null)
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no encontrado");
-		
-		return ResponseEntity.ok().body(alumnoDTO);
-	}*/
-	
 	@PostMapping
 	public ResponseEntity<?> createAlumno(@RequestBody AlumnoDTO alumnoDTO) {
 		Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
@@ -86,7 +68,6 @@ public class AlumnosResourceV2 {
 
 	private String getUsernameUsuario() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String nombreAutenticado = ((UserDetailsLogin) principal).getUsername();
-		return nombreAutenticado;
+		return ((UserDetailsLogin) principal).getUsername();
 	}
 }

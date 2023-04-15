@@ -1,13 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlumnoDTOMapper;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.MateriaDTOMapper;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.NivelEstudiosDTOMapper;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.UsuarioDTOMapper;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.AlumnoEntityMapper;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.MateriaEntityMapper;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.NivelEstudiosEntityMapper;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.UsuarioEntityMapper;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.*;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -73,6 +67,16 @@ public class ApplicationConfig {
 	@Bean
 	public UsuarioEntityMapper usuarioEntityMapper() {
 		return new UsuarioEntityMapper();
+	}
+
+	@Bean
+	public TutorDTOMapper tutorDTOMapper() {
+		return new TutorDTOMapper();
+	}
+
+	@Bean
+	public TutorEntityMapper tutorEntityMapper() {
+		return new TutorEntityMapper();
 	}
 
 	@Bean

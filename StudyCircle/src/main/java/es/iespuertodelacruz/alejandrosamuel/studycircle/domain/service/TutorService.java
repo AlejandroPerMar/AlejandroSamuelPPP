@@ -1,7 +1,10 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.service;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ITutorService;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.ITutorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,23 +12,31 @@ import java.util.List;
 @Service
 public class TutorService implements ITutorService {
 
+    @Autowired
+    private ITutorRepository repository;
+
     @Override
-    public Tutor create(Tutor tutor) {
-        return null;
+    public Tutor create(Tutor tutor, List<Materia> materias) {
+        return repository.create(tutor, materias);
     }
 
     @Override
-    public Tutor findById(Integer id) {
-        return null;
+    public Tutor update(Tutor tutor) {
+        return repository.update(tutor);
     }
 
     @Override
-    public Tutor findByUsuario() {
-        return null;
+    public Tutor findTutorById(Integer id) {
+        return repository.findTutorById(id);
     }
 
     @Override
-    public List<Tutor> findAll() {
-        return null;
+    public Tutor findTutorByIdUsuario(Integer id) {
+        return repository.findTutorByIdUsuario(id);
+    }
+
+    @Override
+    public Tutor findTutorByUsername(String username) {
+        return repository.findTutorByUsername(username);
     }
 }
