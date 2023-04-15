@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 09-04-2023 a las 22:14:51
+-- Tiempo de generación: 15-04-2023 a las 11:47:37
 -- Versión del servidor: 8.0.32-0ubuntu0.22.04.2
 -- Versión de PHP: 8.1.2-1ubuntu2.11
 
@@ -96,6 +96,7 @@ CREATE TABLE `confirmation_token` (
   `created_at` bigint DEFAULT NULL,
   `expires_at` bigint DEFAULT NULL,
   `confirmed_at` bigint DEFAULT NULL,
+  `is_valid` tinyint(1) NOT NULL,
   `id_user` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -103,8 +104,8 @@ CREATE TABLE `confirmation_token` (
 -- Volcado de datos para la tabla `confirmation_token`
 --
 
-INSERT INTO `confirmation_token` (`id`, `token`, `created_at`, `expires_at`, `confirmed_at`, `id_user`) VALUES
-(20, '9d7d6871-bb78-4814-97fd-571c9017c6c7', 1680957383707, 1680958283678, 1680957418714, 24);
+INSERT INTO `confirmation_token` (`id`, `token`, `created_at`, `expires_at`, `confirmed_at`, `is_valid`, `id_user`) VALUES
+(20, '9d7d6871-bb78-4814-97fd-571c9017c6c7', 1680957383707, 1680958283678, 1680957418714, 0, 24);
 
 -- --------------------------------------------------------
 
