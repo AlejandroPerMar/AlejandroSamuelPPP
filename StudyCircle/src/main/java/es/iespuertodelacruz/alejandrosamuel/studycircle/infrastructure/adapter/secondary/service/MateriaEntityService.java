@@ -25,20 +25,14 @@ public class MateriaEntityService implements IMateriaRepository {
     public Materia findById(Integer id) {
         Optional<MateriaEntity> optMateria = repository.findById(id);
 
-        if(optMateria.isEmpty())
-            return null;
-        else
-            return mapper.toDomain(optMateria.get());
+        return optMateria.map(materiaEntity -> mapper.toDomain(materiaEntity)).orElse(null);
     }
 
     @Override
     public Materia findByNombre(String nombre) {
         Optional<MateriaEntity> optMateria = repository.findByNombre(nombre);
 
-        if(optMateria.isEmpty())
-            return null;
-        else
-            return mapper.toDomain(optMateria.get());
+        return optMateria.map(materiaEntity -> mapper.toDomain(materiaEntity)).orElse(null);
     }
 
     @Override
