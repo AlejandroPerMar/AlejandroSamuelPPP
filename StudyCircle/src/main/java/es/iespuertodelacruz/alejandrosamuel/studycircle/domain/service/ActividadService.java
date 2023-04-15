@@ -2,52 +2,50 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IActividadService;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IActividadRepository;
 
 public class ActividadService implements IActividadService {
 
+	@Autowired
+	private IActividadRepository repository;
+
 	@Override
 	public Actividad findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findById(id);
 	}
 
 	@Override
 	public Actividad findByNombre(String nombre) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findByNombre(nombre);
 	}
 
 	@Override
-	public List<Actividad> findByCourse(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Actividad create(Actividad actividad) {
+		return repository.create(actividad);
 	}
 
 	@Override
-	public Actividad create(Actividad nivelEstudios) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Actividad update(Actividad nivelEstudios) {
-		// TODO Auto-generated method stub
-		return null;
+	public Actividad update(Actividad actividad) {
+		return repository.update(actividad);
 	}
 
 	@Override
 	public boolean delete(Integer id) {
-		// TODO Auto-generated method stub
-		return false;
+		return repository.delete(id);
 	}
 
 	@Override
 	public List<Actividad> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findAll();
 	}
 
+	@Override
+	public List<Actividad> findByCourse(String name) {
+		return repository.findByCourse(name);
+	}
 
 }

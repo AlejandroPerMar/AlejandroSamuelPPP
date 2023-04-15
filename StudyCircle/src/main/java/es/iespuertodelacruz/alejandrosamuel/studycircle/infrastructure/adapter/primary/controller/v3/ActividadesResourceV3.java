@@ -40,7 +40,7 @@ public class ActividadesResourceV3 {
     }
 
     @GetMapping(params = "nombreActividad")
-    public ResponseEntity<?> findByCourse(@RequestParam("nombreCurso") int nombreCurso) {
+    public ResponseEntity<?> findByCourse(@RequestParam("nombreCurso") String nombreCurso) {
         return ResponseEntity.ok(service.findByCourse(nombreCurso).stream().map(m -> mapper.toDTO(m)).toList());
     }
 
