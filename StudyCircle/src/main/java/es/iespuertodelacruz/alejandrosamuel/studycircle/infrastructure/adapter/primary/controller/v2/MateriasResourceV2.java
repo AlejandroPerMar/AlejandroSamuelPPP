@@ -1,8 +1,7 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v3;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IMateriaService;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.MateriaDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import io.swagger.annotations.Api;
@@ -11,25 +10,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = {SwaggerConfig.MATERIA_V3_TAG})
+@Api(tags = {SwaggerConfig.MATERIA_V2_TAG})
 @RestController
 @CrossOrigin
-@RequestMapping("/api/v3/materias")
-public class MateriasResourceV3 {
+@RequestMapping("/api/v2/materias")
+public class MateriasResourceV2 {
 
     @Autowired
     private IMateriaService service;
 
     @Autowired
     private MateriaDTOMapper mapper;
-
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody MateriaDTO request) {
-        Materia materia = mapper.toDomainPost(request);
-        materia = service.create(materia);
-
-        return ResponseEntity.ok(mapper.toDTO(materia));
-    }
 
     @GetMapping(params = "idNivelEstudios")
     public ResponseEntity<?> findByNivelEstudiosId(@RequestParam("idNivelEstudios") Integer idNivelEstudios) {
@@ -59,17 +50,5 @@ public class MateriasResourceV3 {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("no se ha encontrado ninguna materia con id " + nombre);
 
         return ResponseEntity.ok(mapper.toDTO(materia));
-    }
-
-    @DeleteMapping(params = "id")
-    public ResponseEntity<?> delete(@RequestParam("id") Integer id) {
-        boolean eliminado = service.delete(id);
-
-        if(!eliminado)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("no se ha podido eliminar la materia con id " + id +
-                    ", tenga en cuenta que una materia que se encuentre vinculada con otras entidades no puede ser eliminada");
-
-        return ResponseEntity.ok("materia con id " + id + " eliminada");
-
     }
 }
