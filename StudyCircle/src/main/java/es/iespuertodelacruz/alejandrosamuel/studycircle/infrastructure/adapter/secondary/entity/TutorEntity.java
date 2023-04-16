@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -14,6 +15,7 @@ import java.util.List;
 @Table(name="tutors")
 @NamedQuery(name="TutorEntity.findAll", query="SELECT t FROM TutorEntity t")
 public class TutorEntity implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -24,7 +26,7 @@ public class TutorEntity implements Serializable {
 	private BigInteger fechaCreacion;
 
 	//bi-directional many-to-one association to MateriaTutorEntity
-	@OneToMany(mappedBy="tutor")
+	@OneToMany(mappedBy="tutor", cascade = CascadeType.REMOVE)
 	private List<MateriaTutorEntity> materiasTutor;
 
 	//uni-directional many-to-one association to UsuarioEntity

@@ -6,16 +6,16 @@ import java.util.List;
 
 public interface INivelEstudiosService {
 
-    public NivelEstudios findById(Integer id);
+    NivelEstudios findById(Integer id);
 
-    public NivelEstudios findByNombre(String nombre);
+    NivelEstudios findByNombre(String nombre);
 
-    public NivelEstudios create(NivelEstudios nivelEstudios);
+    NivelEstudios create(NivelEstudios nivelEstudios);
 
-    public NivelEstudios update(NivelEstudios nivelEstudios);
+    NivelEstudios update(NivelEstudios nivelEstudios);
 
-    public boolean delete(Integer id);
+    boolean delete(Integer id);
 
-    public List<NivelEstudios> findAll();
+    List<NivelEstudios> findAll();
 
 }

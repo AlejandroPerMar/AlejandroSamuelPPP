@@ -31,27 +31,10 @@ public class AlumnosResourceV2 {
 	@Autowired
 	private AlumnoDTOMapper mapper;
 	
-	@GetMapping(params = "id")
-	public ResponseEntity<?> getAlumnoById(@RequestParam("id") Integer id) {
-		AlumnoDTO alumnoDTO = mapper.toDTOGet(service.findAlumnoById(id));
-		if(alumnoDTO == null)
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no encontrado");
-		
-		return ResponseEntity.ok().body(alumnoDTO);
-	}
-	
-	@GetMapping(params = "idUsuario")
-	public ResponseEntity<?> getAlumnoByIdUsuario(@RequestParam("idUsuario") Integer id) {
-		AlumnoDTO alumnoDTO = mapper.toDTOGet(service.findAlumnoByIdUsuario(id));
-		if(alumnoDTO == null)
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no encontrado");
-		
-		return ResponseEntity.ok().body(alumnoDTO);
-	}
-	
-	@GetMapping(params = "username")
-	public ResponseEntity<?> getAlumnoByUsername(@RequestParam("username") String username) {
-		AlumnoDTO alumnoDTO = mapper.toDTOGet(service.findAlumnoByUsername(username));
+	@GetMapping
+	public ResponseEntity<?> getAlumno() {
+		Alumno alumno = service.findAlumnoByUsername(getUsernameUsuario());
+		AlumnoDTO alumnoDTO = mapper.toDTOGet(alumno);
 		if(alumnoDTO == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no encontrado");
 		
@@ -75,6 +58,7 @@ public class AlumnosResourceV2 {
 		Alumno alumno = mapper.toDomain(alumnoDTO);
 		if(alumno == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Formato incorrecto");
+		alumno.setId(service.findAlumnoByUsername(getUsernameUsuario()).getId());
 		alumnoDTO = mapper.toDTOGet(service.update(alumno));
 		if(alumnoDTO == null) 
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no guardado");
@@ -84,7 +68,6 @@ public class AlumnosResourceV2 {
 
 	private String getUsernameUsuario() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String nombreAutenticado = ((UserDetailsLogin) principal).getUsername();
-		return nombreAutenticado;
+		return ((UserDetailsLogin) principal).getUsername();
 	}
 }

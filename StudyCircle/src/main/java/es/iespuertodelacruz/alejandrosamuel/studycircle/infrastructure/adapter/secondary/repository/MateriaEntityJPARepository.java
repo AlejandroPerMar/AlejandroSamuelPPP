@@ -13,11 +13,11 @@ import java.util.Optional;
 public interface MateriaEntityJPARepository extends JpaRepository<MateriaEntity, Integer> {
 
     @Query("SELECT m FROM MateriaEntity m WHERE m.nombre = :nombre")
-    public Optional<MateriaEntity> findByNombre(@Param("nombre") String nombre);
+    Optional<MateriaEntity> findByNombre(@Param("nombre") String nombre);
 
     @Query("SELECT m FROM MateriaEntity m WHERE m.nivelEstudios.id = :id")
-    public List<MateriaEntity> findByNivelEstudiosId(@Param("id") Integer id);
+    List<MateriaEntity> findByNivelEstudiosId(@Param("id") Integer id);
 
     @Query("SELECT m FROM MateriaEntity m WHERE m.nivelEstudios.nombre = :nombre")
-    public List<MateriaEntity> findByNivelEstudiosNombre(@Param("nombre") String nombre);
+    List<MateriaEntity> findByNivelEstudiosNombre(@Param("nombre") String nombre);
 }
