@@ -37,7 +37,7 @@ public class SwaggerConfig {
 	public static final String NIVEL_ESTUDIOS_V2_TAG = "NivelEstudiosV2";
 	public static final String NIVEL_ESTUDIOS_V3_TAG = "NivelEstudiosV3";
 	public static final String ROL_TAG = "Rol";
-	public static final String TUTOR_V2_TAG = "Tutor";
+	public static final String TUTOR_V2_TAG = "TutorV2";
 	public static final String USUARIO_TAG = "Usuario";
 	public static final String LOGIN_TAG = "Login";
 	public static final String REGISTER_TAG = "Register";

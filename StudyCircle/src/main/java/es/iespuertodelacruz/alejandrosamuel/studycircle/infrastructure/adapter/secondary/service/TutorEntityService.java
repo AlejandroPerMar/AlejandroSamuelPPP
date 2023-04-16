@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,18 +33,21 @@ public class TutorEntityService implements ITutorRepository {
     private TutorEntityMapper mapper;
 
     @Override
+    @Transactional
     public Tutor create(Usuario usuario, List<Materia> materias) {
         Tutor tutor = new Tutor();
+        tutor.setUsuario(usuario);
+        tutor.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
+        TutorEntity savedEntity = repository.save(mapper.toEntityPost(tutor));
         List<MateriaTutor> materiasTutor = new ArrayList<>();
         materias.forEach(m -> {
             MateriaTutorEntity materiaTutor = new MateriaTutorEntity();
-            materiaTutor.setTutor(mapper.toEntity(tutor));
+            materiaTutor.setTutor(savedEntity);
             materiaTutor.setMateria(mapper.toEntity(m));
+            materiaTutor = materiaRepository.save(materiaTutor);
             materiasTutor.add(mapper.toDomain(materiaRepository.save(materiaTutor)));
         });
-        tutor.setUsuario(usuario);
-        tutor.setMateriasTutor(materiasTutor);
-        TutorEntity savedEntity = repository.save(mapper.toEntityPost(tutor));
+        savedEntity.setMateriasTutor(materiasTutor.stream().map(mt -> mapper.toEntity(mt)).toList());
         return mapper.toDomain(savedEntity);
     }
 

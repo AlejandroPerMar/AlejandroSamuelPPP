@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(SwaggerConfig.TUTOR_V2_TAG)
+@Api(tags = {SwaggerConfig.TUTOR_V2_TAG})
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v2/tutores")

@@ -43,10 +43,10 @@ public class SecurityConfiguration {
 				"/api/v1/**").permitAll()
           
         .antMatchers("/api/v3/**").hasRole("ADMIN")
-		.antMatchers("/api/v2/alumnos").hasRole("STUDENT")
-		.antMatchers("/api/v2/tutores").hasRole("TUTOR")
-		.antMatchers("/api/v2/alumnos/**").hasRole("STUDENT")
-		.antMatchers("/api/v2/tutores/**").hasRole("TUTOR")
+		//.antMatchers("/api/v2/alumnos").hasRole("STUDENT")
+		//.antMatchers("/api/v2/tutores").hasRole("TUTOR")
+		//.antMatchers("/api/v2/alumnos/**").hasRole("STUDENT")
+		//.antMatchers("/api/v2/tutores/**").hasRole("TUTOR")
         .anyRequest().authenticated()  
 
         .and()

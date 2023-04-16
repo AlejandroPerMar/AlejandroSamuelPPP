@@ -16,21 +16,24 @@ public class TutorEntityMapper {
     public TutorEntity toEntityPost(Tutor in) {
         TutorEntity tutor = new TutorEntity();
         tutor.setUsuario(toEntity(in.getUsuario()));
-        tutor.setMateriasTutor(in.getMateriasTutor().stream().map(this::toEntity).toList());
+        if(in.getMateriasTutor() != null)
+            tutor.setMateriasTutor(in.getMateriasTutor().stream().map(this::toEntity).toList());
         tutor.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
         return tutor;
     }
 
     public TutorEntity toEntityPut(Tutor in) {
         TutorEntity tutor = new TutorEntity();
-        tutor.setMateriasTutor(in.getMateriasTutor().stream().map(this::toEntity).toList());
+        if(in.getMateriasTutor() != null)
+            tutor.setMateriasTutor(in.getMateriasTutor().stream().map(this::toEntity).toList());
         return tutor;
     }
 
     public Tutor toDomain(TutorEntity in) {
         Tutor tutor = new Tutor();
         tutor.setId(in.getId());
-        tutor.setMateriasTutor(in.getMateriasTutor().stream().map(this::toDomain).toList());
+        if(in.getMateriasTutor() != null)
+            tutor.setMateriasTutor(in.getMateriasTutor().stream().map(this::toDomain).toList());
         tutor.setUsuario(toDomain(in.getUsuario()));
         return tutor;
     }
