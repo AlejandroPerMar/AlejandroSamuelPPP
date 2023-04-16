@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -14,6 +15,7 @@ import java.util.List;
 @Table(name="course")
 @NamedQuery(name="CursoEntity.findAll", query="SELECT c FROM CursoEntity c")
 public class CursoEntity implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -38,11 +40,11 @@ public class CursoEntity implements Serializable {
 	private MateriaTutorEntity materiaTutor;
 
 	//bi-directional many-to-one association to ActividadCursoEntity
-	@OneToMany(mappedBy="curso")
+	@OneToMany(mappedBy="curso", cascade = CascadeType.REMOVE)
 	private List<ActividadCursoEntity> actividadesCurso;
 
 	//bi-directional many-to-one association to AlumnoCursoEntity
-	@OneToMany(mappedBy="curso")
+	@OneToMany(mappedBy="curso", cascade = CascadeType.REMOVE)
 	private List<AlumnoCursoEntity> alumnosCurso;
 
 	public CursoEntity() {

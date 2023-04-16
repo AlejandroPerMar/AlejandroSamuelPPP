@@ -10,6 +10,14 @@ public class Materia {
 	private String nombre;
 	private NivelEstudios nivelEstudios;
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (!(obj instanceof Materia materia)) return false;
+		if (obj == this) return true;
+		return this.getId() == materia.getId();
+	}
+
 	public Materia() {
 	}
 

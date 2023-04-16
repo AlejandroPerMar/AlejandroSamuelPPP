@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.service;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ITutorService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.ITutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,13 @@ public class TutorService implements ITutorService {
     private ITutorRepository repository;
 
     @Override
-    public Tutor create(Tutor tutor, List<Materia> materias) {
-        return repository.create(tutor, materias);
+    public Tutor create(Usuario usuario, List<Materia> materias) {
+        return repository.create(usuario, materias);
     }
 
     @Override
-    public Tutor update(Tutor tutor) {
-        return repository.update(tutor);
+    public Tutor update(Tutor tutor, List<Materia> materias) {
+        return repository.update(tutor, materias);
     }
 
     @Override

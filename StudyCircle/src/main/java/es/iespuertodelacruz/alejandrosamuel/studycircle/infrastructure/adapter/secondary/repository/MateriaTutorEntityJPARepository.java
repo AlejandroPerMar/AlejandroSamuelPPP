@@ -3,5 +3,5 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.MateriaTutorEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MateriaTutorJPARepository extends JpaRepository<MateriaTutorEntity, Integer> {
+public interface MateriaTutorEntityJPARepository extends JpaRepository<MateriaTutorEntity, Integer> {
 }

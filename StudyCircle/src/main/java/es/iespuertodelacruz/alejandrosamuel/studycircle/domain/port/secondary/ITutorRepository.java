@@ -2,13 +2,14 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 
 import java.util.List;
 
 public interface ITutorRepository {
-    Tutor create(Tutor tutor, List<Materia> materias);
+    Tutor create(Usuario usuario, List<Materia> materias);
 
-    Tutor update(Tutor tutor);
+    Tutor update(Tutor tutor, List<Materia> materias);
 
     Tutor findTutorById(Integer id);
 

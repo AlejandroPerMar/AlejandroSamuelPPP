@@ -1,11 +1,10 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.RespuestasTutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ITutorService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.TutorDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.MateriaDTOMapper;
@@ -42,37 +41,32 @@ public class TutoresResourceV2 {
     @GetMapping
     public ResponseEntity<?> getTutor() {
         Tutor tutor = service.findTutorByUsername(getUsernameUsuario());
-        TutorDTO tutorDTO = mapper.toDTOGet(tutor);
+        TutorDTO tutorDTO = mapper.toDTO(tutor);
         if(tutorDTO == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tutor no encontrado");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_FOUND.name());
 
         return ResponseEntity.ok().body(tutorDTO);
     }
 
     @PostMapping
-    public ResponseEntity<?> createTutor(@RequestBody TutorDTO tutorDTO, @RequestBody List<MateriaDTO> materias) {
+    public ResponseEntity<?> createTutor(@RequestBody List<MateriaDTO> materias) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
-        tutorDTO.setUsuario(mapper.toDTO(usuario));
-        Tutor tutor = mapper.toDomain(tutorDTO);
-        tutorDTO = mapper.toDTOGet(service.create(tutor, materias.stream().map(m -> materiaDTOMapper.toDomain(m)).toList()));
+        TutorDTO tutorDTO = mapper.toDTO(service.create(usuario, materias.stream().map(m -> materiaDTOMapper.toDomain(m)).toList()));
         if(tutorDTO == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no creado");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_CREATED.name());
 
         return ResponseEntity.ok().body(tutorDTO);
     }
 
-    /*@PutMapping
-    public ResponseEntity<?> updateAlumno(@RequestBody AlumnoDTO alumnoDTO) {
-        Alumno alumno = mapper.toDomain(alumnoDTO);
-        if(alumno == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Formato incorrecto");
-        alumno.setId(service.findAlumnoByUsername(getUsernameUsuario()).getId());
-        alumnoDTO = mapper.toDTOGet(service.update(alumno));
-        if(alumnoDTO == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no guardado");
+    @PutMapping
+    public ResponseEntity<?> updateTutor(@RequestBody List<MateriaDTO> materias) {
+        Tutor tutorActual = service.findTutorByUsername(getUsernameUsuario());
+        TutorDTO tutorDTO = mapper.toDTO(service.update(tutorActual, materias.stream().map(m -> materiaDTOMapper.toDomain(m)).toList()));
+        if(tutorDTO == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_UPDATED);
 
-        return ResponseEntity.ok().body(alumnoDTO);
-    }*/
+        return ResponseEntity.ok().body(tutorDTO);
+    }
 
     private String getUsernameUsuario() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -32,7 +32,7 @@ public class MateriaTutorEntity implements Serializable {
 	private TutorEntity tutor;
 
 	//bi-directional many-to-one association to CursoEntity
-	@OneToMany(mappedBy="materiaTutor")
+	@OneToMany(mappedBy="materiaTutor", cascade = CascadeType.REMOVE)
 	private List<CursoEntity> cursosTutor;
 
 	public MateriaTutorEntity() {
