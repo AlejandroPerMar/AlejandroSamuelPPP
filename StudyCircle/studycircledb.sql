@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 15-04-2023 a las 11:47:37
+-- Tiempo de generación: 17-04-2023 a las 00:06:34
 -- Versión del servidor: 8.0.32-0ubuntu0.22.04.2
 -- Versión de PHP: 8.1.2-1ubuntu2.11
 
@@ -260,6 +260,16 @@ CREATE TABLE `subjects` (
   `created_at` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Volcado de datos para la tabla `subjects`
+--
+
+INSERT INTO `subjects` (`id`, `name`, `id_study_level`, `created_at`) VALUES
+(1, 'materia1', 2, 1680972623000),
+(2, 'materia2', 4, 1680972623000),
+(3, 'materia3', 3, 1680972623000),
+(4, 'materia4', 2, 1680972623000);
+
 -- --------------------------------------------------------
 
 --
@@ -272,6 +282,13 @@ CREATE TABLE `tutors` (
   `created_at` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Volcado de datos para la tabla `tutors`
+--
+
+INSERT INTO `tutors` (`id`, `id_user`, `created_at`) VALUES
+(34, 24, 1681656197917);
+
 -- --------------------------------------------------------
 
 --
@@ -283,6 +300,14 @@ CREATE TABLE `tutor_subjects` (
   `id_tutor` int NOT NULL,
   `id_subject` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `tutor_subjects`
+--
+
+INSERT INTO `tutor_subjects` (`id`, `id_tutor`, `id_subject`) VALUES
+(21, 34, 3),
+(22, 34, 4);
 
 -- --------------------------------------------------------
 
@@ -408,7 +433,7 @@ ALTER TABLE `students`
 ALTER TABLE `student_subjects`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_student_subject` (`id_student`,`id_subject`),
-  ADD KEY `id_subject` (`id_subject`);
+  ADD KEY `student_subjects_ibfk_2` (`id_subject`);
 
 --
 -- Indices de la tabla `study_levels`
@@ -435,8 +460,8 @@ ALTER TABLE `tutors`
 --
 ALTER TABLE `tutor_subjects`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_tutor` (`id_tutor`),
-  ADD KEY `id_subject` (`id_subject`);
+  ADD UNIQUE KEY `unique_tutor_subject` (`id_tutor`,`id_subject`),
+  ADD KEY `tutor_subjects_ibfk_2` (`id_subject`);
 
 --
 -- Indices de la tabla `users`
@@ -538,19 +563,19 @@ ALTER TABLE `study_levels`
 -- AUTO_INCREMENT de la tabla `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tutors`
 --
 ALTER TABLE `tutors`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `tutor_subjects`
 --
 ALTER TABLE `tutor_subjects`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
