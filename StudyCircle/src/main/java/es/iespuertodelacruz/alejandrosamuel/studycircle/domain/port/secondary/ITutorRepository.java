@@ -9,7 +9,7 @@ import java.util.List;
 public interface ITutorRepository {
     Tutor create(Usuario usuario, List<Materia> materias);
 
-    Tutor update(Tutor tutor, List<Materia> materias);
+    Tutor update(Usuario usuario, List<Materia> materias);
 
     Tutor findTutorById(Integer id);
 

@@ -60,8 +60,8 @@ public class TutoresResourceV2 {
 
     @PutMapping
     public ResponseEntity<?> updateTutor(@RequestBody List<MateriaDTO> materias) {
-        Tutor tutorActual = service.findTutorByUsername(getUsernameUsuario());
-        TutorDTO tutorDTO = mapper.toDTO(service.update(tutorActual, materias.stream().map(m -> materiaDTOMapper.toDomain(m)).toList()));
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        TutorDTO tutorDTO = mapper.toDTO(service.update(usuario, materias.stream().map(m -> materiaDTOMapper.toDomain(m)).toList()));
         if(tutorDTO == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_UPDATED);
 

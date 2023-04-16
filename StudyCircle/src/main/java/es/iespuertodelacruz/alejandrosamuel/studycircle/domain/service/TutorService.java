@@ -22,8 +22,8 @@ public class TutorService implements ITutorService {
     }
 
     @Override
-    public Tutor update(Tutor tutor, List<Materia> materias) {
-        return repository.update(tutor, materias);
+    public Tutor update(Usuario usuario, List<Materia> materias) {
+        return repository.update(usuario, materias);
     }
 
     @Override

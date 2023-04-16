@@ -5,6 +5,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.MateriaTuto
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.ITutorRepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.MateriaEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.MateriaTutorEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TutorEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.TutorEntityMapper;
@@ -53,27 +54,29 @@ public class TutorEntityService implements ITutorRepository {
 
     @Override
     @Transactional
-    public Tutor update(Tutor tutor, List<Materia> materias) {
-        List<MateriaTutor> materiasTutor = tutor.getMateriasTutor();
-        List<MateriaTutor> materiasTutorNuevas = new ArrayList<>();
-        if(materiasTutor != null) {
-            List<Materia> materiasActuales = materiasTutor.stream().map(MateriaTutor::getMateria).toList();
-            materias.forEach(m -> {
-                if(materiasActuales.contains(m)) {
-                    // Agregamos a la lista materiasTutorNuevas la materiaTutor existente en materiasTutor que coincida con la materia sobre la que iteramos
-                    materiasTutorNuevas.add(materiasTutor.stream().filter(mt -> mt.getMateria().equals(m)).findFirst().get());
-                }else {
-                    //Creamos una nueva entidad MateriaTutor y la guardamos en bbdd para agregarla a la  nueva lista del tutor
-                    MateriaTutorEntity materiaTutor = new MateriaTutorEntity();
-                    materiaTutor.setTutor(mapper.toEntity(tutor));
-                    materiaTutor.setMateria(mapper.toEntity(m));
-                    materiasTutorNuevas.add(mapper.toDomain(materiaRepository.save(materiaTutor)));
-                }
-            });
-        }
+    public Tutor update(Usuario usuario, List<Materia> materias) {
+        TutorEntity tutor = repository.findByIdUsuario(usuario.getId()).get();
+        List<MateriaTutorEntity> materiasTutor = tutor.getMateriasTutor();
+        List<MateriaTutorEntity> materiasTutorNuevas = new ArrayList<>();
+        List<MateriaEntity> materiasActuales = materiasTutor.stream().map(MateriaTutorEntity::getMateria).toList();
+        materias.stream().map(m -> mapper.toEntity(m)).forEach(m -> {
+            if(materiasActuales.contains(m)) {
+                // Agregamos a la lista materiasTutorNuevas la materiaTutor existente en materiasTutor que coincida con la materia sobre la que iteramos
+                materiasTutorNuevas.add(materiasTutor.stream().filter(mt -> mt.getMateria().equals(m)).findFirst().get());
+            }else {
+                //Creamos una nueva entidad MateriaTutor y la guardamos en bbdd para agregarla a la  nueva lista del tutor
+                MateriaTutorEntity materiaTutor = new MateriaTutorEntity();
+                materiaTutor.setTutor(tutor);
+                materiaTutor.setMateria(m);
+                materiasTutorNuevas.add(materiaRepository.save(materiaTutor));
+            }
+        });
+        List<MateriaTutorEntity> materiasTutorEliminar = materiasTutor.stream()
+                .filter(mt -> !materiasTutorNuevas.contains(mt)).toList();
+        materiaRepository.deleteAll(materiasTutorEliminar);
         tutor.setMateriasTutor(materiasTutorNuevas);
-        TutorEntity updatedEntity = repository.save(mapper.toEntityPut(tutor));
-        return mapper.toDomain(updatedEntity);
+        repository.save(tutor);
+        return mapper.toDomain(tutor);
     }
 
     @Override
