@@ -16,10 +16,7 @@ public class AlumnoEntityMapper {
         Alumno alumno = new Alumno();
         alumno.setId(in.getId());
 		alumno.setNivelEstudios(toDomain(in.getNivelEstudios()));
-		List<Materia> materias = in.getMaterias()
-				.stream()
-				.map(m->toDomain(m))
-				.collect(Collectors.toList());
+		List<Materia> materias = in.getMaterias().stream().map(this::toDomain).toList();
 		alumno.setMaterias(materias);
         return alumno;
     }

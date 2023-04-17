@@ -3,6 +3,8 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.service.HTMLBuilder;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.*;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.*;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UsuarioActivoFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +18,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.UsuarioEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -94,7 +102,6 @@ public class ApplicationConfig {
 			UserDetailsLogin user = new UserDetailsLogin();
 		    user.setUsername(ur.getUsername());
 		    user.setPassword(ur.getHashpswd());
-		    
 		    /*
 		     * Generar una List<String> con los roles
 		     */

@@ -24,6 +24,21 @@ public class AlumnoDTOMapper {
 			alumno.setMaterias(in.getMaterias().stream().map(this::toDomain).toList());
 		return alumno;
 	}
+
+	public Alumno toDomainPost(AlumnoDTO in) {
+		if(in == null)
+			return null;
+
+		Alumno alumno = new Alumno();
+		alumno.setNivelEstudios(toDomain(in.getNivelEstudios()));
+		if(in.getMaterias() == null)
+			alumno.setMaterias(in.getMaterias().stream().map(this::toDomain).toList());
+		else
+			alumno.setMaterias(null);
+		alumno.setUsuario(toDomain(in.getUsuario()));
+
+		return alumno;
+	}
 	
 	public AlumnoDTO toDTOGet(Alumno in) {
 		if(in == null)

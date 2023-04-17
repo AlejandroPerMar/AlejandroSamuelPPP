@@ -45,7 +45,7 @@ public class AlumnosResourceV2 {
 	public ResponseEntity<?> createAlumno(@RequestBody AlumnoDTO alumnoDTO) {
 		Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
 		alumnoDTO.setUsuario(mapper.toDTO(usuario));
-		Alumno alumno = mapper.toDomain(alumnoDTO);
+		Alumno alumno = mapper.toDomainPost(alumnoDTO);
 		alumnoDTO = mapper.toDTOGet(service.create(alumno));
 		if(alumnoDTO == null) 
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no creado");
