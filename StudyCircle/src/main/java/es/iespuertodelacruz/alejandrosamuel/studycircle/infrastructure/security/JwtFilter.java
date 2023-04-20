@@ -8,8 +8,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.EstadosUsuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.UsuarioEntityJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Ordered;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -18,10 +20,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 
 @Component
-public class JwtFilter extends OncePerRequestFilter implements Ordered {
+public class JwtFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private JwtService jwtService;
+
+	@Autowired
+	private UsuarioEntityJPARepository repository;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -37,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter implements Ordered {
 		}
 		jwt = authHeader.substring(bearer.length());
 
-		List<String> roles = null;
+		List<String> roles;
 
 		username = jwtService.extractUsername(jwt);
 		roles = jwtService.extractRoles(jwt);
@@ -49,6 +54,12 @@ public class JwtFilter extends OncePerRequestFilter implements Ordered {
 			UserDetailsLogin userDetails = new UserDetailsLogin();
 			userDetails.setUsername(username);
 			userDetails.setRoles(roles);
+			UsuarioEntity usuario = repository.findByUsername(username).orElse(null);
+			if(usuario != null)
+				userDetails.setEstado(usuario.getEstado());
+			else
+				userDetails.setEstado(EstadosUsuario.STATUS_INACTIVE.name());
+			logger.debug("UserDetailsLogin created: {}" + userDetails.getEstado());
 			logger.debug("UserDetailsLogin created: {}" + userDetails.getRoles().size());
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null,
 					userDetails.getAuthorities());
