@@ -18,6 +18,6 @@ public interface IActividadRepository {
 
     List<Actividad> findAll();
     
-    List<Actividad> findByCourse(String name);
+    //List<Actividad> findByCourse(String name);
 
 }

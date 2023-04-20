@@ -3,11 +3,13 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IActividadService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IActividadRepository;
 
+@Service
 public class ActividadService implements IActividadService {
 
 	@Autowired
@@ -43,9 +45,11 @@ public class ActividadService implements IActividadService {
 		return repository.findAll();
 	}
 
+	/*
 	@Override
 	public List<Actividad> findByCourse(String name) {
 		return repository.findByCourse(name);
 	}
+	*/
 
 }

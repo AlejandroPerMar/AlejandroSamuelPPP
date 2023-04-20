@@ -15,7 +15,9 @@ public interface ActividadEntityJPARepository extends JpaRepository<ActividadEnt
     @Query("SELECT a FROM ActividadEntity a WHERE a.nombre = :nombre")
     public Optional<ActividadEntity> findByNombre(@Param("nombre") String nombre);
 
+    /*
     @Query("SELECT a FROM ActividadEntity a WHERE a.course.name = :name")
     public List<ActividadEntity> findByCourse(@Param("name") String name);
+    */
 
 }

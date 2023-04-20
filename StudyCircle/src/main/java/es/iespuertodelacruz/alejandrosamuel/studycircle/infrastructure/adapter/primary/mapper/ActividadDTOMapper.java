@@ -1,8 +1,11 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper;
 
+import org.springframework.stereotype.Component;
+
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.ActividadDTO;
 
+@Component
 public class ActividadDTOMapper {
 	
     public Actividad toDomain(ActividadDTO in) {

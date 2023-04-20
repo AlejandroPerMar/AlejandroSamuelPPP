@@ -19,7 +19,7 @@ public class ActividadEntityService implements IActividadRepository {
 	private ActividadEntityJPARepository repository;
 
 	@Autowired
-    private ActividadEntityMapper mapper;
+	private ActividadEntityMapper mapper;
 	
 	@Override
 	public Actividad findById(Integer id) {
@@ -55,9 +55,10 @@ public class ActividadEntityService implements IActividadRepository {
         return repository.findAll().stream().map(m -> mapper.toDomain(m)).toList();
 	}
 
+	/*
 	@Override
 	public List<Actividad> findByCourse(String name) {
-        return repository.findByCourse(name).stream().map(m -> mapper.toDomain(m)).toList();
-
+        return repository.findByCourse(name).stream().map(m -> mapper.toDomain(m)).toList(); 
 	}
+	*/
 }

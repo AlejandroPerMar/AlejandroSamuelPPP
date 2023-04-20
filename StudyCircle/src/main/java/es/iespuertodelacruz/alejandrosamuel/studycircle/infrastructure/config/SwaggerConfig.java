@@ -53,6 +53,8 @@ public class SwaggerConfig {
                 .build()
                 .tags(new Tag(ALUMNO_TAG, "Controlador REST para las acciones relacionadas con las entidades Alumno"),
                 		new Tag(ACTIVIDAD_TAG, ""),
+                		new Tag(ACTIVIDAD_V2_TAG, ""),
+                		new Tag(ACTIVIDAD_V3_TAG, "Controlador REST para las acciones o peticiones relacionadas con la entidad Actividad Versión 3 (ADMIN)"),
                 		new Tag(ALERTA_TAG, ""),
                 		new Tag(AMISTAD_TAG, ""),
                 		new Tag(ANUNCIO_TAG, ""),

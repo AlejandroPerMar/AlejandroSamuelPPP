@@ -3,9 +3,12 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import java.math.BigInteger;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.ActividadEntity;
 
+@Component
 public class ActividadEntityMapper {
 
 	public Actividad toDomain(ActividadEntity in) {

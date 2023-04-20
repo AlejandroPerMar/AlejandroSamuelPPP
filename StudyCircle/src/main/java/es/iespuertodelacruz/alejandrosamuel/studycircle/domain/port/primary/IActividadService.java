@@ -4,6 +4,7 @@ import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
 
+
 public interface IActividadService {
 
     Actividad findById(Integer id);
@@ -18,6 +19,6 @@ public interface IActividadService {
 
     List<Actividad> findAll();
     
-    List<Actividad> findByCourse(String name);
+    //List<Actividad> findByCourse(String name);
 	
 }
