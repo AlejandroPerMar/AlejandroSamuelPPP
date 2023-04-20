@@ -27,6 +27,8 @@ public class SwaggerConfig {
 	public static final String ALUMNO_TAG = "Alumno";
 	public static final String ACTIVIDAD_TAG = "Actividad";
 	public static final String ALERTA_TAG = "Alerta";
+	public static final String ALERTA_V2_TAG = "AlertaV2";
+	public static final String ALERTA_V3_TAG = "AlertaV3";
 	public static final String AMISTAD_TAG = "Amistad";
 	public static final String ANUNCIO_TAG = "Anuncio";
 	public static final String EVENTO_TAG = "Evento de calendario";
@@ -52,6 +54,8 @@ public class SwaggerConfig {
                 .tags(new Tag(ALUMNO_TAG, "Controlador REST para las acciones relacionadas con las entidades Alumno"),
                 		new Tag(ACTIVIDAD_TAG, ""),
                 		new Tag(ALERTA_TAG, ""),
+                		new Tag(ALERTA_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad ALERTA para la versión 2"),
+						new Tag(ALERTA_V3_TAG, "Controlador REST para las peticiones asociadas con la entidad ALERTA para la versión 3 (ADMIN)"),
                 		new Tag(AMISTAD_TAG, ""),
                 		new Tag(ANUNCIO_TAG, ""),
                 		new Tag(EVENTO_TAG, ""),
