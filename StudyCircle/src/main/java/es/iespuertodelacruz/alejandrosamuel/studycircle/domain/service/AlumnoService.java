@@ -20,7 +20,7 @@ public class AlumnoService implements IAlumnoService {
 
 	@Override
 	public Alumno update(Alumno alumno) {
-		return update(alumno);
+		return repository.update(alumno);
 	}
 
 	@Override

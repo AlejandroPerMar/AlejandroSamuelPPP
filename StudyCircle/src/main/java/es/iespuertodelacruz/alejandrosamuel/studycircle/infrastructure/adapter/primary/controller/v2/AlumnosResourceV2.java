@@ -1,6 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.RespuestasAlumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
@@ -34,10 +35,10 @@ public class AlumnosResourceV2 {
 	@GetMapping
 	public ResponseEntity<?> getAlumno() {
 		Alumno alumno = service.findAlumnoByUsername(getUsernameUsuario());
+		if(alumno == null)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAlumno.STUDENT_PROFILE_NOT_FOUND);
+
 		AlumnoDTO alumnoDTO = mapper.toDTOGet(alumno);
-		if(alumnoDTO == null)
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no encontrado");
-		
 		return ResponseEntity.ok().body(alumnoDTO);
 	}
 	
@@ -48,22 +49,24 @@ public class AlumnosResourceV2 {
 		Alumno alumno = mapper.toDomainPost(alumnoDTO);
 		alumnoDTO = mapper.toDTOGet(service.create(alumno));
 		if(alumnoDTO == null) 
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no creado");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAlumno.STUDENT_PROFILE_NOT_CREATED);
 
 		return ResponseEntity.ok().body(alumnoDTO);
 	}
 	
 	@PutMapping
 	public ResponseEntity<?> updateAlumno(@RequestBody AlumnoDTO alumnoDTO) {
-		Alumno alumno = mapper.toDomain(alumnoDTO);
-		if(alumno == null)
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Formato incorrecto");
-		alumno.setId(service.findAlumnoByUsername(getUsernameUsuario()).getId());
-		alumnoDTO = mapper.toDTOGet(service.update(alumno));
-		if(alumnoDTO == null) 
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no guardado");
+		Alumno alumnoExistente = service.findAlumnoByUsername(getUsernameUsuario());
+		if(alumnoExistente != null) {
+			Alumno alumno = mapper.toDomain(alumnoDTO);
+			alumnoExistente.setNivelEstudios(alumno.getNivelEstudios());
+			alumnoExistente.setMaterias(alumno.getMaterias());
+			alumnoDTO = mapper.toDTOGet(service.update(alumnoExistente));
 
-		return ResponseEntity.ok().body(alumnoDTO);
+			return ResponseEntity.ok().body(alumnoDTO);
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAlumno.STUDENT_PROFILE_NOT_FOUND);
+
 	}
 
 	private String getUsernameUsuario() {

@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config;
 
 
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.EstadosUsuario;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -46,7 +47,9 @@ public class SecurityConfiguration {
 		//.antMatchers("/api/v2/alumnos").hasRole("STUDENT")
 		//.antMatchers("/api/v2/alumnos/**").hasRole("STUDENT")
 		//.antMatchers("/api/v2/tutores/**").hasRole("TUTOR")
-		.antMatchers("/api/v2/tutores").access("principal.estado.equals('STATUS_ACTIVE')")
+		.antMatchers("/api/v2/tutores").access("principal.estado.equals('" + EstadosUsuario.STATUS_ACTIVE.name() + "')")
+		.antMatchers("/api/v2/alumnos").access("principal.estado.equals('" + EstadosUsuario.STATUS_ACTIVE.name() + "')")
+			  .antMatchers("/api/v2/alumnos").access("principal.estado.equals('" + EstadosUsuario.STATUS_ACTIVE.name() + "')")
         .anyRequest().authenticated()  
 
         .and()

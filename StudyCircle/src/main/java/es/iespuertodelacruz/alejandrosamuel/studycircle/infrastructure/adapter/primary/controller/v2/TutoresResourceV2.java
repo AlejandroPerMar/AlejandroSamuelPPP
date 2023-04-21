@@ -1,8 +1,10 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Rol;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.RespuestasTutor;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.Roles;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ITutorService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.MateriaDTO;
@@ -61,11 +63,15 @@ public class TutoresResourceV2 {
     @PutMapping
     public ResponseEntity<?> updateTutor(@RequestBody List<MateriaDTO> materias) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
-        TutorDTO tutorDTO = mapper.toDTO(service.update(usuario, materias.stream().map(m -> materiaDTOMapper.toDomain(m)).toList()));
-        if(tutorDTO == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_UPDATED);
+        if(usuario.getRoles().stream().map(Rol::getRol).anyMatch(r -> r.equals(Roles.ROLE_TUTOR.name()))) {
+            TutorDTO tutorDTO = mapper.toDTO(service.update(usuario, materias.stream().map(m -> materiaDTOMapper.toDomain(m)).toList()));
+            if(tutorDTO == null)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_UPDATED);
 
-        return ResponseEntity.ok().body(tutorDTO);
+            return ResponseEntity.ok().body(tutorDTO);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_FOUND);
+
     }
 
     private String getUsernameUsuario() {

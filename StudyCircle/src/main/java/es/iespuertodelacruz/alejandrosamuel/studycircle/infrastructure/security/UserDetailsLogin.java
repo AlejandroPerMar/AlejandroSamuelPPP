@@ -18,8 +18,8 @@ public class UserDetailsLogin  implements UserDetails {
 	
 	String username;
 	String password;
-	List<String> roles;
 	String estado;
+	List<String> roles;
 
 	public UserDetailsLogin() {}
 	
@@ -94,5 +94,4 @@ public class UserDetailsLogin  implements UserDetails {
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
-
 }
