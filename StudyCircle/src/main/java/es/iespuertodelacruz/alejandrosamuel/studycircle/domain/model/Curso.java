@@ -7,7 +7,6 @@ public class Curso {
 	
 	private int id;
 	private Double precioHora;
-	private String estado;
 	private String titulo;
 	private BigInteger fechaCreacion;
 	private MateriaTutor materiaTutor;
@@ -31,14 +30,6 @@ public class Curso {
 
 	public void setPrecioHora(Double precioHora) {
 		this.precioHora = precioHora;
-	}
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
 	}
 
 	public String getTitulo() {

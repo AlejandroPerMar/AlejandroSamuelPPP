@@ -3,8 +3,8 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Rol;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.RespuestasTutor;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.Roles;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasTutor;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.Roles;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ITutorService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.MateriaDTO;

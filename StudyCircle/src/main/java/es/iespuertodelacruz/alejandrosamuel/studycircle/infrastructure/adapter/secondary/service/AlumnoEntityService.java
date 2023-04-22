@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.Optional;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.Roles;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.Roles;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.AlumnoEntityMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.RolEntityJPARepository;

@@ -1,4 +1,4 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums;
 
 public enum RespuestasAlumno {
 

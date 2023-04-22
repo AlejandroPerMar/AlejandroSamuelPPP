@@ -87,6 +87,16 @@ public class ApplicationConfig {
 	}
 
 	@Bean
+	public CursoDTOMapper cursoDTOMapper() {
+		return new CursoDTOMapper();
+	}
+
+	@Bean
+	public CursoEntityMapper cursoEntityMapper() {
+		return new CursoEntityMapper();
+	}
+
+	@Bean
 	public UserDetailsService userDetailsService() {
 		
 		return username -> {
