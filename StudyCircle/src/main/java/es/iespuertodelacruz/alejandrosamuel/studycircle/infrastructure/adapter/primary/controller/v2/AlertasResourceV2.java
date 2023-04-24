@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alerta;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAlertaService;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlertaDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import io.swagger.annotations.Api;
 
@@ -28,23 +29,7 @@ public class AlertasResourceV2 {
 
     @GetMapping(params = "id")
     public ResponseEntity<?> findById(@RequestParam("id") Integer id) {
-        return ResponseEntity.ok(service.findById(id).stream().map(m -> mapper.toDTO(m)).toList());
-    }
-
-
-    @GetMapping(params = "nombre")
-    public ResponseEntity<?> findByNombre(@RequestParam("nombre") String nombre) {
-        Alerta alerta = service.findByNombre(nombre);
-
-        if(alerta	 == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado ninguna alerta con el nombre: " + nombre);
-
-        return ResponseEntity.ok(mapper.toDTO(materia));
-    }
-    
-    @GetMapping(params = "id")
-    public ResponseEntity<?> findById(@RequestParam("id") Integer id) {
-    	Alerta alerta = service.findById(id);
+        Alerta alerta = service.findById(id);
 
         if(alerta == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado ninguna alerta con id " + id);
@@ -52,4 +37,13 @@ public class AlertasResourceV2 {
         return ResponseEntity.ok(mapper.toDTO(alerta));
     }
 
+    @GetMapping(params = "tipo")
+    public ResponseEntity<?> findByType(@RequestParam("tipo") String tipo) {
+    	Alerta alerta = service.findByType(tipo);
+
+        if(alerta == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado ninguna alerta de tipo: " + tipo);
+
+        return ResponseEntity.ok(mapper.toDTO(alerta));
+    }
 }

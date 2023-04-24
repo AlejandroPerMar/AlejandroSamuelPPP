@@ -1,5 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v3;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAlertaService;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alerta;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlertaDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlertaDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @Api(tags = {SwaggerConfig.ALERTA_V3_TAG})
 @RestController
@@ -27,24 +31,20 @@ import io.swagger.annotations.Api;
 public class AlertasResourceV3 {
 
     @Autowired
-    private IAlertasService service;
+    private IAlertaService service;
 
-    @Autowired
-    private AlertasDTOMapper mapper;
+    private AlertaDTOMapper mapper;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody AlertaDTO request) {
-    	AlertasDTOMapper mapper = new AlertasDTOMapper();
-
     	Alerta alerta = service.create(mapper.toDomain(request));
-
         return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(alerta));
     }
 
     @PutMapping
     public ResponseEntity<?> update(@RequestBody AlertaDTO request) {
         if(service.findById(request.getId()) == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nivel de estudios no existente");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alerta no existente");
 
         return ResponseEntity.ok(mapper.toDTO(service.update(mapper.toDomain(request))));
     }
@@ -54,9 +54,9 @@ public class AlertasResourceV3 {
         boolean eliminado = service.delete(id);
 
         if(eliminado)
-            return ResponseEntity.ok("Nivel de estudios eliminado correctamente");
+            return ResponseEntity.ok("Alerta eliminada correctamente");
         else
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha eliminado ningún nivel de estudios");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha eliminado ningúna alerta");
     }
 
     @GetMapping(params = "id")
@@ -73,8 +73,8 @@ public class AlertasResourceV3 {
     }
 
     @GetMapping(params = "nombre")
-    public ResponseEntity<?> findByNombre(@RequestParam("nombre") String nombre) {
-    	Alerta alerta = service.findByNombre(nombre);
+    public ResponseEntity<?> findByType(@RequestParam("tipo") String tipo) {
+    	Alerta alerta = service.findByType(tipo);
         return (alerta != null) ? ResponseEntity.ok(mapper.toDTO(alerta))
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado");
     }
