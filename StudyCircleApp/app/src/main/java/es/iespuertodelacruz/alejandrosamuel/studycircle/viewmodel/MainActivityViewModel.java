@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.AuthRepository;
 
 public class MainActivityViewModel extends AndroidViewModel {
@@ -20,5 +21,9 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public LiveData<String> getLiveDataToken(UsuarioLoginDTO usuarioLoginDTO) {
         return authRepository.getAuthToken(usuarioLoginDTO);
+    }
+
+    public LiveData<Object> register(UsuarioRegisterDTO usuarioRegisterDTO) {
+        return authRepository.registerUsuario(usuarioRegisterDTO);
     }
 }
