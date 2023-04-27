@@ -33,6 +33,7 @@ public class AuthRepository {
                                    Response<String> response) {
                 if(response.isSuccessful()) {
                     String tokenResponse = "Bearer " + response.body();
+                    System.out.println(tokenResponse);
                     mutableToken.setValue(tokenResponse);
                 }
             }

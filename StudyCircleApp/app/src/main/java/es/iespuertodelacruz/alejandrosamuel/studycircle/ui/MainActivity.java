@@ -1,7 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -27,8 +26,12 @@ public class MainActivity extends AppCompatActivity {
         UsuarioLoginDTO usuarioLoginDTO = new UsuarioLoginDTO();
         usuarioLoginDTO.setClave("string");
         usuarioLoginDTO.setUsername("string");
-        LiveData<String> liveDataToken = viewModel.getLiveDataToken(usuarioLoginDTO);
-        System.out.println(liveDataToken.getValue());
-        binding.txtPruebas.setText(liveDataToken.getValue());
+        String token = getToken(usuarioLoginDTO);
+        System.out.println("holaaa " + token);
+        binding.txtPruebas.setText("liveDataToken.getValue()");
+    }
+
+    synchronized String getToken(UsuarioLoginDTO usuarioLoginDTO) {
+        return viewModel.getLiveDataToken(usuarioLoginDTO).getValue();
     }
 }
