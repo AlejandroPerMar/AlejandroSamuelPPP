@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.DatabaseStudyCircle;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.EstadosUsuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasRegister;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RESTService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RetrofitClient;
@@ -19,17 +20,23 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AuthRepository {
-    RESTService restService;
+    RESTService restAuthService;
+    RESTService restNoAuthService;
     private final DatabaseStudyCircle database;
 
-    public AuthRepository(Application application){
+    public AuthRepository(Application application) {
         database = DatabaseStudyCircle.getDatabase(application);
-        restService = RetrofitClient.getInstance().getRestService();
+        restNoAuthService = RetrofitClient.getInstance().getNoAuthRestService();
+    }
+
+    public AuthRepository(Application application, String token) {
+        database = DatabaseStudyCircle.getDatabase(application);
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
     }
 
     public LiveData<String> getAuthToken(UsuarioLoginDTO usuarioLoginDTO) {
         MutableLiveData<String> mutableToken = new MutableLiveData<>();
-        Call<String> callToken = restService.login(usuarioLoginDTO);
+        Call<String> callToken = restNoAuthService.login(usuarioLoginDTO);
         callToken.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call,
@@ -51,7 +58,7 @@ public class AuthRepository {
 
     public LiveData<Object> registerUsuario(UsuarioRegisterDTO usuarioRegisterDTO) {
         MutableLiveData<Object> mutableToken = new MutableLiveData<>();
-        Call<Object> register = restService.register(usuarioRegisterDTO);
+        Call<Object> register = restNoAuthService.register(usuarioRegisterDTO);
         register.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(@NonNull Call<Object> call,
@@ -80,6 +87,36 @@ public class AuthRepository {
             }
             @Override
             public void onFailure(@NonNull Call<Object> call, Throwable t) {
+                System.out.println("xd");
+            }
+        });
+        return mutableToken;
+    }
+
+    public LiveData<String> resendEmail() {
+        MutableLiveData<String> mutableToken = new MutableLiveData<>();
+        Call<String> register = restAuthService.resendEmail();
+        register.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call,
+                                   Response<String> response) {
+                if(response.isSuccessful()) {
+                    String respuesta = response.body();
+                    System.out.println("ffff");
+                    switch (EstadosUsuario.valueOf(respuesta)) {
+                        case STATUS_INACTIVE:
+                            break;
+                        case STATUS_BAN:
+                            break;
+                        case STATUS_ACTIVE:
+                            break;
+                        default:
+                            System.out.printf("reenviaddodododo");
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<String> call, Throwable t) {
                 System.out.println("xd");
             }
         });
