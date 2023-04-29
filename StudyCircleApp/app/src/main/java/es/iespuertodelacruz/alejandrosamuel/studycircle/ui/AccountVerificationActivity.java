@@ -1,8 +1,10 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 
 public class AccountVerificationActivity extends AppCompatActivity {
 
