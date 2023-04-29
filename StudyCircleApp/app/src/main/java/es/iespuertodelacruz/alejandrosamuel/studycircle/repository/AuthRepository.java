@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 
+import java.io.IOException;
+
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.DatabaseStudyCircle;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.EstadosUsuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasRegister;
@@ -15,6 +17,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RetrofitClient
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,11 +30,6 @@ public class AuthRepository {
     public AuthRepository(Application application) {
         database = DatabaseStudyCircle.getDatabase(application);
         restNoAuthService = RetrofitClient.getInstance().getNoAuthRestService();
-    }
-
-    public AuthRepository(Application application, String token) {
-        database = DatabaseStudyCircle.getDatabase(application);
-        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
     }
 
     public LiveData<String> getAuthToken(UsuarioLoginDTO usuarioLoginDTO) {
@@ -93,15 +91,21 @@ public class AuthRepository {
         return mutableToken;
     }
 
-    public LiveData<String> resendEmail() {
+    public LiveData<String> resendEmail(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<String> mutableToken = new MutableLiveData<>();
-        Call<String> register = restAuthService.resendEmail();
-        register.enqueue(new Callback<String>() {
+        Call<ResponseBody> responseResendEmail = restAuthService.resendEmail();
+        responseResendEmail.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(@NonNull Call<String> call,
-                                   Response<String> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
-                    String respuesta = response.body();
+                    String respuesta = null;
+                    try {
+                        respuesta = response.body().string();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     System.out.println("ffff");
                     switch (EstadosUsuario.valueOf(respuesta)) {
                         case STATUS_INACTIVE:
@@ -111,15 +115,17 @@ public class AuthRepository {
                         case STATUS_ACTIVE:
                             break;
                         default:
-                            System.out.printf("reenviaddodododo");
+                            System.out.print("reenviaddodododo");
                     }
                 }
             }
             @Override
-            public void onFailure(@NonNull Call<String> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
                 System.out.println("xd");
             }
         });
+        System.out.println(responseResendEmail.isExecuted());
+        System.out.println(mutableToken.getValue());
         return mutableToken;
     }
 

@@ -27,7 +27,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         return authRepository.registerUsuario(usuarioRegisterDTO);
     }
 
-    public LiveData<String> resendEmail() {
-        return authRepository.resendEmail();
+    public LiveData<String> resendEmail(String token) {
+        return authRepository.resendEmail(token);
     }
 }

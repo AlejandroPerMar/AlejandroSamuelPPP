@@ -1,22 +1,18 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.ActivityMainBinding;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.AuthRepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.ActivityMainBinding;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private AuthRepository authRepository;
     MainActivityViewModel viewModel;
 
     @Override
@@ -29,13 +25,12 @@ public class MainActivity extends AppCompatActivity {
         /**UsuarioRegisterDTO usuarioRegisterDTO = new UsuarioRegisterDTO();
         usuarioRegisterDTO.setNombre("samuel");
         usuarioRegisterDTO.setUsername("sammm");
-        usuarioRegisterDTO.setEmail("codonak923@in2reach.com");
+        usuarioRegisterDTO.setEmail("cejero4564@larland.com");
         usuarioRegisterDTO.setClave("Samuel1@");
         viewModel.register(usuarioRegisterDTO);*/
         UsuarioLoginDTO usuarioLoginDTO = new UsuarioLoginDTO();
         usuarioLoginDTO.setUsername("sammm");
         usuarioLoginDTO.setClave("Samuel1@");
-        LiveData<String> liveDataToken = viewModel.getLiveDataToken(usuarioLoginDTO);
-        viewModel.resendEmail();
+        viewModel.resendEmail("eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoicHJ1ZWUyIiwiZXhwIjoxNjgyODc0MjMzfQ.jOZDIIGAy0N5-PTpMMXfll1iwIdYA3Qy3oma1cfVZNQ");
     }
 }

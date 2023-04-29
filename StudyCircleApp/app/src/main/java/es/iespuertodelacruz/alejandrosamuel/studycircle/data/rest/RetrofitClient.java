@@ -3,6 +3,8 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.Objects;
+
 import es.iespuertodelacruz.alejandrosamuel.studycircle.utils.Globals;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -11,16 +13,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
     private final Retrofit retrofit;
     private static RetrofitClient instance = null;
-    private final RESTService restAuthService;
-    private final RESTService restNoAuthService;
+    private RESTService restAuthService;
+    private RESTService restNoAuthService;
 
     private RetrofitClient(String token) {
         OkHttpClient authClient = new OkHttpClient.Builder()
                 .addInterceptor(new TokenInterceptor(token)) // Añade aquí el token de autorización
                 .build();
-        OkHttpClient noAuthClient = new OkHttpClient.Builder()
-                .build();
-
 
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -47,14 +46,14 @@ public class RetrofitClient {
     }
 
     public static synchronized RetrofitClient getInstance(String token) {
-        if (instance == null) {
+        if (Objects.isNull(instance)) {
             instance = new RetrofitClient(token);
         }
-        return instance;
+        return Objects.isNull(instance.restAuthService) ? new RetrofitClient(token) : instance;
     }
 
     public static synchronized RetrofitClient getInstance() {
-        if (instance == null) {
+        if (Objects.isNull(instance)) {
             instance = new RetrofitClient();
         }
         return instance;

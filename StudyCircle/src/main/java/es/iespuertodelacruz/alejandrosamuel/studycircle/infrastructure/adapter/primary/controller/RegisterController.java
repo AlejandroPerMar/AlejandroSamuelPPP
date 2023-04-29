@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,14 +49,22 @@ public class RegisterController {
 
 	@PostMapping
 	public ResponseEntity<?> register(@RequestBody UsuarioRegister request) {
-		if(!validateNombreCompleto(request.getNombre()))
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErroresRegistro.INVALID_NAME);
-		if(!validateUsername(request.getUsername()))
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErroresRegistro.NOT_AVAILABLE_USERNAME);
-		if(!validateEmail(request.getEmail()))
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErroresRegistro.INVALID_EMAIL);
-		if(!validateClave(request.getClave()))
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErroresRegistro.NOT_MINIMUN_REQUIREMENTS_PASSWORD);
+		if(!validateNombreCompleto(request.getNombre())) {
+			System.out.println("hola?1");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.INVALID_NAME);
+		}
+		if(!validateUsername(request.getUsername())) {
+			System.out.println("hola?2");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.NOT_AVAILABLE_USERNAME);
+		}
+		if(!validateEmail(request.getEmail())) {
+			System.out.println("hola?3");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.INVALID_EMAIL);
+		}
+		if(!validateClave(request.getClave())) {
+			System.out.println("hola?4");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.NOT_MINIMUN_REQUIREMENTS_PASSWORD);
+		}
 
 		TokenConfirmacionEntity token = usuarioService.create(request.getNombre(), request.getUsername(), request.getEmail(), request.getClave());
 
@@ -69,8 +78,7 @@ public class RegisterController {
 				htmlBuilder.buildEmail(usuario.getNombreCompleto(), link));
 
 		UsuarioDTOMapper dtoMapper = new UsuarioDTOMapper();
-
-		return ResponseEntity.status(HttpStatus.OK).body(dtoMapper.toDTO(usuario));
+		return ResponseEntity.ok().body(dtoMapper.toDTO(usuario));
 	}
 
 	@GetMapping("confirm")
@@ -91,7 +99,7 @@ public class RegisterController {
 	 *  Ref: https://java2blog.com/validate-password-java/
 	 */
 	private boolean validateClave(String clave) {
-		if(clave == null) return false;
+		if(Objects.isNull(clave)) return false;
 
 		String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
 		Pattern pattern = Pattern.compile(regex);
@@ -100,19 +108,19 @@ public class RegisterController {
 	}
 
 	private boolean validateNombreCompleto(String nombreCompleto) {
-		if(nombreCompleto == null) return false;
+		if(Objects.isNull(nombreCompleto)) return false;
 
 		return !nombreCompleto.trim().equals("");
 	}
 
 	private boolean validateUsername(String username) {
-		return usuarioService.findByUsername(username) == null;
+		return Objects.isNull(usuarioService.findByUsername(username));
 	}
 
 	private boolean validateEmail(String email) {
-		if(email == null) return false;
+		if(Objects.isNull(email)) return false;
 
-		if(usuarioService.findByEmail(email) != null)
+		if(Objects.nonNull(usuarioService.findByEmail(email)))
 			return false;
 		return EmailValidator.getInstance().isValid(email);
 	}
