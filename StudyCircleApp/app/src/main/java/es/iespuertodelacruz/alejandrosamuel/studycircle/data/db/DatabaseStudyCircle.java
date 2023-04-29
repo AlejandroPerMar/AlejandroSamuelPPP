@@ -23,7 +23,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.entity.MateriaTu
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.entity.NivelEstudiosEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.entity.TutorEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.entity.UsuarioEntity;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.utils.Converters;
 
 @androidx.room.Database(
         entities = {
