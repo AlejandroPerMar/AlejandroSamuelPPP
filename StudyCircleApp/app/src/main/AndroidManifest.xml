@@ -18,6 +18,9 @@
         <activity android:name=".ConfiguracionPerfilTutorActivity"  android:exported="false" />
         <activity android:name=".RegisterActivity" android:exported="false" />
         <activity
+            android:name=".AccountVerificationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
