@@ -1,4 +1,4 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.utils;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.data.db;
 
 import androidx.room.TypeConverter;
 
