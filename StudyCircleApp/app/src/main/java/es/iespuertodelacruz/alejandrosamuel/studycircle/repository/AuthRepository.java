@@ -1,13 +1,16 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.repository;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 
-import java.io.IOException;
+import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.DatabaseStudyCircle;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.EstadosUsuario;
@@ -17,7 +20,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RetrofitClient
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -94,34 +96,35 @@ public class AuthRepository {
     public LiveData<String> resendEmail(String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<String> mutableToken = new MutableLiveData<>();
-        Call<ResponseBody> responseResendEmail = restAuthService.resendEmail();
-        responseResendEmail.enqueue(new Callback<ResponseBody>() {
+        Call<String> responseResendEmail = restAuthService.resendEmail();
+        responseResendEmail.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(@NonNull Call<ResponseBody> call,
-                                   Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<String> call,
+                                   @NonNull Response<String> response) {
+                String respuesta;
+                respuesta = response.body();
                 if(response.isSuccessful()) {
-                    String respuesta = null;
-                    try {
-                        respuesta = response.body().string();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    System.out.println("ffff");
-                    switch (EstadosUsuario.valueOf(respuesta)) {
-                        case STATUS_INACTIVE:
-                            break;
-                        case STATUS_BAN:
-                            break;
-                        case STATUS_ACTIVE:
-                            break;
-                        default:
-                            System.out.print("reenviaddodododo");
-                    }
+                    respuesta = Objects.nonNull(respuesta) ? "token de verificación: " + respuesta : "No respuesta";
+                    System.out.println(respuesta);
+                }
+                switch (EstadosUsuario.valueOf(respuesta)) {
+                    case STATUS_INACTIVE:
+                        System.out.println(EstadosUsuario.STATUS_INACTIVE.getDescripcion());
+                        break;
+                    case STATUS_BAN:
+                        System.out.println(EstadosUsuario.STATUS_BAN.getDescripcion());
+                        break;
+                    case STATUS_ACTIVE:
+                        System.out.println(EstadosUsuario.STATUS_ACTIVE.getDescripcion());
+                        break;
+                    default:
+                        System.out.println("Error desconocido");
                 }
             }
             @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
-                System.out.println("xd");
+            public void onFailure(@NonNull Call<String> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
             }
         });
         System.out.println(responseResendEmail.isExecuted());
