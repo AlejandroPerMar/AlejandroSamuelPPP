@@ -52,4 +52,14 @@ public class UsuarioDTO {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    @Override
+    public String toString() {
+        return "UsuarioDTO{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", nombreCompleto='" + nombreCompleto + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

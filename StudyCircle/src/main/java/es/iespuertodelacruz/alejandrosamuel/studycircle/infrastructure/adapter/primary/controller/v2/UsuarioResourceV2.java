@@ -9,6 +9,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.Em
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -45,9 +46,9 @@ public class UsuarioResourceV2 {
             emailSender.enviar(
                     usuario.getEmail(),
                     htmlBuilder.buildEmail(usuario.getNombreCompleto(), link));
-            return ResponseEntity.ok(token.getToken());
+            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(token.getToken());
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(usuario.getEstado());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body(usuario.getEstado());
     }
 
     private String getUsernameUsuario() {

@@ -10,6 +10,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.DatabaseStudyCircle;
@@ -20,6 +23,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RetrofitClient
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,40 +61,48 @@ public class AuthRepository {
     }
 
     public LiveData<Object> registerUsuario(UsuarioRegisterDTO usuarioRegisterDTO) {
-        MutableLiveData<Object> mutableToken = new MutableLiveData<>();
-        Call<Object> register = restNoAuthService.register(usuarioRegisterDTO);
-        register.enqueue(new Callback<Object>() {
+        MutableLiveData<Object> mutableRespuesta = new MutableLiveData<>();
+        Call<ResponseBody> register = restNoAuthService.register(usuarioRegisterDTO);
+        register.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(@NonNull Call<Object> call,
-                                   Response<Object> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
                 if(response.isSuccessful()) {
-                    Object responseObject = response.body();
-                    if (String.class.isAssignableFrom(responseObject.getClass())) {
-                        System.out.println("ffff");
-                        switch (RespuestasRegister.valueOf((String) response.body())) {
-                            case INVALID_NAME:
-                                break;
-                            case INVALID_EMAIL:
-                                break;
-                            case NOT_AVAILABLE_USERNAME:
-                                break;
-                            case NOT_MINIMUN_REQUIREMENTS_PASSWORD:
-                                break;
-                            default:
-                        }
-                    } else {
-                        UsuarioDTO usuarioDTO = (UsuarioDTO) response.body();
-                        System.out.println(usuarioDTO);
-                        mutableToken.setValue(usuarioDTO);
+                    Gson gson = new Gson();
+                    UsuarioDTO usuarioDTO = gson.fromJson(body.charStream(), UsuarioDTO.class);
+                    mutableRespuesta.setValue(usuarioDTO);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = response.errorBody().string();
+                    } catch (IOException e) {
+                        respuesta = null;
+                    }
+                    switch (RespuestasRegister.valueOf(respuesta)) {
+                        case INVALID_NAME:
+                            System.out.println(RespuestasRegister.INVALID_NAME.getDescripcion());
+                            break;
+                        case INVALID_EMAIL:
+                            System.out.println(RespuestasRegister.INVALID_EMAIL.getDescripcion());
+                            break;
+                        case NOT_AVAILABLE_USERNAME:
+                            System.out.println(RespuestasRegister.NOT_AVAILABLE_USERNAME.getDescripcion());
+                            break;
+                        case NOT_MINIMUN_REQUIREMENTS_PASSWORD:
+                            System.out.println(RespuestasRegister.NOT_MINIMUN_REQUIREMENTS_PASSWORD.getDescripcion());
+                            break;
+                        default:
                     }
                 }
             }
             @Override
-            public void onFailure(@NonNull Call<Object> call, Throwable t) {
-                System.out.println("xd");
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
             }
         });
-        return mutableToken;
+        return mutableRespuesta;
     }
 
     public LiveData<String> resendEmail(String token) {
@@ -106,19 +118,26 @@ public class AuthRepository {
                 if(response.isSuccessful()) {
                     respuesta = Objects.nonNull(respuesta) ? "token de verificación: " + respuesta : "No respuesta";
                     System.out.println(respuesta);
-                }
-                switch (EstadosUsuario.valueOf(respuesta)) {
-                    case STATUS_INACTIVE:
-                        System.out.println(EstadosUsuario.STATUS_INACTIVE.getDescripcion());
-                        break;
-                    case STATUS_BAN:
-                        System.out.println(EstadosUsuario.STATUS_BAN.getDescripcion());
-                        break;
-                    case STATUS_ACTIVE:
-                        System.out.println(EstadosUsuario.STATUS_ACTIVE.getDescripcion());
-                        break;
-                    default:
-                        System.out.println("Error desconocido");
+                }else {
+                    try {
+                        respuesta = response.errorBody().string();
+                        System.out.println(respuesta);
+                        switch (EstadosUsuario.valueOf(respuesta)) {
+                            case STATUS_INACTIVE:
+                                System.out.println(EstadosUsuario.STATUS_INACTIVE.getDescripcion());
+                                break;
+                            case STATUS_BAN:
+                                System.out.println(EstadosUsuario.STATUS_BAN.getDescripcion());
+                                break;
+                            case STATUS_ACTIVE:
+                                System.out.println(EstadosUsuario.STATUS_ACTIVE.getDescripcion());
+                                break;
+                            default:
+                                System.out.println("Error desconocido");
+                        }
+                    } catch (IOException e) {
+                        respuesta = null;
+                    }
                 }
             }
             @Override
@@ -127,8 +146,6 @@ public class AuthRepository {
                 t.printStackTrace();
             }
         });
-        System.out.println(responseResendEmail.isExecuted());
-        System.out.println(mutableToken.getValue());
         return mutableToken;
     }
 
