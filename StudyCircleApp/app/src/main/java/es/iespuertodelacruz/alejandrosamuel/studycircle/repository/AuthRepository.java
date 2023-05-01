@@ -17,6 +17,7 @@ import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.DatabaseStudyCircle;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.EstadosUsuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasAuthToken;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasRegister;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RESTService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RetrofitClient;
@@ -46,15 +47,28 @@ public class AuthRepository {
             public void onResponse(@NonNull Call<String> call,
                                    Response<String> response) {
                 if(response.isSuccessful()) {
-                    String tokenResponse = "Bearer " + response.body();
-                    System.out.println(tokenResponse);
+                    String tokenResponse = response.body();
                     mutableToken.setValue(tokenResponse);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = response.errorBody().string();
+                    } catch (IOException e) {
+                        respuesta = null;
+                    }
+                    switch (RespuestasAuthToken.valueOf(respuesta)) {
+                        case INVALID_USERNAME_OR_PASSWORD:
+                            mutableToken.setValue(RespuestasAuthToken.INVALID_USERNAME_OR_PASSWORD.
+                                    getDescripcion());
+                            break;
+                        default:
+                    }
                 }
             }
             @Override
             public void onFailure(@NonNull Call<String> call, Throwable t) {
-                System.out.println("Error en la llamada");
-                System.out.println(t.getMessage());
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
             }
         });
         return mutableToken;
@@ -81,16 +95,16 @@ public class AuthRepository {
                     }
                     switch (RespuestasRegister.valueOf(respuesta)) {
                         case INVALID_NAME:
-                            System.out.println(RespuestasRegister.INVALID_NAME.getDescripcion());
+                            mutableRespuesta.setValue(RespuestasRegister.INVALID_NAME.getDescripcion());
                             break;
                         case INVALID_EMAIL:
-                            System.out.println(RespuestasRegister.INVALID_EMAIL.getDescripcion());
+                            mutableRespuesta.setValue(RespuestasRegister.INVALID_EMAIL.getDescripcion());
                             break;
                         case NOT_AVAILABLE_USERNAME:
-                            System.out.println(RespuestasRegister.NOT_AVAILABLE_USERNAME.getDescripcion());
+                            mutableRespuesta.setValue(RespuestasRegister.NOT_AVAILABLE_USERNAME.getDescripcion());
                             break;
                         case NOT_MINIMUN_REQUIREMENTS_PASSWORD:
-                            System.out.println(RespuestasRegister.NOT_MINIMUN_REQUIREMENTS_PASSWORD.getDescripcion());
+                            mutableRespuesta.setValue(RespuestasRegister.NOT_MINIMUN_REQUIREMENTS_PASSWORD.getDescripcion());
                             break;
                         default:
                     }
@@ -107,37 +121,31 @@ public class AuthRepository {
 
     public LiveData<String> resendEmail(String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
-        MutableLiveData<String> mutableToken = new MutableLiveData<>();
+        MutableLiveData<String> mutableTokenAuth = new MutableLiveData<>();
         Call<String> responseResendEmail = restAuthService.resendEmail();
         responseResendEmail.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call,
                                    @NonNull Response<String> response) {
-                String respuesta;
-                respuesta = response.body();
+                String respuesta = response.body();
                 if(response.isSuccessful()) {
-                    respuesta = Objects.nonNull(respuesta) ? "token de verificación: " + respuesta : "No respuesta";
-                    System.out.println(respuesta);
+                    mutableTokenAuth.setValue(respuesta);
                 }else {
                     try {
-                        respuesta = response.errorBody().string();
-                        System.out.println(respuesta);
+                        respuesta = Objects.requireNonNull(response.errorBody()).string();
                         switch (EstadosUsuario.valueOf(respuesta)) {
                             case STATUS_INACTIVE:
-                                System.out.println(EstadosUsuario.STATUS_INACTIVE.getDescripcion());
+                                mutableTokenAuth.setValue(EstadosUsuario.STATUS_INACTIVE.getDescripcion());
                                 break;
                             case STATUS_BAN:
-                                System.out.println(EstadosUsuario.STATUS_BAN.getDescripcion());
+                                mutableTokenAuth.setValue(EstadosUsuario.STATUS_BAN.getDescripcion());
                                 break;
                             case STATUS_ACTIVE:
-                                System.out.println(EstadosUsuario.STATUS_ACTIVE.getDescripcion());
+                                mutableTokenAuth.setValue(EstadosUsuario.STATUS_ACTIVE.getDescripcion());
                                 break;
                             default:
-                                System.out.println("Error desconocido");
                         }
-                    } catch (IOException e) {
-                        respuesta = null;
-                    }
+                    } catch (IOException ignored) {}
                 }
             }
             @Override
@@ -146,7 +154,7 @@ public class AuthRepository {
                 t.printStackTrace();
             }
         });
-        return mutableToken;
+        return mutableTokenAuth;
     }
 
 }

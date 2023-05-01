@@ -50,20 +50,16 @@ public class RegisterController {
 	@PostMapping
 	public ResponseEntity<?> register(@RequestBody UsuarioRegister request) {
 		if(!validateNombreCompleto(request.getNombre())) {
-			System.out.println("hola?1");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.INVALID_NAME);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.INVALID_NAME.name());
 		}
 		if(!validateUsername(request.getUsername())) {
-			System.out.println("hola?2");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.NOT_AVAILABLE_USERNAME);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.NOT_AVAILABLE_USERNAME.name());
 		}
 		if(!validateEmail(request.getEmail())) {
-			System.out.println("hola?3");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.INVALID_EMAIL);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.INVALID_EMAIL.name());
 		}
 		if(!validateClave(request.getClave())) {
-			System.out.println("hola?4");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.NOT_MINIMUN_REQUIREMENTS_PASSWORD);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.NOT_MINIMUN_REQUIREMENTS_PASSWORD.name());
 		}
 
 		TokenConfirmacionEntity token = usuarioService.create(request.getNombre(), request.getUsername(), request.getEmail(), request.getClave());

@@ -1,9 +1,11 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Rol;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.ErroresInicioSesion;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +44,9 @@ public class LoginController {
 			token = jwtService.generateToken(usuario.getUsername(), roles);
 		}
 
-		if(token == null)
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User/pass erróneo");
-		else
-			System.out.println(token);
+		if(Objects.isNull(token))
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ErroresInicioSesion.INVALID_USERNAME_OR_PASSWORD.name());
+
 		return ResponseEntity.ok(token);
 	}
 }
