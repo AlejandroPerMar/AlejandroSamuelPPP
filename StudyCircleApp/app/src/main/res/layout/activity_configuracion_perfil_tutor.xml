@@ -77,8 +77,8 @@
             android:layout_width="360dp"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="225dp" />
+            tools:layout_editor_absoluteX="-1dp"
+            tools:layout_editor_absoluteY="238dp" />
 
         <View
             android:id="@+id/divider3"
@@ -86,7 +86,7 @@
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
             tools:layout_editor_absoluteX="2dp"
-            tools:layout_editor_absoluteY="58dp" />
+            tools:layout_editor_absoluteY="69dp" />
 
         <View
             android:id="@+id/divider4"
@@ -105,6 +105,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="72dp"
+            android:layout_height="52dp"
+            android:layout_marginBottom="392dp"
+            android:backgroundTint="#448AFF"
+            android:text="+"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.996"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -156,15 +170,27 @@
             app:layout_constraintTop_toBottomOf="@+id/divider4" />
 
         <HorizontalScrollView
-            android:layout_width="358dp"
-            android:layout_height="56dp"
+            android:layout_width="276dp"
+            android:layout_height="69dp"
             tools:layout_editor_absoluteX="1dp"
             tools:layout_editor_absoluteY="1dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="360dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical" />
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="#448AFF"
+                    android:text="Example"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.501"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </LinearLayout>
         </HorizontalScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
