@@ -1,11 +1,13 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.RespuestasAlumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,9 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAlu
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlumnoDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import io.swagger.annotations.Api;
+
+import javax.transaction.Transactional;
+import java.util.Objects;
 
 @Api(tags = {SwaggerConfig.ALUMNO_TAG})
 @RestController
@@ -44,11 +49,13 @@ public class AlumnosResourceV2 {
 	@PostMapping
 	public ResponseEntity<?> createAlumno(@RequestBody AlumnoDTO alumnoDTO) {
 		Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+		if(Objects.nonNull(service.findAlumnoByIdUsuario(usuario.getId())))
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body(RespuestasAlumno.STUDENT_PROFILE_ALREADY_CREATED.name());
 		alumnoDTO.setUsuario(mapper.toDTO(usuario));
 		Alumno alumno = mapper.toDomain(alumnoDTO);
 		alumnoDTO = mapper.toDTOGet(service.create(alumno));
-		if(alumnoDTO == null) 
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Alumno no creado");
+		if(Objects.isNull(alumnoDTO))
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body(RespuestasAlumno.STUDENT_PROFILE_NOT_CREATED.name());
 
 		return ResponseEntity.ok().body(alumnoDTO);
 	}

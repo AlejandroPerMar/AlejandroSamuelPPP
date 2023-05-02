@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Api(tags = {SwaggerConfig.TUTOR_V2_TAG})
 @RestController
@@ -51,6 +52,9 @@ public class TutoresResourceV2 {
     @PostMapping
     public ResponseEntity<?> createTutor(@RequestBody List<MateriaDTO> materias) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        if(Objects.nonNull(service.findTutorByIdUsuario(usuario.getId())))
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_ALREADY_CREATED.name());
+        
         TutorDTO tutorDTO = mapper.toDTO(service.create(usuario, materias.stream().map(m -> materiaDTOMapper.toDomain(m)).toList()));
         if(tutorDTO == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_CREATED.name());

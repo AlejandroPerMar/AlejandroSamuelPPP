@@ -36,10 +36,10 @@ public class AuthRepository {
 
     public AuthRepository(Application application) {
         database = DatabaseStudyCircle.getDatabase(application);
-        restNoAuthService = RetrofitClient.getInstance().getNoAuthRestService();
     }
 
     public LiveData<String> getAuthToken(UsuarioLoginDTO usuarioLoginDTO) {
+        restNoAuthService = RetrofitClient.getInstance().getAuthRestService();
         MutableLiveData<String> mutableToken = new MutableLiveData<>();
         Call<String> callToken = restNoAuthService.login(usuarioLoginDTO);
         callToken.enqueue(new Callback<String>() {
@@ -75,6 +75,7 @@ public class AuthRepository {
     }
 
     public LiveData<Object> registerUsuario(UsuarioRegisterDTO usuarioRegisterDTO) {
+        restNoAuthService = RetrofitClient.getInstance().getAuthRestService();
         MutableLiveData<Object> mutableRespuesta = new MutableLiveData<>();
         Call<ResponseBody> register = restNoAuthService.register(usuarioRegisterDTO);
         register.enqueue(new Callback<ResponseBody>() {

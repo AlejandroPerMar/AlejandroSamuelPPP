@@ -1,5 +1,9 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest;
 
+import java.util.List;
+
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
 import okhttp3.ResponseBody;
@@ -15,4 +19,10 @@ public interface RESTService {
 
     @GET("v2/usuarios/resendconfirmationemail")
     Call<String> resendEmail();
+
+    @POST("v2/alumnos")
+    Call<ResponseBody> createStudent(@Body AlumnoDTO alumnoDTO);
+
+    @POST("v2/tutores")
+    Call<ResponseBody> createTutor(@Body List<MateriaDTO> materiasDTO);
 }

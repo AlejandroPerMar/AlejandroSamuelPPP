@@ -24,7 +24,7 @@ public class AlumnoEntityService implements IAlumnoRepository {
 
 	@Override
 	public Alumno create(Alumno alumno) {
-		alumno.setFechaCreacion(new BigInteger(new Date().getTime() + ""));
+		alumno.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
 		AlumnoEntity savedEntity = repository.save(mapper.toEntityPost(alumno));
 		return mapper.toDomain(savedEntity);
 	}

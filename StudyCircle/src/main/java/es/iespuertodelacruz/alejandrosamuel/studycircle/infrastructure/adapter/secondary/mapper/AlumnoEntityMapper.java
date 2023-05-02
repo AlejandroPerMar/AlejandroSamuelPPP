@@ -3,11 +3,16 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.NivelEstudios;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlumnoEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.MateriaEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.NivelEstudiosEntity;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
 
+import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class AlumnoEntityMapper {
@@ -21,7 +26,16 @@ public class AlumnoEntityMapper {
 				.map(m->toDomain(m))
 				.collect(Collectors.toList());
 		alumno.setMaterias(materias);
+        alumno.setUsuario(toDomain(in.getUsuario()));
         return alumno;
+    }
+
+    private Usuario toDomain(UsuarioEntity in) {
+        if(Objects.isNull(in))
+            return null;
+        Usuario usuario = new Usuario();
+        usuario.setId(in.getId());
+        return usuario;
     }
 
     public AlumnoEntity toEntityPost(Alumno in) {
@@ -32,7 +46,16 @@ public class AlumnoEntityMapper {
             alumno.setMaterias(null);
         else
             alumno.setMaterias(in.getMaterias().stream().map(this::toEntity).toList());
+        alumno.setUsuario(toEntity(in.getUsuario()));
         return alumno;
+    }
+
+    private UsuarioEntity toEntity(Usuario in) {
+        if(Objects.isNull(in))
+            return null;
+        UsuarioEntity usuario = new UsuarioEntity();
+        usuario.setId(in.getId());
+        return usuario;
     }
 
     public AlumnoEntity toEntityPut(Alumno in) {
