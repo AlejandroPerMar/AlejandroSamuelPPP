@@ -35,11 +35,13 @@ public class ConfiguracionPerfilTutorActivity extends AppCompatActivity {
             }
         });
 
+
         binding.listaMaterias.setAdapter( new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_multiple_choice
             )
         );
+
     }
 
 }

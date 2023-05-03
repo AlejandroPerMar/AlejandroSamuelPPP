@@ -10,7 +10,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="88dp"
         android:text="Configuración"
         android:textColor="#2196F3"
         android:textSize="30sp"
@@ -21,24 +21,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Perfil del Tutor"
-        android:textColor="#9B9B9B"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.148"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
         android:id="@+id/textView3"
         android:layout_width="241dp"
         android:layout_height="28dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:text="Nivel de estudios a impartir"
         android:textColor="#2196F3"
         android:textSize="17sp"
@@ -47,18 +33,6 @@
         app:layout_constraintHorizontal_bias="0.241"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <Button
-        android:id="@+id/btnSalir4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#00FFFFFF"
-        android:onClick="salir"
-        android:text="⫷ Salir"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/nivelSelector"
@@ -72,31 +46,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3">
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.0">
 
         <View
             android:id="@+id/divider2"
             android:layout_width="360dp"
             android:layout_height="1dp"
+            android:layout_marginTop="55dp"
+            android:layout_marginBottom="17dp"
             android:background="?android:attr/listDivider"
-            tools:layout_editor_absoluteX="-1dp"
-            tools:layout_editor_absoluteY="238dp" />
-
-        <View
-            android:id="@+id/divider3"
-            android:layout_width="358dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            tools:layout_editor_absoluteX="2dp"
-            tools:layout_editor_absoluteY="69dp" />
-
-        <View
-            android:id="@+id/divider4"
-            android:layout_width="358dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            tools:layout_editor_absoluteX="2dp"
-            tools:layout_editor_absoluteY="299dp" />
+            app:layout_constraintBottom_toTopOf="@+id/textView6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectorNIvel" />
 
         <Button
             android:id="@+id/button"
@@ -113,44 +77,44 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="19dp"
             android:text="Nivel de estudios"
-            app:layout_constraintBottom_toTopOf="@+id/selectorNIvel"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.126"
+            app:layout_constraintHorizontal_bias="0.079"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+            tools:layout_editor_absoluteY="74dp" />
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="273dp"
-            android:layout_marginBottom="23dp"
             android:text="Materias"
-            app:layout_constraintBottom_toTopOf="@+id/divider4"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
         <Spinner
             android:id="@+id/selectorNIvel"
             android:layout_width="297dp"
             android:layout_height="57dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="51dp"
-            app:layout_constraintBottom_toTopOf="@+id/divider2"
+            android:layout_marginTop="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.476"
+            app:layout_constraintHorizontal_bias="0.317"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            app:layout_constraintVertical_bias="0.0" />
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
             android:layout_width="289dp"
             android:layout_height="70dp"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="0dp">
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView5"
+            tools:layout_editor_absoluteX="0dp">
 
             <LinearLayout
                 android:id="@+id/nivelesView"
@@ -179,10 +143,10 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="58dp"
             android:clickable="true"
             app:backgroundTint="#448AFF"
-            app:layout_constraintBottom_toTopOf="@+id/divider3"
+            app:layout_constraintBottom_toTopOf="@+id/selectorNIvel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/horizontalScrollView"
             app:layout_constraintTop_toTopOf="parent"
@@ -193,14 +157,46 @@
             android:layout_width="320dp"
             android:layout_height="83dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider4" />
+            app:layout_constraintTop_toBottomOf="@+id/textView6"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Perfil del Tutor"
+        android:textColor="#9B9B9B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.148"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/btnSalir4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="301dp"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="salir"
+        android:text="⫷ Salir"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
