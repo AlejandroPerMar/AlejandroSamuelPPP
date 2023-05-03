@@ -1,6 +1,9 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper;
 
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.List;
+import java.util.stream.Stream;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
@@ -17,7 +20,9 @@ public class UsuarioEntityMapper {
 		usuario.setFechaCreacion(in.getFechaCreacion());
 		usuario.setHashpswd(in.getHashpswd());
 		RolEntityMapper rolMapper = new RolEntityMapper();
-		usuario.setRoles(in.getRoles().stream().map(rolMapper::toDomain).collect(Collectors.toList()));
+		usuario.setRoles(Optional.ofNullable(in.getRoles()).stream().flatMap(Collection::stream)
+				.map(rolMapper::toDomain)
+				.toList());
 		return usuario;
 	}
 	

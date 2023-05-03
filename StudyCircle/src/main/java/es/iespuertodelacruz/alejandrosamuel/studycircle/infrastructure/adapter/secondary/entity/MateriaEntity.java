@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity;
 
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -29,6 +30,14 @@ public class MateriaEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_study_level")
 	private NivelEstudiosEntity nivelEstudios;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (!(obj instanceof MateriaEntity materia)) return false;
+		if (obj == this) return true;
+		return this.getId() == materia.getId();
+	}
 
 	public MateriaEntity() {
 	}

@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
+
 import java.math.BigInteger;
 
 
@@ -16,6 +17,8 @@ public class Actividad {
 	private String estado;
 
 	private BigInteger fechaActividad;
+
+	private Tutor tutor;
 
 	public Actividad() {
 	}
@@ -66,5 +69,13 @@ public class Actividad {
 
 	public void setFechaActividad(BigInteger fechaActividad) {
 		this.fechaActividad = fechaActividad;
+	}
+
+	public Tutor getTutor() {
+		return tutor;
+	}
+
+	public void setTutor(Tutor tutor) {
+		this.tutor = tutor;
 	}
 }

@@ -9,7 +9,6 @@ import java.util.List;
 public class CursoDTO {
 	
 	private int id;
-	private Double precioHora;
 	private String estado;
 	private String titulo;
 	private BigInteger fechaCreacion;
@@ -26,14 +25,6 @@ public class CursoDTO {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Double getPrecioHora() {
-		return precioHora;
-	}
-
-	public void setPrecioHora(Double precioHora) {
-		this.precioHora = precioHora;
 	}
 
 	public String getEstado() {

@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -13,6 +14,7 @@ import java.math.BigInteger;
 @Table(name="confirmation_token")
 @NamedQuery(name="TokenConfirmacionEntity.findAll", query="SELECT t FROM TokenConfirmacionEntity t")
 public class TokenConfirmacionEntity implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -29,6 +31,9 @@ public class TokenConfirmacionEntity implements Serializable {
 	private BigInteger fechaConfirmacion;
 
 	private String token;
+
+	@Column(name = "is_valid")
+	private boolean valido;
 
 	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
@@ -75,6 +80,14 @@ public class TokenConfirmacionEntity implements Serializable {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public boolean isValido() {
+		return valido;
+	}
+
+	public void setValido(boolean valido) {
+		this.valido = valido;
 	}
 
 	public UsuarioEntity getUsuario() {

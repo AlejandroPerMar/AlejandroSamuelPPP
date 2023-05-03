@@ -11,6 +11,8 @@ public interface IUsuarioService {
 
 	String confirmarToken(String token);
 
+	TokenConfirmacionEntity resendConfirmationToken(Usuario usuario);
+
 	Usuario findByUsername(String username);
 
 	Usuario findByEmail(String email);

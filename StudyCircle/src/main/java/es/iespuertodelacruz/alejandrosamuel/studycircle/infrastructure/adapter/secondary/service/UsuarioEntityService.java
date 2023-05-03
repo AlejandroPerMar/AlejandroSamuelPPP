@@ -9,8 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.EstadosUsuario;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.Roles;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.EstadosUsuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.Roles;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IUsuarioRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.RolEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
@@ -59,19 +59,26 @@ public class UsuarioEntityService implements IUsuarioRepository {
 
 		UsuarioEntity savedEntity = usuarioRepository.save(usuarioEntity);
 
+		return createConfirmationToken(mapper.toDomain(savedEntity));
+	}
+
+	@Override
+	@Transactional
+	public TokenConfirmacionEntity resendConfirmationToken(Usuario usuario) {
+		usuarioRepository.invalidarTokensUsuario(usuario.getId());
+		return createConfirmationToken(usuario);
+	}
+
+	public TokenConfirmacionEntity createConfirmationToken(Usuario usuario) {
 		TokenConfirmacionEntity tokenConfirmacion = new TokenConfirmacionEntity();
 		String token = UUID.randomUUID().toString();
 		tokenConfirmacion.setToken(token);
 		tokenConfirmacion.setFechaCreacion(new BigInteger(new Date().getTime() + ""));
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MINUTE, 15);
-		BigInteger fechaExpiracion = new BigInteger((usuarioEntity.getFechaCreacion().longValue() + 900000) + "");
+		BigInteger fechaExpiracion = new BigInteger((tokenConfirmacion.getFechaCreacion().longValue() + 900000) + "");
 		tokenConfirmacion.setFechaExpiracion(fechaExpiracion);
-		tokenConfirmacion.setUsuario(savedEntity);
-
-		tokenConfirmacion = tokenService.saveTokenConfirmacion(tokenConfirmacion);
-
-		return tokenConfirmacion;
+		tokenConfirmacion.setUsuario(mapper.toEntity(usuario));
+		tokenConfirmacion.setValido(true);
+		return tokenService.saveTokenConfirmacion(tokenConfirmacion);
 	}
 
 	@Override

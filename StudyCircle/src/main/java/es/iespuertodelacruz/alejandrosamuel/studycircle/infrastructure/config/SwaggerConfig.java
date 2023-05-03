@@ -32,14 +32,15 @@ public class SwaggerConfig {
 	public static final String AMISTAD_TAG = "Amistad";
 	public static final String ANUNCIO_TAG = "Anuncio";
 	public static final String EVENTO_TAG = "Evento de calendario";
-	public static final String MATERIA_V2_TAG = "Materiav2";
-	public static final String MATERIA_V3_TAG = "Materiav3";
+	public static final String MATERIA_V2_TAG = "MateriaV2";
+	public static final String MATERIA_V3_TAG = "MateriaV3";
 	public static final String MATERIA_ALUMNO_TAG = "MateriaAlumno";
 	public static final String MATERIA_TUTOR_TAG = "MateriaTutor";
 	public static final String NIVEL_ESTUDIOS_V2_TAG = "NivelEstudiosV2";
 	public static final String NIVEL_ESTUDIOS_V3_TAG = "NivelEstudiosV3";
 	public static final String ROL_TAG = "Rol";
-	public static final String TUTOR_TAG = "Tutor";
+	public static final String TUTOR_V2_TAG = "TutorV2";
+	public static final String CURSO_V2_TAG = "CursoV2";
 	public static final String USUARIO_TAG = "Usuario";
 	public static final String LOGIN_TAG = "Login";
 	public static final String REGISTER_TAG = "Register";
@@ -66,7 +67,8 @@ public class SwaggerConfig {
                 		new Tag(NIVEL_ESTUDIOS_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad NivelEstudios para la versión 3 (ADMIN)"),
 						new Tag(NIVEL_ESTUDIOS_V3_TAG, "Controlador REST para las peticiones asociadas con la entidad NivelEstudios para la versión 2"),
                 		new Tag(ROL_TAG, ""),
-                		new Tag(TUTOR_TAG, ""),
+                		new Tag(TUTOR_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Tutor para la versión 2"),
+						new Tag(CURSO_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Curso para la versión 2"),
                 		new Tag(USUARIO_TAG, ""),
 						new Tag(LOGIN_TAG, "Controlador REST para la acción de Inicio de Sesión del Usuario"),
 						new Tag(REGISTER_TAG, "Controlador REST para la acción de Registro del Usuario en la app"))

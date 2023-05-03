@@ -22,5 +22,9 @@ public interface UsuarioEntityJPARepository extends JpaRepository<UsuarioEntity,
 
 	@Modifying
 	@Query("UPDATE UsuarioEntity u SET u.estado = 'STATUS_ACTIVE' WHERE u.email = :email")
-	public Integer confirmarUsuario(@Param("email") String email);
+	Integer confirmarUsuario(@Param("email") String email);
+
+	@Modifying
+	@Query("UPDATE TokenConfirmacionEntity t SET t.valido = false WHERE t.usuario.id = :id")
+	Integer invalidarTokensUsuario(@Param("id") Integer id);
 }

@@ -17,5 +17,7 @@ public interface IUsuarioRepository {
 	
 	TokenConfirmacionEntity create(String nombreCompleto, String username, String email, String clave);
 
-    Usuario findById(Integer id);
+	TokenConfirmacionEntity resendConfirmationToken(Usuario usuario);
+
+	Usuario findById(Integer id);
 }

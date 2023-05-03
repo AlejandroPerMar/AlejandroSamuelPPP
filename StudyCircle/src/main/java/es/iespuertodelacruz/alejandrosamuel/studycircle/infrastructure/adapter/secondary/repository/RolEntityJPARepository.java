@@ -10,5 +10,5 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 @Repository
 public interface RolEntityJPARepository extends JpaRepository<RolEntity, Integer> {
 	@Query("SELECT r from RolEntity r where r.rol = :rol")
-	public RolEntity findByRol(@Param("rol") String rol);
+	RolEntity findByRol(@Param("rol") String rol);
 }

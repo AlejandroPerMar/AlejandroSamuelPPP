@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -14,17 +15,12 @@ import java.util.List;
 @Table(name="course")
 @NamedQuery(name="CursoEntity.findAll", query="SELECT c FROM CursoEntity c")
 public class CursoEntity implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-
-	@Column(name="price_per_hour")
-	private Double precioHora;
-
-	@Column(name="status")
-	private String estado;
 
 	@Column(name="created_at")
 	private BigInteger fechaCreacion;
@@ -38,11 +34,11 @@ public class CursoEntity implements Serializable {
 	private MateriaTutorEntity materiaTutor;
 
 	//bi-directional many-to-one association to ActividadCursoEntity
-	@OneToMany(mappedBy="curso")
+	@OneToMany(mappedBy="curso", cascade = CascadeType.REMOVE)
 	private List<ActividadCursoEntity> actividadesCurso;
 
 	//bi-directional many-to-one association to AlumnoCursoEntity
-	@OneToMany(mappedBy="curso")
+	@OneToMany(mappedBy="curso", cascade = CascadeType.REMOVE)
 	private List<AlumnoCursoEntity> alumnosCurso;
 
 	public CursoEntity() {
@@ -54,22 +50,6 @@ public class CursoEntity implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Double getPrecioHora() {
-		return this.precioHora;
-	}
-
-	public void setPrecioHora(Double precioHora) {
-		this.precioHora = precioHora;
-	}
-
-	public String getEstado() {
-		return this.estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
 	}
 
 	public String getTitulo() {
