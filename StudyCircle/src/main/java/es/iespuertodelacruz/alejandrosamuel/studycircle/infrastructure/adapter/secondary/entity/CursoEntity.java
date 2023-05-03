@@ -22,9 +22,6 @@ public class CursoEntity implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name="price_per_hour")
-	private Double precioHora;
-
 	@Column(name="created_at")
 	private BigInteger fechaCreacion;
 
@@ -53,14 +50,6 @@ public class CursoEntity implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Double getPrecioHora() {
-		return this.precioHora;
-	}
-
-	public void setPrecioHora(Double precioHora) {
-		this.precioHora = precioHora;
 	}
 
 	public String getTitulo() {

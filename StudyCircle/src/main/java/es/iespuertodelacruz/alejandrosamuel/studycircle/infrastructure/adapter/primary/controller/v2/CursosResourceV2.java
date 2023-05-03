@@ -34,15 +34,14 @@ public class CursosResourceV2 {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CursoDTO curso) {
-        if(ObjectUtils.notNullNorEmpty(curso)) {
-            if(ObjectUtils.notNullNorEmpty(curso.getTitulo(), curso.getPrecioHora(), 
-                    curso.getAlumnosCurso(), curso.getMateriaTutor())) {
+        if(ObjectUtils.notNullNorEmpty(curso))
+            if(ObjectUtils.notNullNorEmpty(curso.getTitulo(), curso.getAlumnosCurso(), curso.getMateriaTutor())) {
                 Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
                 Curso cursoPost = mapper.toDomainPost(curso);
                 cursoPost.getMateriaTutor().setTutor(tutor);
-                cursoService.create(cursoPost);
+                return ResponseEntity.ok(mapper.toDTO(cursoService.create(cursoPost)));
             }
-        }
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.COURSE_DTO_NOT_VALID);
     }
 

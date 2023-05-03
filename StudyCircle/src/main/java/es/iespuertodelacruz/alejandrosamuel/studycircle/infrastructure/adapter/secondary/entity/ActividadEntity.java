@@ -35,7 +35,7 @@ public class ActividadEntity implements Serializable {
 	private BigInteger fechaActividad;
 
 	@ManyToOne
-	@Column(name="id_tutor")
+	@JoinColumn(name="id_tutor")
 	private TutorEntity tutor;
 
 	public ActividadEntity() {

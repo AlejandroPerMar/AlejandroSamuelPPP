@@ -48,7 +48,6 @@ public class CursoEntityService implements ICursoRepository {
     public Curso create(Curso curso) {
         CursoEntity cursoEntity = new CursoEntity();
         cursoEntity.setTitulo(curso.getTitulo());
-        cursoEntity.setPrecioHora(curso.getPrecioHora());
         cursoEntity.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
         cursoEntity.setMateriaTutor(mapper.toEntity(curso.getMateriaTutor()));
         CursoEntity finalCursoEntity = repository.save(cursoEntity);

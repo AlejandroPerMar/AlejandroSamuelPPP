@@ -14,10 +14,36 @@ public class CursoDTOMapper {
     public Curso toDomainPost(CursoDTO in) {
         Curso curso = new Curso();
         curso.setTitulo(in.getTitulo());
-        curso.setPrecioHora(in.getPrecioHora());
         curso.setMateriaTutor(toDomain(in.getMateriaTutor()));
         curso.setAlumnosCurso(in.getAlumnosCurso().stream().map(this::toDomainPost).toList());
         return curso;
+    }
+
+    public CursoDTO toDTO(Curso in) {
+        CursoDTO curso = new CursoDTO();
+        curso.setId(in.getId());
+        curso.setTitulo(in.getTitulo());
+        curso.setMateriaTutor(toDTO(in.getMateriaTutor()));
+        curso.setAlumnosCurso(in.getAlumnosCurso().stream().map(this::toDTO).toList());
+        return curso;
+    }
+
+    private AlumnoCursoDTO toDTO(AlumnoCurso in) {
+        AlumnoCursoDTO alumnoCurso = new AlumnoCursoDTO();
+        alumnoCurso.setAlumno(toDTO(in.getAlumno()));
+        return alumnoCurso;
+    }
+
+    private AlumnoDTO toDTO(Alumno in) {
+        AlumnoDTO alumno = new AlumnoDTO();
+        alumno.setId(in.getId());
+        return alumno;
+    }
+
+    private MateriaTutorDTO toDTO(MateriaTutor in) {
+        MateriaTutorDTO materiaTutor = new MateriaTutorDTO();
+        materiaTutor.setId(in.getId());
+        return materiaTutor;
     }
 
     private MateriaTutor toDomain(MateriaTutorDTO in) {

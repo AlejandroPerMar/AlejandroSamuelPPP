@@ -6,7 +6,6 @@ import java.util.List;
 public class Curso {
 	
 	private int id;
-	private Double precioHora;
 	private String titulo;
 	private BigInteger fechaCreacion;
 	private MateriaTutor materiaTutor;
@@ -22,14 +21,6 @@ public class Curso {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Double getPrecioHora() {
-		return precioHora;
-	}
-
-	public void setPrecioHora(Double precioHora) {
-		this.precioHora = precioHora;
 	}
 
 	public String getTitulo() {
