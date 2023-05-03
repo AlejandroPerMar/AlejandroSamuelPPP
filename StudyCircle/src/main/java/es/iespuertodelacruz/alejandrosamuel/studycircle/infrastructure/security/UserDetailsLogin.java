@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,10 +13,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDetailsLogin  implements UserDetails {
 	
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	String username;
 	String password;
+	String estado;
 	List<String> roles;
 
 	public UserDetailsLogin() {}
@@ -26,7 +29,7 @@ public class UserDetailsLogin  implements UserDetails {
 
 		Logger LOGGER = LoggerFactory.getLogger(UserDetailsLogin.class);
 		LOGGER.debug("SIZE of roles is: " + roles.size());
-	    roles.stream().forEach(r -> authorities.add(new SimpleGrantedAuthority(r)));
+	    roles.forEach(r -> authorities.add(new SimpleGrantedAuthority(r)));
 
 		LOGGER.debug("SIZE of authorities is: " + authorities.size());
 
@@ -46,7 +49,15 @@ public class UserDetailsLogin  implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
@@ -73,8 +84,7 @@ public class UserDetailsLogin  implements UserDetails {
 	
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.estado.equals("STATUS_ACTIVE");
 	}
 	
 	public List<String> getRoles() {
@@ -84,5 +94,4 @@ public class UserDetailsLogin  implements UserDetails {
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
-
 }

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1deb5ubuntu1
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:3306
--- Tiempo de generación: 17-04-2023 a las 00:06:34
--- Versión del servidor: 8.0.32-0ubuntu0.22.04.2
--- Versión de PHP: 8.1.2-1ubuntu2.11
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 03-05-2023 a las 14:15:46
+-- Versión del servidor: 10.4.24-MariaDB
+-- Versión de PHP: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,13 +28,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `activities` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` varchar(255) NOT NULL,
   `status` varchar(100) NOT NULL,
-  `time_activity` bigint NOT NULL,
-  `created_at` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `time_activity` bigint(20) NOT NULL,
+  `id_tutor` int(11) NOT NULL,
+  `created_at` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -43,13 +44,13 @@ CREATE TABLE `activities` (
 --
 
 CREATE TABLE `alerts` (
-  `id` int NOT NULL,
-  `id_user` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
   `type` varchar(100) NOT NULL,
   `message` varchar(255) NOT NULL,
   `status` varchar(100) NOT NULL,
-  `created_at` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -58,15 +59,15 @@ CREATE TABLE `alerts` (
 --
 
 CREATE TABLE `announcements` (
-  `id` int NOT NULL,
-  `id_user` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
   `title` varchar(100) NOT NULL,
   `description` varchar(255) NOT NULL,
   `reason` varchar(100) NOT NULL,
   `status` varchar(100) NOT NULL,
-  `id_subject` int NOT NULL,
-  `created_at` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id_subject` int(11) NOT NULL,
+  `created_at` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -75,14 +76,14 @@ CREATE TABLE `announcements` (
 --
 
 CREATE TABLE `calendar_events` (
-  `id` int NOT NULL,
-  `id_user` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `time_event` bigint NOT NULL,
-  `id_activity` int DEFAULT NULL,
-  `created_at` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `time_event` bigint(20) NOT NULL,
+  `id_activity` int(11) DEFAULT NULL,
+  `created_at` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -91,21 +92,37 @@ CREATE TABLE `calendar_events` (
 --
 
 CREATE TABLE `confirmation_token` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `token` varchar(255) DEFAULT NULL,
-  `created_at` bigint DEFAULT NULL,
-  `expires_at` bigint DEFAULT NULL,
-  `confirmed_at` bigint DEFAULT NULL,
+  `created_at` bigint(20) DEFAULT NULL,
+  `expires_at` bigint(20) DEFAULT NULL,
+  `confirmed_at` bigint(20) DEFAULT NULL,
   `is_valid` tinyint(1) NOT NULL,
-  `id_user` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id_user` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `confirmation_token`
 --
 
 INSERT INTO `confirmation_token` (`id`, `token`, `created_at`, `expires_at`, `confirmed_at`, `is_valid`, `id_user`) VALUES
-(20, '9d7d6871-bb78-4814-97fd-571c9017c6c7', 1680957383707, 1680958283678, 1680957418714, 0, 24);
+(20, '9d7d6871-bb78-4814-97fd-571c9017c6c7', 1680957383707, 1680958283678, 1680957418714, 0, 24),
+(24, '9c424187-f3b6-4527-b3df-97fe93bee205', 1682765066022, 1682765966022, NULL, 0, 30),
+(26, '19c6c5ca-9f28-47a6-9dfb-d72b9edda37d', 1682765424331, 1682766324331, NULL, 0, 30),
+(27, '4b8b3800-d209-4823-96ea-21dfe401bb41', 1682781567012, 1682782467012, 1682781608471, 1, 30),
+(28, 'c24c5474-ba08-4126-b666-b91a895852e2', 1682787797333, 1682788697333, NULL, 0, 31),
+(29, 'bf657115-25a6-4ece-b6e6-5cb5e7bda4f0', 1682787861732, 1682788761732, NULL, 1, 31),
+(30, '96ec87bc-8616-40d0-a981-b2b16b060189', 1682880318483, 1682881218483, NULL, 0, 33),
+(31, '6e78f75c-c5f8-4772-adb2-e5efe8898bb4', 1682880402807, 1682881302807, NULL, 0, 33),
+(32, '395308b9-c6ce-40b8-b1f9-62f6de2e0a1c', 1682880514968, 1682881414968, NULL, 0, 33),
+(33, '5451708d-8954-4595-85ce-089bf363231c', 1682880558317, 1682881458317, NULL, 0, 33),
+(34, 'a6582d20-4abc-41cc-acd4-e3477c48b7d6', 1682880870002, 1682881770002, NULL, 0, 33),
+(35, 'f104a0e5-fb0c-44fb-bb8f-f40798ccb9f8', 1682881144554, 1682882044554, 1682881183866, 1, 33),
+(36, 'b95dc41e-f51c-43b1-b3cb-c1eeffa93e6c', 1682932323757, 1682933223757, NULL, 0, 34),
+(37, '4f306c00-e9b3-4029-bbcf-3a7982b77b73', 1682932530519, 1682933430519, NULL, 0, 34),
+(38, 'fb24dd2b-0f31-42a0-af2e-44eefc520fef', 1682932624358, 1682933524358, 1682932657057, 1, 34),
+(52, '8f749156-40be-407d-be68-47af853da5b1', 1682939048780, 1682939948780, NULL, 0, 48),
+(53, 'a30e9a19-afc4-40ca-ba77-d2425843dd51', 1683017141413, 1683018041413, 1683017192123, 1, 48);
 
 -- --------------------------------------------------------
 
@@ -114,13 +131,11 @@ INSERT INTO `confirmation_token` (`id`, `token`, `created_at`, `expires_at`, `co
 --
 
 CREATE TABLE `course` (
-  `id` int NOT NULL,
-  `id_tutor_subject` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `id_tutor_subject` int(11) NOT NULL,
   `title` varchar(100) DEFAULT NULL,
-  `price_per_hour` decimal(4,2) DEFAULT NULL,
-  `created_at` bigint NOT NULL,
-  `status` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -129,10 +144,10 @@ CREATE TABLE `course` (
 --
 
 CREATE TABLE `course_activities` (
-  `id` int NOT NULL,
-  `id_course` int NOT NULL,
-  `id_activity` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` int(11) NOT NULL,
+  `id_course` int(11) NOT NULL,
+  `id_activity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -141,10 +156,10 @@ CREATE TABLE `course_activities` (
 --
 
 CREATE TABLE `course_students` (
-  `id` int NOT NULL,
-  `id_course` int NOT NULL,
-  `id_student` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` int(11) NOT NULL,
+  `id_course` int(11) NOT NULL,
+  `id_student` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -153,13 +168,13 @@ CREATE TABLE `course_students` (
 --
 
 CREATE TABLE `friendships` (
-  `id` int NOT NULL,
-  `id_user1` int NOT NULL,
-  `id_user2` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `id_user1` int(11) NOT NULL,
+  `id_user2` int(11) NOT NULL,
   `status` varchar(100) NOT NULL,
-  `friends_from` bigint DEFAULT NULL,
-  `created_at` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `friends_from` bigint(20) DEFAULT NULL,
+  `created_at` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -168,9 +183,9 @@ CREATE TABLE `friendships` (
 --
 
 CREATE TABLE `roles` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `rol` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -187,10 +202,10 @@ INSERT INTO `roles` (`id`, `rol`) VALUES
 --
 
 CREATE TABLE `role_user` (
-  `id` int NOT NULL,
-  `id_user` int NOT NULL,
-  `id_role` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_role` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `role_user`
@@ -199,7 +214,12 @@ CREATE TABLE `role_user` (
 INSERT INTO `role_user` (`id`, `id_user`, `id_role`) VALUES
 (23, 24, 2),
 (24, 25, 1),
-(25, 26, 1);
+(25, 26, 1),
+(29, 30, 2),
+(30, 31, 2),
+(31, 33, 2),
+(47, 34, 2),
+(46, 48, 2);
 
 -- --------------------------------------------------------
 
@@ -208,11 +228,18 @@ INSERT INTO `role_user` (`id`, `id_user`, `id_role`) VALUES
 --
 
 CREATE TABLE `students` (
-  `id` int NOT NULL,
-  `id_user` int NOT NULL,
-  `id_study_level` int NOT NULL,
-  `created_at` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_study_level` int(11) NOT NULL,
+  `created_at` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `students`
+--
+
+INSERT INTO `students` (`id`, `id_user`, `id_study_level`, `created_at`) VALUES
+(4, 48, 2, 1683018066916);
 
 -- --------------------------------------------------------
 
@@ -221,10 +248,18 @@ CREATE TABLE `students` (
 --
 
 CREATE TABLE `student_subjects` (
-  `id` int NOT NULL,
-  `id_student` int NOT NULL,
-  `id_subject` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` int(11) NOT NULL,
+  `id_student` int(11) NOT NULL,
+  `id_subject` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `student_subjects`
+--
+
+INSERT INTO `student_subjects` (`id`, `id_student`, `id_subject`) VALUES
+(7, 4, 1),
+(8, 4, 2);
 
 -- --------------------------------------------------------
 
@@ -233,10 +268,10 @@ CREATE TABLE `student_subjects` (
 --
 
 CREATE TABLE `study_levels` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `created_at` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `study_levels`
@@ -254,11 +289,11 @@ INSERT INTO `study_levels` (`id`, `name`, `created_at`) VALUES
 --
 
 CREATE TABLE `subjects` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `id_study_level` int NOT NULL,
-  `created_at` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id_study_level` int(11) NOT NULL,
+  `created_at` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `subjects`
@@ -277,17 +312,18 @@ INSERT INTO `subjects` (`id`, `name`, `id_study_level`, `created_at`) VALUES
 --
 
 CREATE TABLE `tutors` (
-  `id` int NOT NULL,
-  `id_user` int NOT NULL,
-  `created_at` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `created_at` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `tutors`
 --
 
 INSERT INTO `tutors` (`id`, `id_user`, `created_at`) VALUES
-(34, 24, 1681656197917);
+(34, 24, 1681656197917),
+(36, 34, 1683050964598);
 
 -- --------------------------------------------------------
 
@@ -296,10 +332,10 @@ INSERT INTO `tutors` (`id`, `id_user`, `created_at`) VALUES
 --
 
 CREATE TABLE `tutor_subjects` (
-  `id` int NOT NULL,
-  `id_tutor` int NOT NULL,
-  `id_subject` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` int(11) NOT NULL,
+  `id_tutor` int(11) NOT NULL,
+  `id_subject` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `tutor_subjects`
@@ -307,7 +343,9 @@ CREATE TABLE `tutor_subjects` (
 
 INSERT INTO `tutor_subjects` (`id`, `id_tutor`, `id_subject`) VALUES
 (21, 34, 3),
-(22, 34, 4);
+(22, 34, 4),
+(23, 36, 1),
+(24, 36, 2);
 
 -- --------------------------------------------------------
 
@@ -316,14 +354,14 @@ INSERT INTO `tutor_subjects` (`id`, `id_tutor`, `id_subject`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `username` varchar(25) NOT NULL,
   `full_name` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
   `status` varchar(100) NOT NULL,
   `hashpswd` varchar(255) NOT NULL,
-  `created_at` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `users`
@@ -332,7 +370,12 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `full_name`, `email`, `status`, `hashpswd`, `created_at`) VALUES
 (24, 'sam1', 'Samuel González Machado', 'samuglezmachado@gmail.com', 'STATUS_ACTIVE', '$2a$10$JaVxA9Y08HEe0YXCUIiz1.njj7FOa1nokZiAQvAiSiNR9QoiKMKmO', 1680957383678),
 (25, 'admin', 'admin', 'stdycircleofficial@gmail.com', 'STATUS_ACTIVE', '$2y$10$5C5XrxjkI4aQIDag8wcNa.7hV/KBYgSdcHT6d1vudS0W2wcW53Zou', 1680972623000),
-(26, 'string', 'string', 'string@gm.com', 'STATUS_ACTIVE', '$2y$10$BgGhuwMrs6LkoJ0rFlXpQObUhhFPVOeqPRMW0bMkInXh6PLXoOU9C', 1680957399999);
+(26, 'string', 'string', 'string@gm.com', 'STATUS_ACTIVE', '$2y$10$BgGhuwMrs6LkoJ0rFlXpQObUhhFPVOeqPRMW0bMkInXh6PLXoOU9C', 1680957399999),
+(30, 'pruee', 'prueba', 'cejero4564@larland.com', 'STATUS_ACTIVE', '$2a$10$PAN9UILEwd9ZNYCw435ayOGBXHUAKlGk/Qo5FBAFcEmNeKUrOTE4u', 1682765065993),
+(31, 'pruee2', 'string', 'watek77714@meidecn.com', 'STATUS_PENDING_VERIFICATION', '$2a$10$PVDaqMkgIE2ttx2mfcZZHOQlo.r6R9B79Ld9rLY35aTIpBmMnUAUu', 1682787797283),
+(33, 'pruee3', 'string', 'rojog68539@meidecn.com', 'STATUS_ACTIVE', '$2a$10$H4FB9cbdpSEFXwb2p02o0.PIOW5ggs8itTOVkDyVx/a6hI9EHMq7O', 1682880318475),
+(34, 'str', 'stri', 'siwobe5230@meidecn.com', 'STATUS_ACTIVE', '$2a$10$/3EzV7ViFbIScIVUcOxogOgf7xAn.hQsz8BkHOETUIttK3MddQPEq', 1682932323717),
+(48, 'pruee4', 'samuel', 'bisiboy499@jobbrett.com', 'STATUS_ACTIVE', '$2a$10$m9Dt.56SczW46ualYCnJROG0Ywa/27SKmwST89H130kS8DFGMkhUK', 1682939048709);
 
 --
 -- Índices para tablas volcadas
@@ -342,7 +385,8 @@ INSERT INTO `users` (`id`, `username`, `full_name`, `email`, `status`, `hashpswd
 -- Indices de la tabla `activities`
 --
 ALTER TABLE `activities`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_tutor` (`id_tutor`);
 
 --
 -- Indices de la tabla `alerts`
@@ -372,7 +416,7 @@ ALTER TABLE `calendar_events`
 --
 ALTER TABLE `confirmation_token`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id_user` (`id_user`);
+  ADD KEY `id_user` (`id_user`) USING BTREE;
 
 --
 -- Indices de la tabla `course`
@@ -479,113 +523,119 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `alerts`
 --
 ALTER TABLE `alerts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `announcements`
 --
 ALTER TABLE `announcements`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `calendar_events`
 --
 ALTER TABLE `calendar_events`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `confirmation_token`
 --
 ALTER TABLE `confirmation_token`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT de la tabla `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `course_activities`
 --
 ALTER TABLE `course_activities`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `course_students`
 --
 ALTER TABLE `course_students`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `friendships`
 --
 ALTER TABLE `friendships`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `role_user`
 --
 ALTER TABLE `role_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `student_subjects`
 --
 ALTER TABLE `student_subjects`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `study_levels`
 --
 ALTER TABLE `study_levels`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tutors`
 --
 ALTER TABLE `tutors`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `tutor_subjects`
 --
 ALTER TABLE `tutor_subjects`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `activities`
+--
+ALTER TABLE `activities`
+  ADD CONSTRAINT `activities_ibfk_1` FOREIGN KEY (`id_tutor`) REFERENCES `tutors` (`id`);
 
 --
 -- Filtros para la tabla `alerts`

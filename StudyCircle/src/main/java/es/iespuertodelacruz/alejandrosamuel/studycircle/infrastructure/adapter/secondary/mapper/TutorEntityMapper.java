@@ -11,12 +11,13 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.Objects;
 
 public class TutorEntityMapper {
     public TutorEntity toEntityPost(Tutor in) {
         TutorEntity tutor = new TutorEntity();
         tutor.setUsuario(toEntity(in.getUsuario()));
-        if(in.getMateriasTutor() != null)
+        if(Objects.nonNull(in.getMateriasTutor()))
             tutor.setMateriasTutor(in.getMateriasTutor().stream().map(this::toEntity).toList());
         tutor.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
         return tutor;
@@ -24,7 +25,7 @@ public class TutorEntityMapper {
 
     public TutorEntity toEntityPut(Tutor in) {
         TutorEntity tutor = new TutorEntity();
-        if(in.getMateriasTutor() != null)
+        if(Objects.nonNull(in.getMateriasTutor()))
             tutor.setMateriasTutor(in.getMateriasTutor().stream().map(this::toEntity).toList());
         return tutor;
     }
@@ -32,9 +33,15 @@ public class TutorEntityMapper {
     public Tutor toDomain(TutorEntity in) {
         Tutor tutor = new Tutor();
         tutor.setId(in.getId());
-        if(in.getMateriasTutor() != null)
+        if(Objects.nonNull(in.getMateriasTutor()))
             tutor.setMateriasTutor(in.getMateriasTutor().stream().map(this::toDomain).toList());
         tutor.setUsuario(toDomain(in.getUsuario()));
+        return tutor;
+    }
+
+    public Tutor toDomainOnlyId(TutorEntity in) {
+        Tutor tutor = new Tutor();
+        tutor.setId(in.getId());
         return tutor;
     }
 
@@ -47,7 +54,15 @@ public class TutorEntityMapper {
     public MateriaTutor toDomain(MateriaTutorEntity in) {
         MateriaTutor materiaTutor = new MateriaTutor();
         materiaTutor.setId(in.getId());
+        materiaTutor.setTutor(toDomainOnlyId(in.getTutor()));
+        materiaTutor.setMateria(toDomain(in.getMateria()));
         return materiaTutor;
+    }
+
+    private Materia toDomain(MateriaEntity in) {
+        Materia materia = new Materia();
+        materia.setId(in.getId());
+        return materia;
     }
 
     public MateriaTutorEntity toEntity(MateriaTutor in) {

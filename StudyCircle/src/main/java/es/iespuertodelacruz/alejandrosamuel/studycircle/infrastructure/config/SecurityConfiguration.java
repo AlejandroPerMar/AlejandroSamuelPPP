@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config;
 
 
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.EstadosUsuario;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -44,9 +45,11 @@ public class SecurityConfiguration {
           
         .antMatchers("/api/v3/**").hasRole("ADMIN")
 		//.antMatchers("/api/v2/alumnos").hasRole("STUDENT")
-		//.antMatchers("/api/v2/tutores").hasRole("TUTOR")
 		//.antMatchers("/api/v2/alumnos/**").hasRole("STUDENT")
 		//.antMatchers("/api/v2/tutores/**").hasRole("TUTOR")
+		.antMatchers("/api/v2/tutores").access("principal.estado.equals('" + EstadosUsuario.STATUS_ACTIVE.name() + "')")
+		.antMatchers("/api/v2/alumnos").access("principal.estado.equals('" + EstadosUsuario.STATUS_ACTIVE.name() + "')")
+			  .antMatchers("/api/v2/alumnos").access("principal.estado.equals('" + EstadosUsuario.STATUS_ACTIVE.name() + "')")
         .anyRequest().authenticated()  
 
         .and()
@@ -59,9 +62,9 @@ public class SecurityConfiguration {
     return http.build();
   }
 
-public SecurityConfiguration(JwtFilter jwtAuthFilter, AuthenticationProvider authenticationProvider) {
-	super();
-	this.jwtAuthFilter = jwtAuthFilter;
-	this.authenticationProvider = authenticationProvider;
-}
+  public SecurityConfiguration(JwtFilter jwtAuthFilter, AuthenticationProvider authenticationProvider) {
+	  super();
+	  this.jwtAuthFilter = jwtAuthFilter;
+	  this.authenticationProvider = authenticationProvider;
+  }
 }

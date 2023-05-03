@@ -15,7 +15,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-class KeyGenerator{
+class KeyGenerator {
 	private static KeyGenerator keyGenerator;
 	private Key key;
 	private KeyGenerator() {

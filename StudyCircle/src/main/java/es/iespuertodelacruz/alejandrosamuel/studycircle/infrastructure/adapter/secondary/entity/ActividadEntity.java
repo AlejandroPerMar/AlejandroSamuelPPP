@@ -34,6 +34,10 @@ public class ActividadEntity implements Serializable {
 	@Column(name="time_activity")
 	private BigInteger fechaActividad;
 
+	@ManyToOne
+	@JoinColumn(name="id_tutor")
+	private TutorEntity tutor;
+
 	public ActividadEntity() {
 	}
 
@@ -85,4 +89,11 @@ public class ActividadEntity implements Serializable {
 		this.fechaActividad = fechaActividad;
 	}
 
+	public TutorEntity getTutor() {
+		return tutor;
+	}
+
+	public void setTutor(TutorEntity tutor) {
+		this.tutor = tutor;
+	}
 }
