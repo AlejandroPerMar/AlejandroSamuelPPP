@@ -33,13 +33,32 @@ public class CursoEntity implements Serializable {
 	@JoinColumn(name="id_tutor_subject")
 	private MateriaTutorEntity materiaTutor;
 
-	//bi-directional many-to-one association to ActividadCursoEntity
-	@OneToMany(mappedBy="curso", cascade = CascadeType.REMOVE)
-	private List<ActividadCursoEntity> actividadesCurso;
 
-	//bi-directional many-to-one association to AlumnoCursoEntity
-	@OneToMany(mappedBy="curso", cascade = CascadeType.REMOVE)
-	private List<AlumnoCursoEntity> alumnosCurso;
+	//uni-directional many-to-many association to ActividadEntity
+	@ManyToMany
+	@JoinTable(
+			name="course_activities"
+			, joinColumns={
+			@JoinColumn(name="id_course")
+	}
+			, inverseJoinColumns={
+			@JoinColumn(name="id_activity")
+	}
+	)
+	private List<ActividadEntity> actividades;
+
+	//bi-directional many-to-one association to AlumnoEntity
+	@ManyToMany
+	@JoinTable(
+			name="course_students"
+			, joinColumns={
+			@JoinColumn(name="id_course")
+	}
+			, inverseJoinColumns={
+			@JoinColumn(name="id_student")
+	}
+	)
+	private List<AlumnoEntity> alumnos;
 
 	public CursoEntity() {
 	}
@@ -76,48 +95,19 @@ public class CursoEntity implements Serializable {
 		this.materiaTutor = materiaTutor;
 	}
 
-	public List<ActividadCursoEntity> getActividadesCurso() {
-		return this.actividadesCurso;
+	public List<ActividadEntity> getActividades() {
+		return actividades;
 	}
 
-	public void setActividadesCurso(List<ActividadCursoEntity> actividadesCurso) {
-		this.actividadesCurso = actividadesCurso;
+	public void setActividades(List<ActividadEntity> actividades) {
+		this.actividades = actividades;
 	}
 
-	public ActividadCursoEntity addCourseActivity(ActividadCursoEntity courseActivity) {
-		getActividadesCurso().add(courseActivity);
-		courseActivity.setCurso(this);
-
-		return courseActivity;
+	public List<AlumnoEntity> getAlumnos() {
+		return alumnos;
 	}
 
-	public ActividadCursoEntity removeCourseActivity(ActividadCursoEntity courseActivity) {
-		getActividadesCurso().remove(courseActivity);
-		courseActivity.setCurso(null);
-
-		return courseActivity;
+	public void setAlumnos(List<AlumnoEntity> alumnos) {
+		this.alumnos = alumnos;
 	}
-
-	public List<AlumnoCursoEntity> getAlumnosCurso() {
-		return this.alumnosCurso;
-	}
-
-	public void setAlumnosCurso(List<AlumnoCursoEntity> alumnosCurso) {
-		this.alumnosCurso = alumnosCurso;
-	}
-
-	public AlumnoCursoEntity addCourseStudent(AlumnoCursoEntity courseStudent) {
-		getAlumnosCurso().add(courseStudent);
-		courseStudent.setCurso(this);
-
-		return courseStudent;
-	}
-
-	public AlumnoCursoEntity removeCourseStudent(AlumnoCursoEntity courseStudent) {
-		getAlumnosCurso().remove(courseStudent);
-		courseStudent.setCurso(null);
-
-		return courseStudent;
-	}
-
 }

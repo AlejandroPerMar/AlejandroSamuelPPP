@@ -82,7 +82,7 @@ public class ActividadesResourceV3 {
         if(service.findById(request.getId()) == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Actividad no existente");
 
-        return ResponseEntity.ok(mapper.toDTO(service.update(mapper.toDomain(request))));
+        return ResponseEntity.ok(mapper.toDTO(service.update(mapper.toDomainPut(request))));
     }
 
     

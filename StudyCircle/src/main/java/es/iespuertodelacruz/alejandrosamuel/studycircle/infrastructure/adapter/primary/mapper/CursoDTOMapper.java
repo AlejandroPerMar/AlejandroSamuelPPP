@@ -1,13 +1,9 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.AlumnoCurso;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.MateriaTutor;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoCursoDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.CursoDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.MateriaTutorDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.*;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.*;
+
+import java.util.Objects;
 
 public class CursoDTOMapper {
     
@@ -15,7 +11,7 @@ public class CursoDTOMapper {
         Curso curso = new Curso();
         curso.setTitulo(in.getTitulo());
         curso.setMateriaTutor(toDomain(in.getMateriaTutor()));
-        curso.setAlumnosCurso(in.getAlumnosCurso().stream().map(this::toDomainPost).toList());
+        curso.setAlumnos(in.getAlumnos().stream().map(this::toDomain).toList());
         return curso;
     }
 
@@ -24,18 +20,27 @@ public class CursoDTOMapper {
         curso.setId(in.getId());
         curso.setTitulo(in.getTitulo());
         curso.setMateriaTutor(toDTO(in.getMateriaTutor()));
-        curso.setAlumnosCurso(in.getAlumnosCurso().stream().map(this::toDTO).toList());
+        if(Objects.nonNull(in.getAlumnos()))
+            curso.setAlumnos(in.getAlumnos().stream().map(this::toDTO).toList());
+        if(Objects.nonNull(in.getActividades()))
+            curso.setActividades(in.getActividades().stream().map(this::toDTO).toList());
         return curso;
     }
 
-    private AlumnoCursoDTO toDTO(AlumnoCurso in) {
-        AlumnoCursoDTO alumnoCurso = new AlumnoCursoDTO();
-        alumnoCurso.setAlumno(toDTO(in.getAlumno()));
-        return alumnoCurso;
+    private ActividadDTO toDTO(Actividad in) {
+        ActividadDTO actividad = new ActividadDTO();
+        actividad.setId(in.getId());
+        return actividad;
     }
 
     private AlumnoDTO toDTO(Alumno in) {
         AlumnoDTO alumno = new AlumnoDTO();
+        alumno.setId(in.getId());
+        return alumno;
+    }
+
+    private Alumno toDomain(AlumnoDTO in) {
+        Alumno alumno = new Alumno();
         alumno.setId(in.getId());
         return alumno;
     }
@@ -50,17 +55,5 @@ public class CursoDTOMapper {
         MateriaTutor materiaTutor = new MateriaTutor();
         materiaTutor.setId(in.getId());
         return materiaTutor;
-    }
-    
-    private AlumnoCurso toDomainPost(AlumnoCursoDTO in) {
-        AlumnoCurso alumnoCurso = new AlumnoCurso();
-        alumnoCurso.setAlumno(toDomain(in.getAlumno()));
-        return alumnoCurso;
-    }
-
-    private Alumno toDomain(AlumnoDTO in) {
-        Alumno alumno = new Alumno();
-        alumno.setId(in.getId());
-        return alumno;
     }
 }

@@ -1,5 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.CursoDTO;
 import org.springframework.stereotype.Component;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
@@ -8,47 +10,53 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.p
 @Component
 public class ActividadDTOMapper {
 	
-    public Actividad toDomain(ActividadDTO in) {
-    	Actividad materia = new Actividad();
+    public Actividad toDomainPut(ActividadDTO in) {
+    	Actividad actividad = new Actividad();
 
-        materia.setId(in.getId());
+        actividad.setId(in.getId());
+        actividad.setNombre(in.getNombre());
+        actividad.setDescripcion(in.getDescripcion());
+        actividad.setFechaActividad(in.getFechaActividad());
 
-        return materia;
+        return actividad;
     }
 
     public Actividad toDomainPost(ActividadDTO in) {
-    	Actividad materia = new Actividad();
+        Actividad actividad = new Actividad();
 
-    	 materia.setId(in.getId());
-         materia.setNombre(in.getNombre());
-         materia.setDescripcion(in.getDescripcion());
-         materia.setEstado(in.getEstado());
+        actividad.setNombre(in.getNombre());
+        actividad.setDescripcion(in.getDescripcion());
+        actividad.setFechaActividad(in.getFechaActividad());
+        actividad.setCurso(toDomain(in.getCurso()));
 
-        return materia;
+        return actividad;
     }
 
     public ActividadDTO toDTO(Actividad in) {
-    	ActividadDTO materia = new ActividadDTO();
+        ActividadDTO actividad = new ActividadDTO();
 
-        materia.setId(in.getId());
-        materia.setNombre(in.getNombre());
-        materia.setDescripcion(in.getDescripcion());
-        materia.setEstado(in.getEstado());
+        actividad.setId(in.getId());
+        actividad.setNombre(in.getNombre());
+        actividad.setDescripcion(in.getDescripcion());
+        actividad.setCurso(toDTO(in.getCurso()));
+        actividad.setFechaActividad(in.getFechaActividad());
+        actividad.setFechaCreacion(in.getFechaCreacion());
 
-        return materia;
+        return actividad;
     }
 
-    /*
-    public NivelEstudios toDomain(NivelEstudiosDTO in) {
-        NivelEstudios nivelEstudios = new NivelEstudios();
-        nivelEstudios.setId(in.getId());
-        return nivelEstudios;
+    private CursoDTO toDTO(Curso in) {
+        CursoDTO curso = new CursoDTO();
+        curso.setId(in.getId());
+        return curso;
     }
 
-    public NivelEstudiosDTO toDTO(NivelEstudios in) {
-        NivelEstudiosDTO nivelEstudios = new NivelEstudiosDTO();
-        nivelEstudios.setId(in.getId());
-        return nivelEstudios;
+    public Curso toDomain(CursoDTO in) {
+        Curso curso = new Curso();
+        curso.setId(in.getId());
+        return curso;
     }
-    */
+
+
+
 }

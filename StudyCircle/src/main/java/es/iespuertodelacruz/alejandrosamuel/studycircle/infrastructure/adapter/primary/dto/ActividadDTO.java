@@ -1,6 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 
 import java.math.BigInteger;
 
@@ -15,9 +16,10 @@ public class ActividadDTO {
 
 	private String nombre;
 
-	private String estado;
-
 	private BigInteger fechaActividad;
+
+	private CursoDTO curso;
+
 
 	public ActividadDTO() {
 	}
@@ -54,19 +56,19 @@ public class ActividadDTO {
 		this.nombre = nombre;
 	}
 
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
 	public BigInteger getFechaActividad() {
 		return fechaActividad;
 	}
 
 	public void setFechaActividad(BigInteger fechaActividad) {
 		this.fechaActividad = fechaActividad;
+	}
+
+	public CursoDTO getCurso() {
+		return curso;
+	}
+
+	public void setCurso(CursoDTO curso) {
+		this.curso = curso;
 	}
 }

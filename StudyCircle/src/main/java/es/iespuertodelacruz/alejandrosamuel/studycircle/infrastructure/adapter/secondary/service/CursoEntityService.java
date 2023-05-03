@@ -2,17 +2,14 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.ICursoRepository;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlumnoCursoEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.CursoEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.CursoEntityMapper;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.AlumnoCursoEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.CursoEntityJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,9 +18,6 @@ public class CursoEntityService implements ICursoRepository {
 
     @Autowired
     private CursoEntityJPARepository repository;
-
-    @Autowired
-    private AlumnoCursoEntityJPARepository alumnoCursoRepository;
 
     @Autowired
     private CursoEntityMapper mapper;
@@ -50,14 +44,8 @@ public class CursoEntityService implements ICursoRepository {
         cursoEntity.setTitulo(curso.getTitulo());
         cursoEntity.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
         cursoEntity.setMateriaTutor(mapper.toEntity(curso.getMateriaTutor()));
+        cursoEntity.setAlumnos(curso.getAlumnos().stream().map(mapper::toEntity).toList());
         CursoEntity finalCursoEntity = repository.save(cursoEntity);
-
-        List<AlumnoCursoEntity> alumnoCursoEntities = new ArrayList<>();
-        curso.getAlumnosCurso().forEach(ac -> {
-            ac.setCurso(mapper.toDomain(finalCursoEntity));
-            alumnoCursoEntities.add(alumnoCursoRepository.save(mapper.toEntity(ac)));
-        });
-        finalCursoEntity.setAlumnosCurso(alumnoCursoEntities);
 
         return mapper.toDomain(finalCursoEntity);
     }

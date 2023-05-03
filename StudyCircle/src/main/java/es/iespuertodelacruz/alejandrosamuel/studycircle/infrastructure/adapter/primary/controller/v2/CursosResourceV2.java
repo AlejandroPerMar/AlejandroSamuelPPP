@@ -35,7 +35,7 @@ public class CursosResourceV2 {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CursoDTO curso) {
         if(ObjectUtils.notNullNorEmpty(curso))
-            if(ObjectUtils.notNullNorEmpty(curso.getTitulo(), curso.getAlumnosCurso(), curso.getMateriaTutor())) {
+            if(ObjectUtils.notNullNorEmpty(curso.getTitulo(), curso.getAlumnos(), curso.getMateriaTutor())) {
                 Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
                 Curso cursoPost = mapper.toDomainPost(curso);
                 cursoPost.getMateriaTutor().setTutor(tutor);

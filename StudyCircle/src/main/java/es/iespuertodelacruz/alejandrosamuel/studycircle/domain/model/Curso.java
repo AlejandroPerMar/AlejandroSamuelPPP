@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
+
 import java.math.BigInteger;
 import java.util.List;
 
@@ -9,8 +10,8 @@ public class Curso {
 	private String titulo;
 	private BigInteger fechaCreacion;
 	private MateriaTutor materiaTutor;
-	private List<ActividadCurso> actividadesCurso;
-	private List<AlumnoCurso> alumnosCurso;
+	private List<Actividad> actividades;
+	private List<Alumno> alumnos;
 
 	public Curso() {
 	}
@@ -47,19 +48,19 @@ public class Curso {
 		this.materiaTutor = materiaTutor;
 	}
 
-	public List<ActividadCurso> getActividadesCurso() {
-		return actividadesCurso;
+	public List<Actividad> getActividades() {
+		return actividades;
 	}
 
-	public void setActividadesCurso(List<ActividadCurso> actividadesCurso) {
-		this.actividadesCurso = actividadesCurso;
+	public void setActividades(List<Actividad> actividades) {
+		this.actividades = actividades;
 	}
 
-	public List<AlumnoCurso> getAlumnosCurso() {
-		return alumnosCurso;
+	public List<Alumno> getAlumnos() {
+		return alumnos;
 	}
 
-	public void setAlumnosCurso(List<AlumnoCurso> alumnosCurso) {
-		this.alumnosCurso = alumnosCurso;
+	public void setAlumnos(List<Alumno> alumnos) {
+		this.alumnos = alumnos;
 	}
 }

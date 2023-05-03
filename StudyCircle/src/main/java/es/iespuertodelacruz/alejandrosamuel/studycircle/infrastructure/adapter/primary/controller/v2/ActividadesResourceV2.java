@@ -1,11 +1,18 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ICursoService;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ITutorService;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasActividad;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,14 +40,23 @@ public class ActividadesResourceV2 {
     private IActividadService service;
 
     @Autowired
+    private IUsuarioService usuarioService;
+
+    @Autowired
+    private ICursoService cursoService;
+
+    @Autowired
+    private ITutorService tutorService;
+
+    @Autowired
     private ActividadDTOMapper mapper;
 
     @GetMapping(params = "id")
     public ResponseEntity<?> findById(@RequestParam("id") Integer id) {
     	Actividad actividad = service.findById(id);
 
-        if(actividad == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado ninguna actividad con id " + id);
+        if(Objects.isNull(actividad))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_NOT_FOUND.name());
 
         return ResponseEntity.ok(mapper.toDTO(actividad));
     }
@@ -49,45 +65,50 @@ public class ActividadesResourceV2 {
     public ResponseEntity<?> findByNombre(@RequestParam("nombre") String nombre) {
         Actividad actividad = service.findByNombre(nombre);
 
-        if(actividad == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado ninguna actividad con id " + nombre);
+        if(Objects.isNull(actividad))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_NOT_FOUND.name());
 
         return ResponseEntity.ok(mapper.toDTO(actividad));
-    }
-    
-    @GetMapping
-    public ResponseEntity<?> findAll() {
-        List<Actividad> niveles = service.findAll();
-        return ResponseEntity.ok(niveles.stream().map(n -> mapper.toDTO(n)).collect(Collectors.toList()));
     }
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ActividadDTO request) {
-        Actividad materia = mapper.toDomainPost(request);
-        materia = service.create(materia);
+        Actividad actividad = mapper.toDomainPost(request);
+        actividad = service.create(actividad);
 
-        return ResponseEntity.ok(mapper.toDTO(materia));
+        return ResponseEntity.ok(mapper.toDTO(actividad));
     }
 
     
     @PutMapping
     public ResponseEntity<?> update(@RequestBody ActividadDTO request) {
-        if(service.findById(request.getId()) == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Actividad no existente");
+        if(Objects.isNull(service.findById(request.getId())))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_NOT_FOUND.name());
 
-        return ResponseEntity.ok(mapper.toDTO(service.update(mapper.toDomain(request))));
+        return ResponseEntity.ok(mapper.toDTO(service.update(mapper.toDomainPut(request))));
     }
 
     
     @DeleteMapping(params = "id")
     public ResponseEntity<?> delete(@RequestParam("id") Integer id) {
-        boolean eliminado = service.delete(id);
+        Actividad actividad = service.findById(id);
+        if(Objects.isNull(actividad))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_NOT_FOUND.name());
+        Curso curso = cursoService.findById(actividad.getCurso().getId());
+        Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
+        if(curso.getMateriaTutor().getTutor().getId() == tutor.getId()) {
+            boolean eliminado = service.delete(id);
+            if(eliminado)
+                return ResponseEntity.ok(RespuestasActividad.ACTIVITY_REMOVED.name());
+        }
 
-        if(!eliminado)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha podido eliminar la actividad con id " + id +
-                    ", tenga en cuenta que una actividad que se encuentre vinculada con otras entidades no puede ser eliminada");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_NOT_REMOVED.name());
 
-        return ResponseEntity.ok("Actividad con id " + id + " eliminada");
 
+    }
+
+    private String getUsernameUsuario() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ((UserDetailsLogin) principal).getUsername();
     }
 }
