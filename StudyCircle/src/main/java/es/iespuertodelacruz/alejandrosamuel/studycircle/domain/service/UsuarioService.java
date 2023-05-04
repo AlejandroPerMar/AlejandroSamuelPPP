@@ -1,6 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.service;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.EstadosVerificacionCorreo;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.EstadosVerificacionCorreo;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.service.TokenConfirmacionEntityService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.service.UsuarioEntityService;

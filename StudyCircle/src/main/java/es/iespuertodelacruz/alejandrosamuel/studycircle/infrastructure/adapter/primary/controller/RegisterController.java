@@ -5,8 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.ErroresRegistro;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.EstadosVerificacionCorreo;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.ErroresRegistro;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.EstadosVerificacionCorreo;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IHTMLBuilder;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.UsuarioDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;

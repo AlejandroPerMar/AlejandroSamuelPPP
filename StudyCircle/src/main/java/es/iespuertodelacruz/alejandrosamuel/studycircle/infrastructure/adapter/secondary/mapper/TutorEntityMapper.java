@@ -1,22 +1,18 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.MateriaTutor;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.MateriaEntity;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.MateriaTutorEntity;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TutorEntity;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.*;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.*;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 public class TutorEntityMapper {
     public TutorEntity toEntityPost(Tutor in) {
         TutorEntity tutor = new TutorEntity();
         tutor.setUsuario(toEntity(in.getUsuario()));
-        if(in.getMateriasTutor() != null)
+        if(Objects.nonNull(in.getMateriasTutor()))
             tutor.setMateriasTutor(in.getMateriasTutor().stream().map(this::toEntity).toList());
         tutor.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
         return tutor;
@@ -24,7 +20,7 @@ public class TutorEntityMapper {
 
     public TutorEntity toEntityPut(Tutor in) {
         TutorEntity tutor = new TutorEntity();
-        if(in.getMateriasTutor() != null)
+        if(Objects.nonNull(in.getMateriasTutor()))
             tutor.setMateriasTutor(in.getMateriasTutor().stream().map(this::toEntity).toList());
         return tutor;
     }
@@ -32,9 +28,15 @@ public class TutorEntityMapper {
     public Tutor toDomain(TutorEntity in) {
         Tutor tutor = new Tutor();
         tutor.setId(in.getId());
-        if(in.getMateriasTutor() != null)
+        if(Objects.nonNull(in.getMateriasTutor()))
             tutor.setMateriasTutor(in.getMateriasTutor().stream().map(this::toDomain).toList());
         tutor.setUsuario(toDomain(in.getUsuario()));
+        return tutor;
+    }
+
+    public Tutor toDomainOnlyId(TutorEntity in) {
+        Tutor tutor = new Tutor();
+        tutor.setId(in.getId());
         return tutor;
     }
 
@@ -47,7 +49,23 @@ public class TutorEntityMapper {
     public MateriaTutor toDomain(MateriaTutorEntity in) {
         MateriaTutor materiaTutor = new MateriaTutor();
         materiaTutor.setId(in.getId());
+        materiaTutor.setTutor(toDomainOnlyId(in.getTutor()));
+        materiaTutor.setMateria(toDomain(in.getMateria()));
+        List<Curso> cursos = in.getCursosTutor().stream().map(this::toDomain).toList();
+        materiaTutor.setCursosTutor(cursos);
         return materiaTutor;
+    }
+
+    private Curso toDomain(CursoEntity in) {
+        Curso curso = new Curso();
+        curso.setId(in.getId());
+        return curso;
+    }
+
+    private Materia toDomain(MateriaEntity in) {
+        Materia materia = new Materia();
+        materia.setId(in.getId());
+        return materia;
     }
 
     public MateriaTutorEntity toEntity(MateriaTutor in) {

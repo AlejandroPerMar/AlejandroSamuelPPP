@@ -28,11 +28,12 @@ public class ActividadEntity implements Serializable {
 	@Column(name="name")
 	private String nombre;
 
-	@Column(name="status")
-	private String estado;
-
 	@Column(name="time_activity")
 	private BigInteger fechaActividad;
+
+	@ManyToOne
+	@JoinColumn(name="id_course")
+	private CursoEntity curso;
 
 	public ActividadEntity() {
 	}
@@ -69,14 +70,6 @@ public class ActividadEntity implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getEstado() {
-		return this.estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
 	public BigInteger getFechaActividad() {
 		return this.fechaActividad;
 	}
@@ -85,4 +78,11 @@ public class ActividadEntity implements Serializable {
 		this.fechaActividad = fechaActividad;
 	}
 
+	public CursoEntity getCurso() {
+		return curso;
+	}
+
+	public void setCurso(CursoEntity curso) {
+		this.curso = curso;
+	}
 }

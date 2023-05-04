@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.UsuarioEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -86,6 +87,16 @@ public class ApplicationConfig {
 	}
 
 	@Bean
+	public CursoDTOMapper cursoDTOMapper() {
+		return new CursoDTOMapper();
+	}
+
+	@Bean
+	public CursoEntityMapper cursoEntityMapper() {
+		return new CursoEntityMapper();
+	}
+
+	@Bean
 	public UserDetailsService userDetailsService() {
 		
 		return username -> {
@@ -94,7 +105,7 @@ public class ApplicationConfig {
 			UserDetailsLogin user = new UserDetailsLogin();
 		    user.setUsername(ur.getUsername());
 		    user.setPassword(ur.getHashpswd());
-		    
+			user.setEstado(ur.getEstado());
 		    /*
 		     * Generar una List<String> con los roles
 		     */

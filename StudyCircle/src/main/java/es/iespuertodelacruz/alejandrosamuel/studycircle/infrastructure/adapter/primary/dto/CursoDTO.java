@@ -9,13 +9,12 @@ import java.util.List;
 public class CursoDTO {
 	
 	private int id;
-	private Double precioHora;
 	private String estado;
 	private String titulo;
 	private BigInteger fechaCreacion;
 	private MateriaTutorDTO materiaTutor;
-	private List<ActividadCursoDTO> actividadesCurso;
-	private List<AlumnoCursoDTO> alumnosCurso;
+	private List<ActividadDTO> actividades;
+	private List<AlumnoDTO> alumnos;
 
 	public CursoDTO() {
 	}
@@ -26,14 +25,6 @@ public class CursoDTO {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Double getPrecioHora() {
-		return precioHora;
-	}
-
-	public void setPrecioHora(Double precioHora) {
-		this.precioHora = precioHora;
 	}
 
 	public String getEstado() {
@@ -68,19 +59,19 @@ public class CursoDTO {
 		this.materiaTutor = materiaTutor;
 	}
 
-	public List<ActividadCursoDTO> getActividadesCurso() {
-		return actividadesCurso;
+	public List<ActividadDTO> getActividades() {
+		return actividades;
 	}
 
-	public void setActividadesCurso(List<ActividadCursoDTO> actividadesCurso) {
-		this.actividadesCurso = actividadesCurso;
+	public void setActividades(List<ActividadDTO> actividades) {
+		this.actividades = actividades;
 	}
 
-	public List<AlumnoCursoDTO> getAlumnosCurso() {
-		return alumnosCurso;
+	public List<AlumnoDTO> getAlumnos() {
+		return alumnos;
 	}
 
-	public void setAlumnosCurso(List<AlumnoCursoDTO> alumnosCurso) {
-		this.alumnosCurso = alumnosCurso;
+	public void setAlumnos(List<AlumnoDTO> alumnos) {
+		this.alumnos = alumnos;
 	}
 }

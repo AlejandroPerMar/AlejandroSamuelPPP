@@ -19,7 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @Api(tags = {SwaggerConfig.TUTOR_V2_TAG})
 @RestController
@@ -43,7 +42,7 @@ public class TutoresResourceV2 {
     public ResponseEntity<?> getTutor() {
         Tutor tutor = service.findTutorByUsername(getUsernameUsuario());
         TutorDTO tutorDTO = mapper.toDTO(tutor);
-        if(tutorDTO == null)
+        if(Objects.isNull(tutorDTO))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_FOUND.name());
 
         return ResponseEntity.ok().body(tutorDTO);
@@ -54,9 +53,9 @@ public class TutoresResourceV2 {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
         if(Objects.nonNull(service.findTutorByIdUsuario(usuario.getId())))
             return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_ALREADY_CREATED.name());
-        
-        TutorDTO tutorDTO = mapper.toDTO(service.create(usuario, materias.stream().map(m -> materiaDTOMapper.toDomain(m)).toList()));
-        if(tutorDTO == null)
+
+        TutorDTO tutorDTO = mapper.toDTO(service.create(usuario, materias.stream().map(materiaDTOMapper::toDomain).toList()));
+        if(Objects.isNull(tutorDTO))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_CREATED.name());
 
         return ResponseEntity.ok().body(tutorDTO);
@@ -65,11 +64,15 @@ public class TutoresResourceV2 {
     @PutMapping
     public ResponseEntity<?> updateTutor(@RequestBody List<MateriaDTO> materias) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
-        TutorDTO tutorDTO = mapper.toDTO(service.update(usuario, materias.stream().map(m -> materiaDTOMapper.toDomain(m)).toList()));
-        if(tutorDTO == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_UPDATED);
+        if(usuario.getRoles().stream().map(Rol::getRol).anyMatch(r -> r.equals(Roles.ROLE_TUTOR.name()))) {
+            TutorDTO tutorDTO = mapper.toDTO(service.update(usuario, materias.stream().map(materiaDTOMapper::toDomain).toList()));
+            if(Objects.isNull(tutorDTO))
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_UPDATED);
 
-        return ResponseEntity.ok().body(tutorDTO);
+            return ResponseEntity.ok().body(tutorDTO);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_FOUND);
+
     }
 
     private String getUsernameUsuario() {

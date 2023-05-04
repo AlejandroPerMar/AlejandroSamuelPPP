@@ -26,6 +26,8 @@ public class SwaggerConfig {
 	
 	public static final String ALUMNO_TAG = "Alumno";
 	public static final String ACTIVIDAD_TAG = "Actividad";
+	public static final String ACTIVIDAD_V2_TAG = "ActividadV2";
+	public static final String ACTIVIDAD_V3_TAG = "ActividadV3";
 	public static final String ALERTA_TAG = "Alerta";
 	public static final String AMISTAD_TAG = "Amistad";
 	public static final String ANUNCIO_TAG = "Anuncio";
@@ -38,6 +40,7 @@ public class SwaggerConfig {
 	public static final String NIVEL_ESTUDIOS_V3_TAG = "NivelEstudiosV3";
 	public static final String ROL_TAG = "Rol";
 	public static final String TUTOR_V2_TAG = "TutorV2";
+	public static final String CURSO_V2_TAG = "CursoV2";
 	public static final String USUARIO_TAG = "Usuario";
 	public static final String LOGIN_TAG = "Login";
 	public static final String REGISTER_TAG = "Register";
@@ -51,6 +54,8 @@ public class SwaggerConfig {
                 .build()
                 .tags(new Tag(ALUMNO_TAG, "Controlador REST para las acciones relacionadas con las entidades Alumno"),
                 		new Tag(ACTIVIDAD_TAG, ""),
+                		new Tag(ACTIVIDAD_V2_TAG, "Controlador REST para las acciones o peticiones relacionadas con la entidad Actividad Versión 2 (ADMIN)"),
+                		new Tag(ACTIVIDAD_V3_TAG, "Controlador REST para las acciones o peticiones relacionadas con la entidad Actividad Versión 3 (ADMIN)"),
                 		new Tag(ALERTA_TAG, ""),
                 		new Tag(AMISTAD_TAG, ""),
                 		new Tag(ANUNCIO_TAG, ""),
@@ -63,6 +68,7 @@ public class SwaggerConfig {
 						new Tag(NIVEL_ESTUDIOS_V3_TAG, "Controlador REST para las peticiones asociadas con la entidad NivelEstudios para la versión 2"),
                 		new Tag(ROL_TAG, ""),
                 		new Tag(TUTOR_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Tutor para la versión 2"),
+						new Tag(CURSO_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Curso para la versión 2"),
                 		new Tag(USUARIO_TAG, ""),
 						new Tag(LOGIN_TAG, "Controlador REST para la acción de Inicio de Sesión del Usuario"),
 						new Tag(REGISTER_TAG, "Controlador REST para la acción de Registro del Usuario en la app"))
