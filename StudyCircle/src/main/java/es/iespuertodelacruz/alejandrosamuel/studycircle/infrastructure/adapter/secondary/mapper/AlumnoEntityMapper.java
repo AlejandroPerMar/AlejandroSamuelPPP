@@ -9,11 +9,8 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.NivelEstudiosEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
 
-import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class AlumnoEntityMapper {
 
@@ -21,8 +18,10 @@ public class AlumnoEntityMapper {
         Alumno alumno = new Alumno();
         alumno.setId(in.getId());
 		alumno.setNivelEstudios(toDomain(in.getNivelEstudios()));
-		List<Materia> materias = in.getMaterias().stream().map(this::toDomain).toList();
-		alumno.setMaterias(materias);
+        if(Objects.nonNull(in.getMaterias())) {
+            List<Materia> materias = in.getMaterias().stream().map(this::toDomain).toList();
+            alumno.setMaterias(materias);
+        }
         alumno.setUsuario(toDomain(in.getUsuario()));
         return alumno;
     }

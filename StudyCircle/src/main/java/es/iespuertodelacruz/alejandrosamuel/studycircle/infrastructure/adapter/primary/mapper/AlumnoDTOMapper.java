@@ -34,7 +34,7 @@ public class AlumnoDTOMapper {
 
 		Alumno alumno = new Alumno();
 		alumno.setNivelEstudios(toDomain(in.getNivelEstudios()));
-		if(Objects.isNull(in.getMaterias()))
+		if(Objects.nonNull(in.getMaterias()))
 			alumno.setMaterias(in.getMaterias().stream().map(this::toDomain).toList());
 		else
 			alumno.setMaterias(null);
@@ -50,11 +50,10 @@ public class AlumnoDTOMapper {
 		AlumnoDTO alumno = new AlumnoDTO();
 		alumno.setId(in.getId());
 		alumno.setNivelEstudios(toDTO(in.getNivelEstudios()));
-		if(in.getMaterias() == null)
+		if(Objects.isNull(in.getMaterias()))
 			alumno.setMaterias(null);
 		else
 			alumno.setMaterias(in.getMaterias().stream().map(this::toDTO).toList());
-		System.out.println(in.getUsuario().getId());
 		alumno.setUsuario(toDTO(in.getUsuario()));
 		return alumno;
 	}

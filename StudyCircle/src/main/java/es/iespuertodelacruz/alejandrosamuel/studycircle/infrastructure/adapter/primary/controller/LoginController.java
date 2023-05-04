@@ -5,8 +5,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Rol;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.enums.ErroresInicioSesion;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.ErroresInicioSesion;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

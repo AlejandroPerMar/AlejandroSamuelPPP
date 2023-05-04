@@ -39,7 +39,7 @@ public class AuthRepository {
     }
 
     public LiveData<String> getAuthToken(UsuarioLoginDTO usuarioLoginDTO) {
-        restNoAuthService = RetrofitClient.getInstance().getAuthRestService();
+        restNoAuthService = RetrofitClient.getInstance().getNoAuthRestService();
         MutableLiveData<String> mutableToken = new MutableLiveData<>();
         Call<String> callToken = restNoAuthService.login(usuarioLoginDTO);
         callToken.enqueue(new Callback<String>() {
@@ -75,7 +75,7 @@ public class AuthRepository {
     }
 
     public LiveData<Object> registerUsuario(UsuarioRegisterDTO usuarioRegisterDTO) {
-        restNoAuthService = RetrofitClient.getInstance().getAuthRestService();
+        restNoAuthService = RetrofitClient.getInstance().getNoAuthRestService();
         MutableLiveData<Object> mutableRespuesta = new MutableLiveData<>();
         Call<ResponseBody> register = restNoAuthService.register(usuarioRegisterDTO);
         register.enqueue(new Callback<ResponseBody>() {
