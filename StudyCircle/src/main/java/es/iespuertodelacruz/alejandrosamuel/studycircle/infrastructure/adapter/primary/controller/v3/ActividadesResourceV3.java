@@ -51,16 +51,6 @@ public class ActividadesResourceV3 {
 
         return ResponseEntity.ok(mapper.toDTO(actividad));
     }
-
-    @GetMapping(params = "nombre")
-    public ResponseEntity<?> findByNombre(@RequestParam("nombre") String nombre) {
-        Actividad actividad = service.findByNombre(nombre);
-
-        if(actividad == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado ninguna actividad con id " + nombre);
-
-        return ResponseEntity.ok(mapper.toDTO(actividad));
-    }
     
     @GetMapping
     public ResponseEntity<?> findAll() {

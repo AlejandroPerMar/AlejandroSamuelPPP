@@ -8,8 +8,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
 public interface IActividadService {
 
     Actividad findById(Integer id);
-    
-    Actividad findByNombre(String nombre);
 
     Actividad create(Actividad nivelEstudios);
 

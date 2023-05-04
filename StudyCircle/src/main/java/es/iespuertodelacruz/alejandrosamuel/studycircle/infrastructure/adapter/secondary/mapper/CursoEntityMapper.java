@@ -32,7 +32,7 @@ public class CursoEntityMapper {
             curso.setActividades(in.getActividades().stream().map(this::toEntity).toList());
         if(Objects.nonNull(in.getAlumnos()))
             curso.setAlumnos(in.getAlumnos().stream().map(this::toEntity).toList());
-        curso.setMateriaTutor(toDomain(in.getMateriaTutor()));
+        curso.setMateriaTutor(toEntity(in.getMateriaTutor()));
         return curso;
     }
 
@@ -48,7 +48,7 @@ public class CursoEntityMapper {
         return actividad;
     }
 
-    private MateriaTutorEntity toDomain(MateriaTutor in) {
+    public MateriaTutorEntity toEntity(MateriaTutor in) {
         MateriaTutorEntity materiaTutor = new MateriaTutorEntity();
         materiaTutor.setId(in.getId());
         return materiaTutor;
@@ -57,6 +57,12 @@ public class CursoEntityMapper {
     public MateriaTutor toDomain(MateriaTutorEntity in) {
         MateriaTutor materiaTutor = new MateriaTutor();
         materiaTutor.setId(in.getId());
+        Materia materia = new Materia();
+        materia.setId(in.getMateria().getId());
+        materiaTutor.setMateria(materia);
+        Tutor tutor = new Tutor();
+        tutor.setId(in.getTutor().getId());
+        materiaTutor.setTutor(tutor);
         return materiaTutor;
     }
 
@@ -70,11 +76,5 @@ public class CursoEntityMapper {
         AlumnoEntity alumno = new AlumnoEntity();
         alumno.setId(in.getId());
         return alumno;
-    }
-
-    public MateriaTutorEntity toEntity(MateriaTutor in) {
-        MateriaTutorEntity materiaTutor = new MateriaTutorEntity();
-        materiaTutor.setId(in.getId());
-        return materiaTutor;
     }
 }

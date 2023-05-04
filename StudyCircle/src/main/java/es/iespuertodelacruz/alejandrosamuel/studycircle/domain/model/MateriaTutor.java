@@ -1,7 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.CursoDTO;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ public class MateriaTutor {
 	private int id;
 	private Materia materia;
 	private Tutor tutor;
-	private List<CursoDTO> cursosTutor;
+	private List<Curso> cursosTutor;
 
 	public MateriaTutor() {
 	}
@@ -39,11 +38,11 @@ public class MateriaTutor {
 		this.tutor = tutor;
 	}
 
-	public List<CursoDTO> getCursosTutor() {
+	public List<Curso> getCursosTutor() {
 		return cursosTutor;
 	}
 
-	public void setCursosTutor(List<CursoDTO> cursosTutor) {
+	public void setCursosTutor(List<Curso> cursosTutor) {
 		this.cursosTutor = cursosTutor;
 	}
 }

@@ -1,6 +1,8 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
 import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
@@ -53,29 +55,34 @@ public class ActividadesResourceV2 {
 
     @GetMapping(params = "id")
     public ResponseEntity<?> findById(@RequestParam("id") Integer id) {
-    	Actividad actividad = service.findById(id);
-
+        Actividad actividad = service.findById(id);
         if(Objects.isNull(actividad))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_NOT_FOUND.name());
 
-        return ResponseEntity.ok(mapper.toDTO(actividad));
-    }
+        Curso curso = cursoService.findById(actividad.getCurso().getId());
+        int idTutorActividad = curso.getMateriaTutor().getTutor().getId();
+        Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
+        if(idTutorActividad == tutor.getId())
+            return ResponseEntity.ok(mapper.toDTO(actividad));
 
-    @GetMapping(params = "nombre")
-    public ResponseEntity<?> findByNombre(@RequestParam("nombre") String nombre) {
-        Actividad actividad = service.findByNombre(nombre);
-
-        if(Objects.isNull(actividad))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_NOT_FOUND.name());
-
-        return ResponseEntity.ok(mapper.toDTO(actividad));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_FORBIDDEN);
     }
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ActividadDTO request) {
+        Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
+        AtomicBoolean cursoExistente = new AtomicBoolean(false);
+        tutor.getMateriasTutor().forEach(mt ->  {
+            Optional<Curso> curso = mt.getCursosTutor().stream().filter(c -> c.getId() == request.getCurso().getId()).findFirst();
+            if(curso.isPresent())
+                cursoExistente.set(true);
+        });
+
+        if(!cursoExistente.get())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.COURSE_ACTIVITY_NOT_VALID);
+
         Actividad actividad = mapper.toDomainPost(request);
         actividad = service.create(actividad);
-
         return ResponseEntity.ok(mapper.toDTO(actividad));
     }
 

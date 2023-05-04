@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-05-2023 a las 14:15:46
+-- Tiempo de generación: 03-05-2023 a las 19:39:22
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -31,9 +31,8 @@ CREATE TABLE `activities` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `status` varchar(100) NOT NULL,
   `time_activity` bigint(20) NOT NULL,
-  `id_tutor` int(11) NOT NULL,
+  `id_course` int(11) NOT NULL,
   `created_at` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -137,6 +136,13 @@ CREATE TABLE `course` (
   `created_at` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `course`
+--
+
+INSERT INTO `course` (`id`, `id_tutor_subject`, `title`, `created_at`) VALUES
+(10, 24, 'prueba curso 2', 1683122889983);
+
 -- --------------------------------------------------------
 
 --
@@ -160,6 +166,13 @@ CREATE TABLE `course_students` (
   `id_course` int(11) NOT NULL,
   `id_student` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `course_students`
+--
+
+INSERT INTO `course_students` (`id`, `id_course`, `id_student`) VALUES
+(7, 10, 4);
 
 -- --------------------------------------------------------
 
@@ -386,7 +399,7 @@ INSERT INTO `users` (`id`, `username`, `full_name`, `email`, `status`, `hashpswd
 --
 ALTER TABLE `activities`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_tutor` (`id_tutor`);
+  ADD KEY `id_course` (`id_course`) USING BTREE;
 
 --
 -- Indices de la tabla `alerts`
@@ -553,7 +566,7 @@ ALTER TABLE `confirmation_token`
 -- AUTO_INCREMENT de la tabla `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `course_activities`
@@ -565,7 +578,7 @@ ALTER TABLE `course_activities`
 -- AUTO_INCREMENT de la tabla `course_students`
 --
 ALTER TABLE `course_students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `friendships`
@@ -635,7 +648,7 @@ ALTER TABLE `users`
 -- Filtros para la tabla `activities`
 --
 ALTER TABLE `activities`
-  ADD CONSTRAINT `activities_ibfk_1` FOREIGN KEY (`id_tutor`) REFERENCES `tutors` (`id`);
+  ADD CONSTRAINT `activities_ibfk_1` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`);
 
 --
 -- Filtros para la tabla `alerts`

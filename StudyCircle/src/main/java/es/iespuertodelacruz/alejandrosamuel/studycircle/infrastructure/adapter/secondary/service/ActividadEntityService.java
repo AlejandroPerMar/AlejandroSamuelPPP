@@ -28,12 +28,6 @@ public class ActividadEntityService implements IActividadRepository {
 	}
 
 	@Override
-	public Actividad findByNombre(String nombre) {
-        Optional<ActividadEntity> optActividad = repository.findByNombre(nombre);
-        return optActividad.map(m -> mapper.toDomain(m)).orElse(null);
-	}
-
-	@Override
 	public Actividad create(Actividad actividad) {
         return mapper.toDomain(repository.save(mapper.toEntityPost(actividad)));
 

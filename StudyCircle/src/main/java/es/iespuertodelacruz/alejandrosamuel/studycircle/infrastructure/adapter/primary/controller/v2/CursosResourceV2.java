@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = {SwaggerConfig.MATERIA_V2_TAG})
+@Api(tags = {SwaggerConfig.CURSO_V2_TAG})
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v2/cursos")

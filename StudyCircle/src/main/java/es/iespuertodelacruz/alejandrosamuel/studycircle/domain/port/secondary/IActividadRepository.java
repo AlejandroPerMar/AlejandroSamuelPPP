@@ -7,12 +7,10 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
 public interface IActividadRepository {
 
 	Actividad findById(Integer id);
-    
-    Actividad findByNombre(String nombre);
 
-    Actividad create(Actividad nivelEstudios);
+    Actividad create(Actividad actividad);
 
-    Actividad update(Actividad nivelEstudios);
+    Actividad update(Actividad actividad);
 
     boolean delete(Integer id);
 

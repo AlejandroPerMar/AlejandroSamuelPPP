@@ -21,11 +21,6 @@ public class ActividadService implements IActividadService {
 	}
 
 	@Override
-	public Actividad findByNombre(String nombre) {
-		return repository.findByNombre(nombre);
-	}
-
-	@Override
 	public Actividad create(Actividad actividad) {
 		return repository.create(actividad);
 	}
