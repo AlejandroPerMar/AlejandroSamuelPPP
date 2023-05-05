@@ -1,61 +1,63 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Menu;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.ActivityMainBinding;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
+
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.AuthRepository;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    private AuthRepository authRepository;
-    MainActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        binding.btnLogin.setOnClickListener(new View.OnClickListener() {@Override
-            public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
+        setSupportActionBar(binding.appBarMain.toolbar);
+        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Para mensajeria", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
-
-        binding.btnRegister.setOnClickListener(new View.OnClickListener() {@Override
-        public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-            startActivity(intent);
-        }
-        });
-
-        binding.btnPerfil.setOnClickListener(new View.OnClickListener() {@Override
-        public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), ConfiguracionPerfilTutorActivity.class);
-            startActivity(intent);
-        }
-        });
-
-        binding.btnVerification.setOnClickListener(new View.OnClickListener() {@Override
-        public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), AccountVerificationActivity.class);
-            startActivity(intent);
-        }
-        });
-
+        DrawerLayout drawer = binding.drawerLayout;
+        NavigationView navigationView = binding.navView;
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_anuncios, R.id.nav_buscar)
+                .setOpenableLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
 }

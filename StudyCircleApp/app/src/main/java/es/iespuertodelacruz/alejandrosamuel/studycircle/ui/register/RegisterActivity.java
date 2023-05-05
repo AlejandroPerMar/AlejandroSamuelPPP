@@ -1,4 +1,4 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.ui.register;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.view.View;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.ActivityRegisterBinding;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.ui.MainActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
