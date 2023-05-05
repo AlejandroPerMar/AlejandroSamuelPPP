@@ -27,6 +27,11 @@ public class AlertaService implements IAlertaService {
 	}
 
 	@Override
+	public List<Alerta> findByUsername(String username) {
+		return repository.findByUsername(username);
+	}
+
+	@Override
 	public Alerta create(Alerta actividad) {
 		return repository.create(actividad);
 	}

@@ -2,7 +2,9 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.UsuarioEntityJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +21,21 @@ public class AlertaEntityService implements IAlertaRepository {
 	private AlertaEntityJPARepository repository;
 
 	@Autowired
+	private UsuarioEntityJPARepository usuarioRepository;
+
+	@Autowired
 	private AlertaEntityMapper mapper;
 	
 	@Override
 	public Alerta findById(Integer id) {
 		 Optional<AlertaEntity> optActividad = repository.findById(id);
 	        return optActividad.map(m -> mapper.toDomain(m)).orElse(null);
+	}
+
+	@Override
+	public List<Alerta> findByUsername(String username) {
+		List<AlertaEntity> alertasUsuario = repository.findByUsuario(username);
+		return alertasUsuario.stream().map(mapper::toDomain).collect(Collectors.toList());
 	}
 
 	@Override

@@ -10,6 +10,8 @@ public interface IAlertaService {
     
     Alerta findByType(String nombre);
 
+    List<Alerta> findByUsername(String username);
+
     Alerta create(Alerta alerta);
 
     Alerta update(Alerta alerta);

@@ -7,6 +7,8 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alerta;
 public interface IAlertaRepository {
 
     Alerta findById(Integer id);
+
+    List<Alerta> findByUsername(String username);
     
     Alerta findByType(String nombre);
 

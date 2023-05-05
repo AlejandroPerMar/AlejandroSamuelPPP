@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlertaEntity;
 
+import javax.persistence.Entity;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,5 +16,8 @@ public interface AlertaEntityJPARepository extends JpaRepository<AlertaEntity, I
 
     @Query("SELECT a FROM AlertaEntity a WHERE a.type = :type")
     public Optional<AlertaEntity> findByType(@Param("tipo") String tipo);
+
+    @Query("SELECT a FROM AlertaEntity a WHERE a.usuario.username = :username")
+    public List<AlertaEntity> findByUsuario(@Param("username") String usuarioEntity);
 
 }

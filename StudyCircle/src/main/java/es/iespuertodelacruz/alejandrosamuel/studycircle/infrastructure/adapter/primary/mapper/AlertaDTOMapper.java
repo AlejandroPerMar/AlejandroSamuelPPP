@@ -1,5 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioDTO;
 import org.springframework.stereotype.Component;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alerta;
@@ -11,18 +13,19 @@ public class AlertaDTOMapper {
     public Alerta toDomain(AlertaDTO in) {
     	Alerta alerta = new Alerta();
 
-    	alerta.setId(in.getId());
+        alerta.setEstado(in.getEstado());
+        alerta.setTipo(in.getTipo());
+        alerta.setMensaje(in.getMensaje());
+        alerta.setFechaCreacion(in.getFechaCreacion());
+        alerta.setUsuario(toDomain(in.getUsuario()));
 
         return alerta;
     }
 
-    public Alerta toDomainPost(AlertaDTO in) {
-    	Alerta alerta = new Alerta();
-
-    	alerta.setId(in.getId());
-    	alerta.setEstado(in.getEstado());
-
-        return alerta;
+    private Usuario toDomain(UsuarioDTO in) {
+        Usuario usuario = new Usuario();
+        usuario.setId(in.getId());
+        return usuario;
     }
 
     public AlertaDTO toDTO(Alerta in) {
@@ -30,6 +33,9 @@ public class AlertaDTOMapper {
 
     	alerta.setId(in.getId());
     	alerta.setEstado(in.getEstado());
+        alerta.setTipo(in.getTipo());
+        alerta.setMensaje(in.getMensaje());
+        alerta.setFechaCreacion(in.getFechaCreacion());
 
         return alerta;
     }
