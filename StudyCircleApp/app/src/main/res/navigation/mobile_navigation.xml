@@ -24,8 +24,8 @@
         tools:layout="@layout/fragment_buscar" />
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start.HomeFragment"
+        android:id="@+id/navigation_start"
+        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start.StartFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_start" />
 

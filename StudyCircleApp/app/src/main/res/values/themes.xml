@@ -15,4 +15,5 @@
     <style name="Theme.StudyCircle.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.StudyCircle.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>
