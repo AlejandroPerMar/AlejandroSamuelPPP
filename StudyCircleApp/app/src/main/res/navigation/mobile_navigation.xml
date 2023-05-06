@@ -22,4 +22,23 @@
         android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.buscar.BuscarFragment"
         android:label="@string/menu_buscar"
         tools:layout="@layout/fragment_buscar" />
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_start" />
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.dashboard.DashboardFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+
 </navigation>
