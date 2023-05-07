@@ -25,4 +25,10 @@ public interface RESTService {
 
     @POST("v2/tutores")
     Call<ResponseBody> createTutor(@Body List<MateriaDTO> materiasDTO);
+
+    @PUT("v2/cursos/agregarAlumno")
+    Call<ResponseBody> addAlumnoToCurso(@Query("idCurso") Integer idCurso, @Query("idAlumno") Integer idAlumno);
+
+    @PUT("v2/cursos/eliminarAlumno")
+    Call<ResponseBody> removeAlumnoToCurso(@Query("idCurso") Integer idCurso, @Query("idAlumno") Integer idAlumno);
 }

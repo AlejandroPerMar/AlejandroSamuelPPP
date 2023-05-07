@@ -39,10 +39,11 @@ public class MainActivity extends AppCompatActivity {
         viewModel.register(usuarioRegisterDTO);*/
 
 
-        /*UsuarioLoginDTO usuarioLoginDTO = new UsuarioLoginDTO();
-        usuarioLoginDTO.setUsername("prueba");
-        usuarioLoginDTO.setClave("Prueba1@");
-        viewModel.getLiveDataToken(usuarioLoginDTO);*/
+        UsuarioLoginDTO usuarioLoginDTO = new UsuarioLoginDTO();
+        usuarioLoginDTO.setUsername("str");
+        usuarioLoginDTO.setClave("Samuel1@");
+        viewModel.getLiveDataToken(usuarioLoginDTO);
+
 
         //viewModel.resendEmail("eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoicHJ1ZWJhIiwiZXhwIjoxNjgzMzI2Mjg2fQ.yNgG7IOAiJp8-npbzMSQ4vAqNFwYG1OElBKG_O9FC9k");
 
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.createStudentProfile(alumnoDTO, "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoicHJ1ZWJhIiwiZXhwIjoxNjgzMzI2Mjg2fQ.yNgG7IOAiJp8-npbzMSQ4vAqNFwYG1OElBKG_O9FC9k");
         */
 
-
+        /*
         MateriaDTO materiaDTO = new MateriaDTO();
         materiaDTO.setId(1);
         MateriaDTO materiaDTO2 = new MateriaDTO();
@@ -71,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
         materias.add(materiaDTO);
         materias.add(materiaDTO2);
         viewModel.createTutorProfile(materias, "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoicHJ1ZWJhIiwiZXhwIjoxNjgzMzI2Mjg2fQ.yNgG7IOAiJp8-npbzMSQ4vAqNFwYG1OElBKG_O9FC9k");
+        */
+
+
+
+        //viewModel.removeAlumnoToCurso(10, 12, "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNTY4ODM4fQ.-L0uY0tQu7061c8dPQtEhK9qZOBpyv3gKqTQRV1u3UU");
+        //viewModel.addAlumnoToCurso(10, 12, "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNTY4ODM4fQ.-L0uY0tQu7061c8dPQtEhK9qZOBpyv3gKqTQRV1u3UU");
 
     }
 }
