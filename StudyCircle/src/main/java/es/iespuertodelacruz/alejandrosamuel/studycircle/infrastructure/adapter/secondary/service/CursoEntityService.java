@@ -83,8 +83,11 @@ public class CursoEntityService implements ICursoRepository {
         CursoEntity cursoEntity = repository.findById(curso.getId()).orElse(null);
         AlumnoEntity alumnoEntity = alumnoRepository.findById(alumno.getId()).orElse(null);
         if(Objects.nonNull(alumnoEntity)) {
-            Objects.requireNonNull(cursoEntity).getAlumnos().add(alumnoEntity);
-            repository.save(cursoEntity);
+            if(Objects.requireNonNull(cursoEntity).getAlumnos().stream().
+                    filter(a -> a.getId().equals(alumnoEntity.getId())).findFirst().isEmpty()) {
+                Objects.requireNonNull(cursoEntity).getAlumnos().add(alumnoEntity);
+                repository.save(cursoEntity);
+            }
         }
     }
 }
