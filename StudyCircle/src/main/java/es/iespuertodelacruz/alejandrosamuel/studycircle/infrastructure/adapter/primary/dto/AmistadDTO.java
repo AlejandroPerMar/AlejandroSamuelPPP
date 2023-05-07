@@ -7,7 +7,7 @@ import java.math.BigInteger;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AmistadDTO {
 
-	private int id;
+	private Integer id;
 	private BigInteger fechaCreacion;
 	private BigInteger fechaAmistad;
 	private String estado;
@@ -17,11 +17,11 @@ public class AmistadDTO {
 	public AmistadDTO() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

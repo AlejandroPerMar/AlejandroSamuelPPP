@@ -15,15 +15,25 @@ public class CursoDTOMapper {
         return curso;
     }
 
-    public CursoDTO toDTO(Curso in) {
+    public CursoDTO toDTOStudent(Curso in) {
         CursoDTO curso = new CursoDTO();
         curso.setId(in.getId());
         curso.setTitulo(in.getTitulo());
         curso.setMateriaTutor(toDTO(in.getMateriaTutor()));
-        if(Objects.nonNull(in.getAlumnos()))
-            curso.setAlumnos(in.getAlumnos().stream().map(this::toDTO).toList());
         if(Objects.nonNull(in.getActividades()))
             curso.setActividades(in.getActividades().stream().map(this::toDTO).toList());
+        return curso;
+    }
+
+    public CursoDTO toDTOTutor(Curso in) {
+        CursoDTO curso = new CursoDTO();
+        curso.setId(in.getId());
+        curso.setTitulo(in.getTitulo());
+        curso.setMateriaTutor(toDTO(in.getMateriaTutor()));
+        if(Objects.nonNull(in.getActividades()))
+            curso.setActividades(in.getActividades().stream().map(this::toDTO).toList());
+        if(Objects.nonNull(in.getAlumnos()))
+            curso.setAlumnos(in.getAlumnos().stream().map(this::toDTO).toList());
         return curso;
     }
 
@@ -48,6 +58,12 @@ public class CursoDTOMapper {
     private MateriaTutorDTO toDTO(MateriaTutor in) {
         MateriaTutorDTO materiaTutor = new MateriaTutorDTO();
         materiaTutor.setId(in.getId());
+        MateriaDTO materia = new MateriaDTO();
+        materia.setId(in.getMateria().getId());
+        materiaTutor.setMateria(materia);
+        TutorDTO tutor = new TutorDTO();
+        tutor.setId(in.getTutor().getId());
+        materiaTutor.setTutor(tutor);
         return materiaTutor;
     }
 

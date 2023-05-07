@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.service;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ICursoService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.ICursoRepository;
@@ -42,5 +43,15 @@ public class CursoService implements ICursoService {
     @Override
     public boolean delete(Integer id) {
         return repository.delete(id);
+    }
+
+    @Override
+    public void removeAlumnoFromCurso(Curso curso, Alumno alumno) {
+        repository.removeAlumnoFromCurso(curso, alumno);
+    }
+
+    @Override
+    public void addAlumnoFromCurso(Curso curso, Alumno alumno) {
+        repository.addAlumnoFromCurso(curso, alumno);
     }
 }

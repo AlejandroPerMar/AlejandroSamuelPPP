@@ -57,9 +57,9 @@ public class ActividadesResourceV2 {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_NOT_FOUND.name());
 
         Curso curso = cursoService.findById(actividad.getCurso().getId());
-        int idTutorActividad = curso.getMateriaTutor().getTutor().getId();
+        Integer idTutorActividad = curso.getMateriaTutor().getTutor().getId();
         Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
-        if(idTutorActividad == tutor.getId())
+        if(Objects.equals(idTutorActividad, tutor.getId()))
             return ResponseEntity.ok(mapper.toDTO(actividad));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_FORBIDDEN.name());
@@ -70,7 +70,7 @@ public class ActividadesResourceV2 {
         Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
         AtomicBoolean cursoExistente = new AtomicBoolean(false);
         tutor.getMateriasTutor().forEach(mt ->  {
-            Optional<Curso> curso = mt.getCursosTutor().stream().filter(c -> c.getId() == request.getCurso().getId()).findFirst();
+            Optional<Curso> curso = mt.getCursosTutor().stream().filter(c -> Objects.equals(c.getId(), request.getCurso().getId())).findFirst();
             if(curso.isPresent())
                 cursoExistente.set(true);
         });
@@ -100,7 +100,7 @@ public class ActividadesResourceV2 {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_NOT_FOUND.name());
         Curso curso = cursoService.findById(actividad.getCurso().getId());
         Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
-        if(curso.getMateriaTutor().getTutor().getId() == tutor.getId()) {
+        if(Objects.equals(curso.getMateriaTutor().getTutor().getId(), tutor.getId())) {
             boolean eliminado = service.delete(id);
             if(eliminado)
                 return ResponseEntity.ok(RespuestasActividad.ACTIVITY_REMOVED.name());

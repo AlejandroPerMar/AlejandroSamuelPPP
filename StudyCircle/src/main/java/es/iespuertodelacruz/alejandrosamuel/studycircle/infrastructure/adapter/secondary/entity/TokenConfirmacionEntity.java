@@ -19,7 +19,7 @@ public class TokenConfirmacionEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	@Column(name="created_at")
 	private BigInteger fechaCreacion;
@@ -43,11 +43,11 @@ public class TokenConfirmacionEntity implements Serializable {
 	public TokenConfirmacionEntity() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

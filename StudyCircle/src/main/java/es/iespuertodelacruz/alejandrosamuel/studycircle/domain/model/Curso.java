@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Curso {
 	
-	private int id;
+	private Integer id;
 	private String titulo;
 	private BigInteger fechaCreacion;
 	private MateriaTutor materiaTutor;
@@ -16,11 +16,11 @@ public class Curso {
 	public Curso() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

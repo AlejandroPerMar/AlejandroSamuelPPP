@@ -6,7 +6,7 @@ import java.util.List;
 
 public class NivelEstudios {
 
-	private int id;
+	private Integer id;
 	private BigInteger fechaCreacion;
 	private String nombre;
 	private List<Materia> materias;
@@ -14,11 +14,11 @@ public class NivelEstudios {
 	public NivelEstudios() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

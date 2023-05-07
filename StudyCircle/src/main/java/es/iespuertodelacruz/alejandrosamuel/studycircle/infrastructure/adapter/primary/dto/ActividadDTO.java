@@ -1,14 +1,13 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 
 import java.math.BigInteger;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ActividadDTO {
 
-	private int id;
+	private Integer id;
 
 	private BigInteger fechaCreacion;
 
@@ -24,11 +23,11 @@ public class ActividadDTO {
 	public ActividadDTO() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

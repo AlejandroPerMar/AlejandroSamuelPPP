@@ -6,7 +6,7 @@ import java.math.BigInteger;
 
 public class Actividad {
 
-	private int id;
+	private Integer id;
 
 	private BigInteger fechaCreacion;
 
@@ -21,11 +21,11 @@ public class Actividad {
 	public Actividad() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

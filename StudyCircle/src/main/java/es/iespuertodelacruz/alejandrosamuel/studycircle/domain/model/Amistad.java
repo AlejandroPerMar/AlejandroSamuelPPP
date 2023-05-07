@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 public class Amistad {
 
-	private int id;
+	private Integer id;
 	private BigInteger fechaCreacion;
 	private BigInteger fechaAmistad;
 	private String estado;
@@ -14,11 +14,11 @@ public class Amistad {
 	public Amistad() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

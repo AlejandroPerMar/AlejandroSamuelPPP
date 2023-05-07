@@ -18,7 +18,7 @@ public class MateriaEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	@Column(name="created_at")
 	private BigInteger fechaCreacion;
@@ -31,22 +31,14 @@ public class MateriaEntity implements Serializable {
 	@JoinColumn(name="id_study_level")
 	private NivelEstudiosEntity nivelEstudios;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) return false;
-		if (!(obj instanceof MateriaEntity materia)) return false;
-		if (obj == this) return true;
-		return this.getId() == materia.getId();
-	}
-
 	public MateriaEntity() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

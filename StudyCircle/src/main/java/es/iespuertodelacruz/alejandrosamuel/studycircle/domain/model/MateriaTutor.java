@@ -6,7 +6,7 @@ import java.util.List;
 
 public class MateriaTutor {
 
-	private int id;
+	private Integer id;
 	private Materia materia;
 	private Tutor tutor;
 	private List<Curso> cursosTutor;
@@ -14,11 +14,11 @@ public class MateriaTutor {
 	public MateriaTutor() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

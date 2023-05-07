@@ -8,7 +8,7 @@ import java.math.BigInteger;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EventoCalendarioDTO {
 
-	private int id;
+	private Integer id;
 	private BigInteger fechaCreacion;
 	private String descripcion;
 	private String nombre;
@@ -20,11 +20,11 @@ public class EventoCalendarioDTO {
 	public EventoCalendarioDTO() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

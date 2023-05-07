@@ -6,7 +6,7 @@ import java.math.BigInteger;
 
 public class Alerta {
 
-	private int id;
+	private Integer id;
 	private BigInteger fechaCreacion;
 	private String mensaje;
 	private String estado;
@@ -16,11 +16,11 @@ public class Alerta {
 	public Alerta() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

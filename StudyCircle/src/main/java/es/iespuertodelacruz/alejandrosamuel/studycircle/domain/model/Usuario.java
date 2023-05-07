@@ -1,13 +1,12 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.List;
 
 
 public class Usuario {
 
-	private int id;
+	private Integer id;
 	private BigInteger fechaCreacion;
 	private String email;
 	private String nombreCompleto;
@@ -19,11 +18,11 @@ public class Usuario {
 	public Usuario() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

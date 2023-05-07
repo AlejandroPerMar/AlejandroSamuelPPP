@@ -8,7 +8,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TutorDTO {
 
-	private int id;
+	private Integer id;
 	private BigInteger fechaCreacion;
 	private List<MateriaTutorDTO> materiasTutor;
 	private UsuarioDTO usuario;
@@ -16,11 +16,11 @@ public class TutorDTO {
 	public TutorDTO() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

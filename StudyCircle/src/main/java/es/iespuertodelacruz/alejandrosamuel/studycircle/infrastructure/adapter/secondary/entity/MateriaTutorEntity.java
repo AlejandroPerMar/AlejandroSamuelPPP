@@ -19,7 +19,7 @@ public class MateriaTutorEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	//uni-directional many-to-one association to MateriaEntity
 	@ManyToOne
@@ -38,11 +38,11 @@ public class MateriaTutorEntity implements Serializable {
 	public MateriaTutorEntity() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
