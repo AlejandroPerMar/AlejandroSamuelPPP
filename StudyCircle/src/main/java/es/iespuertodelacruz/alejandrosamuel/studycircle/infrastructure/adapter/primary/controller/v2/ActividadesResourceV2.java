@@ -42,9 +42,6 @@ public class ActividadesResourceV2 {
     private IActividadService service;
 
     @Autowired
-    private IUsuarioService usuarioService;
-
-    @Autowired
     private ICursoService cursoService;
 
     @Autowired
@@ -65,7 +62,7 @@ public class ActividadesResourceV2 {
         if(idTutorActividad == tutor.getId())
             return ResponseEntity.ok(mapper.toDTO(actividad));
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_FORBIDDEN);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_FORBIDDEN.name());
     }
 
     @PostMapping
@@ -79,7 +76,7 @@ public class ActividadesResourceV2 {
         });
 
         if(!cursoExistente.get())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.COURSE_ACTIVITY_NOT_VALID);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.COURSE_ACTIVITY_NOT_VALID.name());
 
         Actividad actividad = mapper.toDomainPost(request);
         actividad = service.create(actividad);

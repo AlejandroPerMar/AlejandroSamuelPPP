@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-05-2023 a las 19:39:22
+-- Tiempo de generación: 07-05-2023 a las 13:05:54
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -35,6 +35,13 @@ CREATE TABLE `activities` (
   `id_course` int(11) NOT NULL,
   `created_at` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `activities`
+--
+
+INSERT INTO `activities` (`id`, `name`, `description`, `time_activity`, `id_course`, `created_at`) VALUES
+(1, 'primera actividad', 'descripcion primera actividad', 1682932323717, 10, 1683230845730);
 
 -- --------------------------------------------------------
 
@@ -80,6 +87,7 @@ CREATE TABLE `calendar_events` (
   `name` varchar(100) NOT NULL,
   `description` varchar(255) NOT NULL,
   `time_event` bigint(20) NOT NULL,
+  `user_profile` varchar(25) NOT NULL,
   `id_activity` int(11) DEFAULT NULL,
   `created_at` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -106,9 +114,6 @@ CREATE TABLE `confirmation_token` (
 
 INSERT INTO `confirmation_token` (`id`, `token`, `created_at`, `expires_at`, `confirmed_at`, `is_valid`, `id_user`) VALUES
 (20, '9d7d6871-bb78-4814-97fd-571c9017c6c7', 1680957383707, 1680958283678, 1680957418714, 0, 24),
-(24, '9c424187-f3b6-4527-b3df-97fe93bee205', 1682765066022, 1682765966022, NULL, 0, 30),
-(26, '19c6c5ca-9f28-47a6-9dfb-d72b9edda37d', 1682765424331, 1682766324331, NULL, 0, 30),
-(27, '4b8b3800-d209-4823-96ea-21dfe401bb41', 1682781567012, 1682782467012, 1682781608471, 1, 30),
 (28, 'c24c5474-ba08-4126-b666-b91a895852e2', 1682787797333, 1682788697333, NULL, 0, 31),
 (29, 'bf657115-25a6-4ece-b6e6-5cb5e7bda4f0', 1682787861732, 1682788761732, NULL, 1, 31),
 (30, '96ec87bc-8616-40d0-a981-b2b16b060189', 1682880318483, 1682881218483, NULL, 0, 33),
@@ -121,7 +126,9 @@ INSERT INTO `confirmation_token` (`id`, `token`, `created_at`, `expires_at`, `co
 (37, '4f306c00-e9b3-4029-bbcf-3a7982b77b73', 1682932530519, 1682933430519, NULL, 0, 34),
 (38, 'fb24dd2b-0f31-42a0-af2e-44eefc520fef', 1682932624358, 1682933524358, 1682932657057, 1, 34),
 (52, '8f749156-40be-407d-be68-47af853da5b1', 1682939048780, 1682939948780, NULL, 0, 48),
-(53, 'a30e9a19-afc4-40ca-ba77-d2425843dd51', 1683017141413, 1683018041413, 1683017192123, 1, 48);
+(53, 'a30e9a19-afc4-40ca-ba77-d2425843dd51', 1683017141413, 1683018041413, 1683017192123, 1, 48),
+(60, 'e24811b2-e75d-4584-8453-5df79634d8b1', 1683239825237, 1683240725237, NULL, 0, 53),
+(61, '9a759bcd-6f56-4f24-bae5-161900b769e3', 1683239951782, 1683240851782, 1683239980245, 1, 53);
 
 -- --------------------------------------------------------
 
@@ -228,11 +235,11 @@ INSERT INTO `role_user` (`id`, `id_user`, `id_role`) VALUES
 (23, 24, 2),
 (24, 25, 1),
 (25, 26, 1),
-(29, 30, 2),
 (30, 31, 2),
 (31, 33, 2),
 (47, 34, 2),
-(46, 48, 2);
+(46, 48, 2),
+(63, 53, 2);
 
 -- --------------------------------------------------------
 
@@ -252,7 +259,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `id_user`, `id_study_level`, `created_at`) VALUES
-(4, 48, 2, 1683018066916);
+(4, 48, 2, 1683018066916),
+(12, 53, 2, 1683240004792);
 
 -- --------------------------------------------------------
 
@@ -272,7 +280,9 @@ CREATE TABLE `student_subjects` (
 
 INSERT INTO `student_subjects` (`id`, `id_student`, `id_subject`) VALUES
 (7, 4, 1),
-(8, 4, 2);
+(8, 4, 2),
+(15, 12, 1),
+(16, 12, 4);
 
 -- --------------------------------------------------------
 
@@ -336,7 +346,8 @@ CREATE TABLE `tutors` (
 
 INSERT INTO `tutors` (`id`, `id_user`, `created_at`) VALUES
 (34, 24, 1681656197917),
-(36, 34, 1683050964598);
+(36, 34, 1683050964598),
+(51, 53, 1683240058799);
 
 -- --------------------------------------------------------
 
@@ -358,7 +369,9 @@ INSERT INTO `tutor_subjects` (`id`, `id_tutor`, `id_subject`) VALUES
 (21, 34, 3),
 (22, 34, 4),
 (23, 36, 1),
-(24, 36, 2);
+(24, 36, 2),
+(46, 51, 1),
+(47, 51, 4);
 
 -- --------------------------------------------------------
 
@@ -384,11 +397,30 @@ INSERT INTO `users` (`id`, `username`, `full_name`, `email`, `status`, `hashpswd
 (24, 'sam1', 'Samuel González Machado', 'samuglezmachado@gmail.com', 'STATUS_ACTIVE', '$2a$10$JaVxA9Y08HEe0YXCUIiz1.njj7FOa1nokZiAQvAiSiNR9QoiKMKmO', 1680957383678),
 (25, 'admin', 'admin', 'stdycircleofficial@gmail.com', 'STATUS_ACTIVE', '$2y$10$5C5XrxjkI4aQIDag8wcNa.7hV/KBYgSdcHT6d1vudS0W2wcW53Zou', 1680972623000),
 (26, 'string', 'string', 'string@gm.com', 'STATUS_ACTIVE', '$2y$10$BgGhuwMrs6LkoJ0rFlXpQObUhhFPVOeqPRMW0bMkInXh6PLXoOU9C', 1680957399999),
-(30, 'pruee', 'prueba', 'cejero4564@larland.com', 'STATUS_ACTIVE', '$2a$10$PAN9UILEwd9ZNYCw435ayOGBXHUAKlGk/Qo5FBAFcEmNeKUrOTE4u', 1682765065993),
 (31, 'pruee2', 'string', 'watek77714@meidecn.com', 'STATUS_PENDING_VERIFICATION', '$2a$10$PVDaqMkgIE2ttx2mfcZZHOQlo.r6R9B79Ld9rLY35aTIpBmMnUAUu', 1682787797283),
 (33, 'pruee3', 'string', 'rojog68539@meidecn.com', 'STATUS_ACTIVE', '$2a$10$H4FB9cbdpSEFXwb2p02o0.PIOW5ggs8itTOVkDyVx/a6hI9EHMq7O', 1682880318475),
 (34, 'str', 'stri', 'siwobe5230@meidecn.com', 'STATUS_ACTIVE', '$2a$10$/3EzV7ViFbIScIVUcOxogOgf7xAn.hQsz8BkHOETUIttK3MddQPEq', 1682932323717),
-(48, 'pruee4', 'samuel', 'bisiboy499@jobbrett.com', 'STATUS_ACTIVE', '$2a$10$m9Dt.56SczW46ualYCnJROG0Ywa/27SKmwST89H130kS8DFGMkhUK', 1682939048709);
+(48, 'pruee4', 'samuel', 'bisiboy499@jobbrett.com', 'STATUS_ACTIVE', '$2a$10$m9Dt.56SczW46ualYCnJROG0Ywa/27SKmwST89H130kS8DFGMkhUK', 1682939048709),
+(53, 'prueba', 'nombre prueba', 'basal72606@larland.com', 'STATUS_ACTIVE', '$2a$10$/fS8WTzaCSifES4KpDZQX.pP.8sJioVQ9B9yy11C49N3V75NQ3ye6', 1683239825231);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_profiles`
+--
+
+CREATE TABLE `user_profiles` (
+  `user_profile` varchar(25) NOT NULL,
+  `description` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `user_profiles`
+--
+
+INSERT INTO `user_profiles` (`user_profile`, `description`) VALUES
+('TUTOR_PROFILE', 'Perfil de usuario tutor'),
+('STUDENT_PROFILE', 'Perfil de usuario alumno');
 
 --
 -- Índices para tablas volcadas
@@ -422,7 +454,8 @@ ALTER TABLE `announcements`
 ALTER TABLE `calendar_events`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_user` (`id_user`),
-  ADD KEY `id_activity` (`id_activity`);
+  ADD KEY `id_activity` (`id_activity`),
+  ADD KEY `user_profile` (`user_profile`);
 
 --
 -- Indices de la tabla `confirmation_token`
@@ -529,6 +562,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indices de la tabla `user_profiles`
+--
+ALTER TABLE `user_profiles`
+  ADD PRIMARY KEY (`user_profile`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -536,7 +575,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `alerts`
@@ -560,7 +599,7 @@ ALTER TABLE `calendar_events`
 -- AUTO_INCREMENT de la tabla `confirmation_token`
 --
 ALTER TABLE `confirmation_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT de la tabla `course`
@@ -596,19 +635,19 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `role_user`
 --
 ALTER TABLE `role_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT de la tabla `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `student_subjects`
 --
 ALTER TABLE `student_subjects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `study_levels`
@@ -626,19 +665,19 @@ ALTER TABLE `subjects`
 -- AUTO_INCREMENT de la tabla `tutors`
 --
 ALTER TABLE `tutors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT de la tabla `tutor_subjects`
 --
 ALTER TABLE `tutor_subjects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- Restricciones para tablas volcadas
@@ -668,7 +707,8 @@ ALTER TABLE `announcements`
 --
 ALTER TABLE `calendar_events`
   ADD CONSTRAINT `calendar_events_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `calendar_events_ibfk_2` FOREIGN KEY (`id_activity`) REFERENCES `activities` (`id`);
+  ADD CONSTRAINT `calendar_events_ibfk_2` FOREIGN KEY (`id_activity`) REFERENCES `activities` (`id`),
+  ADD CONSTRAINT `calendar_events_ibfk_3` FOREIGN KEY (`user_profile`) REFERENCES `user_profiles` (`user_profile`);
 
 --
 -- Filtros para la tabla `confirmation_token`

@@ -1,6 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.PerfilUsuario;
 
 import java.math.BigInteger;
 
@@ -13,6 +14,7 @@ public class EventoCalendarioDTO {
 	private String nombre;
 	private BigInteger fechaEvento;
 	private ActividadDTO actividad;
+	private PerfilUsuario perfilUsuario;
 	private UsuarioDTO usuario;
 
 	public EventoCalendarioDTO() {
@@ -72,5 +74,13 @@ public class EventoCalendarioDTO {
 
 	public void setUsuario(UsuarioDTO usuario) {
 		this.usuario = usuario;
+	}
+
+	public PerfilUsuario getPerfilUsuario() {
+		return perfilUsuario;
+	}
+
+	public void setPerfilUsuario(PerfilUsuario perfilUsuario) {
+		this.perfilUsuario = perfilUsuario;
 	}
 }

@@ -36,6 +36,9 @@ public class EventoCalendarioEntity implements Serializable {
 	@JoinColumn(name="id_activity")
 	private ActividadEntity actividad;
 
+	@Column(name = "user_profile")
+	private String perfilUsuario;
+
 	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
 	@JoinColumn(name="id_user")
@@ -100,4 +103,11 @@ public class EventoCalendarioEntity implements Serializable {
 		this.usuario = usuario;
 	}
 
+	public String getPerfilUsuario() {
+		return perfilUsuario;
+	}
+
+	public void setPerfilUsuario(String perfilUsuario) {
+		this.perfilUsuario = perfilUsuario;
+	}
 }
