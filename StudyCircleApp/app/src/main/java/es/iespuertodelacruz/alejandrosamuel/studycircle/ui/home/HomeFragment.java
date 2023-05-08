@@ -4,14 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -23,19 +23,24 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentHome
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+    private  NavController navController;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-        BottomNavigationView navView = binding.navView2;
+        BottomNavigationView navView = binding.navStart;
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_start, R.id.navigation_dashboard, R.id.navigation_notifications)
+               R.id.navigation_start, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
-        NavController navController = Navigation.findNavController(this.requireActivity(), R.id.nav_host_fragment_activity_home); // Problem #2 .findNavController
-        NavigationUI.setupActionBarWithNavController((AppCompatActivity) this.requireActivity(), navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+
+      //  NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_home);
+//        navController = navHostFragment.getNavController();
+
+        //NavController navController = Navigation.findNavController(this.requireActivity(), R.id.nav_host_fragment_activity_home); // Problem #2 .findNavController
+     //  NavigationUI.setupActionBarWithNavController((AppCompatActivity) this.requireActivity(), navController, appBarConfiguration);
+      // NavigationUI.setupWithNavController(navView, navController);
 
         return binding.getRoot();
     }

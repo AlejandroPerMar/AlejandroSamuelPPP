@@ -2,9 +2,10 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@+id/nav_home"
-    android:id="@+id/botton_navigation.xml"
+    app:startDestination="@+id/nav_start"
+    android:id="@+id/botton_navigation"
     >
+
 
     <fragment
         android:id="@+id/navigation_start"
@@ -23,5 +24,6 @@
         android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
 
 </navigation>
