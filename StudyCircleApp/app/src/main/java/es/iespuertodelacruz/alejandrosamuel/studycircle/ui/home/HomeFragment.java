@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_start, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
-        NavController navController = Navigation.findNavController(this.requireActivity(), R.id.nav_host_fragment_activity_home);
+        NavController navController = Navigation.findNavController(this.requireActivity(), R.id.nav_host_fragment_activity_home); // Problem #2 .findNavController
         NavigationUI.setupActionBarWithNavController((AppCompatActivity) this.requireActivity(), navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 

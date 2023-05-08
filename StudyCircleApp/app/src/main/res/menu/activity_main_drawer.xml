@@ -17,4 +17,5 @@
             android:icon="@android:drawable/ic_menu_search"
             android:title="@string/menu_buscar" />
     </group>
+
 </menu>

@@ -1,10 +1,9 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
 import android.os.Bundle;
-import android.view.View;
+import android.view.LayoutInflater;
 import android.view.Menu;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(LayoutInflater.from(this)); // Binding problem #1
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
