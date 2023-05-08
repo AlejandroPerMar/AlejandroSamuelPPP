@@ -26,6 +26,9 @@ public interface RESTService {
     @POST("v2/tutores")
     Call<ResponseBody> createTutor(@Body List<MateriaDTO> materiasDTO);
 
+    @GET("v2/cursos/tutor")
+    Call<ResponseBody> findCursosTutor();
+
     @PUT("v2/cursos/agregarAlumno")
     Call<ResponseBody> addAlumnoToCurso(@Query("idCurso") Integer idCurso, @Query("idAlumno") Integer idAlumno);
 

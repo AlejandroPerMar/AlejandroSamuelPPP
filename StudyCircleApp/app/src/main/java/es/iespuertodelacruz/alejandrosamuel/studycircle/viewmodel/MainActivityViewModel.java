@@ -58,4 +58,8 @@ public class MainActivityViewModel extends AndroidViewModel {
     public LiveData<Object> removeAlumnoToCurso(Integer idCurso, Integer idAlumno, String token) {
         return cursosRepository.removeAlumnoToCurso(idCurso, idAlumno, token);
     }
+
+    public LiveData<Object> findCursosTutor(String token) {
+        return cursosRepository.findCursosTutor(token);
+    }
 }

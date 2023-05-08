@@ -3,6 +3,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.stream.Collector;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.NivelEstudiosDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
@@ -38,12 +40,12 @@ public class MainActivity extends AppCompatActivity {
         usuarioRegisterDTO.setClave("Prueba1@");
         viewModel.register(usuarioRegisterDTO);*/
 
-
+        /*
         UsuarioLoginDTO usuarioLoginDTO = new UsuarioLoginDTO();
         usuarioLoginDTO.setUsername("str");
         usuarioLoginDTO.setClave("Samuel1@");
         viewModel.getLiveDataToken(usuarioLoginDTO);
-
+        */
 
         //viewModel.resendEmail("eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoicHJ1ZWJhIiwiZXhwIjoxNjgzMzI2Mjg2fQ.yNgG7IOAiJp8-npbzMSQ4vAqNFwYG1OElBKG_O9FC9k");
 
@@ -79,5 +81,10 @@ public class MainActivity extends AppCompatActivity {
         //viewModel.removeAlumnoToCurso(10, 12, "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNTY4ODM4fQ.-L0uY0tQu7061c8dPQtEhK9qZOBpyv3gKqTQRV1u3UU");
         //viewModel.addAlumnoToCurso(10, 12, "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNTY4ODM4fQ.-L0uY0tQu7061c8dPQtEhK9qZOBpyv3gKqTQRV1u3UU");
 
+
+        LiveData<Object> cursosTutor = viewModel.findCursosTutor("eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNjQxOTc0fQ.0yxGJX7nSu_vo7PMjtN83C22YXMdYnDTUAdn8yV-2g4");
+        //Object value = cursosTutor.getValue();
+        //List<CursoDTO> value1 = (List<CursoDTO>) value;
+        //value1.forEach(c -> System.out.printf(c.getTitulo()));
     }
 }

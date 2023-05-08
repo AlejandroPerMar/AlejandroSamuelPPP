@@ -10,8 +10,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
-
+import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.DatabaseStudyCircle;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasCursos;
@@ -125,6 +127,45 @@ public class CursosRepository {
             }
         });
         return mutableCurso;
+    }
+
+    public LiveData<Object> findCursosTutor(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableCursos = new MutableLiveData<>();
+        Call<ResponseBody> callFindCursosTutor = restAuthService.findCursosTutor();
+        callFindCursosTutor.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<CursoDTO>>() {}.getType();
+                    List<CursoDTO> cursosDTO = new Gson().fromJson(body.charStream(), listType);
+                    cursosDTO.forEach(c -> System.out.printf(c.getTitulo()));
+                    mutableCursos.setValue(cursosDTO);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = response.errorBody().string();
+                    } catch (IOException e) {
+                        respuesta = null;
+                    }
+                    switch (RespuestasCursos.valueOf(respuesta)) {
+                        case TUTOR_PROFILE_NOT_CREATED:
+                            mutableCursos.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED.getDescripcion());
+                            break;
+                        default:
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableCursos;
     }
 
 }

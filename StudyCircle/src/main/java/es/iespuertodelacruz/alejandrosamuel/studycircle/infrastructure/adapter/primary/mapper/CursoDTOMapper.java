@@ -35,10 +35,17 @@ public class CursoDTOMapper {
         curso.setTitulo(in.getTitulo());
         curso.setMateriaTutor(toDTO(in.getMateriaTutor()));
         if(Objects.nonNull(in.getActividades()))
-            curso.setActividades(in.getActividades().stream().map(dtoJustIdMapper::toDTO).toList());
+            curso.setActividades(in.getActividades().stream().map(this::toDTO).toList());
         if(Objects.nonNull(in.getAlumnos()))
-            curso.setAlumnos(in.getAlumnos().stream().map(dtoJustIdMapper::toDTO).toList());
+            curso.setAlumnos(in.getAlumnos().stream().map(this::toDTO).toList());
         return curso;
+    }
+
+    public AlumnoDTO toDTO(Alumno in) {
+        AlumnoDTO alumno = new AlumnoDTO();
+        alumno.setId(in.getId());
+        alumno.setUsuario(toDTO(in.getUsuario()));
+        return alumno;
     }
 
     private MateriaTutorDTO toDTO(MateriaTutor in) {
@@ -46,11 +53,27 @@ public class CursoDTOMapper {
         materiaTutor.setId(in.getId());
         MateriaDTO materia = new MateriaDTO();
         materia.setId(in.getMateria().getId());
+        materia.setNombre(in.getMateria().getNombre());
         materiaTutor.setMateria(materia);
         TutorDTO tutor = new TutorDTO();
         tutor.setId(in.getTutor().getId());
+        tutor.setUsuario(toDTO(in.getTutor().getUsuario()));
         materiaTutor.setTutor(tutor);
         return materiaTutor;
     }
 
+    public UsuarioDTO toDTO(Usuario in) {
+        UsuarioDTO usuario = new UsuarioDTO();
+        usuario.setId(in.getId());
+        usuario.setUsername(in.getUsername());
+        usuario.setNombreCompleto(in.getNombreCompleto());
+        return usuario;
+    }
+
+    public ActividadDTO toDTO(Actividad in) {
+        ActividadDTO actividad = new ActividadDTO();
+        actividad.setId(in.getId());
+        actividad.setNombre(in.getNombre());
+        return actividad;
+    }
 }

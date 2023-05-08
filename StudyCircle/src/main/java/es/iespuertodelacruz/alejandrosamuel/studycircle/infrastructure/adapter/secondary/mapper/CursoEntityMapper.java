@@ -19,11 +19,18 @@ public class CursoEntityMapper {
         curso.setTitulo(in.getTitulo());
         curso.setFechaCreacion(in.getFechaCreacion());
         if(Objects.nonNull(in.getActividades()))
-            curso.setActividades(in.getActividades().stream().map(entityJustIdMapper::toDomain).toList());
+            curso.setActividades(in.getActividades().stream().map(this::toDomain).toList());
         if(Objects.nonNull(in.getAlumnos()))
-            curso.setAlumnos(in.getAlumnos().stream().map(entityJustIdMapper::toDomain).toList());
+            curso.setAlumnos(in.getAlumnos().stream().map(this::toDomain).toList());
         curso.setMateriaTutor(toDomain(in.getMateriaTutor()));
         return curso;
+    }
+
+    private Alumno toDomain(AlumnoEntity in) {
+        Alumno alumno = new Alumno();
+        alumno.setId(in.getId());
+        alumno.setUsuario(toDomain(in.getUsuario()));
+        return alumno;
     }
 
     public CursoEntity toEntity(Curso in) {
@@ -41,16 +48,33 @@ public class CursoEntityMapper {
         return curso;
     }
 
+    public Actividad toDomain(ActividadEntity in) {
+        Actividad actividad = new Actividad();
+        actividad.setId(in.getId());
+        actividad.setNombre(in.getNombre());
+        return actividad;
+    }
+
     public MateriaTutor toDomain(MateriaTutorEntity in) {
         MateriaTutor materiaTutor = new MateriaTutor();
         materiaTutor.setId(in.getId());
         Materia materia = new Materia();
         materia.setId(in.getMateria().getId());
+        materia.setNombre(in.getMateria().getNombre());
         materiaTutor.setMateria(materia);
         Tutor tutor = new Tutor();
         tutor.setId(in.getTutor().getId());
+        tutor.setUsuario(toDomain(in.getTutor().getUsuario()));
         materiaTutor.setTutor(tutor);
         return materiaTutor;
+    }
+
+    public Usuario toDomain(UsuarioEntity in) {
+        Usuario usuario = new Usuario();
+        usuario.setId(in.getId());
+        usuario.setUsername(in.getUsername());
+        usuario.setNombreCompleto(in.getNombreCompleto());
+        return usuario;
     }
 
 }
