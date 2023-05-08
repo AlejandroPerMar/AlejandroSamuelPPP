@@ -19,6 +19,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
 @Configuration
@@ -97,13 +98,23 @@ public class ApplicationConfig {
 	}
 
 	@Bean
+	public DTOJustIdMapper dtoJustIdMapper() {
+		return new DTOJustIdMapper();
+	}
+
+	@Bean
+	public EntityJustIdMapper entityJustIdMapper() {
+		return new EntityJustIdMapper();
+	}
+
+	@Bean
 	public UserDetailsService userDetailsService() {
 		
 		return username -> {
 			Optional<UsuarioEntity> optUsuario = repository.findByUsername(username);
 			UsuarioEntity ur = optUsuario.orElse(null);
 			UserDetailsLogin user = new UserDetailsLogin();
-		    user.setUsername(ur.getUsername());
+		    user.setUsername(Objects.requireNonNull(ur).getUsername());
 		    user.setPassword(ur.getHashpswd());
 			user.setEstado(ur.getEstado());
 		    /*

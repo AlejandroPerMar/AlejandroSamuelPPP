@@ -3,18 +3,12 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioDTO;
 
-public class UsuarioDTOMapper {
-    public Usuario toDomain(UsuarioDTO in) {
-        if(in == null)
-            return null;
+import java.util.Objects;
 
-        Usuario usuario = new Usuario();
-        usuario.setId(in.getId());
-        return usuario;
-    }
+public class UsuarioDTOMapper {
 
     public UsuarioDTO toDTO(Usuario in) {
-        if(in == null)
+        if(Objects.isNull(in))
             return null;
 
         UsuarioDTO usuario = new UsuarioDTO();
@@ -24,4 +18,5 @@ public class UsuarioDTOMapper {
         usuario.setEmail(in.getEmail());
         return usuario;
     }
+
 }

@@ -6,6 +6,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IC
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlumnoEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.CursoEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.CursoEntityMapper;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.EntityJustIdMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.AlumnoEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.CursoEntityJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class CursoEntityService implements ICursoRepository {
     @Autowired
     private CursoEntityMapper mapper;
 
+    @Autowired
+    private EntityJustIdMapper entityJustIdMapper;
+
     @Override
     public Curso findById(Integer id) {
         return mapper.toDomain(repository.findById(id).orElse(null));
@@ -50,8 +54,8 @@ public class CursoEntityService implements ICursoRepository {
         CursoEntity cursoEntity = new CursoEntity();
         cursoEntity.setTitulo(curso.getTitulo());
         cursoEntity.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
-        cursoEntity.setMateriaTutor(mapper.toEntity(curso.getMateriaTutor()));
-        cursoEntity.setAlumnos(curso.getAlumnos().stream().map(mapper::toEntity).toList());
+        cursoEntity.setMateriaTutor(entityJustIdMapper.toEntity(curso.getMateriaTutor()));
+        cursoEntity.setAlumnos(curso.getAlumnos().stream().map(entityJustIdMapper::toEntity).toList());
         CursoEntity finalCursoEntity = repository.save(cursoEntity);
 
         return mapper.toDomain(finalCursoEntity);

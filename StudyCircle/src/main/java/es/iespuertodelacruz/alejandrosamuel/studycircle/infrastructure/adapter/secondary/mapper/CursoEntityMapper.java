@@ -2,10 +2,15 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.*;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
 
 public class CursoEntityMapper {
+
+    @Autowired
+    private EntityJustIdMapper entityJustIdMapper;
+
     public Curso toDomain(CursoEntity in) {
         if(Objects.isNull(in)) return null;
 
@@ -14,9 +19,9 @@ public class CursoEntityMapper {
         curso.setTitulo(in.getTitulo());
         curso.setFechaCreacion(in.getFechaCreacion());
         if(Objects.nonNull(in.getActividades()))
-            curso.setActividades(in.getActividades().stream().map(this::toDomain).toList());
+            curso.setActividades(in.getActividades().stream().map(entityJustIdMapper::toDomain).toList());
         if(Objects.nonNull(in.getAlumnos()))
-            curso.setAlumnos(in.getAlumnos().stream().map(this::toDomain).toList());
+            curso.setAlumnos(in.getAlumnos().stream().map(entityJustIdMapper::toDomain).toList());
         curso.setMateriaTutor(toDomain(in.getMateriaTutor()));
         return curso;
     }
@@ -29,29 +34,11 @@ public class CursoEntityMapper {
         curso.setTitulo(in.getTitulo());
         curso.setFechaCreacion(in.getFechaCreacion());
         if(Objects.nonNull(in.getActividades()))
-            curso.setActividades(in.getActividades().stream().map(this::toEntity).toList());
+            curso.setActividades(in.getActividades().stream().map(entityJustIdMapper::toEntity).toList());
         if(Objects.nonNull(in.getAlumnos()))
-            curso.setAlumnos(in.getAlumnos().stream().map(this::toEntity).toList());
-        curso.setMateriaTutor(toEntity(in.getMateriaTutor()));
+            curso.setAlumnos(in.getAlumnos().stream().map(entityJustIdMapper::toEntity).toList());
+        curso.setMateriaTutor(entityJustIdMapper.toEntity(in.getMateriaTutor()));
         return curso;
-    }
-
-    private Actividad toDomain(ActividadEntity in) {
-        Actividad actividad = new Actividad();
-        actividad.setId(in.getId());
-        return actividad;
-    }
-
-    private ActividadEntity toEntity(Actividad in) {
-        ActividadEntity actividad = new ActividadEntity();
-        actividad.setId(in.getId());
-        return actividad;
-    }
-
-    public MateriaTutorEntity toEntity(MateriaTutor in) {
-        MateriaTutorEntity materiaTutor = new MateriaTutorEntity();
-        materiaTutor.setId(in.getId());
-        return materiaTutor;
     }
 
     public MateriaTutor toDomain(MateriaTutorEntity in) {
@@ -66,15 +53,4 @@ public class CursoEntityMapper {
         return materiaTutor;
     }
 
-    public Alumno toDomain(AlumnoEntity in) {
-        Alumno alumno = new Alumno();
-        alumno.setId(in.getId());
-        return alumno;
-    }
-
-    public AlumnoEntity toEntity(Alumno in) {
-        AlumnoEntity alumno = new AlumnoEntity();
-        alumno.setId(in.getId());
-        return alumno;
-    }
 }

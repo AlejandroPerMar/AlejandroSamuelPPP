@@ -4,6 +4,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.MateriaTutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.EntityJustIdMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.Roles;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.ITutorRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.MateriaEntity;
@@ -20,10 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TutorEntityService implements ITutorRepository {
@@ -42,6 +40,8 @@ public class TutorEntityService implements ITutorRepository {
 
     @Autowired
     private TutorEntityMapper mapper;
+    @Autowired
+    private EntityJustIdMapper entityJustIdMapper;
 
     @Override
     @Transactional
@@ -54,7 +54,7 @@ public class TutorEntityService implements ITutorRepository {
         materias.forEach(m -> {
             MateriaTutorEntity materiaTutor = new MateriaTutorEntity();
             materiaTutor.setTutor(savedEntity);
-            materiaTutor.setMateria(mapper.toEntity(m));
+            materiaTutor.setMateria(entityJustIdMapper.toEntity(m));
             materiaTutor = materiaRepository.save(materiaTutor);
             materiasTutor.add(mapper.toDomain(materiaRepository.save(materiaTutor)));
         });
@@ -67,14 +67,14 @@ public class TutorEntityService implements ITutorRepository {
     @Override
     @Transactional
     public Tutor update(Usuario usuario, List<Materia> materias) {
-        TutorEntity tutor = repository.findByIdUsuario(usuario.getId()).get();
-        List<MateriaTutorEntity> materiasTutor = tutor.getMateriasTutor();
+        TutorEntity tutor = repository.findByIdUsuario(usuario.getId()).orElse(null);
+        List<MateriaTutorEntity> materiasTutor = Objects.requireNonNull(tutor).getMateriasTutor();
         List<MateriaTutorEntity> materiasTutorNuevas = new ArrayList<>();
         List<MateriaEntity> materiasActuales = materiasTutor.stream().map(MateriaTutorEntity::getMateria).toList();
-        materias.stream().map(m -> mapper.toEntity(m)).forEach(m -> {
+        materias.stream().map(m -> entityJustIdMapper.toEntity(m)).forEach(m -> {
             if(materiasActuales.contains(m)) {
                 // Agregamos a la lista materiasTutorNuevas la materiaTutor existente en materiasTutor que coincida con la materia sobre la que iteramos
-                materiasTutorNuevas.add(materiasTutor.stream().filter(mt -> mt.getMateria().equals(m)).findFirst().get());
+                materiasTutorNuevas.add(materiasTutor.stream().filter(mt -> mt.getMateria().equals(m)).findFirst().orElse(null));
             }else {
                 //Creamos una nueva entidad MateriaTutor y la guardamos en bbdd para agregarla a la  nueva lista del tutor
                 MateriaTutorEntity materiaTutor = new MateriaTutorEntity();

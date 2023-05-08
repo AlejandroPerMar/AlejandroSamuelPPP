@@ -3,6 +3,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.DTOJustIdMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasAlumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class AlumnosResourceV2 {
 
 	@Autowired
 	private AlumnoDTOMapper mapper;
+
+	@Autowired
+	private DTOJustIdMapper dtoJustIdMapper;
 	
 	@GetMapping
 	public ResponseEntity<?> getAlumno() {
@@ -50,7 +54,7 @@ public class AlumnosResourceV2 {
 		Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
 		if(Objects.nonNull(service.findAlumnoByIdUsuario(usuario.getId())))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body(RespuestasAlumno.STUDENT_PROFILE_ALREADY_CREATED.name());
-		alumnoDTO.setUsuario(mapper.toDTO(usuario));
+		alumnoDTO.setUsuario(dtoJustIdMapper.toDTO(usuario));
 		Alumno alumno = mapper.toDomainPost(alumnoDTO);
 		alumnoDTO = mapper.toDTOGet(service.create(alumno));
 		if(Objects.isNull(alumnoDTO))

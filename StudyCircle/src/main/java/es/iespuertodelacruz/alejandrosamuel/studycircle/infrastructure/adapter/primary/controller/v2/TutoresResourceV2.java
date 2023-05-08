@@ -6,6 +6,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ITut
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.TutorDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.DTOJustIdMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.MateriaDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.TutorDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
@@ -41,6 +42,9 @@ public class TutoresResourceV2 {
     @Autowired
     private MateriaDTOMapper materiaDTOMapper;
 
+    @Autowired
+    private DTOJustIdMapper dtoJustIdMapper;
+
     @GetMapping
     public ResponseEntity<?> getTutor() {
         Tutor tutor = service.findTutorByUsername(getUsernameUsuario());
@@ -57,7 +61,7 @@ public class TutoresResourceV2 {
         if(Objects.nonNull(service.findTutorByIdUsuario(usuario.getId())))
             return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_ALREADY_CREATED.name());
 
-        TutorDTO tutorDTO = mapper.toDTO(service.create(usuario, materias.stream().map(materiaDTOMapper::toDomain).toList()));
+        TutorDTO tutorDTO = mapper.toDTO(service.create(usuario, materias.stream().map(dtoJustIdMapper::toDomain).toList()));
         if(Objects.isNull(tutorDTO))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_CREATED.name());
 
@@ -68,7 +72,7 @@ public class TutoresResourceV2 {
     public ResponseEntity<?> updateTutor(@RequestBody List<MateriaDTO> materias) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
         if(usuario.getRoles().stream().map(Rol::getRol).anyMatch(r -> r.equals(Roles.ROLE_TUTOR.name()))) {
-            TutorDTO tutorDTO = mapper.toDTO(service.update(usuario, materias.stream().map(materiaDTOMapper::toDomain).toList()));
+            TutorDTO tutorDTO = mapper.toDTO(service.update(usuario, materias.stream().map(dtoJustIdMapper::toDomain).toList()));
             if(Objects.isNull(tutorDTO))
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_UPDATED);
 

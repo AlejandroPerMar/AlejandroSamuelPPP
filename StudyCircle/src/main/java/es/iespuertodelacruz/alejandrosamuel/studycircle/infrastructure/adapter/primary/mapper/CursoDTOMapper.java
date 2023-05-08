@@ -2,16 +2,20 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.*;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
 
 public class CursoDTOMapper {
+
+    @Autowired
+    private DTOJustIdMapper dtoJustIdMapper;
     
     public Curso toDomainPost(CursoDTO in) {
         Curso curso = new Curso();
         curso.setTitulo(in.getTitulo());
-        curso.setMateriaTutor(toDomain(in.getMateriaTutor()));
-        curso.setAlumnos(in.getAlumnos().stream().map(this::toDomain).toList());
+        curso.setMateriaTutor(dtoJustIdMapper.toDomain(in.getMateriaTutor()));
+        curso.setAlumnos(in.getAlumnos().stream().map(dtoJustIdMapper::toDomain).toList());
         return curso;
     }
 
@@ -21,7 +25,7 @@ public class CursoDTOMapper {
         curso.setTitulo(in.getTitulo());
         curso.setMateriaTutor(toDTO(in.getMateriaTutor()));
         if(Objects.nonNull(in.getActividades()))
-            curso.setActividades(in.getActividades().stream().map(this::toDTO).toList());
+            curso.setActividades(in.getActividades().stream().map(dtoJustIdMapper::toDTO).toList());
         return curso;
     }
 
@@ -31,28 +35,10 @@ public class CursoDTOMapper {
         curso.setTitulo(in.getTitulo());
         curso.setMateriaTutor(toDTO(in.getMateriaTutor()));
         if(Objects.nonNull(in.getActividades()))
-            curso.setActividades(in.getActividades().stream().map(this::toDTO).toList());
+            curso.setActividades(in.getActividades().stream().map(dtoJustIdMapper::toDTO).toList());
         if(Objects.nonNull(in.getAlumnos()))
-            curso.setAlumnos(in.getAlumnos().stream().map(this::toDTO).toList());
+            curso.setAlumnos(in.getAlumnos().stream().map(dtoJustIdMapper::toDTO).toList());
         return curso;
-    }
-
-    private ActividadDTO toDTO(Actividad in) {
-        ActividadDTO actividad = new ActividadDTO();
-        actividad.setId(in.getId());
-        return actividad;
-    }
-
-    private AlumnoDTO toDTO(Alumno in) {
-        AlumnoDTO alumno = new AlumnoDTO();
-        alumno.setId(in.getId());
-        return alumno;
-    }
-
-    private Alumno toDomain(AlumnoDTO in) {
-        Alumno alumno = new Alumno();
-        alumno.setId(in.getId());
-        return alumno;
     }
 
     private MateriaTutorDTO toDTO(MateriaTutor in) {
@@ -67,9 +53,4 @@ public class CursoDTOMapper {
         return materiaTutor;
     }
 
-    private MateriaTutor toDomain(MateriaTutorDTO in) {
-        MateriaTutor materiaTutor = new MateriaTutor();
-        materiaTutor.setId(in.getId());
-        return materiaTutor;
-    }
 }

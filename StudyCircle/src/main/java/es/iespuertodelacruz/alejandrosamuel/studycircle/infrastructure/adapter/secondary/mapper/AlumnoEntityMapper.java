@@ -2,90 +2,46 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.NivelEstudios;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlumnoEntity;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.MateriaEntity;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.NivelEstudiosEntity;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Objects;
 
 public class AlumnoEntityMapper {
 
+    @Autowired
+    private EntityJustIdMapper entityJustIdMapper;
+
     public Alumno toDomain(AlumnoEntity in) {
         Alumno alumno = new Alumno();
         alumno.setId(in.getId());
-		alumno.setNivelEstudios(toDomain(in.getNivelEstudios()));
+		alumno.setNivelEstudios(entityJustIdMapper.toDomain(in.getNivelEstudios()));
         if(Objects.nonNull(in.getMaterias())) {
-            List<Materia> materias = in.getMaterias().stream().map(this::toDomain).toList();
+            List<Materia> materias = in.getMaterias().stream().map(entityJustIdMapper::toDomain).toList();
             alumno.setMaterias(materias);
         }
-        alumno.setUsuario(toDomain(in.getUsuario()));
+        alumno.setUsuario(entityJustIdMapper.toDomain(in.getUsuario()));
         return alumno;
-    }
-
-    private Usuario toDomain(UsuarioEntity in) {
-        if(Objects.isNull(in))
-            return null;
-        Usuario usuario = new Usuario();
-        usuario.setId(in.getId());
-        return usuario;
     }
 
     public AlumnoEntity toEntityPost(Alumno in) {
         AlumnoEntity alumno = new AlumnoEntity();
         alumno.setFechaCreacion(in.getFechaCreacion());
-        alumno.setNivelEstudios(toEntity(in.getNivelEstudios()));
-        if(in.getMaterias() == null)
-            alumno.setMaterias(null);
-        else
-            alumno.setMaterias(in.getMaterias().stream().map(this::toEntity).toList());
-        alumno.setUsuario(toEntity(in.getUsuario()));
+        alumno.setNivelEstudios(entityJustIdMapper.toEntity(in.getNivelEstudios()));
+        if(Objects.nonNull(in.getMaterias()))
+            alumno.setMaterias(in.getMaterias().stream().map(entityJustIdMapper::toEntity).toList());
+        alumno.setUsuario(entityJustIdMapper.toEntity(in.getUsuario()));
         return alumno;
-    }
-
-    private UsuarioEntity toEntity(Usuario in) {
-        if(Objects.isNull(in))
-            return null;
-        UsuarioEntity usuario = new UsuarioEntity();
-        usuario.setId(in.getId());
-        return usuario;
     }
 
     public AlumnoEntity toEntityPut(Alumno in) {
         AlumnoEntity alumno = new AlumnoEntity();
         alumno.setId(in.getId());
-		alumno.setNivelEstudios(toEntity(in.getNivelEstudios()));
-        if(in.getMaterias() == null)
-            alumno.setMaterias(null);
-        else
-		    alumno.setMaterias(in.getMaterias().stream().map(m->toEntity(m)).toList());
+		alumno.setNivelEstudios(entityJustIdMapper.toEntity(in.getNivelEstudios()));
+        if(Objects.nonNull(in.getMaterias()))
+            alumno.setMaterias(in.getMaterias().stream().map(m->entityJustIdMapper.toEntity(m)).toList());
         return alumno;
     }
 
-    private MateriaEntity toEntity(Materia in) {
-        MateriaEntity materia = new MateriaEntity();
-        materia.setId(in.getId());
-        return materia;
-    }
-
-    private Materia toDomain(MateriaEntity in) {
-        Materia materia = new Materia();
-        materia.setId(in.getId());
-        return materia;
-    }
-
-    private NivelEstudiosEntity toEntity(NivelEstudios in) {
-        NivelEstudiosEntity nivelEstudios = new NivelEstudiosEntity();
-        nivelEstudios.setId(in.getId());
-        return nivelEstudios;
-    }
-
-    private NivelEstudios toDomain(NivelEstudiosEntity in) {
-        NivelEstudios nivelEstudios = new NivelEstudios();
-        nivelEstudios.setId(in.getId());
-        return nivelEstudios;
-    }
 }
