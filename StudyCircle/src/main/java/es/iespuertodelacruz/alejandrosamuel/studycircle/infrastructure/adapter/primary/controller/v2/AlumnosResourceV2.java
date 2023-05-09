@@ -43,7 +43,7 @@ public class AlumnosResourceV2 {
 	public ResponseEntity<?> getAlumno() {
 		Alumno alumno = service.findAlumnoByUsername(getUsernameUsuario());
 		if(Objects.isNull(alumno))
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAlumno.STUDENT_PROFILE_NOT_FOUND);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAlumno.STUDENT_PROFILE_NOT_FOUND.name());
 
 		AlumnoDTO alumnoDTO = mapper.toDTOGet(alumno);
 		return ResponseEntity.ok().body(alumnoDTO);
@@ -74,7 +74,7 @@ public class AlumnosResourceV2 {
 
 			return ResponseEntity.ok().body(alumnoDTO);
 		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAlumno.STUDENT_PROFILE_NOT_FOUND);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAlumno.STUDENT_PROFILE_NOT_FOUND.name());
 
 	}
 

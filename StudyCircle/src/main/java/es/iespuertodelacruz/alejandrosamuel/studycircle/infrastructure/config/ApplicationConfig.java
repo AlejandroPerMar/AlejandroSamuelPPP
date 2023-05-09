@@ -98,6 +98,16 @@ public class ApplicationConfig {
 	}
 
 	@Bean
+	public AmistadDTOMapper amistadDTOMapper() {
+		return new AmistadDTOMapper();
+	}
+
+	@Bean
+	public AmistadEntityMapper amistadEntityMapper() {
+		return new AmistadEntityMapper();
+	}
+
+	@Bean
 	public DTOJustIdMapper dtoJustIdMapper() {
 		return new DTOJustIdMapper();
 	}
