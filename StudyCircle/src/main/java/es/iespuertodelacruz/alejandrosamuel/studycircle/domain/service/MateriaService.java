@@ -1,6 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.service;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IMateriaService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IMateriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,10 @@ public class MateriaService implements IMateriaService {
     @Override
     public List<Materia> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<Materia> findByTutor(Tutor tutor) {
+        return repository.findByTutor(tutor);
     }
 }

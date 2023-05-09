@@ -37,4 +37,7 @@ public interface RESTService {
 
     @PUT("v2/cursos/changeTituloCurso")
     Call<ResponseBody> changeTituloCurso(@Query("idCurso") Integer idCurso, @Query("titulo") String titulo);
+
+    @GET("v2/materias/tutor")
+    Call<ResponseBody> findMateriasByTutor();
 }

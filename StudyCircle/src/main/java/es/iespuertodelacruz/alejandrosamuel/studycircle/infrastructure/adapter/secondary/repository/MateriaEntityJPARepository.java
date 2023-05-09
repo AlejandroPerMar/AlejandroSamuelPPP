@@ -20,4 +20,7 @@ public interface MateriaEntityJPARepository extends JpaRepository<MateriaEntity,
 
     @Query("SELECT m FROM MateriaEntity m WHERE m.nivelEstudios.nombre = :nombre")
     List<MateriaEntity> findByNivelEstudiosNombre(@Param("nombre") String nombre);
+
+    @Query("SELECT m FROM MateriaEntity m WHERE m IN (SELECT mt.materia FROM MateriaTutorEntity mt WHERE mt.tutor.id = :idTutor)")
+    List<MateriaEntity> findByTutor(@Param("idTutor") Integer idTutor);
 }

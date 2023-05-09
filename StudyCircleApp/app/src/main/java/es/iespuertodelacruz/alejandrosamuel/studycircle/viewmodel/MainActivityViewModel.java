@@ -15,6 +15,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLog
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.AuthRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.CursosRepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.MateriasRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.ProfilesConfRepository;
 
 public class MainActivityViewModel extends AndroidViewModel {
@@ -24,11 +25,14 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     private final CursosRepository cursosRepository;
 
+    private final MateriasRepository materiasRepository;
+
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
         authRepository = new AuthRepository(application);
         profilesConfRepository = new ProfilesConfRepository(application);
         this.cursosRepository = new CursosRepository(application);
+        this.materiasRepository = new MateriasRepository(application);
     }
 
     public LiveData<String> getLiveDataToken(UsuarioLoginDTO usuarioLoginDTO) {
@@ -65,5 +69,9 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public LiveData<Object> changeTituloCurso(Integer idCurso, String titulo, String token) {
         return cursosRepository.changeTituloCurso(idCurso, titulo, token);
+    }
+
+    public LiveData<Object> findMateriasByTutor(String token) {
+        return materiasRepository.findMateriasByTutor(token);
     }
 }

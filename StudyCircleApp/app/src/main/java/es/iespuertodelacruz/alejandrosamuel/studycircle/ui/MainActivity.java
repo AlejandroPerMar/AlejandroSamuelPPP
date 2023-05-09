@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         //Object value = cursosTutor.getValue();
         //List<CursoDTO> value1 = (List<CursoDTO>) value;
         //value1.forEach(c -> System.out.printf(c.getTitulo()));
-        viewModel.changeTituloCurso(10, "nuevo titulo", "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNzUzMjU0fQ.lHVd-lnTse17t5xGP48aTgfJfMH_5sXA1bP0IGaSsbM");
+        //viewModel.changeTituloCurso(10, "nuevo titulo", "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNzUzMjU0fQ.lHVd-lnTse17t5xGP48aTgfJfMH_5sXA1bP0IGaSsbM");
+        viewModel.findMateriasByTutor("eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNzU1MjQ2fQ.8GexBXYVcfCXbMv8Gb4u8yc_5V7huxt09KaIdOqNNXI");
     }
 }
