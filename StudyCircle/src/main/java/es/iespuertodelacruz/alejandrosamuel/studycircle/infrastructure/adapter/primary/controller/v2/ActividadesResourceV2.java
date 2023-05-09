@@ -8,9 +8,9 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ICursoService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ITutorService;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasActividad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,12 +69,17 @@ public class ActividadesResourceV2 {
     public ResponseEntity<?> create(@RequestBody ActividadDTO request) {
         Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
         AtomicBoolean cursoExistente = new AtomicBoolean(false);
+
+        if(!ObjectUtils.notNullNorEmpty(request, request.getCurso(), request.getNombre(), request.getDescripcion(), request.getFechaActividad()))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.INVALIDAD_ACTIVITY_FORMAT.name());
+
         tutor.getMateriasTutor().forEach(mt ->  {
             Optional<Curso> curso = mt.getCursosTutor().stream()
                     .filter(c -> Objects.equals(c.getId(), request.getCurso().getId())).findFirst();
             if(curso.isPresent())
                 cursoExistente.set(true);
         });
+
 
         if(!cursoExistente.get())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.COURSE_ACTIVITY_NOT_VALID.name());
