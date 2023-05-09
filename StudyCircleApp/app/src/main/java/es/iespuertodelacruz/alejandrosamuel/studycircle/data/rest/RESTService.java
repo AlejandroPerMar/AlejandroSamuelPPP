@@ -34,4 +34,7 @@ public interface RESTService {
 
     @PUT("v2/cursos/eliminarAlumno")
     Call<ResponseBody> removeAlumnoToCurso(@Query("idCurso") Integer idCurso, @Query("idAlumno") Integer idAlumno);
+
+    @PUT("v2/cursos/changeTituloCurso")
+    Call<ResponseBody> changeTituloCurso(@Query("idCurso") Integer idCurso, @Query("titulo") String titulo);
 }

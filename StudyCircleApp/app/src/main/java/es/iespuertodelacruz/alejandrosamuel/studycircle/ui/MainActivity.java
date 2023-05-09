@@ -33,12 +33,14 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        /*UsuarioRegisterDTO usuarioRegisterDTO = new UsuarioRegisterDTO();
+        /*
+        UsuarioRegisterDTO usuarioRegisterDTO = new UsuarioRegisterDTO();
         usuarioRegisterDTO.setNombre("nombre prueba");
         usuarioRegisterDTO.setUsername("prueba");
         usuarioRegisterDTO.setEmail("basal72606@larland.com");
         usuarioRegisterDTO.setClave("Prueba1@");
-        viewModel.register(usuarioRegisterDTO);*/
+        viewModel.register(usuarioRegisterDTO);
+        */
 
         /*
         UsuarioLoginDTO usuarioLoginDTO = new UsuarioLoginDTO();
@@ -82,9 +84,10 @@ public class MainActivity extends AppCompatActivity {
         //viewModel.addAlumnoToCurso(10, 12, "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNTY4ODM4fQ.-L0uY0tQu7061c8dPQtEhK9qZOBpyv3gKqTQRV1u3UU");
 
 
-        LiveData<Object> cursosTutor = viewModel.findCursosTutor("eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNjQxOTc0fQ.0yxGJX7nSu_vo7PMjtN83C22YXMdYnDTUAdn8yV-2g4");
+        //LiveData<Object> cursosTutor = viewModel.findCursosTutor("eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNjY1NTczfQ.B1q_NdxyMZYKm6DcE0_8AGcBAw6x8yXaqn3f0KhCdBk");
         //Object value = cursosTutor.getValue();
         //List<CursoDTO> value1 = (List<CursoDTO>) value;
         //value1.forEach(c -> System.out.printf(c.getTitulo()));
+        viewModel.changeTituloCurso(10, "nuevo titulo", "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNzUzMjU0fQ.lHVd-lnTse17t5xGP48aTgfJfMH_5sXA1bP0IGaSsbM");
     }
 }

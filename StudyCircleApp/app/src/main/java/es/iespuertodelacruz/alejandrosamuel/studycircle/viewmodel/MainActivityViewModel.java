@@ -62,4 +62,8 @@ public class MainActivityViewModel extends AndroidViewModel {
     public LiveData<Object> findCursosTutor(String token) {
         return cursosRepository.findCursosTutor(token);
     }
+
+    public LiveData<Object> changeTituloCurso(Integer idCurso, String titulo, String token) {
+        return cursosRepository.changeTituloCurso(idCurso, titulo, token);
+    }
 }

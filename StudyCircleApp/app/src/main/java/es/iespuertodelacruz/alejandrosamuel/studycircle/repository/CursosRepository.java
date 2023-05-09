@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.DatabaseStudyCircle;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasCursos;
@@ -142,7 +143,6 @@ public class CursosRepository {
                     Gson gson = new Gson();
                     Type listType = new TypeToken<List<CursoDTO>>() {}.getType();
                     List<CursoDTO> cursosDTO = new Gson().fromJson(body.charStream(), listType);
-                    cursosDTO.forEach(c -> System.out.printf(c.getTitulo()));
                     mutableCursos.setValue(cursosDTO);
                 }else {
                     String respuesta;
@@ -166,6 +166,51 @@ public class CursosRepository {
             }
         });
         return mutableCursos;
+    }
+
+    public LiveData<Object> changeTituloCurso(Integer idCurso, String titulo, String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableCurso = new MutableLiveData<>();
+        Call<ResponseBody> callChangeTituloCurso = restAuthService.changeTituloCurso(idCurso, titulo);
+        callChangeTituloCurso.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    CursoDTO cursoDTO = gson.fromJson(body.charStream(), CursoDTO.class);
+                    mutableCurso.setValue(cursoDTO);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = Objects.requireNonNull(response.errorBody()).string();
+                        RespuestasCursos respuestasCursos = RespuestasCursos.valueOf(respuesta);
+                        switch (respuestasCursos) {
+                            case TUTOR_PROFILE_NOT_CREATED:
+                                mutableCurso.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED.getDescripcion());
+                                break;
+                            case INVALID_PARAMETERS:
+                                mutableCurso.setValue(RespuestasCursos.INVALID_PARAMETERS.getDescripcion());
+                                break;
+                            case NON_EXISTING_COURSE_OR_STUDENT:
+                                mutableCurso.setValue(RespuestasCursos.NON_EXISTING_COURSE.getDescripcion());
+                                break;
+                            case NON_AUTHENTICATED_OWNER:
+                                mutableCurso.setValue(RespuestasCursos.NON_AUTHENTICATED_OWNER.getDescripcion());
+                                break;
+                            default:
+                        }
+                    } catch (Exception ignored) {}
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableCurso;
     }
 
 }

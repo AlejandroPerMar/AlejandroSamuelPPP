@@ -6,7 +6,8 @@ public enum RespuestasCursos {
     TUTOR_PROFILE_NOT_CREATED("TUTOR_PROFILE_NOT_CREATED", "No existe perfil de tutor para este usuario"),
     INVALID_PARAMETERS("INVALID_PARAMETERS", "Parámetros inválidos"),
     NON_EXISTING_COURSE_OR_STUDENT("NON_EXISTING_COURSE_OR_STUDENT", "Curso o alumno no existente"),
-    NON_AUTHENTICATED_OWNER("NON_AUTHENTICATED_OWNER", "El curso no pertenece al usuario");
+    NON_AUTHENTICATED_OWNER("NON_AUTHENTICATED_OWNER", "El curso no pertenece al usuario"),
+    NON_EXISTING_COURSE("NON_EXISTING_COURSE", "Curso no existente");
 
     private final String name;
     private final String descripcion;
