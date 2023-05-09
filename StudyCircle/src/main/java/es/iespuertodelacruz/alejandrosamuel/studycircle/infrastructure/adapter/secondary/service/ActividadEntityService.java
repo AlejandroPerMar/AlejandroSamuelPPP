@@ -1,6 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class ActividadEntityService implements IActividadRepository {
 	
 	@Override
 	public Actividad findById(Integer id) {
-		 Optional<ActividadEntity> optActividad = repository.findById(id);
-	        return optActividad.map(m -> mapper.toDomain(m)).orElse(null);
+		 ActividadEntity actividad = repository.findById(id).orElse(null);
+		 return (Objects.nonNull(actividad)) ? mapper.toDomain(actividad) : null;
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class ActividadEntityService implements IActividadRepository {
 	@Override
 	public boolean delete(Integer id) {
 		repository.deleteById(id);
-        return findById(id) != null;
+        return Objects.nonNull(findById(id));
 	}
 
 	@Override

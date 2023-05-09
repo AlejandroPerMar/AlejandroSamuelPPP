@@ -1,7 +1,9 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.ActividadDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.CursoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,11 +41,17 @@ public class ActividadDTOMapper {
         actividad.setId(in.getId());
         actividad.setNombre(in.getNombre());
         actividad.setDescripcion(in.getDescripcion());
-        actividad.setCurso(dtoJustIdMapper.toDTO((in.getCurso())));
+        actividad.setCurso(toDTO((in.getCurso())));
         actividad.setFechaActividad(in.getFechaActividad());
         actividad.setFechaCreacion(in.getFechaCreacion());
 
         return actividad;
     }
 
+    private CursoDTO toDTO(Curso in) {
+        CursoDTO curso = new CursoDTO();
+        curso.setId(in.getId());
+        curso.setTitulo(in.getTitulo());
+        return curso;
+    }
 }

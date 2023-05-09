@@ -70,7 +70,8 @@ public class ActividadesResourceV2 {
         Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
         AtomicBoolean cursoExistente = new AtomicBoolean(false);
         tutor.getMateriasTutor().forEach(mt ->  {
-            Optional<Curso> curso = mt.getCursosTutor().stream().filter(c -> Objects.equals(c.getId(), request.getCurso().getId())).findFirst();
+            Optional<Curso> curso = mt.getCursosTutor().stream()
+                    .filter(c -> Objects.equals(c.getId(), request.getCurso().getId())).findFirst();
             if(curso.isPresent())
                 cursoExistente.set(true);
         });

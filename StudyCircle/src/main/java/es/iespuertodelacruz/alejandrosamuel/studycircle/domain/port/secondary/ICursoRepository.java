@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface ICursoRepository {
     List<Curso> findByAlumno(Integer id);
 
     Curso create(Curso curso);
+
+    Curso changeTituloCurso(Integer idCurso, String titulo);
 
     Curso update(Curso curso);
 

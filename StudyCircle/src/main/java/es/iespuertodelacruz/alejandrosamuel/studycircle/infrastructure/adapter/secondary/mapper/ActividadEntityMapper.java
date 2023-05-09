@@ -1,12 +1,15 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.ActividadEntity;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.CursoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.Objects;
 
 @Component
 public class ActividadEntityMapper {
@@ -15,21 +18,23 @@ public class ActividadEntityMapper {
     private EntityJustIdMapper entityJustIdMapper;
 
 	public Actividad toDomain(ActividadEntity in) {
-		Actividad actividad = new Actividad();
+        if(Objects.isNull(in)) return null;
 
+        Actividad actividad = new Actividad();
 		actividad.setId(in.getId());
 		actividad.setNombre(in.getNombre());
         actividad.setDescripcion(in.getDescripcion());
         actividad.setFechaActividad(in.getFechaActividad());
-        actividad.setCurso(entityJustIdMapper.toDomain(in.getCurso()));
+        actividad.setCurso(toDomain(in.getCurso()));
         actividad.setFechaCreacion(in.getFechaCreacion());
 
         return actividad;
     }
 
     public ActividadEntity toEntityPost(Actividad in) {
-        ActividadEntity actividad = new ActividadEntity();
+        if(Objects.isNull(in)) return null;
 
+        ActividadEntity actividad = new ActividadEntity();
         actividad.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
         actividad.setNombre(in.getNombre());
         actividad.setDescripcion(in.getDescripcion());
@@ -40,13 +45,23 @@ public class ActividadEntityMapper {
     }
 
     public ActividadEntity toEntityPut(Actividad in) {
-        ActividadEntity actividad = new ActividadEntity();
+        if(Objects.isNull(in)) return null;
 
+        ActividadEntity actividad = new ActividadEntity();
         actividad.setNombre(in.getNombre());
         actividad.setDescripcion(in.getDescripcion());
         actividad.setFechaActividad(in.getFechaActividad());
 
         return actividad;
+    }
+
+    private Curso toDomain(CursoEntity in) {
+        if(Objects.isNull(in)) return null;
+
+        Curso curso = new Curso();
+        curso.setId(in.getId());
+        curso.setTitulo(in.getTitulo());
+        return curso;
     }
 	
 }

@@ -16,6 +16,8 @@ public interface ICursoService {
 
     Curso create(Curso curso);
 
+    Curso changeTituloCurso(Integer idCurso, String titulo);
+
     Curso update(Curso curso);
 
     boolean delete(Integer id);

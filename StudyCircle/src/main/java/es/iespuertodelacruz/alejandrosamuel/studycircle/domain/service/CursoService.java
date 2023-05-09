@@ -36,6 +36,11 @@ public class CursoService implements ICursoService {
     }
 
     @Override
+    public Curso changeTituloCurso(Integer idCurso, String titulo) {
+        return repository.changeTituloCurso(idCurso, titulo);
+    }
+
+    @Override
     public Curso update(Curso curso) {
         return repository.update(curso);
     }

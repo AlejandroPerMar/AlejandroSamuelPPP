@@ -17,6 +17,7 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class CursoEntityService implements ICursoRepository {
@@ -59,6 +60,17 @@ public class CursoEntityService implements ICursoRepository {
         CursoEntity finalCursoEntity = repository.save(cursoEntity);
 
         return mapper.toDomain(finalCursoEntity);
+    }
+
+    @Override
+    public Curso changeTituloCurso(Integer idCurso, String titulo) {
+        CursoEntity cursoEntity = repository.findById(idCurso).orElse(null);
+        if(Objects.nonNull(cursoEntity)) {
+            cursoEntity.setTitulo(titulo);
+            cursoEntity = repository.save(cursoEntity);
+            return mapper.toDomain(cursoEntity);
+        }
+        return null;
     }
 
     @Override

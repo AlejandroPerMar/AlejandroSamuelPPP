@@ -13,6 +13,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.Res
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.utils.ObjectUtils;
 import io.swagger.annotations.Api;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,8 +57,29 @@ public class CursosResourceV2 {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.COURSE_DTO_NOT_VALID.name());
     }
 
+    @PutMapping("/changeTituloCurso")
+    public ResponseEntity<?> changeTituloCurso(@RequestParam("idCurso") Integer idCurso, @RequestParam("titulo") String titulo) {
+        Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
+        if(Objects.nonNull(tutor)) {
+            if(ObjectUtils.notNullNorEmpty(idCurso, titulo)) {
+                Curso curso = cursoService.findById(idCurso);
+                if(Objects.nonNull(curso)) {
+                    if(curso.getMateriaTutor().getTutor().getId().equals(tutor.getId())) {
+                        curso = cursoService.changeTituloCurso(idCurso, titulo);
+                        return ResponseEntity.ok(mapper.toDTOTutor(curso));
+                    }
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.NON_AUTHENTICATED_OWNER.name());
+                }
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.NON_EXISTING_COURSE.name());
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.INVALID_PARAMETERS.name());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.TUTOR_PROFILE_NOT_CREATED.name());
+    }
+
     @PutMapping("/eliminarAlumno")
-    public ResponseEntity<?> removeAlumno(@RequestParam("idCurso") Integer idCurso, @RequestParam("idAlumno") Integer idAlumno) {
+    public ResponseEntity<?> removeAlumno(@RequestParam("idCurso") Integer idCurso,
+                                          @RequestParam("idAlumno") Integer idAlumno) {
         Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
         if(Objects.nonNull(tutor)) {
             if(ObjectUtils.notNullNorEmpty(idAlumno, idCurso)) {
@@ -80,7 +102,8 @@ public class CursosResourceV2 {
     }
 
     @PutMapping("/agregarAlumno")
-    public ResponseEntity<?> addAlumno(@RequestParam("idCurso") Integer idCurso, @RequestParam("idAlumno") Integer idAlumno) {
+    public ResponseEntity<?> addAlumno(@RequestParam("idCurso") Integer idCurso,
+                                       @RequestParam("idAlumno") Integer idAlumno) {
         Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
         if(Objects.nonNull(tutor)) {
             if(ObjectUtils.notNullNorEmpty(idAlumno, idCurso)) {
