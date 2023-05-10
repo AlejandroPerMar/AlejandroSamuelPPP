@@ -5,13 +5,11 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.ActividadEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.CursoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.Objects;
 
-@Component
 public class ActividadEntityMapper {
 
     @Autowired

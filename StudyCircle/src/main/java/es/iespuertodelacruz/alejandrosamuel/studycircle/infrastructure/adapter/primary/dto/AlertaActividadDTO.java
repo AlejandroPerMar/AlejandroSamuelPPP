@@ -5,16 +5,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigInteger;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AlertaDTO {
+public class AlertaActividadDTO {
 
 	private Integer id;
 	private BigInteger fechaCreacion;
-	private String mensaje;
 	private String estado;
-	private String tipo;
+	private ActividadDTO actividad;
 	private UsuarioDTO usuario;
 
-	public AlertaDTO() {
+	public AlertaActividadDTO() {
 	}
 
 	public Integer getId() {
@@ -33,14 +32,6 @@ public class AlertaDTO {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public String getMensaje() {
-		return mensaje;
-	}
-
-	public void setMensaje(String mensaje) {
-		this.mensaje = mensaje;
-	}
-
 	public String getEstado() {
 		return estado;
 	}
@@ -49,19 +40,19 @@ public class AlertaDTO {
 		this.estado = estado;
 	}
 
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
 	public UsuarioDTO getUsuario() {
 		return usuario;
 	}
 
 	public void setUsuario(UsuarioDTO usuario) {
 		this.usuario = usuario;
+	}
+
+	public ActividadDTO getActividad() {
+		return actividad;
+	}
+
+	public void setActividad(ActividadDTO actividad) {
+		this.actividad = actividad;
 	}
 }

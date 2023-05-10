@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alerta;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.AlertaActividad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAlertaService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IAlertaRepository;
 
@@ -17,27 +17,22 @@ public class AlertaService implements IAlertaService {
 	private IAlertaRepository repository;
 	
 	@Override
-	public Alerta findById(Integer id) {
+	public AlertaActividad findById(Integer id) {
 		return repository.findById(id);
 	}
 
 	@Override
-	public Alerta findByType(String tipo) {
-		return repository.findByType(tipo);
-	}
-
-	@Override
-	public List<Alerta> findByUsername(String username) {
+	public List<AlertaActividad> findByUsername(String username) {
 		return repository.findByUsername(username);
 	}
 
 	@Override
-	public Alerta create(Alerta actividad) {
+	public AlertaActividad create(AlertaActividad actividad) {
 		return repository.create(actividad);
 	}
 
 	@Override
-	public Alerta update(Alerta actividad) {
+	public AlertaActividad update(AlertaActividad actividad) {
 		return repository.update(actividad);
 	}
 
@@ -47,7 +42,7 @@ public class AlertaService implements IAlertaService {
 	}
 
 	@Override
-	public List<Alerta> findAll() {
+	public List<AlertaActividad> findAll() {
 		return repository.findAll();
 	}
 }

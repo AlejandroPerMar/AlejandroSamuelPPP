@@ -2,22 +2,20 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary;
 
 import java.util.List;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alerta;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.AlertaActividad;
 
 public interface IAlertaRepository {
 
-    Alerta findById(Integer id);
+    AlertaActividad findById(Integer id);
 
-    List<Alerta> findByUsername(String username);
-    
-    Alerta findByType(String nombre);
+    List<AlertaActividad> findByUsername(String username);
 
-    Alerta create(Alerta alerta);
+    AlertaActividad create(AlertaActividad alerta);
 
-    Alerta update(Alerta alerta);
+    AlertaActividad update(AlertaActividad alerta);
 
     boolean delete(Integer id);
 
-    List<Alerta> findAll();
+    List<AlertaActividad> findAll();
 	
 }

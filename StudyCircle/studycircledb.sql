@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-05-2023 a las 13:05:54
+-- Tiempo de generación: 10-05-2023 a las 21:06:43
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -46,15 +46,28 @@ INSERT INTO `activities` (`id`, `name`, `description`, `time_activity`, `id_cour
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alerts`
+-- Estructura de tabla para la tabla `activity_alerts`
 --
 
-CREATE TABLE `alerts` (
+CREATE TABLE `activity_alerts` (
   `id` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
-  `type` varchar(100) NOT NULL,
-  `message` varchar(255) NOT NULL,
   `status` varchar(100) NOT NULL,
+  `id_activity` int(11) NOT NULL,
+  `created_at` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `friendship_alerts`
+--
+
+CREATE TABLE `friendship_alerts` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `status` varchar(100) NOT NULL,
+  `id_friendship` int(11) NOT NULL,
   `created_at` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -148,7 +161,7 @@ CREATE TABLE `course` (
 --
 
 INSERT INTO `course` (`id`, `id_tutor_subject`, `title`, `created_at`) VALUES
-(10, 24, 'prueba curso 2', 1683122889983);
+(10, 24, 'nuevo titulo', 1683122889983);
 
 -- --------------------------------------------------------
 
@@ -179,7 +192,8 @@ CREATE TABLE `course_students` (
 --
 
 INSERT INTO `course_students` (`id`, `id_course`, `id_student`) VALUES
-(7, 10, 4);
+(23, 10, 4),
+(24, 10, 12);
 
 -- --------------------------------------------------------
 
@@ -419,8 +433,8 @@ CREATE TABLE `user_profiles` (
 --
 
 INSERT INTO `user_profiles` (`user_profile`, `description`) VALUES
-('TUTOR_PROFILE', 'Perfil de usuario tutor'),
-('STUDENT_PROFILE', 'Perfil de usuario alumno');
+('STUDENT_PROFILE', 'Perfil de usuario alumno'),
+('TUTOR_PROFILE', 'Perfil de usuario tutor');
 
 --
 -- Índices para tablas volcadas
@@ -434,10 +448,20 @@ ALTER TABLE `activities`
   ADD KEY `id_course` (`id_course`) USING BTREE;
 
 --
--- Indices de la tabla `alerts`
+-- Indices de la tabla `activity_alerts`
 --
-ALTER TABLE `alerts`
+ALTER TABLE `activity_alerts`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `id_activity` (`id_activity`),
+  ADD KEY `id_user` (`id_user`);
+
+
+--
+-- Indices de la tabla `friendship_alerts`
+--
+ALTER TABLE `friendship_alerts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_friendship` (`id_friendship`),
   ADD KEY `id_user` (`id_user`);
 
 --
@@ -578,9 +602,15 @@ ALTER TABLE `activities`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `alerts`
+-- AUTO_INCREMENT de la tabla `activity_alerts`
 --
-ALTER TABLE `alerts`
+ALTER TABLE `activity_alerts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `friendship_alerts`
+--
+ALTER TABLE `friendship_alerts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -617,7 +647,7 @@ ALTER TABLE `course_activities`
 -- AUTO_INCREMENT de la tabla `course_students`
 --
 ALTER TABLE `course_students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `friendships`
@@ -690,10 +720,18 @@ ALTER TABLE `activities`
   ADD CONSTRAINT `activities_ibfk_1` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`);
 
 --
--- Filtros para la tabla `alerts`
+-- Filtros para la tabla `activity_alerts`
 --
-ALTER TABLE `alerts`
-  ADD CONSTRAINT `alerts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+ALTER TABLE `activity_alerts`
+  ADD CONSTRAINT `activity_alerts_ibfk_1` FOREIGN KEY (`id_activity`) REFERENCES `activities` (`id`),
+  ADD CONSTRAINT `activity_alerts_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+
+--
+-- Filtros para la tabla `friendship_alerts`
+--
+ALTER TABLE `friendship_alerts`
+  ADD CONSTRAINT `friendship_alerts_ibfk_1` FOREIGN KEY (`id_friendship`) REFERENCES `friendships` (`id`),
+  ADD CONSTRAINT `friendship_alerts_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 --
 -- Filtros para la tabla `announcements`

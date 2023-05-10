@@ -16,11 +16,20 @@ public class DTOJustIdMapper {
         return actividad;
     }
 
-    public Alerta toDomain(AlertaDTO in) {
+    public AlertaActividad toDomain(AlertaActividadDTO in) {
         if(Objects.isNull(in))
             return null;
 
-        Alerta alerta = new Alerta();
+        AlertaActividad alerta = new AlertaActividad();
+        alerta.setId(in.getId());
+        return alerta;
+    }
+
+    public AlertaAmistad toDomain(AlertaAmistadDTO in) {
+        if(Objects.isNull(in))
+            return null;
+
+        AlertaAmistad alerta = new AlertaAmistad();
         alerta.setId(in.getId());
         return alerta;
     }
@@ -124,11 +133,20 @@ public class DTOJustIdMapper {
         return actividad;
     }
 
-    public AlertaDTO toDTO(Alerta in) {
+    public AlertaActividadDTO toDTO(AlertaActividad in) {
         if(Objects.isNull(in))
             return null;
 
-        AlertaDTO alerta = new AlertaDTO();
+        AlertaActividadDTO alerta = new AlertaActividadDTO();
+        alerta.setId(in.getId());
+        return alerta;
+    }
+
+    public AlertaActividadDTO toDomain(AlertaAmistad in) {
+        if(Objects.isNull(in))
+            return null;
+
+        AlertaActividadDTO alerta = new AlertaActividadDTO();
         alerta.setId(in.getId());
         return alerta;
     }

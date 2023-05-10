@@ -1,6 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlertaDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlertaActividadDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alerta;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.AlertaActividad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAlertaService;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlertaDTOMapper;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlertaActividadDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import io.swagger.annotations.Api;
 
@@ -28,12 +28,12 @@ public class AlertasResourceV2 {
     private IAlertaService service;
 
     @Autowired
-    private AlertaDTOMapper mapper;
+    private AlertaActividadDTOMapper mapper;
 
     @GetMapping
     public ResponseEntity<?> findByUsuario() {
-        List<Alerta> alertasUsuario = service.findByUsername(getUsernameUsuario());
-        List<AlertaDTO> alertasUsuarioDTO = alertasUsuario.stream().map(mapper::toDTO).toList();
+        List<AlertaActividad> alertasUsuario = service.findByUsername(getUsernameUsuario());
+        List<AlertaActividadDTO> alertasUsuarioDTO = alertasUsuario.stream().map(mapper::toDTO).toList();
         return ResponseEntity.ok(alertasUsuarioDTO);
     }
 

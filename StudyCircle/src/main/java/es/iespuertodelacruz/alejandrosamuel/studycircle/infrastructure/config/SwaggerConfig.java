@@ -29,7 +29,7 @@ public class SwaggerConfig {
 	public static final String ACTIVIDAD_V2_TAG = "ActividadV2";
 	public static final String ACTIVIDAD_V3_TAG = "ActividadV3";
 	public static final String AMISTAD_V2_TAG = "AmistadV2";
-	public static final String ALERTA_TAG = "Alerta";
+	public static final String ALERTA_V2_TAG = "AlertaV2";
 	public static final String ANUNCIO_TAG = "Anuncio";
 	public static final String EVENTO_TAG = "Evento de calendario";
 	public static final String MATERIA_V2_TAG = "MateriaV2";
@@ -56,7 +56,7 @@ public class SwaggerConfig {
                 		new Tag(ACTIVIDAD_TAG, ""),
                 		new Tag(ACTIVIDAD_V2_TAG, "Controlador REST para las acciones o peticiones relacionadas con la entidad Actividad Versión 2 (ADMIN)"),
                 		new Tag(ACTIVIDAD_V3_TAG, "Controlador REST para las acciones o peticiones relacionadas con la entidad Actividad Versión 3 (ADMIN)"),
-                		new Tag(ALERTA_TAG, ""),
+                		new Tag(ALERTA_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Alerta para la versión 2"),
                 		new Tag(AMISTAD_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Amistad para la versión 2"),
                 		new Tag(ANUNCIO_TAG, ""),
                 		new Tag(EVENTO_TAG, ""),

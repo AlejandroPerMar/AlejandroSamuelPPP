@@ -15,11 +15,20 @@ public class EntityJustIdMapper {
         return actividad;
     }
 
-    public Alerta toDomain(AlertaEntity in) {
+    public AlertaActividad toDomain(AlertaActividadEntity in) {
         if(Objects.isNull(in))
             return null;
 
-        Alerta alerta = new Alerta();
+        AlertaActividad alerta = new AlertaActividad();
+        alerta.setId(in.getId());
+        return alerta;
+    }
+
+    public AlertaAmistad toDomain(AlertaAmistadEntity in) {
+        if(Objects.isNull(in))
+            return null;
+
+        AlertaAmistad alerta = new AlertaAmistad();
         alerta.setId(in.getId());
         return alerta;
     }
@@ -123,11 +132,20 @@ public class EntityJustIdMapper {
         return actividad;
     }
 
-    public AlertaEntity toEntity(Alerta in) {
+    public AlertaActividadEntity toEntity(AlertaActividad in) {
         if(Objects.isNull(in))
             return null;
 
-        AlertaEntity alerta = new AlertaEntity();
+        AlertaActividadEntity alerta = new AlertaActividadEntity();
+        alerta.setId(in.getId());
+        return alerta;
+    }
+
+    public AlertaActividadEntity toDomain(AlertaAmistad in) {
+        if(Objects.isNull(in))
+            return null;
+
+        AlertaActividadEntity alerta = new AlertaActividadEntity();
         alerta.setId(in.getId());
         return alerta;
     }

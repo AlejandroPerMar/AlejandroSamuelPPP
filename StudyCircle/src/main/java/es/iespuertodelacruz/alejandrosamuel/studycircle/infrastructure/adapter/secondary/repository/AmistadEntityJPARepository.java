@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface AmistadEntityJPARepository extends JpaRepository<AmistadEntity, Integer> {
-    @Query("SELECT AmistadEntity a WHERE (a.persona1.id = :id1 OR a.persona1.id = :id2) AND" +
-            "(a.persona2.id = :id1 OR a.persona2.id = :id2)")
+    @Query("SELECT a FROM AmistadEntity a WHERE (a.usuario1.id = :id1 OR a.usuario1.id = :id2) AND (a.usuario2.id = :id1 OR a.usuario2.id = :id2)")
     public Optional<AmistadEntity> findAmistadByIds(@Param("id1") Integer id1, @Param("id2") Integer id2);
 }

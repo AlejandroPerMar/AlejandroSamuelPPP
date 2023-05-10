@@ -3,17 +3,15 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 import java.math.BigInteger;
 
 
-
-public class Alerta {
+public class AlertaAmistad {
 
 	private Integer id;
 	private BigInteger fechaCreacion;
-	private String mensaje;
 	private String estado;
-	private String tipo;
+	private Amistad amistad;
 	private Usuario usuario;
 
-	public Alerta() {
+	public AlertaAmistad() {
 	}
 
 	public Integer getId() {
@@ -32,14 +30,6 @@ public class Alerta {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public String getMensaje() {
-		return mensaje;
-	}
-
-	public void setMensaje(String mensaje) {
-		this.mensaje = mensaje;
-	}
-
 	public String getEstado() {
 		return estado;
 	}
@@ -48,19 +38,19 @@ public class Alerta {
 		this.estado = estado;
 	}
 
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
 	public Usuario getUsuario() {
 		return usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Amistad getAmistad() {
+		return amistad;
+	}
+
+	public void setAmistad(Amistad amistad) {
+		this.amistad = amistad;
 	}
 }

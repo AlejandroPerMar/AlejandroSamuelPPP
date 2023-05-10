@@ -4,7 +4,9 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Amistad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAmistadService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IAmistadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AmistadService implements IAmistadService {
 
     @Autowired

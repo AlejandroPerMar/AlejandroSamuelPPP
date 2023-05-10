@@ -33,6 +33,16 @@ public class ApplicationConfig {
 	private final UsuarioEntityJPARepository repository;
 
 	@Bean
+	public ActividadDTOMapper actividadDTOMapper() {
+		return new ActividadDTOMapper();
+	}
+
+	@Bean
+	public ActividadEntityMapper actividadEntityMapper() {
+		return new ActividadEntityMapper();
+	}
+
+	@Bean
 	public NivelEstudiosDTOMapper nivelEstudiosDTOMapper() {
 		return new NivelEstudiosDTOMapper();
 	}
@@ -116,6 +126,18 @@ public class ApplicationConfig {
 	public EntityJustIdMapper entityJustIdMapper() {
 		return new EntityJustIdMapper();
 	}
+
+	@Bean
+	public AlertaAmistadDTOMapper alertaAmistadDTOMapper() { return new AlertaAmistadDTOMapper(); }
+
+	@Bean
+	public AlertaActividadEntityMapper alertaAmistadEntityMapper() { return new AlertaActividadEntityMapper(); }
+
+	@Bean
+	public AlertaActividadDTOMapper alertaActividadDTOMapper() { return new AlertaActividadDTOMapper(); }
+
+	@Bean
+	public AlertaAmistadEntityMapper alertaActividadEntityMapper() { return new AlertaAmistadEntityMapper(); }
 
 	@Bean
 	public UserDetailsService userDetailsService() {

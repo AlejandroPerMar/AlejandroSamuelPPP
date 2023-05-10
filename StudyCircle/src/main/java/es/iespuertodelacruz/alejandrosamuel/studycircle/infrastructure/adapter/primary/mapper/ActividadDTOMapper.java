@@ -5,9 +5,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.ActividadDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.CursoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ActividadDTOMapper {
 
     @Autowired

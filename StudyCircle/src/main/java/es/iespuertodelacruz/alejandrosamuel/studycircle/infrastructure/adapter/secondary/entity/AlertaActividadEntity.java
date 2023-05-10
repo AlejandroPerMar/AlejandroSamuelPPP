@@ -10,9 +10,9 @@ import java.math.BigInteger;
  * 
  */
 @Entity
-@Table(name="alerts")
-@NamedQuery(name="AlertaEntity.findAll", query="SELECT a FROM AlertaEntity a")
-public class AlertaEntity implements Serializable {
+@Table(name="activity_alerts")
+@NamedQuery(name="AlertaActividadEntity.findAll", query="SELECT a FROM AlertaActividadEntity a")
+public class AlertaActividadEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -22,21 +22,20 @@ public class AlertaEntity implements Serializable {
 	@Column(name="created_at")
 	private BigInteger fechaCreacion;
 
-	@Column(name="message")
-	private String mensaje;
-
 	@Column(name="status")
 	private String estado;
 
-	@Column(name="type")
-	private String tipo;
+	//uni-directional many-to-one association to ActividadEntity
+	@ManyToOne
+	@JoinColumn(name="id_activity")
+	private ActividadEntity actividad;
 
 	//uni-directional many-to-one association to UsuarioEntity
 	@ManyToOne
 	@JoinColumn(name="id_user")
 	private UsuarioEntity usuario;
 
-	public AlertaEntity() {
+	public AlertaActividadEntity() {
 	}
 
 	public Integer getId() {
@@ -55,28 +54,12 @@ public class AlertaEntity implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public String getMensaje() {
-		return this.mensaje;
-	}
-
-	public void setMensaje(String mensaje) {
-		this.mensaje = mensaje;
-	}
-
 	public String getEstado() {
 		return this.estado;
 	}
 
 	public void setEstado(String estado) {
 		this.estado = estado;
-	}
-
-	public String getTipo() {
-		return this.tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
 	}
 
 	public UsuarioEntity getUsuario() {
@@ -87,4 +70,11 @@ public class AlertaEntity implements Serializable {
 		this.usuario = usuario;
 	}
 
+	public ActividadEntity getActividad() {
+		return actividad;
+	}
+
+	public void setActividad(ActividadEntity actividad) {
+		this.actividad = actividad;
+	}
 }

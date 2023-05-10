@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = {SwaggerConfig.AMISTAD_V2_TAG})
 @RestController
 @CrossOrigin
-@RequestMapping("/api/v2/actividades")
+@RequestMapping("/api/v2/amistades")
 public class AmistadesResourceV2 {
 
     @Autowired
@@ -39,9 +39,8 @@ public class AmistadesResourceV2 {
             Usuario usuario2 = usuarioService.findById(amistadDTO.getUsuario2().getId());
             if(ObjectUtils.notNullNorEmpty(usuario1, usuario2)) {
                 Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
-                if((!usuario.getId().equals(usuario1.getId()) &&
-                        !usuario.getId().equals(usuario2.getId())) ||
-                        usuario1.getId().equals(usuario2.getId())) {
+                boolean amistadUsuario = usuario1.getId().equals(usuario.getId());
+                if(amistadUsuario && !usuario1.getId().equals(usuario2.getId())) {
                     Amistad amistad = service.create(mapper.toDomain(amistadDTO));
                     return ResponseEntity.ok(mapper.toDTO(amistad));
                 }
