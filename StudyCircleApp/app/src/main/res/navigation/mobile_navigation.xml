@@ -10,7 +10,17 @@
         android:id="@+id/nav_home"
         android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard" />
+        <action
+            android:id="@+id/action_nav_home_to_navigation_notifications"
+            app:destination="@id/navigation_notifications" />
+        <action
+            android:id="@+id/action_nav_home_to_navigation_start"
+            app:destination="@id/navigation_start" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_anuncios"
@@ -26,6 +36,55 @@
 
 
     <!-- Segunda nav-->
+
+
+    <fragment
+        android:id="@+id/navigation_start"
+        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start.StartFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_start" >
+        <action
+            android:id="@+id/action_navigation_start_to_nav_home"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_navigation_start_to_navigation_notifications"
+            app:destination="@id/navigation_notifications" />
+        <action
+            android:id="@+id/action_navigation_start_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.dashboard.DashboardFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_nav_home"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_navigation_notifications"
+            app:destination="@id/navigation_notifications" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_navigation_start"
+            app:destination="@id/navigation_start" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" >
+        <action
+            android:id="@+id/action_navigation_notifications_to_nav_home"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_navigation_start"
+            app:destination="@id/navigation_start" />
+    </fragment>
 
 
 </navigation>
