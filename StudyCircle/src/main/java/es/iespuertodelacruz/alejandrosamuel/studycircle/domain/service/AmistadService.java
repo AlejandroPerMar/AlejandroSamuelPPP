@@ -21,6 +21,11 @@ public class AmistadService implements IAmistadService {
     }
 
     @Override
+    public Amistad findById(Integer id) {
+        return repository.findById(id);
+    }
+
+    @Override
     public Amistad remove(Amistad amistad) {
         return repository.remove(amistad);
     }
@@ -29,4 +34,10 @@ public class AmistadService implements IAmistadService {
     public Amistad findByUsuarioId(Integer idUsuario) {
         return repository.findByUsuarioId(idUsuario);
     }
+
+    @Override
+    public Amistad findAmistadByIds(Integer id1, Integer id2) {
+        return repository.findAmistadByIds(id1, id2);
+    }
+
 }
