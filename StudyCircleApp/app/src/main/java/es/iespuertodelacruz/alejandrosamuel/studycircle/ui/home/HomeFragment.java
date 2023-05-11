@@ -10,10 +10,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentHomeBinding;
+
 
 public class HomeFragment extends Fragment {
 
@@ -23,6 +28,13 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        HomeViewModel homeViewModel =
+                new ViewModelProvider(this).get(HomeViewModel.class);
+
         /*
         System.out.println(binding);
 
@@ -37,14 +49,21 @@ public class HomeFragment extends Fragment {
         NavigationUI.setupActionBarWithNavController((AppCompatActivity) this.requireActivity(), navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-*/      binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+*/
+      //  FragmentHomeBinding binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        // Obtiene el NavController del NavHostFragment
+   //     NavHostFragment navHostFragment = (NavHostFragment) getChildFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_home);
+    //    navController = navHostFragment.getNavController();
 
+        // Configura el BottomNavigationView con el NavController
+       // BottomNavigationView bottomNav = binding.navStart;
+      //  NavigationUI.setupWithNavController(bottomNav, navController);
 
+        // Retorna la vista inflada
+       // return binding.getRoot();
 
+        /* */
         binding.btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View viewButton) {
