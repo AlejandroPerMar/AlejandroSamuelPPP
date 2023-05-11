@@ -1,9 +1,13 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.service;
 
+import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlertaActividadEntity;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.AlertaActividadEntityJPARepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.EstadosAlerta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,9 @@ public class ActividadEntityService implements IActividadRepository {
 
 	@Autowired
 	private ActividadEntityMapper mapper;
+
+	@Autowired
+	private AlertaActividadEntityJPARepository alertaRepository;
 	
 	@Override
 	public Actividad findById(Integer id) {
@@ -30,7 +37,17 @@ public class ActividadEntityService implements IActividadRepository {
 
 	@Override
 	public Actividad create(Actividad actividad) {
-        return mapper.toDomain(repository.save(mapper.toEntityPost(actividad)));
+		ActividadEntity actividadEntity = repository.save(mapper.toEntityPost(actividad));
+		ActividadEntity finalActividadEntity = repository.findByIdWithCurso(actividadEntity.getId()).orElse(null);
+		Objects.requireNonNull(finalActividadEntity).getCurso().getAlumnos().forEach(a -> {
+			AlertaActividadEntity alertaActividadEntity = new AlertaActividadEntity();
+			alertaActividadEntity.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
+			alertaActividadEntity.setActividad(actividadEntity);
+			alertaActividadEntity.setEstado(EstadosAlerta.NEW_ALERT.name());
+			alertaActividadEntity.setUsuario(a.getUsuario());
+			alertaRepository.save(alertaActividadEntity);
+		});
+		return mapper.toDomain(actividadEntity);
 
 	}
 

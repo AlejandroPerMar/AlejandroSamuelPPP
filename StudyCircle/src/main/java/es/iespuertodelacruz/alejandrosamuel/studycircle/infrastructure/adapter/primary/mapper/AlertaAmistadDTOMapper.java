@@ -48,8 +48,9 @@ public class AlertaAmistadDTOMapper {
     }
 
     public AlertaAmistadDTO toDTO(AlertaAmistad in) {
-        AlertaAmistadDTO alerta = new AlertaAmistadDTO();
+        if(Objects.isNull(in)) return null;
 
+        AlertaAmistadDTO alerta = new AlertaAmistadDTO();
     	alerta.setId(in.getId());
     	alerta.setEstado(in.getEstado());
         alerta.setAmistad(toDTO(in.getAmistad()));

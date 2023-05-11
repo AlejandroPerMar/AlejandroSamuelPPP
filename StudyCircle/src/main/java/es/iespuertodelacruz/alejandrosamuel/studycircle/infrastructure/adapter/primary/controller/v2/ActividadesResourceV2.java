@@ -80,7 +80,6 @@ public class ActividadesResourceV2 {
                 cursoExistente.set(true);
         });
 
-
         if(!cursoExistente.get())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.COURSE_ACTIVITY_NOT_VALID.name());
 

@@ -2,38 +2,22 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.AlertaActividad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlertaActividadEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigInteger;
-import java.util.Date;
+import java.util.Objects;
 
 public class AlertaActividadEntityMapper {
 
+    @Autowired ActividadEntityMapper actividadEntityMapper;
+
 	public AlertaActividad toDomain(AlertaActividadEntity in) {
+        if(Objects.isNull(in)) return null;
+
 		AlertaActividad alerta = new AlertaActividad();
-
 		alerta.setId(in.getId());
-
+        alerta.setEstado(in.getEstado());
+        alerta.setActividad(actividadEntityMapper.toDomain(in.getActividad()));
         return alerta;
     }
-
-    public AlertaActividadEntity toEntityPost(AlertaActividad in) {
-    	AlertaActividadEntity alerta = new AlertaActividadEntity();
-
-    	alerta.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
-
-        return alerta;
-    }
-
-    public AlertaActividadEntity toEntityPut(AlertaActividad in) {
-    	AlertaActividadEntity alerta = new AlertaActividadEntity();
-
-        return alerta;
-    }
-
-    public AlertaActividadEntity toEntity(AlertaActividad in) {
-    	AlertaActividadEntity alerta = new AlertaActividadEntity();
-        return alerta;
-    }
-
 	
 }

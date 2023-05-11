@@ -31,7 +31,7 @@ public class AmistadDTOMapper {
         return amistad;
     }
 
-    private UsuarioDTO toDTO(Usuario in) {
+    public UsuarioDTO toDTO(Usuario in) {
         if(Objects.isNull(in)) return null;
 
         UsuarioDTO usuario = new UsuarioDTO();

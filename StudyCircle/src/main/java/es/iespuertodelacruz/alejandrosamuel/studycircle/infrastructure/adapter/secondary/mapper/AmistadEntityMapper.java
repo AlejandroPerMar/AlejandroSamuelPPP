@@ -17,6 +17,8 @@ public class AmistadEntityMapper {
     private EntityJustIdMapper entityJustIdMapper;
 
     public Amistad toDomain(AmistadEntity in) {
+        if(Objects.isNull(in)) return null;
+
         Amistad amistad = new Amistad();
         amistad.setId(in.getId());
         amistad.setUsuario1(toDomain(in.getUsuario1()));
@@ -24,7 +26,7 @@ public class AmistadEntityMapper {
         return amistad;
     }
 
-    private Usuario toDomain(UsuarioEntity in) {
+    public Usuario toDomain(UsuarioEntity in) {
         if(Objects.isNull(in)) return null;
 
         Usuario usuario = new Usuario();
@@ -35,6 +37,8 @@ public class AmistadEntityMapper {
     }
 
     public AmistadEntity toEntityPost(Amistad in) {
+        if(Objects.isNull(in)) return null;
+
         AmistadEntity amistad = new AmistadEntity();
         amistad.setUsuario1(entityJustIdMapper.toEntity(in.getUsuario1()));
         amistad.setUsuario2(entityJustIdMapper.toEntity(in.getUsuario2()));

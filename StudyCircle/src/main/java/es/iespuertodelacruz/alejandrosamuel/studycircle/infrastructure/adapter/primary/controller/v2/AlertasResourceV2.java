@@ -1,6 +1,9 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.AlertaAmistad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlertaActividadDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlertaAmistadDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlertaAmistadDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +31,22 @@ public class AlertasResourceV2 {
     private IAlertaService service;
 
     @Autowired
-    private AlertaActividadDTOMapper mapper;
+    private AlertaActividadDTOMapper actividadMapper;
 
-    @GetMapping
-    public ResponseEntity<?> findByUsuario() {
-        List<AlertaActividad> alertasUsuario = service.findByUsername(getUsernameUsuario());
-        List<AlertaActividadDTO> alertasUsuarioDTO = alertasUsuario.stream().map(mapper::toDTO).toList();
+    @Autowired
+    private AlertaAmistadDTOMapper amistadMapper;
+
+    @GetMapping("/actividades")
+    public ResponseEntity<?> findAlertasActividadByUsuario() {
+        List<AlertaActividad> alertasUsuario = service.findAlertasActividadByUsername(getUsernameUsuario());
+        List<AlertaActividadDTO> alertasUsuarioDTO = alertasUsuario.stream().map(actividadMapper::toDTO).toList();
+        return ResponseEntity.ok(alertasUsuarioDTO);
+    }
+
+    @GetMapping("/amistades")
+    public ResponseEntity<?> findAlertasAmistadByUsuario() {
+        List<AlertaAmistad> alertasUsuario = service.findAlertasAmistadByUsername(getUsernameUsuario());
+        List<AlertaAmistadDTO> alertasUsuarioDTO = alertasUsuario.stream().map(amistadMapper::toDTO).toList();
         return ResponseEntity.ok(alertasUsuarioDTO);
     }
 

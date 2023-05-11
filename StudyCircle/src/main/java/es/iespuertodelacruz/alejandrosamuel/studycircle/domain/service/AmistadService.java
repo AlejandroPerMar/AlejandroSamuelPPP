@@ -1,10 +1,13 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.service;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Amistad;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAmistadService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IAmistadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AmistadService implements IAmistadService {
@@ -18,8 +21,8 @@ public class AmistadService implements IAmistadService {
     }
 
     @Override
-    public Amistad accept(Amistad amistad) {
-        return repository.accept(amistad);
+    public Amistad accept(Integer idAmistad, Integer idAlertaAmistad) {
+        return repository.accept(idAmistad, idAlertaAmistad);
     }
 
     @Override
@@ -40,6 +43,16 @@ public class AmistadService implements IAmistadService {
     @Override
     public Amistad findAmistadByIds(Integer id1, Integer id2) {
         return repository.findAmistadByIds(id1, id2);
+    }
+
+    @Override
+    public List<Usuario> findAmistadesByIdUsuario(Integer id) {
+        return repository.findAmistadesById(id);
+    }
+
+    @Override
+    public Amistad reject(Integer idAmistad, Integer idAlertaAmistad) {
+        return repository.reject(idAmistad, idAlertaAmistad);
     }
 
 }

@@ -1,11 +1,12 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.AlertaAmistad;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlertaAmistadEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.AlertaActividadEntityMapper;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.UsuarioEntityJPARepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.AlertaAmistadEntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,43 +22,21 @@ public class AlertaEntityService implements IAlertaRepository {
 	private AlertaActividadEntityJPARepository repository;
 
 	@Autowired
-	private UsuarioEntityJPARepository usuarioRepository;
+	private AlertaActividadEntityMapper alertaActividadMapper;
 
 	@Autowired
-	private AlertaActividadEntityMapper mapper;
-	
+	private AlertaAmistadEntityMapper alertaAmistadMapper;
+
 	@Override
-	public AlertaActividad findById(Integer id) {
-		 Optional<AlertaActividadEntity> optActividad = repository.findById(id);
-	        return optActividad.map(m -> mapper.toDomain(m)).orElse(null);
+	public List<AlertaAmistad> findAlertasAmistadByUsername(String usernameUsuario) {
+		List<AlertaAmistadEntity> alertasUsuario = repository.findAlertasAmistadByUsuario(usernameUsuario);
+		return alertasUsuario.stream().map(alertaAmistadMapper::toDomain).collect(Collectors.toList());
 	}
 
 	@Override
-	public List<AlertaActividad> findByUsername(String username) {
-		List<AlertaActividadEntity> alertasUsuario = repository.findByUsuario(username);
-		return alertasUsuario.stream().map(mapper::toDomain).collect(Collectors.toList());
-	}
-
-	@Override
-	public AlertaActividad create(AlertaActividad actividad) {
-        return mapper.toDomain(repository.save(mapper.toEntityPost(actividad)));
-
-	}
-
-	@Override
-	public AlertaActividad update(AlertaActividad actividad) {
-        return mapper.toDomain(repository.save(mapper.toEntityPut(actividad)));
-	}
-
-	@Override
-	public boolean delete(Integer id) {
-		repository.deleteById(id);
-        return findById(id) != null;
-	}
-
-	@Override
-	public List<AlertaActividad> findAll() {
-        return repository.findAll().stream().map(m -> mapper.toDomain(m)).toList();
+	public List<AlertaActividad> findAlertasActividadByUsername(String username) {
+		List<AlertaActividadEntity> alertasUsuario = repository.findAlertasActividadByUsuario(username);
+		return alertasUsuario.stream().map(alertaActividadMapper::toDomain).collect(Collectors.toList());
 	}
 
 }

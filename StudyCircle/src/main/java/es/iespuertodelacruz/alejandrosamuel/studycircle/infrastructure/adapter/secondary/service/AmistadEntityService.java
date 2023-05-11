@@ -1,18 +1,22 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.service;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Amistad;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IAmistadRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlertaAmistadEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AmistadEntity;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.AmistadEntityMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.AlertaAmistadEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.AmistadEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.EstadosAlerta;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.EstadosAmistad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -41,13 +45,23 @@ public class AmistadEntityService implements IAmistadRepository {
     }
 
     @Override
-    public Amistad accept(Amistad amistad) {
-        return null;
+    public Amistad accept(Integer idAmistad, Integer idAlertaAmistad) {
+        AmistadEntity amistadEntity = repository.findById(idAmistad).orElse(null);
+        if(Objects.isNull(amistadEntity)) return null;
+        amistadEntity.setEstado(EstadosAmistad.FRIENDSHIP_ACCEPTED.name());
+        amistadEntity.setFechaAmistad(new BigInteger(String.valueOf(new Date().getTime())));
+        amistadEntity = repository.save(amistadEntity);
+        AlertaAmistadEntity alertaAmistadEntity = alertaRepository.findById(idAlertaAmistad).orElse(null);
+        if(Objects.nonNull(alertaAmistadEntity) && alertaAmistadEntity.getAmistad().getId().equals(amistadEntity.getId())) {
+            alertaAmistadEntity.setEstado(EstadosAlerta.ALREADY_SEEN_ALERT.name());
+            alertaRepository.save(alertaAmistadEntity);
+        }
+        return mapper.toDomain(amistadEntity);
     }
 
     @Override
     public Amistad findById(Integer id) {
-        return mapper.toDomain(Objects.requireNonNull(repository.findById(id).orElse(null)));
+        return mapper.toDomain(repository.findById(id).orElse(null));
     }
 
     @Override
@@ -62,7 +76,27 @@ public class AmistadEntityService implements IAmistadRepository {
 
     @Override
     public Amistad findAmistadByIds(Integer id1, Integer id2) {
-        return mapper.toDomain(Objects.requireNonNull(repository.findAmistadByIds(id1, id2).orElse(null)));
+        return mapper.toDomain(repository.findAmistadByIds(id1, id2).orElse(null));
+    }
+
+    @Override
+    public List<Usuario> findAmistadesById(Integer id) {
+        List<UsuarioEntity> amistadesById = repository.findAmistadesById(id, EstadosAmistad.FRIENDSHIP_ACCEPTED.name());
+        return amistadesById.stream().map(mapper::toDomain).toList();
+    }
+
+    @Override
+    public Amistad reject(Integer idAmistad, Integer idAlertaAmistad) {
+        AmistadEntity amistadEntity = repository.findById(idAmistad).orElse(null);
+        if(Objects.isNull(amistadEntity)) return null;
+        amistadEntity.setEstado(EstadosAmistad.FRIENDSHIP_REJECTED.name());
+        amistadEntity = repository.save(amistadEntity);
+        AlertaAmistadEntity alertaAmistadEntity = alertaRepository.findById(idAlertaAmistad).orElse(null);
+        if(Objects.nonNull(alertaAmistadEntity) && alertaAmistadEntity.getAmistad().getId().equals(amistadEntity.getId())) {
+            alertaAmistadEntity.setEstado(EstadosAlerta.ALREADY_SEEN_ALERT.name());
+            alertaRepository.save(alertaAmistadEntity);
+        }
+        return mapper.toDomain(amistadEntity);
     }
 
 }

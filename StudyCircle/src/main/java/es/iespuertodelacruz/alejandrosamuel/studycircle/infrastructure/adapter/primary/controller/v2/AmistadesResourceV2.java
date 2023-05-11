@@ -17,6 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 @Api(tags = {SwaggerConfig.AMISTAD_V2_TAG})
 @RestController
 @CrossOrigin
@@ -49,6 +53,49 @@ public class AmistadesResourceV2 {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAmistad.NON_EXISTING_USER1_OR_USER2.name());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAmistad.INVALID_FRIENDSHIP_FORMAT.name());
+    }
+
+    @GetMapping
+    public ResponseEntity<?> findById(@RequestParam("id") Integer id) {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        Amistad amistad = service.findById(id);
+        if(Objects.nonNull(amistad) &&
+                Stream.of(amistad.getUsuario1().getId(), amistad.getUsuario2().getId())
+                        .anyMatch(idAmistad -> idAmistad.equals(usuario.getId()))) {
+            return ResponseEntity.ok(mapper.toDTO(amistad));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER.name());
+    }
+
+    @GetMapping("/usuario")
+    public ResponseEntity<?> findAmistadesByUsuario() {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        List<Usuario> amistadesByIdUsuario = service.findAmistadesByIdUsuario(usuario.getId());
+        return ResponseEntity.ok(amistadesByIdUsuario.stream().map(mapper::toDTO).toList());
+    }
+
+    @PostMapping("/accept")
+    public ResponseEntity<?> aceptarAmistad(@RequestParam("idAmistad") Integer idAmistad,
+                                            @RequestParam("idAlertaAmistad") Integer idAlertaAmistad) {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        Amistad amistad = service.findById(idAmistad);
+        if(Objects.nonNull(amistad) && amistad.getUsuario2().getId().equals(usuario.getId())) {
+            amistad = service.accept(idAmistad, idAlertaAmistad);
+            return ResponseEntity.ok(mapper.toDTO(amistad));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER.name());
+    }
+
+    @PostMapping("/reject")
+    public ResponseEntity<?> rechazarAmistad(@RequestParam("idAmistad") Integer idAmistad,
+                                            @RequestParam("idAlertaAmistad") Integer idAlertaAmistad) {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        Amistad amistad = service.findById(idAmistad);
+        if(Objects.nonNull(amistad) && amistad.getUsuario2().getId().equals(usuario.getId())) {
+            amistad = service.reject(idAmistad, idAlertaAmistad);
+            return ResponseEntity.ok(mapper.toDTO(amistad));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER.name());
     }
 
     private String getUsernameUsuario() {
