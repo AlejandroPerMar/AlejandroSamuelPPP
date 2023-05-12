@@ -51,13 +51,19 @@ public class CursoDTOMapper {
     private MateriaTutorDTO toDTO(MateriaTutor in) {
         MateriaTutorDTO materiaTutor = new MateriaTutorDTO();
         materiaTutor.setId(in.getId());
-        MateriaDTO materia = new MateriaDTO();
-        materia.setId(in.getMateria().getId());
-        materia.setNombre(in.getMateria().getNombre());
+        MateriaDTO materia = null;
+        if(Objects.nonNull(in.getMateria())) {
+            materia = new MateriaDTO();
+            materia.setId(in.getMateria().getId());
+            materia.setNombre(in.getMateria().getNombre());
+        }
         materiaTutor.setMateria(materia);
-        TutorDTO tutor = new TutorDTO();
-        tutor.setId(in.getTutor().getId());
-        tutor.setUsuario(toDTO(in.getTutor().getUsuario()));
+        TutorDTO tutor = null;
+        if(Objects.nonNull(in.getTutor())) {
+            tutor = new TutorDTO();
+            tutor.setId(in.getTutor().getId());
+            tutor.setUsuario(toDTO(in.getTutor().getUsuario()));
+        }
         materiaTutor.setTutor(tutor);
         return materiaTutor;
     }

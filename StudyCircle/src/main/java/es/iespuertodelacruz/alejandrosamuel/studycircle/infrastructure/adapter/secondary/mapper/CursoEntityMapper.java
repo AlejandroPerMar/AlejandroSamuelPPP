@@ -27,6 +27,8 @@ public class CursoEntityMapper {
     }
 
     private Alumno toDomain(AlumnoEntity in) {
+        if(Objects.isNull(in)) return null;
+
         Alumno alumno = new Alumno();
         alumno.setId(in.getId());
         alumno.setUsuario(toDomain(in.getUsuario()));
@@ -49,6 +51,8 @@ public class CursoEntityMapper {
     }
 
     public Actividad toDomain(ActividadEntity in) {
+        if(Objects.isNull(in)) return null;
+
         Actividad actividad = new Actividad();
         actividad.setId(in.getId());
         actividad.setNombre(in.getNombre());
@@ -56,20 +60,30 @@ public class CursoEntityMapper {
     }
 
     public MateriaTutor toDomain(MateriaTutorEntity in) {
+        if(Objects.isNull(in)) return null;
+
         MateriaTutor materiaTutor = new MateriaTutor();
         materiaTutor.setId(in.getId());
-        Materia materia = new Materia();
-        materia.setId(in.getMateria().getId());
-        materia.setNombre(in.getMateria().getNombre());
+        Materia materia = null;
+        if(Objects.nonNull(in.getMateria())) {
+            materia = new Materia();
+            materia.setId(in.getMateria().getId());
+            materia.setNombre(in.getMateria().getNombre());
+        }
         materiaTutor.setMateria(materia);
-        Tutor tutor = new Tutor();
-        tutor.setId(in.getTutor().getId());
-        tutor.setUsuario(toDomain(in.getTutor().getUsuario()));
+        Tutor tutor = null;
+        if(Objects.nonNull(in.getTutor())) {
+            tutor = new Tutor();
+            tutor.setId(in.getTutor().getId());
+            tutor.setUsuario(toDomain(in.getTutor().getUsuario()));
+        }
         materiaTutor.setTutor(tutor);
         return materiaTutor;
     }
 
     public Usuario toDomain(UsuarioEntity in) {
+        if(Objects.isNull(in)) return null;
+
         Usuario usuario = new Usuario();
         usuario.setId(in.getId());
         usuario.setUsername(in.getUsername());

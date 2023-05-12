@@ -1,7 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.service;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IMateriaRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.MateriaEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.MateriaEntityMapper;
@@ -66,7 +65,7 @@ public class MateriaEntityService implements IMateriaRepository {
     }
 
     @Override
-    public List<Materia> findByTutor(Tutor tutor) {
-        return repository.findByTutor(tutor.getId()).stream().map(mapper::toDomain).toList();
+    public List<Materia> findByTutor(Integer idTutor) {
+        return repository.findByTutor(idTutor).stream().map(mapper::toDomain).toList();
     }
 }

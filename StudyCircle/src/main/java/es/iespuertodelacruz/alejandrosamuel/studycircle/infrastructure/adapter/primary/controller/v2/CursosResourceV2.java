@@ -3,9 +3,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAlumnoService;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ICursoService;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ITutorService;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.*;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.CursoDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
@@ -13,7 +11,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.Res
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.utils.ObjectUtils;
 import io.swagger.annotations.Api;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,12 +31,18 @@ public class CursosResourceV2 {
     
     @Autowired
     private ITutorService tutorService;
-    
+
+    @Autowired
+    private IMateriaTutorService materiaTutorService;
+
     @Autowired
     private CursoDTOMapper mapper;
 
     @Autowired
     private IAlumnoService alumnoService;
+
+    @Autowired
+    private IMateriaService materiaService;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CursoDTO curso) {
@@ -49,11 +52,13 @@ public class CursosResourceV2 {
                     curso.getMateriaTutor(),
                     curso.getMateriaTutor().getMateria())) {
                 Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
-                Curso cursoPost = mapper.toDomainPost(curso);
-                cursoPost.getMateriaTutor().setTutor(tutor);
-                return ResponseEntity.ok(mapper.toDTOStudent(cursoService.create(cursoPost)));
+                if(Objects.nonNull(materiaTutorService.findByMateriaTutor(curso.getMateriaTutor().getMateria().getId(), tutor.getId()))) {
+                    Curso cursoPost = mapper.toDomainPost(curso);
+                    cursoPost.getMateriaTutor().setTutor(tutor);
+                    return ResponseEntity.ok(mapper.toDTOTutor(cursoService.create(cursoPost)));
+                }
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.NON_AUTHORIZED_SUBJECT.name());
             }
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.COURSE_DTO_NOT_VALID.name());
     }
 

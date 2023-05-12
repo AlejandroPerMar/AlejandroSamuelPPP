@@ -68,7 +68,7 @@ public class MateriasResourceV2 {
         Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
         if(Objects.isNull(tutor))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_CREATED.name());
-        List<Materia> materiasTutor = service.findByTutor(tutor);
+        List<Materia> materiasTutor = service.findByTutor(tutor.getId());
         return ResponseEntity.ok(materiasTutor.stream().map(mapper::toDTO).toList());
     }
 

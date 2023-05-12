@@ -3,6 +3,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest;
 import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
@@ -26,6 +27,9 @@ public interface RESTService {
     @POST("v2/tutores")
     Call<ResponseBody> createTutor(@Body List<MateriaDTO> materiasDTO);
 
+    @GET("v2/cursos/alumno")
+    Call<ResponseBody> findCursosAlumno();
+
     @GET("v2/cursos/tutor")
     Call<ResponseBody> findCursosTutor();
 
@@ -33,11 +37,14 @@ public interface RESTService {
     Call<ResponseBody> addAlumnoToCurso(@Query("idCurso") Integer idCurso, @Query("idAlumno") Integer idAlumno);
 
     @PUT("v2/cursos/eliminarAlumno")
-    Call<ResponseBody> removeAlumnoToCurso(@Query("idCurso") Integer idCurso, @Query("idAlumno") Integer idAlumno);
+    Call<ResponseBody> removeAlumnoFromCurso(@Query("idCurso") Integer idCurso, @Query("idAlumno") Integer idAlumno);
 
     @PUT("v2/cursos/changeTituloCurso")
     Call<ResponseBody> changeTituloCurso(@Query("idCurso") Integer idCurso, @Query("titulo") String titulo);
 
     @GET("v2/materias/tutor")
     Call<ResponseBody> findMateriasByTutor();
+
+    @POST("v2/cursos")
+    Call<ResponseBody> createCurso(@Body CursoDTO cursoDTO);
 }

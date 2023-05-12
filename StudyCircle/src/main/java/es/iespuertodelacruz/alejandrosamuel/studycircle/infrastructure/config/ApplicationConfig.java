@@ -61,6 +61,10 @@ public class ApplicationConfig {
 	public MateriaEntityMapper materiaEntityMapper() {
 		return new MateriaEntityMapper();
 	}
+	@Bean
+	public MateriaTutorEntityMapper materiaTutorEntityMapper() {
+		return new MateriaTutorEntityMapper();
+	}
 
 	@Bean
 	public AlumnoDTOMapper alumnoDTOMapper() {

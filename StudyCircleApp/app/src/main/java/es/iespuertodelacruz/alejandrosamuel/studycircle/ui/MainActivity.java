@@ -9,11 +9,14 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaTutorDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.NivelEstudiosDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getLiveDataToken(usuarioLoginDTO);
         */
 
-        //viewModel.resendEmail("eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoicHJ1ZWJhIiwiZXhwIjoxNjgzMzI2Mjg2fQ.yNgG7IOAiJp8-npbzMSQ4vAqNFwYG1OElBKG_O9FC9k");
+        //viewModel.resendEmail("");
 
         /*
         MateriaDTO materiaDTO = new MateriaDTO();
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         materias.add(materiaDTO);
         materias.add(materiaDTO2);
         alumnoDTO.setMaterias(materias);
-        viewModel.createStudentProfile(alumnoDTO, "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoicHJ1ZWJhIiwiZXhwIjoxNjgzMzI2Mjg2fQ.yNgG7IOAiJp8-npbzMSQ4vAqNFwYG1OElBKG_O9FC9k");
+        viewModel.createStudentProfile(alumnoDTO, "");
         */
 
         /*
@@ -75,20 +78,35 @@ public class MainActivity extends AppCompatActivity {
         List<MateriaDTO> materias = new ArrayList<>();
         materias.add(materiaDTO);
         materias.add(materiaDTO2);
-        viewModel.createTutorProfile(materias, "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoicHJ1ZWJhIiwiZXhwIjoxNjgzMzI2Mjg2fQ.yNgG7IOAiJp8-npbzMSQ4vAqNFwYG1OElBKG_O9FC9k");
+        viewModel.createTutorProfile(materias, "");
         */
 
 
 
-        //viewModel.removeAlumnoToCurso(10, 12, "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNTY4ODM4fQ.-L0uY0tQu7061c8dPQtEhK9qZOBpyv3gKqTQRV1u3UU");
-        //viewModel.addAlumnoToCurso(10, 12, "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNTY4ODM4fQ.-L0uY0tQu7061c8dPQtEhK9qZOBpyv3gKqTQRV1u3UU");
+        //viewModel.removeAlumnoToCurso(10, 12, "");
+        //viewModel.addAlumnoToCurso(10, 12, "");
 
 
-        //LiveData<Object> cursosTutor = viewModel.findCursosTutor("eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNjY1NTczfQ.B1q_NdxyMZYKm6DcE0_8AGcBAw6x8yXaqn3f0KhCdBk");
-        //Object value = cursosTutor.getValue();
-        //List<CursoDTO> value1 = (List<CursoDTO>) value;
-        //value1.forEach(c -> System.out.printf(c.getTitulo()));
-        //viewModel.changeTituloCurso(10, "nuevo titulo", "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNzUzMjU0fQ.lHVd-lnTse17t5xGP48aTgfJfMH_5sXA1bP0IGaSsbM");
-        viewModel.findMateriasByTutor("eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjgzNzU1MjQ2fQ.8GexBXYVcfCXbMv8Gb4u8yc_5V7huxt09KaIdOqNNXI");
+        //viewModel.findCursosTutor("");
+        //viewModel.changeTituloCurso(10, "nuevo titulo", "");
+        //viewModel.findMateriasByTutor("");
+
+        /*
+        CursoDTO cursoDTO = new CursoDTO();
+        cursoDTO.setTitulo("prueba");
+        MateriaTutorDTO materiaTutorDTO = new MateriaTutorDTO();
+        materiaTutorDTO.setId(23);
+        MateriaDTO materiaDTO = new MateriaDTO();
+        materiaDTO.setId(2);
+        materiaTutorDTO.setMateria(materiaDTO);
+        cursoDTO.setMateriaTutor(materiaTutorDTO);
+        AlumnoDTO alumno1DTO = new AlumnoDTO();
+        alumno1DTO.setId(4);
+        AlumnoDTO alumno2DTO = new AlumnoDTO();
+        alumno2DTO.setId(12);
+        cursoDTO.setAlumnos(Stream.of(alumno1DTO, alumno2DTO).collect(Collectors.toList()));
+        viewModel.createCurso(cursoDTO, "");
+        */
+
     }
 }

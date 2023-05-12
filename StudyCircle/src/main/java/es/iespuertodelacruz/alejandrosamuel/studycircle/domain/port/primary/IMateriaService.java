@@ -1,7 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Materia;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
 
 import java.util.List;
 
@@ -22,5 +21,5 @@ public interface IMateriaService {
 
     List<Materia> findAll();
 
-    List<Materia> findByTutor(Tutor tutor);
+    List<Materia> findByTutor(Integer idTutor);
 }

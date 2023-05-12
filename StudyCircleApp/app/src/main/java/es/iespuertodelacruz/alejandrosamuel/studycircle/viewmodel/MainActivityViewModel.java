@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
@@ -60,7 +61,11 @@ public class MainActivityViewModel extends AndroidViewModel {
     }
 
     public LiveData<Object> removeAlumnoToCurso(Integer idCurso, Integer idAlumno, String token) {
-        return cursosRepository.removeAlumnoToCurso(idCurso, idAlumno, token);
+        return cursosRepository.removeAlumnoFromCurso(idCurso, idAlumno, token);
+    }
+
+    public LiveData<Object> findCursosAlumno(String token) {
+        return cursosRepository.findCursosAlumno(token);
     }
 
     public LiveData<Object> findCursosTutor(String token) {
@@ -69,6 +74,11 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public LiveData<Object> changeTituloCurso(Integer idCurso, String titulo, String token) {
         return cursosRepository.changeTituloCurso(idCurso, titulo, token);
+    }
+
+
+    public LiveData<Object> createCurso(CursoDTO cursoDTO, String token) {
+        return cursosRepository.createCurso(cursoDTO, token);
     }
 
     public LiveData<Object> findMateriasByTutor(String token) {
