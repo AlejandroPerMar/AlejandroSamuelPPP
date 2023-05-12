@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlertaActividadEntity;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlumnoEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.AlertaActividadEntityJPARepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.CursoEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.EstadosAlerta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class ActividadEntityService implements IActividadRepository {
 	private ActividadEntityJPARepository repository;
 
 	@Autowired
+	private CursoEntityJPARepository cursoRepository;
+
+	@Autowired
 	private ActividadEntityMapper mapper;
 
 	@Autowired
@@ -38,8 +43,8 @@ public class ActividadEntityService implements IActividadRepository {
 	@Override
 	public Actividad create(Actividad actividad) {
 		ActividadEntity actividadEntity = repository.save(mapper.toEntityPost(actividad));
-		ActividadEntity finalActividadEntity = repository.findByIdWithCurso(actividadEntity.getId()).orElse(null);
-		Objects.requireNonNull(finalActividadEntity).getCurso().getAlumnos().forEach(a -> {
+		List<AlumnoEntity> alumnosByCurso = cursoRepository.findAlumnosByCurso(actividadEntity.getCurso().getId());
+		alumnosByCurso.forEach(a -> {
 			AlertaActividadEntity alertaActividadEntity = new AlertaActividadEntity();
 			alertaActividadEntity.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
 			alertaActividadEntity.setActividad(actividadEntity);
@@ -58,8 +63,10 @@ public class ActividadEntityService implements IActividadRepository {
 
 	@Override
 	public boolean delete(Integer id) {
+		List<AlertaActividadEntity> alertasActividades = alertaRepository.findByActividad(id);
+		alertasActividades.forEach(alertaRepository::delete);
 		repository.deleteById(id);
-        return Objects.nonNull(findById(id));
+        return Objects.isNull(findById(id));
 	}
 
 	@Override

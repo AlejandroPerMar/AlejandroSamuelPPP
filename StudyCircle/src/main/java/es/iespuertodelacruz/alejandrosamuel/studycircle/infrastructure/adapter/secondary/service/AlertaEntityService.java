@@ -7,6 +7,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.AlertaAmist
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlertaAmistadEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.AlertaActividadEntityMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.AlertaAmistadEntityMapper;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.AlertaAmistadEntityJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,10 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 public class AlertaEntityService implements IAlertaRepository {
 
 	@Autowired
-	private AlertaActividadEntityJPARepository repository;
+	private AlertaActividadEntityJPARepository alertaActividadRepository;
+
+	@Autowired
+	private AlertaAmistadEntityJPARepository alertaAmistadRepository;
 
 	@Autowired
 	private AlertaActividadEntityMapper alertaActividadMapper;
@@ -29,13 +33,13 @@ public class AlertaEntityService implements IAlertaRepository {
 
 	@Override
 	public List<AlertaAmistad> findAlertasAmistadByUsername(String usernameUsuario) {
-		List<AlertaAmistadEntity> alertasUsuario = repository.findAlertasAmistadByUsuario(usernameUsuario);
+		List<AlertaAmistadEntity> alertasUsuario = alertaAmistadRepository.findAlertasAmistadByUsuario(usernameUsuario);
 		return alertasUsuario.stream().map(alertaAmistadMapper::toDomain).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<AlertaActividad> findAlertasActividadByUsername(String username) {
-		List<AlertaActividadEntity> alertasUsuario = repository.findAlertasActividadByUsuario(username);
+		List<AlertaActividadEntity> alertasUsuario = alertaActividadRepository.findAlertasActividadByUsuario(username);
 		return alertasUsuario.stream().map(alertaActividadMapper::toDomain).collect(Collectors.toList());
 	}
 

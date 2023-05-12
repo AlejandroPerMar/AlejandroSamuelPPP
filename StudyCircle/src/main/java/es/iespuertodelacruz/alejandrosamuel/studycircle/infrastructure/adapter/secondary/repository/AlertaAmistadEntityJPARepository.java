@@ -12,6 +12,9 @@ import java.util.List;
 public interface AlertaAmistadEntityJPARepository extends JpaRepository<AlertaAmistadEntity, Integer> {
 
     @Query("SELECT a FROM AlertaAmistadEntity a WHERE a.usuario.username = :username")
-    public List<AlertaAmistadEntity> findByUsuario(@Param("username") String usuarioEntity);
+    List<AlertaAmistadEntity> findByUsuario(@Param("username") String usuarioEntity);
+
+    @Query("SELECT a FROM AlertaAmistadEntity a WHERE a.usuario.username = :username")
+    List<AlertaAmistadEntity> findAlertasAmistadByUsuario(@Param("username") String usuarioEntity);
 
 }

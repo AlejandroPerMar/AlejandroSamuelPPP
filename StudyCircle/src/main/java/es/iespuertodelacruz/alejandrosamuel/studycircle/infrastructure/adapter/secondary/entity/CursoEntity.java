@@ -35,16 +35,7 @@ public class CursoEntity implements Serializable {
 
 
 	//uni-directional many-to-many association to ActividadEntity
-	@ManyToMany
-	@JoinTable(
-			name="course_activities"
-			, joinColumns={
-			@JoinColumn(name="id_course")
-	}
-			, inverseJoinColumns={
-			@JoinColumn(name="id_activity")
-	}
-	)
+	@OneToMany(mappedBy = "curso")
 	private List<ActividadEntity> actividades;
 
 	//bi-directional many-to-one association to AlumnoEntity
