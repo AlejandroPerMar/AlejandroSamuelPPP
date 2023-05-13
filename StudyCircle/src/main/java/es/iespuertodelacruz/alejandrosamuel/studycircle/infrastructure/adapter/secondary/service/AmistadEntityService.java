@@ -45,13 +45,13 @@ public class AmistadEntityService implements IAmistadRepository {
     }
 
     @Override
-    public Amistad accept(Integer idAmistad, Integer idAlertaAmistad) {
+    public Amistad accept(Integer idAmistad) {
         AmistadEntity amistadEntity = repository.findById(idAmistad).orElse(null);
         if(Objects.isNull(amistadEntity)) return null;
         amistadEntity.setEstado(EstadosAmistad.FRIENDSHIP_ACCEPTED.name());
         amistadEntity.setFechaAmistad(new BigInteger(String.valueOf(new Date().getTime())));
         amistadEntity = repository.save(amistadEntity);
-        AlertaAmistadEntity alertaAmistadEntity = alertaRepository.findById(idAlertaAmistad).orElse(null);
+        AlertaAmistadEntity alertaAmistadEntity = alertaRepository.findAlertasAmistadByAmistad(idAmistad).stream().findFirst().orElse(null);
         if(Objects.nonNull(alertaAmistadEntity) && alertaAmistadEntity.getAmistad().getId().equals(amistadEntity.getId())) {
             alertaAmistadEntity.setEstado(EstadosAlerta.ALREADY_SEEN_ALERT.name());
             alertaRepository.save(alertaAmistadEntity);
@@ -65,8 +65,13 @@ public class AmistadEntityService implements IAmistadRepository {
     }
 
     @Override
-    public Amistad remove(Amistad amistad) {
-        return null;
+    public void remove(Integer idAmistad) {
+        List<AlertaAmistadEntity> alertasAmistadByAmistad = alertaRepository.findAlertasAmistadByAmistad(idAmistad);
+        alertaRepository.deleteAll(alertasAmistadByAmistad);
+        AmistadEntity amistadEntity = repository.findById(idAmistad).orElse(null);
+        if(Objects.nonNull(amistadEntity)) {
+            repository.delete(amistadEntity);
+        }
     }
 
     @Override
@@ -83,20 +88,6 @@ public class AmistadEntityService implements IAmistadRepository {
     public List<Usuario> findAmistadesById(Integer id) {
         List<UsuarioEntity> amistadesById = repository.findAmistadesById(id, EstadosAmistad.FRIENDSHIP_ACCEPTED.name());
         return amistadesById.stream().map(mapper::toDomain).toList();
-    }
-
-    @Override
-    public Amistad reject(Integer idAmistad, Integer idAlertaAmistad) {
-        AmistadEntity amistadEntity = repository.findById(idAmistad).orElse(null);
-        if(Objects.isNull(amistadEntity)) return null;
-        amistadEntity.setEstado(EstadosAmistad.FRIENDSHIP_REJECTED.name());
-        amistadEntity = repository.save(amistadEntity);
-        AlertaAmistadEntity alertaAmistadEntity = alertaRepository.findById(idAlertaAmistad).orElse(null);
-        if(Objects.nonNull(alertaAmistadEntity) && alertaAmistadEntity.getAmistad().getId().equals(amistadEntity.getId())) {
-            alertaAmistadEntity.setEstado(EstadosAlerta.ALREADY_SEEN_ALERT.name());
-            alertaRepository.save(alertaAmistadEntity);
-        }
-        return mapper.toDomain(amistadEntity);
     }
 
 }

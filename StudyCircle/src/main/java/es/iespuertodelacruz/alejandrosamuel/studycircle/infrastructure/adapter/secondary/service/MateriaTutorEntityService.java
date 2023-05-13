@@ -8,6 +8,8 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class MateriaTutorEntityService implements IMateriaTutorRepository {
 
@@ -20,6 +22,7 @@ public class MateriaTutorEntityService implements IMateriaTutorRepository {
     @Override
     public MateriaTutor findByMateriaTutor(Integer idMateria, Integer idTutor) {
         MateriaTutorEntity materiaTutorEntity = repository.findByMateriaTutor(idMateria, idTutor).orElse(null);
+        if(Objects.isNull(materiaTutorEntity)) return null;
         return mapper.toDomain(materiaTutorEntity);
     }
 }

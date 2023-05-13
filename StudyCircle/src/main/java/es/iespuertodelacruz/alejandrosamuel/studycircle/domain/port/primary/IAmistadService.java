@@ -9,17 +9,15 @@ public interface IAmistadService {
 
     Amistad create(Amistad amistad);
 
-    Amistad accept(Integer idAmistad, Integer idAlertaAmistad);
+    Amistad accept(Integer idAmistad);
 
     Amistad findById(Integer id);
 
-    Amistad remove(Amistad amistad);
+    void remove(Integer idAmistad);
 
     Amistad findByUsuarioId(Integer idUsuario);
 
     Amistad findAmistadByIds(Integer id1, Integer id2);
 
     List<Usuario> findAmistadesByIdUsuario(Integer id);
-
-    Amistad reject(Integer idAmistad, Integer idAlertaAmistad);
 }

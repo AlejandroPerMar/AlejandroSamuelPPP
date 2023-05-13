@@ -17,7 +17,6 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class CursoEntityService implements ICursoRepository {
@@ -36,7 +35,8 @@ public class CursoEntityService implements ICursoRepository {
 
     @Override
     public Curso findById(Integer id) {
-        return mapper.toDomain(repository.findById(id).orElse(null));
+        CursoEntity byId = repository.findById(id).orElse(null);
+        return mapper.toDomain(byId);
     }
 
     @Override
@@ -57,9 +57,9 @@ public class CursoEntityService implements ICursoRepository {
         cursoEntity.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
         cursoEntity.setMateriaTutor(entityJustIdMapper.toEntity(curso.getMateriaTutor()));
         cursoEntity.setAlumnos(curso.getAlumnos().stream().map(entityJustIdMapper::toEntity).toList());
-        CursoEntity finalCursoEntity = repository.save(cursoEntity);
+        cursoEntity = repository.save(cursoEntity);
 
-        return mapper.toDomain(finalCursoEntity);
+        return mapper.toDomain(cursoEntity);
     }
 
     @Override

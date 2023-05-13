@@ -25,23 +25,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 	
 	public static final String ALUMNO_TAG = "Alumno";
-	public static final String ACTIVIDAD_TAG = "Actividad";
 	public static final String ACTIVIDAD_V2_TAG = "ActividadV2";
 	public static final String ACTIVIDAD_V3_TAG = "ActividadV3";
 	public static final String AMISTAD_V2_TAG = "AmistadV2";
 	public static final String ALERTA_V2_TAG = "AlertaV2";
-	public static final String ANUNCIO_TAG = "Anuncio";
-	public static final String EVENTO_TAG = "Evento de calendario";
+	public static final String ANUNCIO_V2_TAG = "AnuncioV2";
 	public static final String MATERIA_V2_TAG = "MateriaV2";
 	public static final String MATERIA_V3_TAG = "MateriaV3";
-	public static final String MATERIA_ALUMNO_TAG = "MateriaAlumno";
-	public static final String MATERIA_TUTOR_TAG = "MateriaTutor";
 	public static final String NIVEL_ESTUDIOS_V2_TAG = "NivelEstudiosV2";
 	public static final String NIVEL_ESTUDIOS_V3_TAG = "NivelEstudiosV3";
-	public static final String ROL_TAG = "Rol";
 	public static final String TUTOR_V2_TAG = "TutorV2";
 	public static final String CURSO_V2_TAG = "CursoV2";
-	public static final String USUARIO_TAG = "Usuario";
 	public static final String LOGIN_TAG = "Login";
 	public static final String REGISTER_TAG = "Register";
 	
@@ -53,23 +47,17 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .tags(new Tag(ALUMNO_TAG, "Controlador REST para las acciones relacionadas con las entidades Alumno"),
-                		new Tag(ACTIVIDAD_TAG, ""),
                 		new Tag(ACTIVIDAD_V2_TAG, "Controlador REST para las acciones o peticiones relacionadas con la entidad Actividad Versión 2 (ADMIN)"),
                 		new Tag(ACTIVIDAD_V3_TAG, "Controlador REST para las acciones o peticiones relacionadas con la entidad Actividad Versión 3 (ADMIN)"),
                 		new Tag(ALERTA_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Alerta para la versión 2"),
                 		new Tag(AMISTAD_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Amistad para la versión 2"),
-                		new Tag(ANUNCIO_TAG, ""),
-                		new Tag(EVENTO_TAG, ""),
+                		new Tag(ANUNCIO_V2_TAG, ""),
                 		new Tag(MATERIA_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Materia para la versión 2"),
 						new Tag(MATERIA_V3_TAG, "Controlador REST para las peticiones asociadas con la entidad Materia para la versión 3 (ADMIN)"),
-                		new Tag(MATERIA_ALUMNO_TAG, ""),
-                		new Tag(MATERIA_TUTOR_TAG, ""),
                 		new Tag(NIVEL_ESTUDIOS_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad NivelEstudios para la versión 3 (ADMIN)"),
 						new Tag(NIVEL_ESTUDIOS_V3_TAG, "Controlador REST para las peticiones asociadas con la entidad NivelEstudios para la versión 2"),
-                		new Tag(ROL_TAG, ""),
                 		new Tag(TUTOR_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Tutor para la versión 2"),
 						new Tag(CURSO_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Curso para la versión 2"),
-                		new Tag(USUARIO_TAG, ""),
 						new Tag(LOGIN_TAG, "Controlador REST para la acción de Inicio de Sesión del Usuario"),
 						new Tag(REGISTER_TAG, "Controlador REST para la acción de Registro del Usuario en la app"))
                 .apiInfo(apiInfo())

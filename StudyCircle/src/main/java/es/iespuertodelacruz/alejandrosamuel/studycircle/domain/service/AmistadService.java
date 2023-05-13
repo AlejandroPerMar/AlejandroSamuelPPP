@@ -21,8 +21,8 @@ public class AmistadService implements IAmistadService {
     }
 
     @Override
-    public Amistad accept(Integer idAmistad, Integer idAlertaAmistad) {
-        return repository.accept(idAmistad, idAlertaAmistad);
+    public Amistad accept(Integer idAmistad) {
+        return repository.accept(idAmistad);
     }
 
     @Override
@@ -31,8 +31,8 @@ public class AmistadService implements IAmistadService {
     }
 
     @Override
-    public Amistad remove(Amistad amistad) {
-        return repository.remove(amistad);
+    public void remove(Integer idAmistad) {
+        repository.remove(idAmistad);
     }
 
     @Override
@@ -49,10 +49,4 @@ public class AmistadService implements IAmistadService {
     public List<Usuario> findAmistadesByIdUsuario(Integer id) {
         return repository.findAmistadesById(id);
     }
-
-    @Override
-    public Amistad reject(Integer idAmistad, Integer idAlertaAmistad) {
-        return repository.reject(idAmistad, idAlertaAmistad);
-    }
-
 }

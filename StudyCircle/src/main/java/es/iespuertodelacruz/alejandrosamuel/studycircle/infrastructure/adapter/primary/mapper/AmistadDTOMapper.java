@@ -19,15 +19,17 @@ public class AmistadDTOMapper {
         Amistad amistad = new Amistad();
         amistad.setUsuario1(dtoJustIdMapper.toDomain(in.getUsuario1()));
         amistad.setUsuario2(dtoJustIdMapper.toDomain(in.getUsuario2()));
-
         return amistad;
     }
 
     public AmistadDTO toDTO(Amistad in) {
+        if(Objects.isNull(in)) return null;
+
         AmistadDTO amistad = new AmistadDTO();
         amistad.setId(in.getId());
         amistad.setUsuario1(toDTO(in.getUsuario1()));
         amistad.setUsuario2(toDTO(in.getUsuario2()));
+        amistad.setEstado(in.getEstado());
         return amistad;
     }
 

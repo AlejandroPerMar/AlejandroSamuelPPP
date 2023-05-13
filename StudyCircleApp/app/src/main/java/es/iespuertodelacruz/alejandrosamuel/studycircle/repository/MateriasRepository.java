@@ -56,7 +56,7 @@ public class MateriasRepository {
                     try {
                         respuesta = Objects.requireNonNull(response.errorBody()).string();
                         if (RespuestasCursos.valueOf(respuesta) == RespuestasCursos.TUTOR_PROFILE_NOT_CREATED) {
-                            mutableMateriasTutor.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED.getDescripcion());
+                            mutableMateriasTutor.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED);
                         }
                     } catch (Exception ignored) {}
 

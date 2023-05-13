@@ -23,6 +23,7 @@ public class AmistadEntityMapper {
         amistad.setId(in.getId());
         amistad.setUsuario1(toDomain(in.getUsuario1()));
         amistad.setUsuario2(toDomain(in.getUsuario2()));
+        amistad.setEstado(in.getEstado());
         return amistad;
     }
 

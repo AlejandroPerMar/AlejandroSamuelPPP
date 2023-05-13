@@ -18,6 +18,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.ActividadEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IActividadRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.ActividadEntityJPARepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ActividadEntityService implements IActividadRepository {
@@ -41,6 +42,7 @@ public class ActividadEntityService implements IActividadRepository {
 	}
 
 	@Override
+	@Transactional
 	public Actividad create(Actividad actividad) {
 		ActividadEntity actividadEntity = repository.save(mapper.toEntityPost(actividad));
 		List<AlumnoEntity> alumnosByCurso = cursoRepository.findAlumnosByCurso(actividadEntity.getCurso().getId());
@@ -64,7 +66,7 @@ public class ActividadEntityService implements IActividadRepository {
 	@Override
 	public boolean delete(Integer id) {
 		List<AlertaActividadEntity> alertasActividades = alertaRepository.findByActividad(id);
-		alertasActividades.forEach(alertaRepository::delete);
+		alertaRepository.deleteAll(alertasActividades);
 		repository.deleteById(id);
         return Objects.isNull(findById(id));
 	}
@@ -74,10 +76,4 @@ public class ActividadEntityService implements IActividadRepository {
         return repository.findAll().stream().map(m -> mapper.toDomain(m)).toList();
 	}
 
-	/*
-	@Override
-	public List<Actividad> findByCourse(String name) {
-        return repository.findByCourse(name).stream().map(m -> mapper.toDomain(m)).toList(); 
-	}
-	*/
 }

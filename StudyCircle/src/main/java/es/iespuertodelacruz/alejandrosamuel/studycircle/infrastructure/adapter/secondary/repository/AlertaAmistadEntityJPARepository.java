@@ -17,4 +17,6 @@ public interface AlertaAmistadEntityJPARepository extends JpaRepository<AlertaAm
     @Query("SELECT a FROM AlertaAmistadEntity a WHERE a.usuario.username = :username")
     List<AlertaAmistadEntity> findAlertasAmistadByUsuario(@Param("username") String usuarioEntity);
 
+    @Query("SELECT al FROM AlertaAmistadEntity al WHERE al.amistad.id = :idAmistad")
+    List<AlertaAmistadEntity> findAlertasAmistadByAmistad(@Param("idAmistad") Integer idAmistad);
 }

@@ -3,6 +3,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest;
 import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AmistadDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
@@ -47,4 +48,16 @@ public interface RESTService {
 
     @POST("v2/cursos")
     Call<ResponseBody> createCurso(@Body CursoDTO cursoDTO);
+
+    @POST("v2/amistades")
+    Call<ResponseBody> solicitarAmistad(@Body AmistadDTO amistadDTO);
+
+    @GET("v2/amistades")
+    Call<ResponseBody> findAmistadById(@Query("idAmistad") Integer idAmistad);
+
+    @GET("v2/amistades/usuario")
+    Call<ResponseBody> findAmistadesByUsuario();
+
+    @GET("v2/amistades/usuario")
+    Call<ResponseBody> aceptarAmistad(@Query("idUsuarioAmistad") Integer idUsuarioAmistad);
 }

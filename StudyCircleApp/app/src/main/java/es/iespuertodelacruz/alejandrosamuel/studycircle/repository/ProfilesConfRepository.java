@@ -62,10 +62,10 @@ public class ProfilesConfRepository {
                     }
                     switch (RespuestasProfileConf.valueOf(respuesta)) {
                         case STUDENT_PROFILE_ALREADY_CREATED:
-                            mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_ALREADY_CREATED.getDescripcion());
+                            mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_ALREADY_CREATED);
                             break;
                         case STUDENT_PROFILE_NOT_CREATED:
-                            mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_NOT_CREATED.getDescripcion());
+                            mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_NOT_CREATED);
                             break;
                         default:
                     }
@@ -102,10 +102,10 @@ public class ProfilesConfRepository {
                     }
                     switch (RespuestasProfileConf.valueOf(respuesta)) {
                         case STUDENT_PROFILE_ALREADY_CREATED:
-                            mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_ALREADY_CREATED.getDescripcion());
+                            mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_ALREADY_CREATED);
                             break;
                         case STUDENT_PROFILE_NOT_CREATED:
-                            mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_CREATED.getDescripcion());
+                            mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_CREATED);
                             break;
                         default:
                     }

@@ -38,7 +38,7 @@ public class AuthRepository {
         database = DatabaseStudyCircle.getDatabase(application);
     }
 
-    public LiveData<String> getAuthToken(UsuarioLoginDTO usuarioLoginDTO) {
+    public LiveData<Object> getAuthToken(UsuarioLoginDTO usuarioLoginDTO) {
         restNoAuthService = RetrofitClient.getInstance().getNoAuthRestService();
         MutableLiveData<String> mutableToken = new MutableLiveData<>();
         Call<String> callToken = restNoAuthService.login(usuarioLoginDTO);
@@ -58,8 +58,7 @@ public class AuthRepository {
                     }
                     switch (RespuestasAuthToken.valueOf(respuesta)) {
                         case INVALID_USERNAME_OR_PASSWORD:
-                            mutableToken.setValue(RespuestasAuthToken.INVALID_USERNAME_OR_PASSWORD.
-                                    getDescripcion());
+                            mutableToken.setValue(RespuestasAuthToken.INVALID_USERNAME_OR_PASSWORD);
                             break;
                         default:
                     }
@@ -96,16 +95,16 @@ public class AuthRepository {
                     }
                     switch (RespuestasRegister.valueOf(respuesta)) {
                         case INVALID_NAME:
-                            mutableRespuesta.setValue(RespuestasRegister.INVALID_NAME.getDescripcion());
+                            mutableRespuesta.setValue(RespuestasRegister.INVALID_NAME);
                             break;
                         case INVALID_EMAIL:
-                            mutableRespuesta.setValue(RespuestasRegister.INVALID_EMAIL.getDescripcion());
+                            mutableRespuesta.setValue(RespuestasRegister.INVALID_EMAIL);
                             break;
                         case NOT_AVAILABLE_USERNAME:
-                            mutableRespuesta.setValue(RespuestasRegister.NOT_AVAILABLE_USERNAME.getDescripcion());
+                            mutableRespuesta.setValue(RespuestasRegister.NOT_AVAILABLE_USERNAME);
                             break;
                         case NOT_MINIMUN_REQUIREMENTS_PASSWORD:
-                            mutableRespuesta.setValue(RespuestasRegister.NOT_MINIMUN_REQUIREMENTS_PASSWORD.getDescripcion());
+                            mutableRespuesta.setValue(RespuestasRegister.NOT_MINIMUN_REQUIREMENTS_PASSWORD);
                             break;
                         default:
                     }

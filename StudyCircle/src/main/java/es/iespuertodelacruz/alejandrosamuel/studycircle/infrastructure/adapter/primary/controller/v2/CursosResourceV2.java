@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.MateriaTutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.*;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.CursoDTO;
@@ -17,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,6 +47,9 @@ public class CursosResourceV2 {
     @Autowired
     private IMateriaService materiaService;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CursoDTO curso) {
         if(ObjectUtils.notNullNorEmpty(curso))
@@ -52,10 +58,14 @@ public class CursosResourceV2 {
                     curso.getMateriaTutor(),
                     curso.getMateriaTutor().getMateria())) {
                 Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
-                if(Objects.nonNull(materiaTutorService.findByMateriaTutor(curso.getMateriaTutor().getMateria().getId(), tutor.getId()))) {
+                MateriaTutor materiaTutor = materiaTutorService.findByMateriaTutor(curso.getMateriaTutor().getMateria().getId(), tutor.getId());
+                if(Objects.nonNull(materiaTutor)) {
                     Curso cursoPost = mapper.toDomainPost(curso);
-                    cursoPost.getMateriaTutor().setTutor(tutor);
-                    return ResponseEntity.ok(mapper.toDTOTutor(cursoService.create(cursoPost)));
+                    cursoPost.setMateriaTutor(materiaTutor);
+                    cursoPost = cursoService.create(cursoPost);
+                    entityManager.clear();
+                    Curso cursoDomain = cursoService.findById(cursoPost.getId());
+                    return ResponseEntity.ok(mapper.toDTOTutor(cursoDomain));
                 }
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.NON_AUTHORIZED_SUBJECT.name());
             }

@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         CursoDTO cursoDTO = new CursoDTO();
         cursoDTO.setTitulo("prueba");
         MateriaTutorDTO materiaTutorDTO = new MateriaTutorDTO();
-        materiaTutorDTO.setId(23);
         MateriaDTO materiaDTO = new MateriaDTO();
         materiaDTO.setId(2);
         materiaTutorDTO.setMateria(materiaDTO);

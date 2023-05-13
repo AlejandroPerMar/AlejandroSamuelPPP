@@ -36,7 +36,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         this.materiasRepository = new MateriasRepository(application);
     }
 
-    public LiveData<String> getLiveDataToken(UsuarioLoginDTO usuarioLoginDTO) {
+    public LiveData<Object> getLiveDataToken(UsuarioLoginDTO usuarioLoginDTO) {
         return authRepository.getAuthToken(usuarioLoginDTO);
     }
 

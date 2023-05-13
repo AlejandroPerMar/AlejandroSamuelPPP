@@ -58,10 +58,10 @@ public class CursosRepository {
                     }
                     switch (RespuestasCursos.valueOf(respuesta)) {
                         case COURSE_DTO_NOT_VALID:
-                            mutableCurso.setValue(RespuestasCursos.COURSE_DTO_NOT_VALID.getDescripcion());
+                            mutableCurso.setValue(RespuestasCursos.COURSE_DTO_NOT_VALID);
                             break;
                         case NON_AUTHENTICATED_OWNER:
-                            mutableCurso.setValue(RespuestasCursos.NON_AUTHENTICATED_OWNER.getDescripcion());
+                            mutableCurso.setValue(RespuestasCursos.NON_AUTHENTICATED_OWNER);
                             break;
                         default:
                     }
@@ -98,16 +98,16 @@ public class CursosRepository {
                     }
                     switch (RespuestasCursos.valueOf(respuesta)) {
                         case TUTOR_PROFILE_NOT_CREATED:
-                            mutableCurso.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED.getDescripcion());
+                            mutableCurso.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED);
                             break;
                         case INVALID_PARAMETERS:
-                            mutableCurso.setValue(RespuestasCursos.INVALID_PARAMETERS.getDescripcion());
+                            mutableCurso.setValue(RespuestasCursos.INVALID_PARAMETERS);
                             break;
                         case NON_EXISTING_COURSE_OR_STUDENT:
-                            mutableCurso.setValue(RespuestasCursos.NON_EXISTING_COURSE_OR_STUDENT.getDescripcion());
+                            mutableCurso.setValue(RespuestasCursos.NON_EXISTING_COURSE_OR_STUDENT);
                             break;
                         case NON_AUTHENTICATED_OWNER:
-                            mutableCurso.setValue(RespuestasCursos.NON_AUTHENTICATED_OWNER.getDescripcion());
+                            mutableCurso.setValue(RespuestasCursos.NON_AUTHENTICATED_OWNER);
                             break;
                         default:
                     }
@@ -144,16 +144,16 @@ public class CursosRepository {
                     }
                     switch (RespuestasCursos.valueOf(respuesta)) {
                         case TUTOR_PROFILE_NOT_CREATED:
-                            mutableCurso.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED.getDescripcion());
+                            mutableCurso.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED);
                             break;
                         case INVALID_PARAMETERS:
-                            mutableCurso.setValue(RespuestasCursos.INVALID_PARAMETERS.getDescripcion());
+                            mutableCurso.setValue(RespuestasCursos.INVALID_PARAMETERS);
                             break;
                         case NON_EXISTING_COURSE_OR_STUDENT:
-                            mutableCurso.setValue(RespuestasCursos.NON_EXISTING_COURSE_OR_STUDENT.getDescripcion());
+                            mutableCurso.setValue(RespuestasCursos.NON_EXISTING_COURSE_OR_STUDENT);
                             break;
                         case NON_AUTHENTICATED_OWNER:
-                            mutableCurso.setValue(RespuestasCursos.NON_AUTHENTICATED_OWNER.getDescripcion());
+                            mutableCurso.setValue(RespuestasCursos.NON_AUTHENTICATED_OWNER);
                             break;
                         default:
                     }
@@ -191,7 +191,7 @@ public class CursosRepository {
                     }
                     switch (RespuestasCursos.valueOf(respuesta)) {
                         case TUTOR_PROFILE_NOT_CREATED:
-                            mutableCursos.setValue(RespuestasCursos.STUDENT_PROFILE_NOT_CREATED.getDescripcion());
+                            mutableCursos.setValue(RespuestasCursos.STUDENT_PROFILE_NOT_CREATED);
                             break;
                         default:
                     }
@@ -229,7 +229,7 @@ public class CursosRepository {
                     }
                     switch (RespuestasCursos.valueOf(respuesta)) {
                         case TUTOR_PROFILE_NOT_CREATED:
-                            mutableCursos.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED.getDescripcion());
+                            mutableCursos.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED);
                             break;
                         default:
                     }
@@ -264,16 +264,16 @@ public class CursosRepository {
                         RespuestasCursos respuestasCursos = RespuestasCursos.valueOf(respuesta);
                         switch (respuestasCursos) {
                             case TUTOR_PROFILE_NOT_CREATED:
-                                mutableCurso.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED.getDescripcion());
+                                mutableCurso.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED);
                                 break;
                             case INVALID_PARAMETERS:
-                                mutableCurso.setValue(RespuestasCursos.INVALID_PARAMETERS.getDescripcion());
+                                mutableCurso.setValue(RespuestasCursos.INVALID_PARAMETERS);
                                 break;
                             case NON_EXISTING_COURSE_OR_STUDENT:
-                                mutableCurso.setValue(RespuestasCursos.NON_EXISTING_COURSE.getDescripcion());
+                                mutableCurso.setValue(RespuestasCursos.NON_EXISTING_COURSE);
                                 break;
                             case NON_AUTHENTICATED_OWNER:
-                                mutableCurso.setValue(RespuestasCursos.NON_AUTHENTICATED_OWNER.getDescripcion());
+                                mutableCurso.setValue(RespuestasCursos.NON_AUTHENTICATED_OWNER);
                                 break;
                             default:
                         }

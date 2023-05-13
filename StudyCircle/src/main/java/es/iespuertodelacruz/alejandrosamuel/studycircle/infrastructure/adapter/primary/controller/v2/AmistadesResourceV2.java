@@ -7,6 +7,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsu
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AmistadDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AmistadDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.EstadosAmistad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasAmistad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.utils.ObjectUtils;
@@ -34,6 +35,9 @@ public class AmistadesResourceV2 {
     private IUsuarioService usuarioService;
 
     @Autowired
+    private IAmistadService amistadService;
+
+    @Autowired
     private AmistadDTOMapper mapper;
 
     @PostMapping
@@ -42,8 +46,12 @@ public class AmistadesResourceV2 {
             Usuario usuario1 = usuarioService.findById(amistadDTO.getUsuario1().getId());
             Usuario usuario2 = usuarioService.findById(amistadDTO.getUsuario2().getId());
             if(ObjectUtils.notNullNorEmpty(usuario1, usuario2)) {
+                // Comprobamos que no exista ya una amistad entre ambos usuarios
+                if(Objects.nonNull(amistadService.findAmistadByIds(usuario1.getId(), usuario2.getId())))
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAmistad.ALREADY_EXISTING_FRIENDSHIP.name());
                 Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
                 boolean amistadUsuario = usuario1.getId().equals(usuario.getId());
+                // Comprobamos que el us que realiza la petición es el us1 de la amistad y us1 y us2 no son el mismo
                 if(amistadUsuario && !usuario1.getId().equals(usuario2.getId())) {
                     Amistad amistad = service.create(mapper.toDomain(amistadDTO));
                     return ResponseEntity.ok(mapper.toDTO(amistad));
@@ -75,25 +83,28 @@ public class AmistadesResourceV2 {
     }
 
     @PostMapping("/accept")
-    public ResponseEntity<?> aceptarAmistad(@RequestParam("idAmistad") Integer idAmistad,
-                                            @RequestParam("idAlertaAmistad") Integer idAlertaAmistad) {
+    public ResponseEntity<?> aceptarAmistad(@RequestParam("idUsuarioAmistad") Integer idUsuarioAmistad) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
-        Amistad amistad = service.findById(idAmistad);
+        Amistad amistad = service.findAmistadByIds(usuario.getId(), idUsuarioAmistad);
         if(Objects.nonNull(amistad) && amistad.getUsuario2().getId().equals(usuario.getId())) {
-            amistad = service.accept(idAmistad, idAlertaAmistad);
+            if(amistad.getEstado().equals(EstadosAmistad.FRIENDSHIP_ACCEPTED.name()))
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAmistad.ALREADY_ACCEPTED_FRIENDSHIP.name());
+            amistad = service.accept(amistad.getId());
             return ResponseEntity.ok(mapper.toDTO(amistad));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER.name());
     }
 
-    @PostMapping("/reject")
-    public ResponseEntity<?> rechazarAmistad(@RequestParam("idAmistad") Integer idAmistad,
-                                            @RequestParam("idAlertaAmistad") Integer idAlertaAmistad) {
+    @PostMapping("/remove")
+    public ResponseEntity<?> eliminarAmistad(@RequestParam("idUsuarioAmistad") Integer idUsuarioAmistad) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
-        Amistad amistad = service.findById(idAmistad);
-        if(Objects.nonNull(amistad) && amistad.getUsuario2().getId().equals(usuario.getId())) {
-            amistad = service.reject(idAmistad, idAlertaAmistad);
-            return ResponseEntity.ok(mapper.toDTO(amistad));
+        Amistad amistad = service.findAmistadByIds(usuario.getId(), idUsuarioAmistad);
+        // Se comprueba que la amistad exista y que el usuario autenticado sea participe
+        if(Objects.nonNull(amistad)  &&
+                Stream.of(amistad.getUsuario1().getId(), amistad.getUsuario2().getId())
+                        .anyMatch(idUsuario -> idUsuario.equals(usuario.getId()))) {
+            service.remove(amistad.getId());
+            return ResponseEntity.ok(RespuestasAmistad.REMOVED_FRIENDSHIP.name());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER.name());
     }
