@@ -36,8 +36,6 @@ public class HomeFragment extends Fragment {
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
         /*
-        System.out.println(binding);
-
         BottomNavigationView navView = binding.navStart;
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                R.id.navigation_start, R.id.navigation_dashboard, R.id.navigation_notifications)
@@ -51,17 +49,11 @@ public class HomeFragment extends Fragment {
 
 */
       //  FragmentHomeBinding binding = FragmentHomeBinding.inflate(inflater, container, false);
-
-        // Obtiene el NavController del NavHostFragment
-   //     NavHostFragment navHostFragment = (NavHostFragment) getChildFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_home);
+        //     NavHostFragment navHostFragment = (NavHostFragment) getChildFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_home);
     //    navController = navHostFragment.getNavController();
-
-        // Configura el BottomNavigationView con el NavController
-       // BottomNavigationView bottomNav = binding.navStart;
+        // BottomNavigationView bottomNav = binding.navStart;
       //  NavigationUI.setupWithNavController(bottomNav, navController);
-
-        // Retorna la vista inflada
-       // return binding.getRoot();
+        // return binding.getRoot();
 
         /* */
         binding.btn1.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +67,7 @@ public class HomeFragment extends Fragment {
         binding.btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View viewButton) {
+
                 NavController navController = Navigation.findNavController(binding.getRoot());
                 navController.navigate(R.id.action_nav_home_to_navigation_notifications);
             }

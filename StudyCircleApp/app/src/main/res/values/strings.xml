@@ -26,4 +26,8 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+
+    <string name="search_hint">Buscar...</string>
+    <string name="no_results_text">Sin resultados...</string>
+
 </resources>
