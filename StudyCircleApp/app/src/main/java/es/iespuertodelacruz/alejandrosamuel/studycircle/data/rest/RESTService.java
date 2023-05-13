@@ -4,6 +4,7 @@ import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AmistadDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AnuncioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
@@ -52,12 +53,21 @@ public interface RESTService {
     @POST("v2/amistades")
     Call<ResponseBody> solicitarAmistad(@Body AmistadDTO amistadDTO);
 
-    @GET("v2/amistades")
-    Call<ResponseBody> findAmistadById(@Query("idAmistad") Integer idAmistad);
+    @GET("v2/amistades/{id}")
+    Call<ResponseBody> findAmistadById(@Path("id") Integer idAmistad);
 
     @GET("v2/amistades/usuario")
     Call<ResponseBody> findAmistadesByUsuario();
 
     @GET("v2/amistades/usuario")
     Call<ResponseBody> aceptarAmistad(@Query("idUsuarioAmistad") Integer idUsuarioAmistad);
+
+    @GET("v2/anuncios/{id}")
+    Call<ResponseBody> findAnuncioById(@Path("id") Integer idAnuncio);
+
+    @GET("v2/anuncios")
+    Call<ResponseBody> findAllAnuncios();
+
+    @POST("v2/anuncios")
+    Call<ResponseBody> createAnuncio(@Body AnuncioDTO anuncioDTO);
 }

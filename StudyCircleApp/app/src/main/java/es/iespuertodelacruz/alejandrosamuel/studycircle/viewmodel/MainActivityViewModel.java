@@ -10,10 +10,12 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AnuncioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.AnunciosRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.AuthRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.CursosRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.MateriasRepository;
@@ -28,12 +30,15 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     private final MateriasRepository materiasRepository;
 
+    private final AnunciosRepository anunciosRepository;
+
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
         authRepository = new AuthRepository(application);
         profilesConfRepository = new ProfilesConfRepository(application);
         this.cursosRepository = new CursosRepository(application);
         this.materiasRepository = new MateriasRepository(application);
+        this.anunciosRepository = new AnunciosRepository(application);
     }
 
     public LiveData<Object> getLiveDataToken(UsuarioLoginDTO usuarioLoginDTO) {
@@ -83,5 +88,17 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public LiveData<Object> findMateriasByTutor(String token) {
         return materiasRepository.findMateriasByTutor(token);
+    }
+
+    public LiveData<Object> findAnuncioById(Integer idAnuncio, String token) {
+        return anunciosRepository.findAnuncioById(idAnuncio, token);
+    }
+
+    public LiveData<Object> findAllAnuncios(String token) {
+        return anunciosRepository.findAnuncios(token);
+    }
+
+    public LiveData<Object> crearAnuncio(AnuncioDTO anuncioDTO, String token) {
+        return anunciosRepository.crearAnuncio(anuncioDTO, token);
     }
 }

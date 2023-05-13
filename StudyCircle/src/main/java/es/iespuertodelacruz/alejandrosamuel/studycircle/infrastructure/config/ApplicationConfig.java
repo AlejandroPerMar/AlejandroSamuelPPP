@@ -144,6 +144,12 @@ public class ApplicationConfig {
 	public AlertaAmistadEntityMapper alertaActividadEntityMapper() { return new AlertaAmistadEntityMapper(); }
 
 	@Bean
+	public AnuncioDTOMapper anuncioDTOMapper() { return new AnuncioDTOMapper(); }
+
+	@Bean
+	public AnuncioEntityMapper anuncioEntityMapper() { return new AnuncioEntityMapper(); }
+
+	@Bean
 	public UserDetailsService userDetailsService() {
 		
 		return username -> {

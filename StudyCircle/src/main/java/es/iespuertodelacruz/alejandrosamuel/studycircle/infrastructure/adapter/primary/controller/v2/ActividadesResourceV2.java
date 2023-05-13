@@ -15,15 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IActividadService;
@@ -50,8 +42,8 @@ public class ActividadesResourceV2 {
     @Autowired
     private ActividadDTOMapper mapper;
 
-    @GetMapping(params = "id")
-    public ResponseEntity<?> findById(@RequestParam("id") Integer id) {
+    @GetMapping("{id}")
+    public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
         Actividad actividad = service.findById(id);
         if(Objects.isNull(actividad))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_NOT_FOUND.name());
@@ -98,8 +90,8 @@ public class ActividadesResourceV2 {
     }
 
     
-    @DeleteMapping(params = "id")
-    public ResponseEntity<?> delete(@RequestParam("id") Integer id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         Actividad actividad = service.findById(id);
         if(Objects.isNull(actividad))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_NOT_FOUND.name());

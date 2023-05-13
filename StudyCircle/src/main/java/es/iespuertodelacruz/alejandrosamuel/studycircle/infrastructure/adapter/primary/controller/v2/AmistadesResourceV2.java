@@ -63,8 +63,8 @@ public class AmistadesResourceV2 {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAmistad.INVALID_FRIENDSHIP_FORMAT.name());
     }
 
-    @GetMapping
-    public ResponseEntity<?> findById(@RequestParam("id") Integer id) {
+    @GetMapping("{id}")
+    public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
         Amistad amistad = service.findById(id);
         if(Objects.nonNull(amistad) &&

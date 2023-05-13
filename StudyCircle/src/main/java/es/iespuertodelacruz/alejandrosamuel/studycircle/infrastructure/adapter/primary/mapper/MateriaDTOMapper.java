@@ -9,6 +9,9 @@ public class MateriaDTOMapper {
     @Autowired
     private DTOJustIdMapper dtoJustIdMapper;
 
+    @Autowired
+    private NivelEstudiosDTOMapper nivelEstudiosMapper;
+
     public Materia toDomainPost(MateriaDTO in) {
         Materia materia = new Materia();
 
@@ -23,7 +26,7 @@ public class MateriaDTOMapper {
 
         materia.setId(in.getId());
         materia.setNombre(in.getNombre());
-        materia.setNivelEstudios(dtoJustIdMapper.toDTO(in.getNivelEstudios()));
+        materia.setNivelEstudios(nivelEstudiosMapper.toDTO(in.getNivelEstudios()));
 
         return materia;
     }

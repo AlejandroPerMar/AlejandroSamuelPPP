@@ -140,7 +140,7 @@ public class CursosResourceV2 {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.TUTOR_PROFILE_NOT_CREATED.name());
     }
 
-    @GetMapping(path = "/alumno")
+    @GetMapping("/alumno")
     public ResponseEntity<?> findByStudent() {
         Alumno alumno = alumnoService.findAlumnoByUsername(getUsernameUsuario());
         if(Objects.nonNull(alumno)) {
@@ -150,7 +150,7 @@ public class CursosResourceV2 {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.STUDENT_PROFILE_NOT_CREATED.name());
     }
 
-    @GetMapping(path = "/tutor")
+    @GetMapping("/tutor")
     public ResponseEntity<?> findByTutor() {
         Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
         if(Objects.nonNull(tutor)) {

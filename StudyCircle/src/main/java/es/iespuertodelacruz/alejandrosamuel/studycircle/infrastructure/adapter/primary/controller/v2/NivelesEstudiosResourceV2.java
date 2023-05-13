@@ -25,8 +25,8 @@ public class NivelesEstudiosResourceV2 {
     @Autowired
     private NivelEstudiosDTOMapper mapper;
 
-    @GetMapping(params = "nombre")
-    public ResponseEntity<?> findByNombre(@RequestParam("nombre") String nombre) {
+    @GetMapping("{nombre}")
+    public ResponseEntity<?> findByNombre(@PathVariable("nombre") String nombre) {
         NivelEstudios nivelEstudios = nivelEstudiosService.findByNombre(nombre);
         return (nivelEstudios != null) ? ResponseEntity.ok(mapper.toDTO(nivelEstudios))
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado");

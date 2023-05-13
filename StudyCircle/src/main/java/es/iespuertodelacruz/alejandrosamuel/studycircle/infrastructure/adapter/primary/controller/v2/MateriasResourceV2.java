@@ -43,8 +43,8 @@ public class MateriasResourceV2 {
         return ResponseEntity.ok(service.findByNivelEstudiosNombre(nombreNivelEstudios).stream().map(mapper::toDTO).toList());
     }
 
-    @GetMapping(params = "id")
-    public ResponseEntity<?> findById(@RequestParam("id") Integer id) {
+    @GetMapping("{id}")
+    public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
         Materia materia = service.findById(id);
 
         if(materia == null)
@@ -53,8 +53,8 @@ public class MateriasResourceV2 {
         return ResponseEntity.ok(mapper.toDTO(materia));
     }
 
-    @GetMapping(params = "nombre")
-    public ResponseEntity<?> findByNombre(@RequestParam("nombre") String nombre) {
+    @GetMapping("{nombre}")
+    public ResponseEntity<?> findByNombre(@PathVariable("nombre") String nombre) {
         Materia materia = service.findByNombre(nombre);
 
         if(Objects.isNull(materia))

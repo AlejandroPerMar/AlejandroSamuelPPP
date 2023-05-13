@@ -8,7 +8,6 @@ public class Anuncio {
 	private BigInteger fechaCreacion;
 	private String descripcion;
 	private String motivo;
-	private String estado;
 	private String titulo;
 	private Materia materia;
 	private Usuario usuario;
@@ -46,14 +45,6 @@ public class Anuncio {
 
 	public void setMotivo(String motivo) {
 		this.motivo = motivo;
-	}
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
 	}
 
 	public String getTitulo() {

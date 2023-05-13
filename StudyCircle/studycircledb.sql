@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-05-2023 a las 21:06:43
+-- Tiempo de generación: 13-05-2023 a las 21:51:17
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -41,7 +41,10 @@ CREATE TABLE `activities` (
 --
 
 INSERT INTO `activities` (`id`, `name`, `description`, `time_activity`, `id_course`, `created_at`) VALUES
-(1, 'primera actividad', 'descripcion primera actividad', 1682932323717, 10, 1683230845730);
+(2, 'actividad para alumnos', 'actividad con alertas para usuarios', 1682932323717, 10, 1683835555692),
+(3, 'actividad para alumnos', 'actividad con alertas para usuarios', 1682932323717, 10, 1683835636401),
+(4, 'actividad prueba', 'actividad prueba alertas alumnos', 1682932323717, 10, 1683835857760),
+(5, 'actividad prueba', 'actividad prueba alertas alumnos', 1682932323717, 10, 1683836005345);
 
 -- --------------------------------------------------------
 
@@ -60,20 +63,6 @@ CREATE TABLE `activity_alerts` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `friendship_alerts`
---
-
-CREATE TABLE `friendship_alerts` (
-  `id` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `status` varchar(100) NOT NULL,
-  `id_friendship` int(11) NOT NULL,
-  `created_at` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `announcements`
 --
 
@@ -83,7 +72,6 @@ CREATE TABLE `announcements` (
   `title` varchar(100) NOT NULL,
   `description` varchar(255) NOT NULL,
   `reason` varchar(100) NOT NULL,
-  `status` varchar(100) NOT NULL,
   `id_subject` int(11) NOT NULL,
   `created_at` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -161,19 +149,9 @@ CREATE TABLE `course` (
 --
 
 INSERT INTO `course` (`id`, `id_tutor_subject`, `title`, `created_at`) VALUES
-(10, 24, 'nuevo titulo', 1683122889983);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `course_activities`
---
-
-CREATE TABLE `course_activities` (
-  `id` int(11) NOT NULL,
-  `id_course` int(11) NOT NULL,
-  `id_activity` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+(10, 24, 'nuevo titulo', 1683122889983),
+(17, 23, 'string', 1683990960796),
+(18, 24, 'prueba', 1683991371215);
 
 -- --------------------------------------------------------
 
@@ -193,7 +171,9 @@ CREATE TABLE `course_students` (
 
 INSERT INTO `course_students` (`id`, `id_course`, `id_student`) VALUES
 (23, 10, 4),
-(24, 10, 12);
+(24, 10, 12),
+(37, 17, 4),
+(41, 18, 4);
 
 -- --------------------------------------------------------
 
@@ -207,6 +187,20 @@ CREATE TABLE `friendships` (
   `id_user2` int(11) NOT NULL,
   `status` varchar(100) NOT NULL,
   `friends_from` bigint(20) DEFAULT NULL,
+  `created_at` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `friendship_alerts`
+--
+
+CREATE TABLE `friendship_alerts` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `status` varchar(100) NOT NULL,
+  `id_friendship` int(11) NOT NULL,
   `created_at` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -455,15 +449,6 @@ ALTER TABLE `activity_alerts`
   ADD KEY `id_activity` (`id_activity`),
   ADD KEY `id_user` (`id_user`);
 
-
---
--- Indices de la tabla `friendship_alerts`
---
-ALTER TABLE `friendship_alerts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_friendship` (`id_friendship`),
-  ADD KEY `id_user` (`id_user`);
-
 --
 -- Indices de la tabla `announcements`
 --
@@ -496,14 +481,6 @@ ALTER TABLE `course`
   ADD KEY `id_tutor_subject` (`id_tutor_subject`);
 
 --
--- Indices de la tabla `course_activities`
---
-ALTER TABLE `course_activities`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_course_activity` (`id_course`,`id_activity`),
-  ADD KEY `id_activity` (`id_activity`);
-
---
 -- Indices de la tabla `course_students`
 --
 ALTER TABLE `course_students`
@@ -518,6 +495,14 @@ ALTER TABLE `friendships`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_friendships` (`id_user1`,`id_user2`),
   ADD KEY `id_user2` (`id_user2`);
+
+--
+-- Indices de la tabla `friendship_alerts`
+--
+ALTER TABLE `friendship_alerts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_friendship` (`id_friendship`),
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- Indices de la tabla `roles`
@@ -599,18 +584,12 @@ ALTER TABLE `user_profiles`
 -- AUTO_INCREMENT de la tabla `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `activity_alerts`
 --
 ALTER TABLE `activity_alerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `friendship_alerts`
---
-ALTER TABLE `friendship_alerts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -635,25 +614,25 @@ ALTER TABLE `confirmation_token`
 -- AUTO_INCREMENT de la tabla `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT de la tabla `course_activities`
---
-ALTER TABLE `course_activities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `course_students`
 --
 ALTER TABLE `course_students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de la tabla `friendships`
 --
 ALTER TABLE `friendships`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `friendship_alerts`
+--
+ALTER TABLE `friendship_alerts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -727,13 +706,6 @@ ALTER TABLE `activity_alerts`
   ADD CONSTRAINT `activity_alerts_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 --
--- Filtros para la tabla `friendship_alerts`
---
-ALTER TABLE `friendship_alerts`
-  ADD CONSTRAINT `friendship_alerts_ibfk_1` FOREIGN KEY (`id_friendship`) REFERENCES `friendships` (`id`),
-  ADD CONSTRAINT `friendship_alerts_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
-
---
 -- Filtros para la tabla `announcements`
 --
 ALTER TABLE `announcements`
@@ -761,13 +733,6 @@ ALTER TABLE `course`
   ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`id_tutor_subject`) REFERENCES `tutor_subjects` (`id`);
 
 --
--- Filtros para la tabla `course_activities`
---
-ALTER TABLE `course_activities`
-  ADD CONSTRAINT `course_activities_ibfk_1` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`),
-  ADD CONSTRAINT `course_activities_ibfk_2` FOREIGN KEY (`id_activity`) REFERENCES `activities` (`id`);
-
---
 -- Filtros para la tabla `course_students`
 --
 ALTER TABLE `course_students`
@@ -780,6 +745,13 @@ ALTER TABLE `course_students`
 ALTER TABLE `friendships`
   ADD CONSTRAINT `friendships_ibfk_1` FOREIGN KEY (`id_user1`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `friendships_ibfk_2` FOREIGN KEY (`id_user2`) REFERENCES `users` (`id`);
+
+--
+-- Filtros para la tabla `friendship_alerts`
+--
+ALTER TABLE `friendship_alerts`
+  ADD CONSTRAINT `friendship_alerts_ibfk_1` FOREIGN KEY (`id_friendship`) REFERENCES `friendships` (`id`),
+  ADD CONSTRAINT `friendship_alerts_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 --
 -- Filtros para la tabla `role_user`

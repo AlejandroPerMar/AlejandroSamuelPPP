@@ -12,12 +12,15 @@ public class MateriaEntityMapper {
     @Autowired
     private EntityJustIdMapper entityJustIdMapper;
 
+    @Autowired
+    private NivelEstudiosEntityMapper nivelEstudiosMapper;
+
     public Materia toDomain(MateriaEntity in) {
         Materia materia = new Materia();
 
         materia.setId(in.getId());
         materia.setNombre(in.getNombre());
-        materia.setNivelEstudios(entityJustIdMapper.toDomain(in.getNivelEstudios()));
+        materia.setNivelEstudios(nivelEstudiosMapper.toDomain(in.getNivelEstudios()));
 
         return materia;
     }

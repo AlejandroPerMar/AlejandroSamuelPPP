@@ -11,7 +11,6 @@ public class AnuncioDTO {
 	private BigInteger fechaCreacion;
 	private String descripcion;
 	private String motivo;
-	private String estado;
 	private String titulo;
 	private MateriaDTO materia;
 	private UsuarioDTO usuario;
@@ -49,14 +48,6 @@ public class AnuncioDTO {
 
 	public void setMotivo(String motivo) {
 		this.motivo = motivo;
-	}
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
 	}
 
 	public String getTitulo() {
