@@ -7,9 +7,12 @@ import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlertaActividadEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlumnoEntity;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.EventoCalendarioEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.AlertaActividadEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.CursoEntityJPARepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.EventoCalendarioEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.EstadosAlerta;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.PerfilUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +37,9 @@ public class ActividadEntityService implements IActividadRepository {
 
 	@Autowired
 	private AlertaActividadEntityJPARepository alertaRepository;
+
+	@Autowired
+	private EventoCalendarioEntityJPARepository eventoCalendarioRepository;
 	
 	@Override
 	public Actividad findById(Integer id) {
@@ -54,19 +60,59 @@ public class ActividadEntityService implements IActividadRepository {
 			alertaActividadEntity.setUsuario(a.getUsuario());
 			alertaRepository.save(alertaActividadEntity);
 		});
+		alumnosByCurso.forEach(a -> {
+			EventoCalendarioEntity eventoCalendarioEntity = new EventoCalendarioEntity();
+			eventoCalendarioEntity.setFechaEvento(actividadEntity.getFechaActividad());
+			eventoCalendarioEntity.setDescripcion(actividad.getDescripcion());
+			eventoCalendarioEntity.setNombre(actividad.getNombre());
+			eventoCalendarioEntity.setPerfilUsuario(PerfilUsuario.STUDENT_PROFILE.getPerfilUsuario());
+			eventoCalendarioEntity.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
+			eventoCalendarioEntity.setActividad(actividadEntity);
+			eventoCalendarioEntity.setUsuario(a.getUsuario());
+			eventoCalendarioRepository.save(eventoCalendarioEntity);
+		});
 		return mapper.toDomain(actividadEntity);
 
 	}
 
 	@Override
+	@Transactional
 	public Actividad update(Actividad actividad) {
-        return mapper.toDomain(repository.save(mapper.toEntityPut(actividad)));
+		ActividadEntity actividadEntity = repository.save(mapper.toEntityPut(actividad));
+		List<AlertaActividadEntity> alertasActividad = alertaRepository.findByActividad(actividadEntity.getId());
+		alertaRepository.deleteAll(alertasActividad);
+		List<AlumnoEntity> alumnosByCurso = cursoRepository.findAlumnosByCurso(actividadEntity.getCurso().getId());
+		alumnosByCurso.forEach(a -> {
+			AlertaActividadEntity alertaActividadEntity = new AlertaActividadEntity();
+			alertaActividadEntity.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
+			alertaActividadEntity.setActividad(actividadEntity);
+			alertaActividadEntity.setEstado(EstadosAlerta.NEW_ALERT.name());
+			alertaActividadEntity.setUsuario(a.getUsuario());
+			alertaRepository.save(alertaActividadEntity);
+		});
+		List<EventoCalendarioEntity> eventosCalendarioEntity = eventoCalendarioRepository.findByActividad(actividadEntity.getId());
+		eventoCalendarioRepository.deleteAll(eventosCalendarioEntity);
+		alumnosByCurso.forEach(a -> {
+			EventoCalendarioEntity eventoCalendarioEntity = new EventoCalendarioEntity();
+			eventoCalendarioEntity.setFechaEvento(actividadEntity.getFechaActividad());
+			eventoCalendarioEntity.setDescripcion(actividad.getDescripcion());
+			eventoCalendarioEntity.setNombre(actividad.getNombre());
+			eventoCalendarioEntity.setPerfilUsuario(PerfilUsuario.STUDENT_PROFILE.getPerfilUsuario());
+			eventoCalendarioEntity.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
+			eventoCalendarioEntity.setActividad(actividadEntity);
+			eventoCalendarioEntity.setUsuario(a.getUsuario());
+			eventoCalendarioRepository.save(eventoCalendarioEntity);
+		});
+		return mapper.toDomain(actividadEntity);
 	}
 
 	@Override
+	@Transactional
 	public boolean delete(Integer id) {
 		List<AlertaActividadEntity> alertasActividades = alertaRepository.findByActividad(id);
 		alertaRepository.deleteAll(alertasActividades);
+		List<EventoCalendarioEntity> eventosCalendarioEntity = eventoCalendarioRepository.findByActividad(id);
+		eventoCalendarioRepository.deleteAll(eventosCalendarioEntity);
 		repository.deleteById(id);
         return Objects.isNull(findById(id));
 	}

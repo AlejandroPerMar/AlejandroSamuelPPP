@@ -1,7 +1,5 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.PerfilUsuario;
-
 import java.math.BigInteger;
 
 
@@ -13,7 +11,7 @@ public class EventoCalendario {
 	private String nombre;
 	private BigInteger fechaEvento;
 	private Actividad actividad;
-	private PerfilUsuario perfilUsuario;
+	private String perfilUsuario;
 	private Usuario usuario;
 
 	public EventoCalendario() {
@@ -75,11 +73,11 @@ public class EventoCalendario {
 		this.usuario = usuario;
 	}
 
-	public PerfilUsuario getPerfilUsuario() {
+	public String getPerfilUsuario() {
 		return perfilUsuario;
 	}
 
-	public void setPerfilUsuario(PerfilUsuario perfilUsuario) {
+	public void setPerfilUsuario(String perfilUsuario) {
 		this.perfilUsuario = perfilUsuario;
 	}
 }

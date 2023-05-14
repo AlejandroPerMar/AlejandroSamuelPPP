@@ -15,5 +15,8 @@ public interface AlertaActividadEntityJPARepository extends JpaRepository<Alerta
     List<AlertaActividadEntity> findAlertasActividadByUsuario(@Param("username") String usuarioEntity);
 
     @Query("SELECT a FROM AlertaActividadEntity a WHERE a.actividad.id = :id")
-    List<AlertaActividadEntity> findByActividad(Integer id);
+    List<AlertaActividadEntity> findByActividad(@Param("id") Integer id);
+
+    @Query("SELECT a FROM AlertaActividadEntity a WHERE a.actividad.id = :idActividad AND a.usuario.id = :idUsuario")
+    List<AlertaActividadEntity> findByActividadUsuario(@Param("idActividad") Integer idActividad, @Param("idUsuario") Integer idUsuario);
 }

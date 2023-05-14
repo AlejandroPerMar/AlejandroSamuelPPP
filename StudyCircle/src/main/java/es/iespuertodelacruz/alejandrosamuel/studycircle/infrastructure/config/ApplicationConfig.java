@@ -150,6 +150,12 @@ public class ApplicationConfig {
 	public AnuncioEntityMapper anuncioEntityMapper() { return new AnuncioEntityMapper(); }
 
 	@Bean
+	public EventoCalendarioDTOMapper eventoCalendarioDTOMapper() { return new EventoCalendarioDTOMapper(); }
+
+	@Bean
+	public EventoCalendarioEntityMapper eventoCalendarioEntityMapper() { return new EventoCalendarioEntityMapper(); }
+
+	@Bean
 	public UserDetailsService userDetailsService() {
 		
 		return username -> {

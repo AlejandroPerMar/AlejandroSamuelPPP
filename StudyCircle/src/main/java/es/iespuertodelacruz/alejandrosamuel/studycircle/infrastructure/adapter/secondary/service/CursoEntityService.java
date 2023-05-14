@@ -3,12 +3,17 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.ICursoRepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlertaActividadEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlumnoEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.CursoEntity;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.EventoCalendarioEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.CursoEntityMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.EntityJustIdMapper;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.AlertaActividadEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.AlumnoEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.CursoEntityJPARepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.EventoCalendarioEntityJPARepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.PerfilUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +37,12 @@ public class CursoEntityService implements ICursoRepository {
 
     @Autowired
     private EntityJustIdMapper entityJustIdMapper;
+
+    @Autowired
+    private EventoCalendarioEntityJPARepository eventoCalendarioRepository;
+
+    @Autowired
+    private AlertaActividadEntityJPARepository alertaActividadRepository;
 
     @Override
     public Curso findById(Integer id) {
@@ -84,6 +95,7 @@ public class CursoEntityService implements ICursoRepository {
     }
 
     @Override
+    @Transactional
     public void removeAlumnoFromCurso(Curso curso, Alumno alumno) {
         CursoEntity cursoEntity = repository.findById(curso.getId()).orElse(null);
         AlumnoEntity alumnoEntity = Objects.requireNonNull(cursoEntity).getAlumnos().stream()
@@ -91,10 +103,19 @@ public class CursoEntityService implements ICursoRepository {
         if(Objects.nonNull(alumnoEntity)) {
             cursoEntity.getAlumnos().remove(alumnoEntity);
             repository.save(cursoEntity);
+            cursoEntity.getActividades().forEach(a -> {
+                List<AlertaActividadEntity> alertasActividadEntity =
+                        alertaActividadRepository.findByActividadUsuario(a.getId(), alumnoEntity.getUsuario().getId());
+                alertaActividadRepository.deleteAll(alertasActividadEntity);
+            });
+            List<EventoCalendarioEntity> eventosCalendarioEntity =
+                    eventoCalendarioRepository.findByUsuarioAndCurso(alumnoEntity.getUsuario().getId(), cursoEntity.getId());
+            eventoCalendarioRepository.deleteAll(eventosCalendarioEntity);
         }
     }
 
     @Override
+    @Transactional
     public void addAlumnoFromCurso(Curso curso, Alumno alumno) {
         CursoEntity cursoEntity = repository.findById(curso.getId()).orElse(null);
         AlumnoEntity alumnoEntity = alumnoRepository.findById(alumno.getId()).orElse(null);
@@ -103,6 +124,17 @@ public class CursoEntityService implements ICursoRepository {
                     filter(a -> a.getId().equals(alumnoEntity.getId())).findFirst().isEmpty()) {
                 Objects.requireNonNull(cursoEntity).getAlumnos().add(alumnoEntity);
                 repository.save(cursoEntity);
+                cursoEntity.getActividades().forEach(a -> {
+                        EventoCalendarioEntity eventoCalendarioEntity = new EventoCalendarioEntity();
+                        eventoCalendarioEntity.setFechaEvento(a.getFechaActividad());
+                        eventoCalendarioEntity.setDescripcion(a.getDescripcion());
+                        eventoCalendarioEntity.setNombre(a.getNombre());
+                        eventoCalendarioEntity.setPerfilUsuario(PerfilUsuario.STUDENT_PROFILE.getPerfilUsuario());
+                        eventoCalendarioEntity.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
+                        eventoCalendarioEntity.setActividad(a);
+                        eventoCalendarioEntity.setUsuario(alumnoEntity.getUsuario());
+                        eventoCalendarioRepository.save(eventoCalendarioEntity);
+                });
             }
         }
     }
