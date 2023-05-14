@@ -78,14 +78,19 @@ public class ActividadEntityService implements IActividadRepository {
 	@Override
 	@Transactional
 	public Actividad update(Actividad actividad) {
-		ActividadEntity actividadEntity = repository.save(mapper.toEntityPut(actividad));
+		ActividadEntity actividadEntity = repository.findById(actividad.getId()).orElse(null);
+		if(Objects.isNull(actividadEntity)) return null;
+		actividadEntity.setNombre(actividad.getNombre());
+		actividadEntity.setDescripcion(actividad.getDescripcion());
+		actividadEntity.setFechaActividad(actividad.getFechaActividad());
+		ActividadEntity finalActividadEntity = repository.save(actividadEntity);
 		List<AlertaActividadEntity> alertasActividad = alertaRepository.findByActividad(actividadEntity.getId());
 		alertaRepository.deleteAll(alertasActividad);
 		List<AlumnoEntity> alumnosByCurso = cursoRepository.findAlumnosByCurso(actividadEntity.getCurso().getId());
 		alumnosByCurso.forEach(a -> {
 			AlertaActividadEntity alertaActividadEntity = new AlertaActividadEntity();
 			alertaActividadEntity.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
-			alertaActividadEntity.setActividad(actividadEntity);
+			alertaActividadEntity.setActividad(finalActividadEntity);
 			alertaActividadEntity.setEstado(EstadosAlerta.NEW_ALERT.name());
 			alertaActividadEntity.setUsuario(a.getUsuario());
 			alertaRepository.save(alertaActividadEntity);
@@ -99,11 +104,11 @@ public class ActividadEntityService implements IActividadRepository {
 			eventoCalendarioEntity.setNombre(actividad.getNombre());
 			eventoCalendarioEntity.setPerfilUsuario(PerfilUsuario.STUDENT_PROFILE.getPerfilUsuario());
 			eventoCalendarioEntity.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
-			eventoCalendarioEntity.setActividad(actividadEntity);
+			eventoCalendarioEntity.setActividad(finalActividadEntity);
 			eventoCalendarioEntity.setUsuario(a.getUsuario());
 			eventoCalendarioRepository.save(eventoCalendarioEntity);
 		});
-		return mapper.toDomain(actividadEntity);
+		return mapper.toDomain(finalActividadEntity);
 	}
 
 	@Override

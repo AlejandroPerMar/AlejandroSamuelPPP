@@ -43,8 +43,8 @@ public class ProfilesConfRepository {
     public LiveData<Object> createStudentProfile(AlumnoDTO alumno, String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<Object> mutableAlumno = new MutableLiveData<>();
-        Call<ResponseBody> callAlumno = restAuthService.createStudent(alumno);
-        callAlumno.enqueue(new Callback<ResponseBody>() {
+        Call<ResponseBody> callCreateAlumno = restAuthService.createStudent(alumno);
+        callCreateAlumno.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,
                                    Response<ResponseBody> response) {
@@ -80,11 +80,85 @@ public class ProfilesConfRepository {
         return mutableAlumno;
     }
 
+    public LiveData<Object> updateAlumno(AlumnoDTO alumno, String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableAlumno = new MutableLiveData<>();
+        Call<ResponseBody> callUpdateAlumno = restAuthService.updateAlumno(alumno);
+        callUpdateAlumno.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    AlumnoDTO alumnoDTO = gson.fromJson(body.charStream(), AlumnoDTO.class);
+                    mutableAlumno.setValue(alumnoDTO);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = response.errorBody().string();
+                    } catch (IOException e) {
+                        respuesta = null;
+                    }
+                    switch (RespuestasProfileConf.valueOf(respuesta)) {
+                        case STUDENT_PROFILE_NOT_FOUND:
+                            mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_NOT_FOUND);
+                            break;
+                        default:
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableAlumno;
+    }
+
+    public LiveData<Object> getAlumno(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableAlumno = new MutableLiveData<>();
+        Call<ResponseBody> callGetAlumno = restAuthService.getAlumno();
+        callGetAlumno.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    AlumnoDTO alumnoDTO = gson.fromJson(body.charStream(), AlumnoDTO.class);
+                    mutableAlumno.setValue(alumnoDTO);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = response.errorBody().string();
+                    } catch (IOException e) {
+                        respuesta = null;
+                    }
+                    switch (RespuestasProfileConf.valueOf(respuesta)) {
+                        case STUDENT_PROFILE_ALREADY_CREATED:
+                            mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_NOT_FOUND);
+                            break;
+                        default:
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableAlumno;
+    }
+
     public LiveData<Object> createTutorProfile(List<MateriaDTO> materias, String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<Object> mutableTutor = new MutableLiveData<>();
-        Call<ResponseBody> callTutor = restAuthService.createTutor(materias);
-        callTutor.enqueue(new Callback<ResponseBody>() {
+        Call<ResponseBody> callCreateTutor = restAuthService.createTutor(materias);
+        callCreateTutor.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,
                                    @NonNull Response<ResponseBody> response) {
@@ -113,6 +187,83 @@ public class ProfilesConfRepository {
             }
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableTutor;
+    }
+
+    public LiveData<Object> updateTutor(TutorDTO tutorDTO, String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableTutor = new MutableLiveData<>();
+        Call<ResponseBody> callUpdateTutor = restAuthService.updateTutor(tutorDTO);
+        callUpdateTutor.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    TutorDTO tutorDTO = gson.fromJson(body.charStream(), TutorDTO.class);
+                    mutableTutor.setValue(tutorDTO);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = response.errorBody().string();
+                    } catch (IOException e) {
+                        respuesta = null;
+                    }
+                    switch (RespuestasProfileConf.valueOf(respuesta)) {
+                        case TUTOR_PROFILE_NOT_FOUND:
+                            mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_FOUND);
+                            break;
+                        case TUTOR_PROFILE_NOT_UPDATED:
+                            mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_UPDATED);
+                            break;
+                        default:
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableTutor;
+    }
+
+    public LiveData<Object> getTutor(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableTutor = new MutableLiveData<>();
+        Call<ResponseBody> callGetTutor = restAuthService.getTutor();
+        callGetTutor.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    TutorDTO tutorDTO = gson.fromJson(body.charStream(), TutorDTO.class);
+                    mutableTutor.setValue(tutorDTO);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = response.errorBody().string();
+                    } catch (IOException e) {
+                        respuesta = null;
+                    }
+                    switch (RespuestasProfileConf.valueOf(respuesta)) {
+                        case STUDENT_PROFILE_ALREADY_CREATED:
+                            mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_FOUND);
+                            break;
+                        default:
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
                 t.printStackTrace();
             }

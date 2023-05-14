@@ -40,7 +40,7 @@ public class AuthRepository {
 
     public LiveData<Object> getAuthToken(UsuarioLoginDTO usuarioLoginDTO) {
         restNoAuthService = RetrofitClient.getInstance().getNoAuthRestService();
-        MutableLiveData<String> mutableToken = new MutableLiveData<>();
+        MutableLiveData<Object> mutableToken = new MutableLiveData<>();
         Call<String> callToken = restNoAuthService.login(usuarioLoginDTO);
         callToken.enqueue(new Callback<String>() {
             @Override
@@ -119,9 +119,9 @@ public class AuthRepository {
         return mutableRespuesta;
     }
 
-    public LiveData<String> resendEmail(String token) {
+    public LiveData<Object> resendEmail(String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
-        MutableLiveData<String> mutableTokenAuth = new MutableLiveData<>();
+        MutableLiveData<Object> mutableTokenAuth = new MutableLiveData<>();
         Call<String> responseResendEmail = restAuthService.resendEmail();
         responseResendEmail.enqueue(new Callback<String>() {
             @Override
@@ -135,13 +135,13 @@ public class AuthRepository {
                         respuesta = Objects.requireNonNull(response.errorBody()).string();
                         switch (EstadosUsuario.valueOf(respuesta)) {
                             case STATUS_INACTIVE:
-                                mutableTokenAuth.setValue(EstadosUsuario.STATUS_INACTIVE.getDescripcion());
+                                mutableTokenAuth.setValue(EstadosUsuario.STATUS_INACTIVE);
                                 break;
                             case STATUS_BAN:
-                                mutableTokenAuth.setValue(EstadosUsuario.STATUS_BAN.getDescripcion());
+                                mutableTokenAuth.setValue(EstadosUsuario.STATUS_BAN);
                                 break;
                             case STATUS_ACTIVE:
-                                mutableTokenAuth.setValue(EstadosUsuario.STATUS_ACTIVE.getDescripcion());
+                                mutableTokenAuth.setValue(EstadosUsuario.STATUS_ACTIVE);
                                 break;
                             default:
                         }

@@ -171,7 +171,7 @@ public class CursosRepository {
     public LiveData<Object> findCursosAlumno(String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<Object> mutableCursos = new MutableLiveData<>();
-        Call<ResponseBody> callFindCursosAlumno = restAuthService.findCursosTutor();
+        Call<ResponseBody> callFindCursosAlumno = restAuthService.findCursosAlumno();
         callFindCursosAlumno.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,

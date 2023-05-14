@@ -8,7 +8,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.p
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.EventoCalendarioDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.PerfilUsuario;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasCurso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasEventoCalendario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.utils.ObjectUtils;
@@ -50,7 +49,6 @@ public class EventosCalendarioResourceV2 {
                     eventoCalendarioDTO.getPerfilUsuario())) {
                 try {
                     PerfilUsuario.valueOf(eventoCalendarioDTO.getPerfilUsuario());
-
                 }catch (IllegalArgumentException ex) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasEventoCalendario.INVALID_USER_PROFILE.name());
                 }
@@ -62,7 +60,7 @@ public class EventosCalendarioResourceV2 {
                 eventoCalendario = service.findById(eventoCalendario.getId());
                 return ResponseEntity.ok(mapper.toDTO(eventoCalendario));
             }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.COURSE_DTO_NOT_VALID.name());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasEventoCalendario.CALENDAR_EVENT_DTO_NOT_VALID.name());
     }
 
     @GetMapping("/perfilTutor")

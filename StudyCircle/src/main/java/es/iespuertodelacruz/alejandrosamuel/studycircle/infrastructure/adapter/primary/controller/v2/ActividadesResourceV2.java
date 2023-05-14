@@ -9,7 +9,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ICursoService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ITutorService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasActividad;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasCurso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,10 +60,10 @@ public class ActividadesResourceV2 {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ActividadDTO request) {
         Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
-        if(Objects.isNull(tutor)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body(RespuestasCurso.TUTOR_PROFILE_NOT_CREATED.name());
+        if(Objects.isNull(tutor)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body(RespuestasActividad.TUTOR_PROFILE_NOT_CREATED.name());
 
         if(!ObjectUtils.notNullNorEmpty(request, request.getCurso(), request.getNombre(), request.getDescripcion(), request.getFechaActividad()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.INVALIDAD_ACTIVITY_FORMAT.name());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.INVALID_ACTIVITY_FORMAT.name());  // Si los parámetros de la actividad recibida no son válidos
 
         AtomicBoolean cursoExistente = new AtomicBoolean(false);
         tutor.getMateriasTutor().forEach(mt ->  {

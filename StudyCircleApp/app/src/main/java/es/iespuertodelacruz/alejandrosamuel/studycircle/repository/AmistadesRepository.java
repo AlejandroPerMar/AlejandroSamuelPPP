@@ -146,18 +146,17 @@ public class AmistadesRepository {
 
     public LiveData<Object> aceptarAmistad(Integer idUsuarioAmistad, String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
-        MutableLiveData<Object> mutableAmistades = new MutableLiveData<>();
-        Call<ResponseBody> callFindAmistadesByUsuario = restAuthService.findAmistadesByUsuario();
-        callFindAmistadesByUsuario.enqueue(new Callback<ResponseBody>() {
+        MutableLiveData<Object> mutableAmistad = new MutableLiveData<>();
+        Call<ResponseBody> callAceptarAmistad = restAuthService.aceptarAmistad(idUsuarioAmistad);
+        callAceptarAmistad.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,
                                    Response<ResponseBody> response) {
                 ResponseBody body = response.body();
                 if(response.isSuccessful()) {
                     Gson gson = new Gson();
-                    Type listType = new TypeToken<List<UsuarioDTO>>() {}.getType();
-                    List<UsuarioDTO> amistadesDTO = new Gson().fromJson(body.charStream(), listType);
-                    mutableAmistades.setValue(amistadesDTO);
+                    AmistadDTO amistadDTO = gson.fromJson(body.charStream(), AmistadDTO.class);
+                    mutableAmistad.setValue(amistadDTO);
                 }else {
                     String respuesta;
                     try {
@@ -165,10 +164,10 @@ public class AmistadesRepository {
                         RespuestasAmistad respuestasAmistad = RespuestasAmistad.valueOf(respuesta);
                         switch (respuestasAmistad) {
                             case ALREADY_ACCEPTED_FRIENDSHIP:
-                                mutableAmistades.setValue(RespuestasAmistad.ALREADY_ACCEPTED_FRIENDSHIP);
+                                mutableAmistad.setValue(RespuestasAmistad.ALREADY_ACCEPTED_FRIENDSHIP);
                                 break;
                             case FORBIDDEN_FRIENDSHIP_FOR_USER:
-                                mutableAmistades.setValue(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER);
+                                mutableAmistad.setValue(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER);
                                 break;
                             default:
                         }
@@ -181,13 +180,13 @@ public class AmistadesRepository {
                 t.printStackTrace();
             }
         });
-        return mutableAmistades;
+        return mutableAmistad;
     }
 
-    public LiveData<Object> eliminarAmistad(Integer idUsuarioAmistad, String token) {
+    public LiveData<RespuestasAmistad> eliminarAmistad(Integer idUsuarioAmistad, String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
-        MutableLiveData<Object> mutableAmistades = new MutableLiveData<>();
-        Call<ResponseBody> callFindAmistadesByUsuario = restAuthService.findAmistadesByUsuario();
+        MutableLiveData<RespuestasAmistad> mutableAmistades = new MutableLiveData<>();
+        Call<ResponseBody> callFindAmistadesByUsuario = restAuthService.eliminarAmistad(idUsuarioAmistad);
         callFindAmistadesByUsuario.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,
@@ -204,9 +203,6 @@ public class AmistadesRepository {
                         respuesta = Objects.requireNonNull(response.errorBody()).string();
                         RespuestasAmistad respuestasAmistad = RespuestasAmistad.valueOf(respuesta);
                         switch (respuestasAmistad) {
-                            case ALREADY_ACCEPTED_FRIENDSHIP:
-                                mutableAmistades.setValue(RespuestasAmistad.ALREADY_ACCEPTED_FRIENDSHIP);
-                                break;
                             case FORBIDDEN_FRIENDSHIP_FOR_USER:
                                 mutableAmistades.setValue(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER);
                                 break;

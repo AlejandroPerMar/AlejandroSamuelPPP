@@ -6,7 +6,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.p
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +23,6 @@ public class NivelesEstudiosResourceV2 {
 
     @Autowired
     private NivelEstudiosDTOMapper mapper;
-
-    @GetMapping("{nombre}")
-    public ResponseEntity<?> findByNombre(@PathVariable("nombre") String nombre) {
-        NivelEstudios nivelEstudios = nivelEstudiosService.findByNombre(nombre);
-        return (nivelEstudios != null) ? ResponseEntity.ok(mapper.toDTO(nivelEstudios))
-                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado");
-    }
 
     @GetMapping
     public ResponseEntity<?> findAll() {
