@@ -13,18 +13,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.net.IDN;
 import java.util.List;
 import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.DatabaseStudyCircle;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasAmistad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasAnuncio;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RESTService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RetrofitClient;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AmistadDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AnuncioDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,6 +78,43 @@ public class AnunciosRepository {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<Object> mutableAnuncios = new MutableLiveData<>();
         Call<ResponseBody> callFindAnuncios = restAuthService.findAllAnuncios();
+        callFindAnuncios.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<AnuncioDTO>>() {}.getType();
+                    List<AnuncioDTO> anunciosDTO = new Gson().fromJson(body.charStream(), listType);
+                    mutableAnuncios.setValue(anunciosDTO);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = Objects.requireNonNull(response.errorBody()).string();
+                        RespuestasAnuncio respuestasAnuncio = RespuestasAnuncio.valueOf(respuesta);
+                        switch (respuestasAnuncio) {
+                            case NON_EXISTING_ANNOUNCEMENTS:
+                                mutableAnuncios.setValue(RespuestasAnuncio.NON_EXISTING_ANNOUNCEMENTS);
+                                break;
+                            default:
+                        }
+                    } catch (Exception ignored) {}
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableAnuncios;
+    }
+
+    public LiveData<Object> findAnunciosByUsuario(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableAnuncios = new MutableLiveData<>();
+        Call<ResponseBody> callFindAnuncios = restAuthService.findByUsuario();
         callFindAnuncios.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,

@@ -98,6 +98,10 @@ public class MainActivityViewModel extends AndroidViewModel {
         return anunciosRepository.findAnuncios(token);
     }
 
+    public LiveData<Object> findAnunciosByUsuario(String token) {
+        return anunciosRepository.findAnunciosByUsuario(token);
+    }
+
     public LiveData<Object> crearAnuncio(AnuncioDTO anuncioDTO, String token) {
         return anunciosRepository.crearAnuncio(anuncioDTO, token);
     }

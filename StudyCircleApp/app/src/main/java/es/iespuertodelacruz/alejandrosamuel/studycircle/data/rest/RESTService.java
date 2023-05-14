@@ -68,6 +68,10 @@ public interface RESTService {
     @GET("v2/anuncios")
     Call<ResponseBody> findAllAnuncios();
 
+    @GET("v2/anuncios/usuario")
+    Call<ResponseBody> findByUsuario();
+
     @POST("v2/anuncios")
     Call<ResponseBody> createAnuncio(@Body AnuncioDTO anuncioDTO);
+
 }

@@ -32,4 +32,9 @@ public class AnuncioEntityService implements IAnuncioRepository {
     public Anuncio create(Anuncio anuncio) {
         return mapper.toDomain(repository.save(mapper.toEntity(anuncio)));
     }
+
+    @Override
+    public List<Anuncio> findByIdUsuario(Integer id) {
+        return repository.findByIdUsuario(id).stream().map(mapper::toDomain).toList();
+    }
 }

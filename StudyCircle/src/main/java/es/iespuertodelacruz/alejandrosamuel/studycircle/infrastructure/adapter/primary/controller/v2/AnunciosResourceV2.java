@@ -48,6 +48,15 @@ public class AnunciosResourceV2 {
         return ResponseEntity.ok(mapper.toDTO(anuncio));
     }
 
+    @GetMapping("/usuario")
+    public ResponseEntity<?> findByUsuario() {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        List<Anuncio> anuncios = service.findByIdUsuario(usuario.getId());
+        if(Objects.isNull(anuncios)) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAnuncio.NON_EXISTING_ANNOUNCEMENTS.name());
+
+        return ResponseEntity.ok(anuncios.stream().map(mapper::toDTO).toList());
+    }
+
     @GetMapping
     public ResponseEntity<?> findByAll() {
         List<Anuncio> anuncios = service.findAll();

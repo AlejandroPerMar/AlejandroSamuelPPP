@@ -11,4 +11,6 @@ public interface IAnuncioRepository {
     List<Anuncio> findAll();
 
     Anuncio create(Anuncio anuncio);
+
+    List<Anuncio> findByIdUsuario(Integer id);
 }

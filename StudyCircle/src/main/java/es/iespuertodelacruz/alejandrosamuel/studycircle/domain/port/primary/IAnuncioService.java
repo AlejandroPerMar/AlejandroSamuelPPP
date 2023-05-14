@@ -10,6 +10,8 @@ public interface IAnuncioService {
 
     List<Anuncio> findAll();
 
+    List<Anuncio> findByIdUsuario(Integer id);
+
     Anuncio create(Anuncio anuncio);
 
 }

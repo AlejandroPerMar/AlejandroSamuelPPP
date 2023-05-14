@@ -25,6 +25,11 @@ public class AnuncioService implements IAnuncioService {
     }
 
     @Override
+    public List<Anuncio> findByIdUsuario(Integer id) {
+        return repository.findByIdUsuario(id);
+    }
+
+    @Override
     public Anuncio create(Anuncio anuncio) {
         return repository.create(anuncio);
     }
