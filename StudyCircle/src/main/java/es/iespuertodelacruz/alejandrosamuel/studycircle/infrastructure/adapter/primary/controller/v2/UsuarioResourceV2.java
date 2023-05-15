@@ -7,6 +7,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsu
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.EmailSender;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,6 +38,14 @@ public class UsuarioResourceV2 {
     private HttpServletRequest request;
 
     @GetMapping("resendconfirmationemail")
+    @ApiOperation(
+            value= "Reenviar el correo de confirmación de email",
+            notes= """
+                    Posibles respuestas:\s
+                    • "Token de verificación. Devuelve el token de verificación necesario para confirmar el correo electrónico
+                    • "Estado de la cuenta de usuario. Devuelve el estado de la cuenta del usuario en caso de no estar pendiente de verificación
+                    """
+    )
     public ResponseEntity<?> reenviarConfirmacionToken() {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
 

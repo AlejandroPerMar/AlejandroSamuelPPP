@@ -5,6 +5,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.INiv
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.NivelEstudiosDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,13 @@ public class NivelesEstudiosResourceV2 {
     private NivelEstudiosDTOMapper mapper;
 
     @GetMapping
+    @ApiOperation(
+            value= "Encontrar todos los Niveles de Estudio",
+            notes= """
+                    Posibles respuestas:\s
+                    • "List<NivelEstudiosDTO>. Devuelve el listado de Niveles de Estudio con sus Materias mapeadas
+                    """
+    )
     public ResponseEntity<?> findAll() {
         List<NivelEstudios> niveles = nivelEstudiosService.findAll();
         return ResponseEntity.ok(niveles.stream().map(n -> mapper.toDTO(n)).collect(Collectors.toList()));

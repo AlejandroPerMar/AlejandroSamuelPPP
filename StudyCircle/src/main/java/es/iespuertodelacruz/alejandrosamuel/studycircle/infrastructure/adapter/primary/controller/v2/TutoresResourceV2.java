@@ -15,6 +15,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.Rol
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import io.swagger.annotations.Api;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Rol;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,14 @@ public class TutoresResourceV2 {
     private DTOJustIdMapper dtoJustIdMapper;
 
     @GetMapping
+    @ApiOperation(
+            value= "Obtener el perfil de tutor del usuario autenticado",
+            notes= """
+                    Posibles respuestas:\s
+                    • "TUTOR_PROFILE_NOT_FOUND" (String). Indica que el usuario no tiene perfil de tutor creado
+                    • "TutorDTO. Devuelve el perfil de tutor del usuario autenticado
+                    """
+    )
     public ResponseEntity<?> getTutor() {
         Tutor tutor = service.findTutorByUsername(getUsernameUsuario());
         TutorDTO tutorDTO = mapper.toDTO(tutor);
@@ -56,6 +65,18 @@ public class TutoresResourceV2 {
     }
 
     @PostMapping
+    @ApiOperation(
+            value= "Crear perfil de tutor al usuario autenticado",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "List<MateriaDTO> materias. Listados de materias que el usuario ha indicado que puede impartir
+                    
+                    Posibles respuestas:\s
+                    • "TUTOR_PROFILE_ALREADY_CREATED" (String). Indica que ya existe un perfil de tutor para el usuario autenticado
+                    • "TUTOR_PROFILE_NOT_CREATED" (String). Indica que no se ha podido crear el perfil de tutor
+                    • "TutorDTO. Devuelve el perfil de tutor que se acaba de crear para el usuario autenticado
+                    """
+    )
     public ResponseEntity<?> createTutor(@RequestBody List<MateriaDTO> materias) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
         if(Objects.nonNull(service.findTutorByIdUsuario(usuario.getId())))
@@ -69,6 +90,18 @@ public class TutoresResourceV2 {
     }
 
     @PutMapping
+    @ApiOperation(
+            value= "Actualizar perfil de tutor al usuario autenticado",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "List<MateriaDTO> materias. Listados de materias que el usuario ha indicado que puede impartir
+                    
+                    Posibles respuestas:\s
+                    • "TUTOR_PROFILE_NOT_UPDATED" (String). Indica que no se ha podido actualizar el perfil de tutor para el usuario autenticado
+                    • "TUTOR_PROFILE_NOT_FOUND" (String). Indica que no se ha encontrado un perfil de tutor para el usuario autenticado
+                    • "TutorDTO. Devuelve el perfil de tutor que se acaba de crear para el usuario autenticado
+                    """
+    )
     public ResponseEntity<?> updateTutor(@RequestBody List<MateriaDTO> materias) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
         if(usuario.getRoles().stream().map(Rol::getRol).anyMatch(r -> r.equals(Roles.ROLE_TUTOR.name()))) {

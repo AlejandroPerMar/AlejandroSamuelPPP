@@ -51,7 +51,7 @@ public class MateriasResourceV2 {
 
     @GetMapping("{id}")
     @ApiOperation(
-            value= "Encontrar Materias por el Nivel de Estudios indicado",
+            value= "Encontrar Materia por el ID indicado",
             notes= """
                     Parámetros solicitados:\s
                     • "Integer idNivelEstudios. ID del Nivel de Estudios por el que buscar las Materias

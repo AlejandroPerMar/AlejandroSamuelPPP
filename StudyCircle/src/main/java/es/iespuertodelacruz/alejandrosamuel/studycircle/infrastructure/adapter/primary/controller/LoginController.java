@@ -8,6 +8,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Rol;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.ErroresInicioSesion;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +32,20 @@ public class LoginController {
 	private JwtService jwtService;
 
 	@PostMapping
-	public ResponseEntity<String> login(@RequestBody UsuarioLogin request) {
-		String username = request.getUsername();
-		String plainPassword = request.getClave();
+	@ApiOperation(
+			value= "Iniciar sesión",
+			notes= """
+                    Parámetros solicitados:\s
+                    • "UsuarioLogin usuarioLogin. Datos de autenticacióon del usuario (Username y contraseña)
+                    
+                    Posibles respuestas:\s
+                    • "INVALID_USERNAME_OR_PASSWORD" (String). Indica que las credenciales no corresponden con las de ningún usuario
+                    • "Token Bearer de autorización. Devuelve el token de autorización que se debe incluir en la cabecera de las peticiones que lo requieren
+                    """
+	)
+	public ResponseEntity<String> login(@RequestBody UsuarioLogin usuarioLogin) {
+		String username = usuarioLogin.getUsername();
+		String plainPassword = usuarioLogin.getClave();
 		String token = null;
 		if(usuarioService.checkCredentials(username, plainPassword) ) {
 			Usuario usuario = usuarioService.findByUsername(username);

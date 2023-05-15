@@ -14,6 +14,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.EmailSender;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,9 @@ public class RegisterController {
 	private IUsuarioService usuarioService;
 
 	@Autowired
+	private UsuarioDTOMapper mapper;
+
+	@Autowired
 	private EmailSender emailSender;
 
 	@Autowired
@@ -48,21 +52,38 @@ public class RegisterController {
 	private HttpServletRequest request;
 
 	@PostMapping
-	public ResponseEntity<?> register(@RequestBody UsuarioRegister request) {
-		if(!validateNombreCompleto(request.getNombre())) {
+	@ApiOperation(
+			value= "Registrar nuevo usuario",
+			notes= """
+                    Parámetros solicitados:\s
+                    • "UsuarioRegister usuarioRegister. Datos de registro del usuario (Nombre completo, correo electrónico, username y contraseña)
+                    
+                    Posibles respuestas:\s
+                    • "INVALID_NAME" (String). Indica que el nombre no es válido
+                    • "NOT_AVAILABLE_USERNAME" (String). Indica que el username no está disponible
+                    • "INVALID_EMAIL" (String). Indica que el correo electrónico es inválido
+                    • "NOT_MINIMUN_REQUIREMENTS_PASSWORD" (String). Indica que la contraseña no cumple con los requisitos mínimos
+                    • "UsuarioDTO. Devuelve el Usuario que se acaba de crear
+                    """
+	)
+	public ResponseEntity<?> register(@RequestBody UsuarioRegister usuarioRegister) {
+		if(!validateNombreCompleto(usuarioRegister.getNombre())) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.INVALID_NAME.name());
 		}
-		if(!validateUsername(request.getUsername())) {
+		if(!validateUsername(usuarioRegister.getUsername())) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.NOT_AVAILABLE_USERNAME.name());
 		}
-		if(!validateEmail(request.getEmail())) {
+		if(!validateEmail(usuarioRegister.getEmail())) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.INVALID_EMAIL.name());
 		}
-		if(!validateClave(request.getClave())) {
+		if(!validateClave(usuarioRegister.getClave())) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.NOT_MINIMUN_REQUIREMENTS_PASSWORD.name());
 		}
 
-		TokenConfirmacionEntity token = usuarioService.create(request.getNombre(), request.getUsername(), request.getEmail(), request.getClave());
+		TokenConfirmacionEntity token = usuarioService.create(usuarioRegister.getNombre(),
+				usuarioRegister.getUsername(),
+				usuarioRegister.getEmail(),
+				usuarioRegister.getClave());
 
 		UsuarioEntityMapper entityMapper = new UsuarioEntityMapper();
 
@@ -70,14 +91,24 @@ public class RegisterController {
 
 		String link = getBaseUrl() + "/api/register/confirm?token=" + token.getToken();
 		emailSender.enviar(
-				request.getEmail(),
+				usuarioRegister.getEmail(),
 				htmlBuilder.buildEmail(usuario.getNombreCompleto(), link));
 
-		UsuarioDTOMapper dtoMapper = new UsuarioDTOMapper();
-		return ResponseEntity.ok().body(dtoMapper.toDTO(usuario));
+		return ResponseEntity.ok().body(mapper.toDTO(usuario));
 	}
 
 	@GetMapping("confirm")
+	@ApiOperation(
+			value= "Confirmar usuario (por correo electrónico)",
+			notes= """
+                    Parámetros solicitados:\s
+                    • "String token. Token de verificación de usuario
+                    
+                    Posibles respuestas:\s
+                    • "Página HTML indicando la correcta verificación
+                    • "Mensaje de error en caso de no haberse confirmado o ya encontrarse verificado previamente
+                    """
+	)
 	public ResponseEntity<?> confirmarUsuario(@RequestParam("token") String token) {
 		String estadoToken = usuarioService.confirmarToken(token);
 		if(estadoToken.equals(EstadosVerificacionCorreo.STATUS_CONFIRMED.name()))
