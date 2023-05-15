@@ -61,7 +61,7 @@ public class BuscarFragment extends Fragment {
 
     private class ResultsAdapter extends RecyclerView.Adapter<ResultsViewHolder> implements Filterable {
 
-        private List<BuscarFragment.Result> resultList;
+        private final List<BuscarFragment.Result> resultList;
         private List<BuscarFragment.Result> resultListFiltered;
 
         public ResultsAdapter() {
@@ -167,9 +167,9 @@ public class BuscarFragment extends Fragment {
 
     private static class Result {
 
-        private String title;
-        private String description;
-        private String author;
+        private final String title;
+        private final String description;
+        private final String author;
 
         public Result(String title, String description, String author) {
             this.title = title;
