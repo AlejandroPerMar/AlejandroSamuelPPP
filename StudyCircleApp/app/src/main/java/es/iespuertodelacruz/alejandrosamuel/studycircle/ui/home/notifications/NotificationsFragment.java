@@ -1,15 +1,23 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.notifications;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentNotificationsBinding;
 
 
@@ -19,20 +27,119 @@ public class NotificationsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
 
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        CalendarView calendarView = binding.calendarView;
+        RecyclerView recyclerView =binding.recyclerView;
+
+        List<Evento> events = new ArrayList<>();
+        events.add(new Evento("Evento 1", "Descripción del evento 1", Calendar.getInstance().getTime()));
+        events.add(new Evento("Evento 1", "Descripción del evento 1", new Date()));
+        events.add(new Evento("Evento 2", "Descripción del evento 2", new Date(new Date().getTime() + 86400000)));
+        events.add(new Evento("Evento 3", "Descripción del evento 3", new Date(new Date().getTime() + 172800000)));
+
+
+        for (Evento evento: events ) {
+            System.out.println(evento.toString());
+        }
+        setupCalendar(calendarView, recyclerView, events);
+
         return root;
     }
 
+    public void setupCalendar(CalendarView calendarView, RecyclerView recyclerView, List<Evento> events) {
+        Calendar initialDate = Calendar.getInstance();
+        int year = initialDate.get(Calendar.YEAR);
+        System.out.println(year + " AÑO AQUI");
+        int month = initialDate.get(Calendar.MONTH);
+        System.out.println(year + " MES AQUI");
+        int day = initialDate.get(Calendar.DAY_OF_MONTH);
+        System.out.println(year + " DIA AQUI");
+
+        calendarView.setDate(initialDate.getTimeInMillis());
+
+        EventosOnDateChangeListener eventsOnDateChangeListener = new EventosOnDateChangeListener(recyclerView, events);
+        calendarView.setOnDateChangeListener(eventsOnDateChangeListener);
+    }
+        @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+            binding = null;
+        }
+    }
+
+class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
+    private List<Evento> events;
+    private Context context;
+
+    public EventAdapter(Context context, List<Evento> events) {
+        this.context = context;
+        this.events = events;
+    }
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_evento, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Evento event = events.get(position);
+        holder.eventTitle.setText(event.getTitulo());
+        holder.eventDescription.setText(event.getDescripcion());
+        holder.eventDate.setText(event.getFecha().toString());
+    }
+
+    @Override
+    public int getItemCount() {
+        return events.size();
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView eventTitle;
+        TextView eventDate;
+
+        TextView eventDescription;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            eventTitle = itemView.findViewById(R.id.tituloTextView);
+            eventDescription = itemView.findViewById(R.id.descripcionTextView);
+            eventDate = itemView.findViewById(R.id.fechaTextView);
+        }
     }
 }
+
+
+
+class EventosOnDateChangeListener implements CalendarView.OnDateChangeListener {
+    private RecyclerView recyclerView;
+    private List<Evento> events;
+
+    public EventosOnDateChangeListener(RecyclerView recyclerView, List<Evento> events) {
+        this.recyclerView = recyclerView;
+        this.events = events;
+    }
+
+    @Override
+    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+        Calendar selectedDate = Calendar.getInstance();
+        selectedDate.set(year, month, dayOfMonth, 0, 0, 0);
+        selectedDate.set(Calendar.MILLISECOND, 0);
+
+        List<Evento> filteredEvents = new ArrayList<>();
+        for (Evento event : events) {
+            Calendar eventDate = Calendar.getInstance();
+            eventDate.setTime(event.getFecha());
+            if (eventDate.get(Calendar.DAY_OF_YEAR) == selectedDate.get(Calendar.DAY_OF_YEAR)) {
+                filteredEvents.add(event);
+            }
+        }
+
+        recyclerView.setAdapter(new EventAdapter(recyclerView.getContext(), filteredEvents));
+    }
+}
+
+
