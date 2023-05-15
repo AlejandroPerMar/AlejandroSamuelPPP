@@ -5,6 +5,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.p
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlertaAmistadDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlertaAmistadDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,6 +38,13 @@ public class AlertasResourceV2 {
     private AlertaAmistadDTOMapper amistadMapper;
 
     @GetMapping("/actividades")
+    @ApiOperation(
+            value= "Encontrar las alertas de actividades del usuario autenticado",
+            notes= """
+                    Posibles respuestas:\s
+                    • List<AlertaActividadDTO>. Devuelve la lista de alertas correspondiente al usuario, aunque esté vacía
+                    """
+    )
     public ResponseEntity<?> findAlertasActividadByUsuario() {
         List<AlertaActividad> alertasUsuario = service.findAlertasActividadByUsername(getUsernameUsuario());
         List<AlertaActividadDTO> alertasUsuarioDTO = alertasUsuario.stream().map(actividadMapper::toDTO).toList();
@@ -44,6 +52,13 @@ public class AlertasResourceV2 {
     }
 
     @GetMapping("/amistades")
+    @ApiOperation(
+            value= "Encontrar las alertas de amistades del usuario autenticado",
+            notes= """
+                    Posibles respuestas:\s
+                    • List<AlertaAmistadDTO>. Devuelve la lista de alertas correspondiente al usuario, aunque esté vacía
+                    """
+    )
     public ResponseEntity<?> findAlertasAmistadByUsuario() {
         List<AlertaAmistad> alertasUsuario = service.findAlertasAmistadByUsername(getUsernameUsuario());
         List<AlertaAmistadDTO> alertasUsuarioDTO = alertasUsuario.stream().map(amistadMapper::toDTO).toList();

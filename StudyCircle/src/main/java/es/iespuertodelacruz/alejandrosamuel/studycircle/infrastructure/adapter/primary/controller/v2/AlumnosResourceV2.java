@@ -6,6 +6,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.p
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.DTOJustIdMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasAlumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,6 +41,14 @@ public class AlumnosResourceV2 {
 	private DTOJustIdMapper dtoJustIdMapper;
 	
 	@GetMapping
+	@ApiOperation(
+			value= "Encontrar el perfil de alumno del usuario autenticado",
+			notes= """
+                    Posibles respuestas:\s
+                    • "STUDENT_PROFILE_NOT_FOUND" (String). Indica que no se ha encontrado perfil de Alumno para el usuario autenticado
+                    • AlumnoDTO. Devuelve el perfil de Alumno del usuario autenticado
+                    """
+	)
 	public ResponseEntity<?> getAlumno() {
 		Alumno alumno = service.findAlumnoByUsername(getUsernameUsuario());
 		if(Objects.isNull(alumno))
@@ -50,6 +59,18 @@ public class AlumnosResourceV2 {
 	}
 	
 	@PostMapping
+	@ApiOperation(
+			value= "Encontrar las alertas de amistades del usuario autenticado",
+			notes= """
+                    Parámetros solicitados:\s
+                    • "AlumnoDTO. Alumno a crear
+                    
+                    Posibles respuestas:\s
+                    • "STUDENT_PROFILE_ALREADY_CREATED" (String). Indica que ya existe un perfil de alumno para el usuario autenticado
+                    • "STUDENT_PROFILE_NOT_CREATED" (String). Indica que no se ha podido crear el perfil de alumno para el usuario autenticado
+                    • "AlumnoDTO. Devuelve el perfil de Alumno en formato JSON que se acaba de crear para el usuario autenticado
+                    """
+	)
 	public ResponseEntity<?> createAlumno(@RequestBody AlumnoDTO alumnoDTO) {
 		Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
 		if(Objects.nonNull(service.findAlumnoByIdUsuario(usuario.getId())))
@@ -64,6 +85,17 @@ public class AlumnosResourceV2 {
 	}
 	
 	@PutMapping
+	@ApiOperation(
+			value= "Actualizar el perfil de alumno del usuario autenticado",
+			notes= """
+                    Parámetros solicitados:\s
+                    • "AlumnoDTO. Alumno a actualizar
+                    
+                    Posibles respuestas:\s
+                    • "STUDENT_PROFILE_NOT_FOUND" (String). Indica que no se ha encontrado un perfil de alumno para el usuario autenticado
+                    • "AlumnoDTO. Devuelve la lista de alertas correspondiente al usuario, aunque esté vacía
+                    """
+	)
 	public ResponseEntity<?> updateAlumno(@RequestBody AlumnoDTO alumnoDTO) {
 		Alumno alumnoExistente = service.findAlumnoByUsername(getUsernameUsuario());
 		if(Objects.nonNull(alumnoExistente)) {

@@ -9,6 +9,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.Sw
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasMateria;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,11 +35,32 @@ public class MateriasResourceV2 {
     private MateriaDTOMapper mapper;
 
     @GetMapping("/nivelEstudios")
+    @ApiOperation(
+            value= "Encontrar Materias por el Nivel de Estudios indicado",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "Integer idNivelEstudios. ID del Nivel de Estudios por el que buscar las Materias
+                    
+                    Posibles respuestas:\s
+                    • "List<MateriaDTO>. Devuelve el listado de Materias del Nivel de Estudios indicado
+                    """
+    )
     public ResponseEntity<?> findByNivelEstudiosId(@RequestParam("idNivelEstudios") Integer idNivelEstudios) {
         return ResponseEntity.ok(service.findByNivelEstudiosId(idNivelEstudios).stream().map(mapper::toDTO).toList());
     }
 
     @GetMapping("{id}")
+    @ApiOperation(
+            value= "Encontrar Materias por el Nivel de Estudios indicado",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "Integer idNivelEstudios. ID del Nivel de Estudios por el que buscar las Materias
+                    
+                    Posibles respuestas:\s
+                    • "SUBJECT_NOT_FOUND" (String). Indica que no se ha encontrado la Materia con el ID indicado
+                    • "MateriaDTO. Devuelve la Materia con el ID indicado
+                    """
+    )
     public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
         Materia materia = service.findById(id);
 
@@ -49,6 +71,14 @@ public class MateriasResourceV2 {
     }
 
     @GetMapping("/tutor")
+    @ApiOperation(
+            value= "Encontrar Materias que el tutor ha indicado que puede impartir",
+            notes= """
+                    Posibles respuestas:\s
+                    • "TUTOR_PROFILE_NOT_CREATED" (String). Indica que el usuario autenticado tiene un perfil de tutor creado
+                    • "List<MateriaDTO>. Devuelve el listado de Materias que el tutor ha indicado que puede impartir
+                    """
+    )
     public ResponseEntity<?> findByTutor() {
         Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
         if(Objects.isNull(tutor))

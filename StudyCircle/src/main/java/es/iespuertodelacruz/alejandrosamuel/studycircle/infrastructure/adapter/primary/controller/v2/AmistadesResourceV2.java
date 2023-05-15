@@ -12,6 +12,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.Res
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.utils.ObjectUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,20 @@ public class AmistadesResourceV2 {
     private AmistadDTOMapper mapper;
 
     @PostMapping
+    @ApiOperation(
+            value= "Solicitar nueva amistad",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "AmistadDTO. Amistad a crear
+                    
+                    Posibles respuestas:\s
+                    • "ALREADY_EXISTING_FRIENDSHIP" (String). Indica que la relación de amistad entre ambos usuarios ya existe
+                    • "FORBIDDEN_FRIENDSHIP_FOR_USER" (String). Indica que la amistad no es posible para el usuario autenticado
+                    • "NON_EXISTING_USER1_OR_USER2" (String). Indica que el usuario1 y/o usuario2 no existen
+                    • "INVALID_FRIENDSHIP_FORMAT" (String). Indica que el formato de la amistad no es válido
+                    • "AmistadDTO. Devuelve la amistad que se ha creado exitosamente
+                    """
+    )
     public ResponseEntity<?> create(@RequestBody AmistadDTO amistadDTO) {
         if(ObjectUtils.notNullNorEmpty(amistadDTO, amistadDTO.getUsuario1(), amistadDTO.getUsuario2())) {
             Usuario usuario1 = usuarioService.findById(amistadDTO.getUsuario1().getId());
@@ -64,6 +79,17 @@ public class AmistadesResourceV2 {
     }
 
     @GetMapping("{id}")
+    @ApiOperation(
+            value= "Encontrar la amistad con el ID indicado",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "Integer id. ID de la Amistad a buscar
+                    
+                    Posibles respuestas:\s
+                    • "FORBIDDEN_FRIENDSHIP_FOR_USER" (String). Indica que la amistad no está disponible para el usuario autenticado
+                    • "AmistadDTO. Devuelve la amistad con el ID indicado
+                    """
+    )
     public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
         Amistad amistad = service.findById(id);
@@ -76,6 +102,13 @@ public class AmistadesResourceV2 {
     }
 
     @GetMapping("/usuario")
+    @ApiOperation(
+            value= "Encontrar las amistades del usuario autenticado",
+            notes= """
+                    Posibles respuestas:\s
+                    • "List<UsuarioDTO>. Devuelve la lista de usuarios con una relación de Amistad activa con el usuario autenticado
+                    """
+    )
     public ResponseEntity<?> findAmistadesByUsuario() {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
         List<Usuario> amistadesByIdUsuario = service.findAmistadesByIdUsuario(usuario.getId());
@@ -83,6 +116,18 @@ public class AmistadesResourceV2 {
     }
 
     @PostMapping("/accept")
+    @ApiOperation(
+            value= "Aceptar Amistad",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "Integer idUsuarioAmistad. ID del usuario que ha solicitado la amistad
+                    
+                    Posibles respuestas:\s
+                    • "ALREADY_ACCEPTED_FRIENDSHIP" (String). Indica que la Amistad indicada ya se ha aceptado
+                    • "FORBIDDEN_FRIENDSHIP_FOR_USER" (String). Indica que la amistad no está disponible para el usuario autenticado
+                    • "AmistadDTO. Devuelve la amistad que se ha aceptado exitosamente
+                    """
+    )
     public ResponseEntity<?> aceptarAmistad(@RequestParam("idUsuarioAmistad") Integer idUsuarioAmistad) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
         Amistad amistad = service.findAmistadByIds(usuario.getId(), idUsuarioAmistad);
@@ -96,6 +141,17 @@ public class AmistadesResourceV2 {
     }
 
     @PostMapping("/remove")
+    @ApiOperation(
+            value= "Eliminar Amistad",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "Integer idUsuarioAmistad. ID del usuario que forma la amistad a eliminar
+                    
+                    Posibles respuestas:\s
+                    • "FORBIDDEN_FRIENDSHIP_FOR_USER" (String). Indica que la amistad no está disponible para el usuario autenticado
+                    • "REMOVED_FRIENDSHIP" (String). Indica que la amistad se ha eliminado correctamente
+                    """
+    )
     public ResponseEntity<?> eliminarAmistad(@RequestParam("idUsuarioAmistad") Integer idUsuarioAmistad) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
         Amistad amistad = service.findAmistadByIds(usuario.getId(), idUsuarioAmistad);

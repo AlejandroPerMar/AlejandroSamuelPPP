@@ -11,6 +11,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ITut
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasActividad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.utils.ObjectUtils;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,18 @@ public class ActividadesResourceV2 {
     private ActividadDTOMapper mapper;
 
     @GetMapping("{id}")
+    @ApiOperation(
+            value= "Obtener Actividad por su ID",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "Integer id. ID de la actividad a buscar
+                    
+                    Posibles respuestas:\s
+                    • "ACTIVITY_NOT_FOUND" (String). Indica que no se ha encontrado ninguna actividad con ese ID
+                    • "ACTIVITY_FORBIDDEN" (String). Indica que la actividad con ese ID no pertenece al usuario autenticado
+                    • ActividadDTO. Se devuelve en formato JSON la actividad con el ID indicado
+                    """
+    )
     public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
         Actividad actividad = service.findById(id);
         if(Objects.isNull(actividad))
@@ -58,6 +71,19 @@ public class ActividadesResourceV2 {
     }
 
     @PostMapping
+    @ApiOperation(
+            value= "Crear nueva Actividad",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "ActividadDTO. Actividad a crear
+                    
+                    Posibles respuestas:\s
+                    • "TUTOR_PROFILE_NOT_CREATED" (String). Indica que el usuario autenticado no tiene un perfil de tutor creado
+                    • "INVALID_ACTIVITY_FORMAT" (String). Indica que la actividad aportada no tiene un formato válido
+                    • "COURSE_ACTIVITY_NOT_VALID" (String). Indica que el curso vinculado a la actividad no es válido para el usuario autenticado
+                    • ActividadDTO. Se devuelve en formato JSON la actividad creada exitosamente
+                    """
+    )
     public ResponseEntity<?> create(@RequestBody ActividadDTO request) {
         Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
         if(Objects.isNull(tutor)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body(RespuestasActividad.TUTOR_PROFILE_NOT_CREATED.name());
@@ -83,15 +109,43 @@ public class ActividadesResourceV2 {
 
     
     @PutMapping
+    @ApiOperation(
+            value= "Actualizar una Actividad",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "ActividadDTO. Actividad a actualizar
+                    
+                    Posibles respuestas:\s
+                    • "ACTIVITY_NOT_FOUND" (String). Indica que la actividad que se intenta actualizar no se ha podido encontrar
+                    • "ACTIVITY_FORBIDDEN" (String). Indica que la actividad que se intenta actualizar no pertenece al usuario autenticado
+                    • ActividadDTO. Se devuelve en formato JSON la actividad actualizada exitosamente
+                    """
+    )
     public ResponseEntity<?> update(@RequestBody ActividadDTO request) {
-        if(Objects.isNull(service.findById(request.getId())))
+        Actividad actividad = service.findById(request.getId());
+        if(Objects.isNull(actividad))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_NOT_FOUND.name());
+        Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
+        if(actividad.getCurso().getMateriaTutor().getTutor().getId().equals(tutor.getId()))
+            return ResponseEntity.ok(mapper.toDTO(service.update(mapper.toDomainPut(request))));
 
-        return ResponseEntity.ok(mapper.toDTO(service.update(mapper.toDomainPut(request))));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.ACTIVITY_FORBIDDEN.name());
     }
 
     
     @DeleteMapping("/{id}")
+    @ApiOperation(
+            value= "Eliminar una Actividad",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "Integer id. ID de la actividad a eliminar
+                    
+                    Posibles respuestas:\s
+                    • "ACTIVITY_NOT_FOUND" (String). Indica que no se ha encontrado la actividad con el ID indicado
+                    • "ACTIVITY_NOT_REMOVED" (String). Indica que la actividad no se ha podido eliminar por no pertenecer al usuario
+                    • "ACTIVITY_REMOVED" (String). Indica que la actividad se ha borrado exitosamente
+                    """
+    )
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         Actividad actividad = service.findById(id);
         if(Objects.isNull(actividad))

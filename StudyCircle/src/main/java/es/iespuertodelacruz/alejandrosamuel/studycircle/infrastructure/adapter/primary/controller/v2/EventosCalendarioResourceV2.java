@@ -12,6 +12,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.Res
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.utils.ObjectUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,18 @@ public class EventosCalendarioResourceV2 {
     private EntityManager entityManager;
 
     @PostMapping
+    @ApiOperation(
+            value= "Crear Evento de Calendario personalizado",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "EventoCalendarioDTO eventoCalendarioDTO. Evento de calendario a crear
+                    
+                    Posibles respuestas:\s
+                    • "INVALID_USER_PROFILE" (String). Indica que el perfil de usuario indicado no es válido (TUTOR_PROFILE o STUDENT_PROFILE)
+                    • "CALENDAR_EVENT_DTO_NOT_VALID" (String). Indica que el Evento de Calendario indicado no es válido
+                    • "EventoCalendarioDTO. Devuelve el Evento de Calendario creado
+                    """
+    )
     public ResponseEntity<?> create(@RequestBody EventoCalendarioDTO eventoCalendarioDTO) {
         if(ObjectUtils.notNullNorEmpty(eventoCalendarioDTO))
             if(ObjectUtils.notNullNorEmpty(eventoCalendarioDTO.getNombre(),
@@ -64,6 +77,13 @@ public class EventosCalendarioResourceV2 {
     }
 
     @GetMapping("/perfilTutor")
+    @ApiOperation(
+            value= "Encontrar Eventos de Calendario del perfil de tutor del usuario autenticado",
+            notes= """
+                    Posibles respuestas:\s
+                    • "List<EventoCalendarioDTO>. Devuelve el listado de eventos del perfil de tutor del usuario autenticado
+                    """
+    )
     public ResponseEntity<?> findByPerfilUsuarioTutor() {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
         List<EventoCalendario> eventosPerfilUsuarioTutor = service.findByPerfilUsuario(usuario.getId(), PerfilUsuario.TUTOR_PROFILE);
@@ -71,6 +91,13 @@ public class EventosCalendarioResourceV2 {
     }
 
     @GetMapping("/perfilAlumno")
+    @ApiOperation(
+            value= "Encontrar Eventos de Calendario del perfil de alumno del usuario autenticado",
+            notes= """
+                    Posibles respuestas:\s
+                    • "List<EventoCalendarioDTO>. Devuelve el listado de eventos del perfil de alumno del usuario autenticado
+                    """
+    )
     public ResponseEntity<?> findByPerfilUsuarioAlumno() {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
         List<EventoCalendario> eventosPerfilUsuarioAlumno = service.findByPerfilUsuario(usuario.getId(), PerfilUsuario.STUDENT_PROFILE);

@@ -15,6 +15,9 @@ public class ActividadEntityMapper {
     @Autowired
     private EntityJustIdMapper entityJustIdMapper;
 
+    @Autowired
+    private CursoEntityMapper cursoEntityMapper;
+
 	public Actividad toDomain(ActividadEntity in) {
         if(Objects.isNull(in)) return null;
 
@@ -23,7 +26,7 @@ public class ActividadEntityMapper {
 		actividad.setNombre(in.getNombre());
         actividad.setDescripcion(in.getDescripcion());
         actividad.setFechaActividad(in.getFechaActividad());
-        actividad.setCurso(toDomain(in.getCurso()));
+        actividad.setCurso(cursoEntityMapper.toDomain(in.getCurso()));
         actividad.setFechaCreacion(in.getFechaCreacion());
 
         return actividad;
