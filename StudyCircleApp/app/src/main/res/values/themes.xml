@@ -12,6 +12,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="EventDateStyle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+    </style>
+
     <style name="Theme.StudyCircle.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.StudyCircle.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

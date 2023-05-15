@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -35,12 +36,11 @@ public class NotificationsFragment extends Fragment {
         RecyclerView recyclerView =binding.recyclerView;
 
         List<Evento> events = new ArrayList<>();
-        events.add(new Evento("Evento 1", "Descripción del evento 1", Calendar.getInstance().getTime()));
         events.add(new Evento("Evento 1", "Descripción del evento 1", new Date()));
         events.add(new Evento("Evento 2", "Descripción del evento 2", new Date(new Date().getTime() + 86400000)));
         events.add(new Evento("Evento 3", "Descripción del evento 3", new Date(new Date().getTime() + 172800000)));
 
-
+        setupCalendar(calendarView, recyclerView, events);
         for (Evento evento: events ) {
             System.out.println(evento.toString());
         }
@@ -52,15 +52,15 @@ public class NotificationsFragment extends Fragment {
     public void setupCalendar(CalendarView calendarView, RecyclerView recyclerView, List<Evento> events) {
         Calendar initialDate = Calendar.getInstance();
         int year = initialDate.get(Calendar.YEAR);
-        System.out.println(year + " AÑO AQUI");
         int month = initialDate.get(Calendar.MONTH);
-        System.out.println(year + " MES AQUI");
         int day = initialDate.get(Calendar.DAY_OF_MONTH);
-        System.out.println(year + " DIA AQUI");
-
         calendarView.setDate(initialDate.getTimeInMillis());
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
         EventosOnDateChangeListener eventsOnDateChangeListener = new EventosOnDateChangeListener(recyclerView, events);
+        recyclerView.setAdapter(new EventAdapter(recyclerView.getContext(), events));
         calendarView.setOnDateChangeListener(eventsOnDateChangeListener);
     }
         @Override
