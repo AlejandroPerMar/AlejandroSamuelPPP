@@ -1,12 +1,14 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.EstadosUsuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IHTMLBuilder;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.EmailSender;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Api(tags = {SwaggerConfig.USUARIO_V2_TAG})
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v2/usuarios")

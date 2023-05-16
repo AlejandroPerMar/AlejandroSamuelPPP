@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -24,23 +25,23 @@ public class MateriaEntityService implements IMateriaRepository {
     @Override
     public Materia findById(Integer id) {
         Optional<MateriaEntity> optMateria = repository.findById(id);
-        return optMateria.map(m -> mapper.toDomain(m)).orElse(null);
+        return optMateria.map(mapper::toDomain).orElse(null);
     }
 
     @Override
     public Materia findByNombre(String nombre) {
         Optional<MateriaEntity> optMateria = repository.findByNombre(nombre);
-        return optMateria.map(m -> mapper.toDomain(m)).orElse(null);
+        return optMateria.map(mapper::toDomain).orElse(null);
     }
 
     @Override
     public List<Materia> findByNivelEstudiosId(Integer id) {
-        return repository.findByNivelEstudiosId(id).stream().map(m -> mapper.toDomain(m)).toList();
+        return repository.findByNivelEstudiosId(id).stream().map(mapper::toDomain).toList();
     }
 
     @Override
     public List<Materia> findByNivelEstudiosNombre(String nombre) {
-        return repository.findByNivelEstudiosNombre(nombre).stream().map(m -> mapper.toDomain(m)).toList();
+        return repository.findByNivelEstudiosNombre(nombre).stream().map(mapper::toDomain).toList();
     }
 
     @Override
@@ -56,12 +57,12 @@ public class MateriaEntityService implements IMateriaRepository {
     @Override
     public boolean delete(Integer id) {
         repository.deleteById(id);
-        return findById(id) != null;
+        return Objects.nonNull(findById(id));
     }
 
     @Override
     public List<Materia> findAll() {
-        return repository.findAll().stream().map(m -> mapper.toDomain(m)).toList();
+        return repository.findAll().stream().map(mapper::toDomain).toList();
     }
 
     @Override

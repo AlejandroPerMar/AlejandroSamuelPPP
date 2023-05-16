@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -57,11 +58,11 @@ public class NivelEstudiosEntityService implements INivelEstudiosRepository {
 
     @Override
     public boolean delete(Integer id) {
-        Optional<NivelEstudiosEntity> optNivelEstudios = repository.findById(id);
-        if(optNivelEstudios.isEmpty())
-            return false;
+        NivelEstudiosEntity nivelEstudios = repository.findById(id).orElse(null);
+        if(Objects.isNull(nivelEstudios))
+            return true;
 
-        repository.delete(optNivelEstudios.get());
+        repository.delete(nivelEstudios);
         return repository.findById(id).isPresent();
     }
 

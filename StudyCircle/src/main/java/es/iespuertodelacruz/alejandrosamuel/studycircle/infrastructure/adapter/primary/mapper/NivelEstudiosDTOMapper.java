@@ -7,7 +7,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.p
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class NivelEstudiosDTOMapper {
 
@@ -18,12 +17,9 @@ public class NivelEstudiosDTOMapper {
         if(Objects.isNull(in)) return null;
 
         NivelEstudios nivelEstudios = new NivelEstudios();
-        nivelEstudios.setId(in.getId());
-        nivelEstudios.setFechaCreacion(in.getFechaCreacion());
         nivelEstudios.setNombre(in.getNombre());
         if(Objects.nonNull(in.getMaterias()))
-            nivelEstudios.setMaterias(in.getMaterias().stream().map(dtoJustIdMapper::toDomain).collect(Collectors.toList()));
-
+            nivelEstudios.setMaterias(in.getMaterias().stream().map(dtoJustIdMapper::toDomain).toList());
         return nivelEstudios;
     }
 
@@ -35,7 +31,7 @@ public class NivelEstudiosDTOMapper {
         nivelEstudios.setFechaCreacion(in.getFechaCreacion());
         nivelEstudios.setNombre(in.getNombre());
         if(Objects.nonNull(in.getMaterias()))
-            nivelEstudios.setMaterias(in.getMaterias().stream().map(this::toDTO).collect(Collectors.toList()));
+            nivelEstudios.setMaterias(in.getMaterias().stream().map(this::toDTO).toList());
 
         return nivelEstudios;
     }

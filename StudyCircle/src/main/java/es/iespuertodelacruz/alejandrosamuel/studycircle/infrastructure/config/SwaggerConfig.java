@@ -24,9 +24,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 	
-	public static final String ALUMNO_TAG = "Alumno";
+	public static final String ALUMNO_V2_TAG = "AlumnoV2";
+	public static final String USUARIO_V2_TAG = "UsuarioV2";
 	public static final String ACTIVIDAD_V2_TAG = "ActividadV2";
-	public static final String ACTIVIDAD_V3_TAG = "ActividadV3";
 	public static final String AMISTAD_V2_TAG = "AmistadV2";
 	public static final String ALERTA_V2_TAG = "AlertaV2";
 	public static final String EVENTO_CALENDARIO_V2_TAG = "EventoCalendariov2";
@@ -47,21 +47,21 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary"))
                 .paths(PathSelectors.any())
                 .build()
-                .tags(new Tag(ALUMNO_TAG, "Controlador REST para las acciones relacionadas con las entidades Alumno"),
-                		new Tag(ACTIVIDAD_V2_TAG, "Controlador REST para las acciones o peticiones relacionadas con la entidad Actividad Versión 2 (ADMIN)"),
-                		new Tag(ACTIVIDAD_V3_TAG, "Controlador REST para las acciones o peticiones relacionadas con la entidad Actividad Versión 3 (ADMIN)"),
-                		new Tag(ALERTA_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Alerta para la versión 2"),
-                		new Tag(AMISTAD_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Amistad para la versión 2"),
-                		new Tag(ANUNCIO_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Anuncio para la versión 2"),
-						new Tag(EVENTO_CALENDARIO_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad EventoCalendario para la versión 2"),
-                		new Tag(MATERIA_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Materia para la versión 2"),
-						new Tag(MATERIA_V3_TAG, "Controlador REST para las peticiones asociadas con la entidad Materia para la versión 3 (ADMIN)"),
-                		new Tag(NIVEL_ESTUDIOS_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad NivelEstudios para la versión 3 (ADMIN)"),
-						new Tag(NIVEL_ESTUDIOS_V3_TAG, "Controlador REST para las peticiones asociadas con la entidad NivelEstudios para la versión 2"),
-                		new Tag(TUTOR_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Tutor para la versión 2"),
-						new Tag(CURSO_V2_TAG, "Controlador REST para las peticiones asociadas con la entidad Curso para la versión 2"),
-						new Tag(LOGIN_TAG, "Controlador REST para la acción de Inicio de Sesión del Usuario"),
-						new Tag(REGISTER_TAG, "Controlador REST para la acción de Registro del Usuario en la app"))
+                .tags(new Tag(ALUMNO_V2_TAG, "Solicitudes REST para las acciones relacionadas con las entidades Alumno para la versión 2"),
+						new Tag(USUARIO_V2_TAG, "Solicitudes REST para las acciones relacionadas con las entidades Usuario para la versión 2"),
+                		new Tag(ACTIVIDAD_V2_TAG, "Solicitudes REST para las acciones o peticiones relacionadas con la entidad Actividad Versión 2 (ADMIN)"),
+                		new Tag(ALERTA_V2_TAG, "Solicitudes REST para las peticiones asociadas con la entidad Alerta para la versión 2"),
+                		new Tag(AMISTAD_V2_TAG, "Solicitudes REST para las peticiones asociadas con la entidad Amistad para la versión 2"),
+                		new Tag(ANUNCIO_V2_TAG, "Solicitudes REST para las peticiones asociadas con la entidad Anuncio para la versión 2"),
+						new Tag(EVENTO_CALENDARIO_V2_TAG, "Solicitudes REST para las peticiones asociadas con la entidad EventoCalendario para la versión 2"),
+                		new Tag(MATERIA_V2_TAG, "Solicitudes REST para las peticiones asociadas con la entidad Materia para la versión 2"),
+						new Tag(MATERIA_V3_TAG, "Solicitudes REST para las peticiones asociadas con la entidad Materia para la versión 3 (ADMIN)"),
+                		new Tag(NIVEL_ESTUDIOS_V2_TAG, "Solicitudes REST para las peticiones asociadas con la entidad NivelEstudios para la versión 3 (ADMIN)"),
+						new Tag(NIVEL_ESTUDIOS_V3_TAG, "Solicitudes REST para las peticiones asociadas con la entidad NivelEstudios para la versión 2"),
+                		new Tag(TUTOR_V2_TAG, "Solicitudes REST para las peticiones asociadas con la entidad Tutor para la versión 2"),
+						new Tag(CURSO_V2_TAG, "Solicitudes REST para las peticiones asociadas con la entidad Curso para la versión 2"),
+						new Tag(LOGIN_TAG, "Solicitudes REST para la acción de Inicio de Sesión del Usuario"),
+						new Tag(REGISTER_TAG, "Solicitudes REST para la acción de Registro del Usuario en la app"))
                 .apiInfo(apiInfo())
 				.securityContexts(Arrays.asList(securityContext()))
 				.securitySchemes(Arrays.asList(apiKey()));                

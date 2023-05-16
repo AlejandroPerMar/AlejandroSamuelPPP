@@ -22,7 +22,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.p
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import io.swagger.annotations.Api;
 
-@Api(tags = {SwaggerConfig.ALUMNO_TAG})
+@Api(tags = {SwaggerConfig.ALUMNO_V2_TAG})
 @RestController
 @CrossOrigin
 @RequestMapping("api/v2/alumnos")
