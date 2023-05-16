@@ -1,10 +1,13 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.notifications;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
@@ -13,9 +16,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
@@ -33,17 +39,13 @@ public class NotificationsFragment extends Fragment {
         View root = binding.getRoot();
 
         CalendarView calendarView = binding.calendarView;
-        RecyclerView recyclerView =binding.recyclerView;
+        RecyclerView recyclerView = binding.recyclerView;
 
         List<Evento> events = new ArrayList<>();
         events.add(new Evento("Evento 1", "Descripción del evento 1", new Date()));
         events.add(new Evento("Evento 2", "Descripción del evento 2", new Date(new Date().getTime() + 86400000)));
         events.add(new Evento("Evento 3", "Descripción del evento 3", new Date(new Date().getTime() + 172800000)));
 
-        setupCalendar(calendarView, recyclerView, events);
-        for (Evento evento: events ) {
-            System.out.println(evento.toString());
-        }
         setupCalendar(calendarView, recyclerView, events);
 
         return root;
@@ -54,6 +56,8 @@ public class NotificationsFragment extends Fragment {
         int year = initialDate.get(Calendar.YEAR);
         int month = initialDate.get(Calendar.MONTH);
         int day = initialDate.get(Calendar.DAY_OF_MONTH);
+
+        initialDate.set(year, month, day);
         calendarView.setDate(initialDate.getTimeInMillis());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -63,12 +67,13 @@ public class NotificationsFragment extends Fragment {
         recyclerView.setAdapter(new EventAdapter(recyclerView.getContext(), events));
         calendarView.setOnDateChangeListener(eventsOnDateChangeListener);
     }
-        @Override
-        public void onDestroyView() {
-            super.onDestroyView();
-            binding = null;
-        }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
+}
 
 class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     private List<Evento> events;
@@ -78,6 +83,7 @@ class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
         this.context = context;
         this.events = events;
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_evento, parent, false);
@@ -100,7 +106,6 @@ class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView eventTitle;
         TextView eventDate;
-
         TextView eventDescription;
 
         public ViewHolder(View itemView) {
@@ -112,8 +117,6 @@ class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     }
 }
 
-
-
 class EventosOnDateChangeListener implements CalendarView.OnDateChangeListener {
     private RecyclerView recyclerView;
     private List<Evento> events;
@@ -124,9 +127,13 @@ class EventosOnDateChangeListener implements CalendarView.OnDateChangeListener {
     }
 
     @Override
-    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+    public void onSelectedDayChange(@NonNull CalendarView view, int
+            year, int month, int dayOfMonth) {
         Calendar selectedDate = Calendar.getInstance();
-        selectedDate.set(year, month, dayOfMonth, 0, 0, 0);
+        selectedDate.set(year, month, dayOfMonth);
+        selectedDate.set(Calendar.HOUR_OF_DAY, 0);
+        selectedDate.set(Calendar.MINUTE, 0);
+        selectedDate.set(Calendar.SECOND, 0);
         selectedDate.set(Calendar.MILLISECOND, 0);
 
         List<Evento> filteredEvents = new ArrayList<>();
