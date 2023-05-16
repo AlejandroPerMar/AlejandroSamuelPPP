@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
@@ -13,11 +14,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasAuthToken;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasCursos;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaTutorDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.NivelEstudiosDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.ActivityMainBinding;
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getLiveDataToken(usuarioLoginDTO);
         */
 
-        //viewModel.resendEmail("");
+                //viewModel.resendEmail("");
 
         /*
         MateriaDTO materiaDTO = new MateriaDTO();
@@ -82,14 +86,24 @@ public class MainActivity extends AppCompatActivity {
         */
 
 
+                //viewModel.removeAlumnoToCurso(10, 12, "");
+                //viewModel.addAlumnoToCurso(10, 12, "");
 
-        //viewModel.removeAlumnoToCurso(10, 12, "");
-        //viewModel.addAlumnoToCurso(10, 12, "");
 
-
-        //viewModel.findCursosTutor("");
-        //viewModel.changeTituloCurso(10, "nuevo titulo", "");
-        //viewModel.findMateriasByTutor("");
+        viewModel.findCursosTutor("eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic3RyIiwiZXhwIjoxNjg0MzMxMDc0fQ.xvjc9jhrQuPcufxi7gSWwcHB8-WN8IltKpEvX6aDXFI").observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                if(o instanceof List) {
+                    List<CursoDTO> cursosDTO = (List<CursoDTO>) o;
+                    cursosDTO.forEach(System.out::println);
+                }else {
+                    RespuestasCursos respuestasCursos = (RespuestasCursos) o;
+                    System.out.println(respuestasCursos.getDescripcion());
+                }
+            }
+        });;
+                //viewModel.changeTituloCurso(10, "nuevo titulo", "");
+                //viewModel.findMateriasByTutor("");
 
         /*
         CursoDTO cursoDTO = new CursoDTO();

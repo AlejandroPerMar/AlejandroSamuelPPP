@@ -65,4 +65,15 @@ public class CursoDTO {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
+    @Override
+    public String toString() {
+        return "CursoDTO{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", materiaTutor=" + materiaTutor +
+                ", actividades=" + actividades +
+                ", alumnos=" + alumnos +
+                '}';
+    }
 }
