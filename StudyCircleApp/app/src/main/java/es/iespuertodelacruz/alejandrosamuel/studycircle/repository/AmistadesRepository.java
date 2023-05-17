@@ -183,9 +183,9 @@ public class AmistadesRepository {
         return mutableAmistad;
     }
 
-    public LiveData<RespuestasAmistad> eliminarAmistad(Integer idUsuarioAmistad, String token) {
+    public LiveData<Object> eliminarAmistad(Integer idUsuarioAmistad, String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
-        MutableLiveData<RespuestasAmistad> mutableAmistades = new MutableLiveData<>();
+        MutableLiveData<Object> mutableAmistades = new MutableLiveData<>();
         Call<ResponseBody> callFindAmistadesByUsuario = restAuthService.eliminarAmistad(idUsuarioAmistad);
         callFindAmistadesByUsuario.enqueue(new Callback<ResponseBody>() {
             @Override

@@ -41,6 +41,21 @@
             android:text="Verificar Cuenta"
             android:textColor="#1566e0"
             android:textSize="24sp"/>
+        <TextView
+            android:id="@+id/txtExplicacion"
+            android:layout_gravity="center"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginRight="62dp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="Se ha enviado un correo electrónico a la dirección indicada en el proceso de registro, por favor, verifique su identidad"
+            android:textColor="#1566e0"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/btnReenviarEmail"
@@ -48,7 +63,7 @@
             android:layout_width="150dp"
             android:layout_height="45dp"
             android:layout_marginLeft="62dp"
-            android:layout_marginTop="147dp"
+            android:layout_marginTop="50dp"
             android:layout_marginRight="62dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/blue_fill__rounded_color"

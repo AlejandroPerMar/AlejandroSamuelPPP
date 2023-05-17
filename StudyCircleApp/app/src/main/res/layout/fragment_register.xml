@@ -40,12 +40,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:layout_toRightOf="@+id/nombre_icon"
+                android:layout_toEndOf="@+id/nombre_icon"
                 android:fontFamily="@font/poppins_regular"
-                    android:hint="Nombre completo"
+                android:hint="@string/nombre_completo"
                 android:inputType="textPersonName"
                 android:maxLines="1"
-                android:paddingLeft="17dp"
+                android:paddingStart="17dp"
+                android:paddingEnd="17dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
@@ -57,7 +58,7 @@
                 android:layout_width="14.7dp"
                 android:layout_height="13dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
                 android:src="@drawable/user"/>
         </RelativeLayout>
 
@@ -75,12 +76,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:layout_toRightOf="@+id/username_icon"
+                android:layout_toEndOf="@+id/username_icon"
                 android:fontFamily="@font/poppins_regular"
-                android:hint="Username"
+                android:hint="@string/username"
                 android:inputType="textPersonName"
                 android:maxLines="1"
-                android:paddingLeft="17dp"
+                android:paddingStart="17dp"
+                android:paddingEnd="17dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
@@ -92,7 +94,7 @@
                 android:layout_width="14.7dp"
                 android:layout_height="13dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
                 android:src="@drawable/user"/>
         </RelativeLayout>
 
@@ -110,12 +112,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:layout_toRightOf="@+id/email_icon"
+                android:layout_toEndOf="@+id/email_icon"
                 android:fontFamily="@font/poppins_regular"
-                android:hint="Correo Electrónico"
+                android:hint="@string/correo_electr_nico"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:paddingLeft="17dp"
+                android:paddingStart="17dp"
+                android:paddingEnd="17dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
@@ -127,7 +130,7 @@
                 android:layout_width="14.7dp"
                 android:layout_height="13dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
                 android:src="@drawable/email"/>
         </RelativeLayout>
 
@@ -144,19 +147,19 @@
                 android:id="@+id/dtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/password_icon"
+                android:layout_toEndOf="@+id/password_icon"
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/poppins_regular"
-                android:hint="Contraseña"
+                android:hint="@string/contrase_a"
                 android:inputType="textPassword"
                 android:maxLength="25"
                 android:maxLines="1"
-                android:paddingLeft="17dp"
+                android:paddingStart="17dp"
+                android:paddingEnd="17dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="12sp"
-                />
+                android:textSize="12sp" />
 
             <!-- ICON -->
             <ImageView
@@ -164,7 +167,7 @@
                 android:layout_width="14.7dp"
                 android:layout_height="10.3dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
                 android:src="@drawable/password"/>
         </RelativeLayout>
 
@@ -181,14 +184,15 @@
                 android:id="@+id/dtPasswordConfirmation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/password_confirmation_icon"
+                android:layout_toEndOf="@+id/password_confirmation_icon"
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/poppins_regular"
-                android:hint="Repita la contraseña"
+                android:hint="@string/repita_la_contrase_a"
                 android:inputType="textPassword"
                 android:maxLength="25"
                 android:maxLines="1"
-                android:paddingLeft="17dp"
+                android:paddingStart="17dp"
+                android:paddingEnd="17dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
@@ -201,7 +205,7 @@
                 android:layout_width="18dp"
                 android:layout_height="12dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
                 android:src="@drawable/password2"/>
         </RelativeLayout>
 
@@ -218,7 +222,7 @@
             android:gravity="center"
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
-            android:text="Registrarme"
+            android:text="@string/registrarme"
             android:textColor="#ffffff"
             android:textSize="12sp"/>
 
@@ -229,9 +233,9 @@
             android:layout_gravity="center"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/poppins_medium"
-            android:text="¿Ya tienes una cuenta?"
+            android:text="@string/ya_tienes_una_cuenta"
             android:textColor="#1566e0"
-            android:textSize="10.5dp"/>
+            android:textSize="11sp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -250,7 +254,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
                 android:gravity="center_horizontal"
-                android:text="o"
+                android:text="@string/o"
                 android:textColor="#aeaeae"
                 android:textSize="13.3sp"/>
 

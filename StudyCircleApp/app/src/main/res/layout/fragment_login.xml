@@ -114,9 +114,8 @@
             android:text="Iniciar Sesión"
             android:textColor="#ffffff"
             android:textSize="12sp"/>
-
         <TextView
-            android:id="@+id/btnNavRegistrarse"
+            android:id="@+id/btnNavRecuperarContrasena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -125,6 +124,24 @@
             android:text="¿Has olvidado la contraseña?"
             android:textColor="#1566e0"
             android:textSize="10.5dp"/>
+        <TextView
+            android:id="@+id/btnNavRegistrarse"
+            android:layout_gravity="center"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/blue_border_rounded_cornwe"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="Registrarse"
+            android:textColor="#1566e0"
+            android:textSize="12sp"/>
+
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -155,12 +172,12 @@
             android:layout_marginBottom="35dp"
             android:gravity="center"
             android:orientation="horizontal">
-            
+
             <ImageView
                 android:id="@+id/btnEmail"
-                android:layout_width="26.7dp"
+                android:layout_width="24dp"
                 android:layout_height="26.7dp"
-                android:src="@drawable/email2"/>
+                android:src="@drawable/email2" />
         </LinearLayout>
     </LinearLayout>
 
