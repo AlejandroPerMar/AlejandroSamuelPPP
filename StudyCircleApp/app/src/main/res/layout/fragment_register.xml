@@ -14,15 +14,15 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="273dp"
+            android:layout_height="150dp"
             android:background="@drawable/blue_bg">
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="77dp"
-                android:layout_height="77dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="93dp"
+                android:layout_marginTop="25dp"
                 android:src="@drawable/logo_studycircle" />
         </FrameLayout>
 
@@ -31,6 +31,41 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="62dp"
             android:layout_marginTop="36.7dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/blue_border_rounded_cornwe">
+
+            <!-- INPUT -->
+            <EditText
+                android:id="@+id/dtNombreCompleto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_toRightOf="@+id/nombre_icon"
+                android:fontFamily="@font/poppins_regular"
+                    android:hint="Nombre completo"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:paddingLeft="17dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="12sp"/>
+
+            <!-- ICON -->
+            <ImageView
+                android:id="@+id/nombre_icon"
+                android:layout_width="14.7dp"
+                android:layout_height="13dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:src="@drawable/user"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="12.7dp"
             android:layout_marginRight="62dp"
             android:background="@drawable/blue_border_rounded_cornwe">
 
@@ -60,7 +95,7 @@
                 android:layout_marginLeft="17dp"
                 android:src="@drawable/user"/>
         </RelativeLayout>
-        
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,13 +103,48 @@
             android:layout_marginTop="12.7dp"
             android:layout_marginRight="62dp"
             android:background="@drawable/blue_border_rounded_cornwe">
-            
+
+            <!-- INPUT -->
+            <EditText
+                android:id="@+id/dtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_toRightOf="@+id/email_icon"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="Correo Electrónico"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingLeft="17dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="12sp"/>
+
+            <!-- ICON -->
+            <ImageView
+                android:id="@+id/email_icon"
+                android:layout_width="14.7dp"
+                android:layout_height="13dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:src="@drawable/email"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="12.7dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/blue_border_rounded_cornwe">
+
             <!-- INPUT -->
             <EditText
                 android:id="@+id/dtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/icon"
+                android:layout_toRightOf="@+id/password_icon"
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/poppins_regular"
                 android:hint="Contraseña"
@@ -90,16 +160,53 @@
 
             <!-- ICON -->
             <ImageView
-                android:id="@+id/icon"
+                android:id="@+id/password_icon"
                 android:layout_width="14.7dp"
                 android:layout_height="10.3dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="17dp"
                 android:src="@drawable/password"/>
         </RelativeLayout>
-        
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="12.7dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/blue_border_rounded_cornwe">
+
+            <!-- INPUT -->
+            <EditText
+                android:id="@+id/dtPasswordConfirmation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/password_confirmation_icon"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="Repita la contraseña"
+                android:inputType="textPassword"
+                android:maxLength="25"
+                android:maxLines="1"
+                android:paddingLeft="17dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="12sp"
+                />
+
+            <!-- ICON -->
+            <ImageView
+                android:id="@+id/password_confirmation_icon"
+                android:layout_width="18dp"
+                android:layout_height="12dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:src="@drawable/password2"/>
+        </RelativeLayout>
+
         <TextView
-            android:id="@+id/btnIniciarSesion"
+            android:id="@+id/btnRegistrarme"
             android:layout_gravity="center"
             android:layout_width="150dp"
             android:layout_height="45dp"
@@ -111,18 +218,18 @@
             android:gravity="center"
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
-            android:text="Iniciar Sesión"
+            android:text="Registrarme"
             android:textColor="#ffffff"
             android:textSize="12sp"/>
 
         <TextView
-            android:id="@+id/btnNavRegistrarse"
+            android:id="@+id/btnNavIniciarSesion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/poppins_medium"
-            android:text="¿Has olvidado la contraseña?"
+            android:text="¿Ya tienes una cuenta?"
             android:textColor="#1566e0"
             android:textSize="10.5dp"/>
     </LinearLayout>
@@ -146,16 +253,16 @@
                 android:text="o"
                 android:textColor="#aeaeae"
                 android:textSize="13.3sp"/>
-            
+
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="35dp"
             android:gravity="center"
             android:orientation="horizontal">
-            
+
             <ImageView
                 android:id="@+id/btnEmail"
                 android:layout_width="26.7dp"
