@@ -1,4 +1,4 @@
-package es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start;
+package es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start.curso;
 
 import java.util.List;
 

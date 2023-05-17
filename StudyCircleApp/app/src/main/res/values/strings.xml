@@ -30,4 +30,8 @@
     <string name="search_hint">Buscar...</string>
     <string name="no_results_text">Sin resultados...</string>
 
+    <string name="materia_label">Materia: %s</string>
+    <string name="tutor_label">Tutor: %s</string>
+    <string name="dialog_close">Cerrar</string>
+
 </resources>
