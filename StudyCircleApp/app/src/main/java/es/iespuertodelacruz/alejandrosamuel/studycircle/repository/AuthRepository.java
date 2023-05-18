@@ -106,6 +106,8 @@ public class AuthRepository {
                         case NOT_MINIMUN_REQUIREMENTS_PASSWORD:
                             mutableRespuesta.setValue(RespuestasRegister.NOT_MINIMUN_REQUIREMENTS_PASSWORD);
                             break;
+                        case NOT_AVAILABLE_EMAIL:
+                            mutableRespuesta.setValue(RespuestasRegister.NOT_AVAILABLE_EMAIL);
                         default:
                     }
                 }

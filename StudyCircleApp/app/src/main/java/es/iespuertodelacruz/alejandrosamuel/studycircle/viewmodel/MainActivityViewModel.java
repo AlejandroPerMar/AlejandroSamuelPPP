@@ -52,9 +52,7 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     private LiveData<Object> responseLiveData;
 
-    public LiveData<Object> getResponseLiveData() {
-        return responseLiveData;
-    }
+    private String registerSuccessMessage;
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
@@ -303,4 +301,16 @@ public class MainActivityViewModel extends AndroidViewModel {
         return findAllNivelesEstudios;
     }
 
+
+    public LiveData<Object> getResponseLiveData() {
+        return responseLiveData;
+    }
+
+    public String getRegisterSuccessMessage() {
+        return registerSuccessMessage;
+    }
+
+    public void setRegisterSuccessMessage(String registerSuccessMessage) {
+        this.registerSuccessMessage = registerSuccessMessage;
+    }
 }

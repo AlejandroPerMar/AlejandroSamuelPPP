@@ -1,9 +1,8 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.List;
-import java.util.stream.Stream;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
@@ -11,6 +10,8 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 public class UsuarioEntityMapper {
 	
 	public Usuario toDomain(UsuarioEntity in) {
+		if(Objects.isNull(in)) return null;
+
 		Usuario usuario = new Usuario();
 		usuario.setId(in.getId());
 		usuario.setNombreCompleto(in.getNombreCompleto());
@@ -27,6 +28,8 @@ public class UsuarioEntityMapper {
 	}
 	
 	public UsuarioEntity toEntity(Usuario in) {
+		if(Objects.isNull(in)) return null;
+
 		UsuarioEntity usuario = new UsuarioEntity();
 		usuario.setId(in.getId());
 		usuario.setNombreCompleto(in.getNombreCompleto());

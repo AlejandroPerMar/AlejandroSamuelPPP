@@ -105,7 +105,7 @@ public class UsuarioEntityService implements IUsuarioRepository {
 
 	@Override
 	public Usuario findByEmail(String email) {
-		Optional<UsuarioEntity> optUsuario = usuarioRepository.findByUsername(email);
+		Optional<UsuarioEntity> optUsuario = usuarioRepository.findByEmail(email);
 		return optUsuario.map(u -> mapper.toDomain(u)).orElse(null);
 	}
 

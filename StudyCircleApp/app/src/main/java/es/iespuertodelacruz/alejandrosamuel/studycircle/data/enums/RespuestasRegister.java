@@ -4,8 +4,8 @@ public enum RespuestasRegister {
     INVALID_NAME ("INVALID_NAME", "Nombre no válido"),
     NOT_AVAILABLE_USERNAME ("NOT_AVAILABLE_USERNAME", "Nombre de usuario no disponible"),
     INVALID_EMAIL ("INVALID_EMAIL", "Correo electrónico no válido"),
-    NOT_MINIMUN_REQUIREMENTS_PASSWORD ("NOT_MINIMUN_REQUIREMENTS_PASSWORD", "La contraseña no cumple los requerimientos básicos");
-
+    NOT_MINIMUN_REQUIREMENTS_PASSWORD ("NOT_MINIMUN_REQUIREMENTS_PASSWORD", "La contraseña no cumple los requerimientos básicos"),
+    NOT_AVAILABLE_EMAIL("NOT_AVAILABLE_EMAIL", "Ya existe una cuenta registrada con esta dirección");
     private final String name;
     private final String descripcion;
 

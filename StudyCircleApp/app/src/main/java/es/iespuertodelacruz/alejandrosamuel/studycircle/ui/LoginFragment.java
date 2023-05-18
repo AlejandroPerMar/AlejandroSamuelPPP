@@ -1,22 +1,25 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+
+import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentLoginBinding;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.utils.TextViewUtils;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
 
 /**
@@ -87,24 +90,28 @@ public class LoginFragment extends Fragment {
         btnNavRegistrarse = binding.btnNavRegistrarse;
         btnEmail = binding.btnEmail;
 
-        btnNavRegistrarse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment);
-            }
+        if(Objects.nonNull(viewModel.getRegisterSuccessMessage())) {
+            RelativeLayout relativeLayout = (RelativeLayout) dtUsername.getParent();
+            ViewGroup parentView = (ViewGroup) relativeLayout.getParent();  // Obtener el ViewGroup padre del LinearLayout
+            int index = parentView.indexOfChild(relativeLayout);  // Obtener el índice del LinearLayout en el ViewGroup padre
+
+            parentView.addView(TextViewUtils.getTextViewLinearLayoutSuccessMessage(requireContext(), viewModel.getRegisterSuccessMessage()), index);
+            viewModel.setRegisterSuccessMessage(null);
+        }
+
+        btnNavRegistrarse.setOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment));
+
+        btnNavRecuperarContrasena.setOnClickListener(view -> {
+
         });
 
-        btnNavRecuperarContrasena.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btnEmail.setOnClickListener(view -> {
+            String mailtoUri = "mailto:stdycircleofficial@gmail.com";
 
-            }
-        });
-
-        btnEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse(mailtoUri));
+            if (Objects.nonNull(intent.resolveActivity(getActivity().getPackageManager()))) {
+                startActivity(intent);
             }
         });
 

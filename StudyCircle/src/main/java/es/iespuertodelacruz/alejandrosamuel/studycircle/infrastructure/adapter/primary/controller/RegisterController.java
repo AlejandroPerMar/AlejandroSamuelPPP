@@ -67,18 +67,19 @@ public class RegisterController {
                     """
 	)
 	public ResponseEntity<?> register(@RequestBody UsuarioRegister usuarioRegister) {
-		if(!validateNombreCompleto(usuarioRegister.getNombre())) {
+		if(!validateNombreCompleto(usuarioRegister.getNombre()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.INVALID_NAME.name());
-		}
-		if(!validateUsername(usuarioRegister.getUsername())) {
+
+		if(!validateUsername(usuarioRegister.getUsername()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.NOT_AVAILABLE_USERNAME.name());
-		}
-		if(!validateEmail(usuarioRegister.getEmail())) {
+
+		if(!validateEmail(usuarioRegister.getEmail()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.INVALID_EMAIL.name());
-		}
-		if(!validateClave(usuarioRegister.getClave())) {
+		if(!validateDisponibilidadEmail(usuarioRegister.getEmail()))
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.NOT_AVAILABLE_EMAIL.name());
+		if(!validateClave(usuarioRegister.getClave()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErroresRegistro.NOT_MINIMUN_REQUIREMENTS_PASSWORD.name());
-		}
+
 
 		TokenConfirmacionEntity token = usuarioService.create(usuarioRegister.getNombre(),
 				usuarioRegister.getUsername(),
@@ -146,10 +147,11 @@ public class RegisterController {
 
 	private boolean validateEmail(String email) {
 		if(Objects.isNull(email)) return false;
-
-		if(Objects.nonNull(usuarioService.findByEmail(email)))
-			return false;
 		return EmailValidator.getInstance().isValid(email);
+	}
+
+	private boolean validateDisponibilidadEmail(String email) {
+		return Objects.isNull(usuarioService.findByEmail(email));
 	}
 
 	public String getBaseUrl() {
