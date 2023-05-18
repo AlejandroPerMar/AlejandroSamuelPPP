@@ -8,6 +8,13 @@ import android.widget.TextView;
 
 public class TextViewUtils {
 
+
+    /**
+     * Método para obtener un TextView con un mensaje de error genérico
+     * @param context   Contexto de la aplicación
+     * @param texto     Texto a mostrar en el TextView
+     * @return          TextView con el mensaje de error
+     */
     public static TextView getTextViewLinearLayoutErrorMessage(Context context, String texto) {
         TextView textView = new TextView(context);
         textView.setText(texto);

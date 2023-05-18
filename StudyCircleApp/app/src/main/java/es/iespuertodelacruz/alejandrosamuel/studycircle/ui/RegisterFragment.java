@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -48,6 +49,8 @@ public class RegisterFragment extends Fragment {
     private EditText dtPasswordConfirmation;
     private TextView btnNavIniciarSesion;
     private TextView txtErrorMessage;
+    private TextView btnRegistrarme;
+    private ProgressBar progressBar;
 
 
     // TODO: Rename and change types of parameters
@@ -86,6 +89,28 @@ public class RegisterFragment extends Fragment {
         }
     }
 
+    private void setVisibleLayout(boolean visible) {
+        if(visible) {
+            dtEmail.setVisibility(View.VISIBLE);
+            dtPassword.setVisibility(View.VISIBLE);
+            dtNombreCompleto.setVisibility(View.VISIBLE);
+            dtUsername.setVisibility(View.VISIBLE);
+            btnRegistrarme.setVisibility(View.VISIBLE);
+            btnNavIniciarSesion.setVisibility(View.VISIBLE);
+            dtPasswordConfirmation.setVisibility(View.VISIBLE);
+        }else {
+            dtEmail.setVisibility(View.INVISIBLE);
+            dtPassword.setVisibility(View.INVISIBLE);
+            dtNombreCompleto.setVisibility(View.INVISIBLE);
+            dtUsername.setVisibility(View.INVISIBLE);
+            dtPasswordConfirmation.setVisibility(View.INVISIBLE);
+            btnRegistrarme.setVisibility(View.INVISIBLE);
+            btnNavIniciarSesion.setVisibility(View.INVISIBLE);
+            if(Objects.nonNull(txtErrorMessage))
+                txtErrorMessage.setVisibility(View.INVISIBLE);
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -97,8 +122,15 @@ public class RegisterFragment extends Fragment {
         dtPassword = binding.dtPassword;
         dtPasswordConfirmation = binding.dtPasswordConfirmation;
         btnNavIniciarSesion = binding.btnNavIniciarSesion;
+        btnRegistrarme = binding.btnRegistrarme;
+        progressBar = binding.progressBar;
         View view = binding.getRoot();
 
+        progressBar.setVisibility(View.INVISIBLE);
+
+        /*
+            ClickListener para navegar al Fragment fragment_login
+         */
         btnNavIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +138,10 @@ public class RegisterFragment extends Fragment {
             }
         });
 
+        /*
+            TextChangedListener para vigilar y comparar los campos dtPassword y dtPasswordConfirmation e indicar
+            al usuario visualmente si las contraseñas coinciden
+         */
         dtPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -128,6 +164,10 @@ public class RegisterFragment extends Fragment {
             }
         });
 
+        /*
+            TextChangedListener para vigilar y comparar los campos dtPassword y dtPasswordConfirmation e indicar
+            al usuario visualmente si las contraseñas coinciden
+         */
         dtPasswordConfirmation.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -150,9 +190,13 @@ public class RegisterFragment extends Fragment {
             }
         });
 
-        binding.btnRegistrarme.setOnClickListener(new View.OnClickListener() {
+        /*
+            ClickListener para realizar el intento de registro del nuevo usuario
+         */
+        btnRegistrarme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setVisibleLayout(false);
                 if(Objects.nonNull(txtErrorMessage)) {
                     if(txtErrorMessage.getParent() instanceof RelativeLayout) {
                         RelativeLayout relativeLayout = (RelativeLayout) txtErrorMessage.getParent();
@@ -173,23 +217,50 @@ public class RegisterFragment extends Fragment {
                     usuarioRegisterDTO.setUsername(username);
                     usuarioRegisterDTO.setClave(password);
                     viewModel.register(usuarioRegisterDTO);
+                    progressBar.setVisibility(View.INVISIBLE);
+
                     viewModel.getResponseLiveData().observe(getViewLifecycleOwner(), new Observer<Object>() {
                         @Override
                         public void onChanged(Object response) {
                             if(response instanceof UsuarioDTO) {
-
+                                progressBar.setVisibility(View.VISIBLE);
+                                Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment);
                             }else if(response instanceof RespuestasRegister) {
+                                RelativeLayout relativeLayout;
+                                ViewGroup parentView;
+                                int index;
                                 switch ((RespuestasRegister)response) {
                                     case INVALID_EMAIL:
                                         txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.INVALID_EMAIL.getDescripcion());
-                                        RelativeLayout relativeLayout = (RelativeLayout) dtEmail.getParent();
-                                        ViewGroup parentView = (ViewGroup) relativeLayout.getParent();  // Obtener el ViewGroup padre del LinearLayout
-                                        int index = parentView.indexOfChild(relativeLayout);  // Obtener el índice del LinearLayout en el ViewGroup padre
+                                        relativeLayout = (RelativeLayout) dtEmail.getParent();
+                                        parentView = (ViewGroup) relativeLayout.getParent();  // Obtener el ViewGroup padre del LinearLayout
+                                        index = parentView.indexOfChild(relativeLayout);  // Obtener el índice del LinearLayout en el ViewGroup padre
 
                                         parentView.addView(txtErrorMessage, index + 1);
                                         break;
                                     case INVALID_NAME:
-                                        TextView txtErrorName = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.INVALID_NAME.getDescripcion());
+                                        txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.INVALID_NAME.getDescripcion());
+                                        relativeLayout = (RelativeLayout) dtNombreCompleto.getParent();
+                                        parentView = (ViewGroup) relativeLayout.getParent();  // Obtener el ViewGroup padre del LinearLayout
+                                        index = parentView.indexOfChild(relativeLayout);  // Obtener el índice del LinearLayout en el ViewGroup padre
+
+                                        parentView.addView(txtErrorMessage, index + 1);
+                                        break;
+                                    case NOT_MINIMUN_REQUIREMENTS_PASSWORD:
+                                        txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.NOT_MINIMUN_REQUIREMENTS_PASSWORD.getDescripcion());
+                                        relativeLayout = (RelativeLayout) dtPassword.getParent();
+                                        parentView = (ViewGroup) relativeLayout.getParent();  // Obtener el ViewGroup padre del LinearLayout
+                                        index = parentView.indexOfChild(relativeLayout);  // Obtener el índice del LinearLayout en el ViewGroup padre
+
+                                        parentView.addView(txtErrorMessage, index + 1);
+                                        break;
+                                    case NOT_AVAILABLE_USERNAME:
+                                        txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.NOT_AVAILABLE_USERNAME.getDescripcion());
+                                        relativeLayout = (RelativeLayout) dtUsername.getParent();
+                                        parentView = (ViewGroup) relativeLayout.getParent();  // Obtener el ViewGroup padre del LinearLayout
+                                        index = parentView.indexOfChild(relativeLayout);  // Obtener el índice del LinearLayout en el ViewGroup padre
+
+                                        parentView.addView(txtErrorMessage, index + 1);
                                     default:
                                 }
                             }
@@ -197,11 +268,10 @@ public class RegisterFragment extends Fragment {
                     });
                 }else {
                     txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), "Hay campos sin cumplimentar");
-                    RelativeLayout relativeLayout = (RelativeLayout) dtPasswordConfirmation.getParent();
-                    ViewGroup parentView = (ViewGroup) relativeLayout.getParent();  // Obtener el ViewGroup padre del LinearLayout
-                    int index = parentView.indexOfChild(relativeLayout);  // Obtener el índice del LinearLayout en el ViewGroup padre
+                    LinearLayout linearLayout = (LinearLayout) btnRegistrarme.getParent();
+                    int index = linearLayout.indexOfChild(btnRegistrarme);  // Obtener el índice del LinearLayout en el ViewGroup padre
 
-                    parentView.addView(txtErrorMessage, index + 1);
+                    linearLayout.addView(txtErrorMessage, index + 1);
                 }
             }
         });

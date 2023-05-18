@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_activacionCuentaFragment"
+            app:destination="@id/activacionCuentaFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -22,4 +25,8 @@
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/activacionCuentaFragment"
+        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.ActivacionCuentaFragment"
+        android:label="ActivacionCuentaFragment" />
 </navigation>
