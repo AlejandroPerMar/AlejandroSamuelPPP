@@ -281,13 +281,12 @@ public class RegisterFragment extends Fragment {
         });
 
         btnEmail.setOnClickListener(view12 -> {
-            String mailtoUri = "mailto:stdycircleofficial@gmail.com";
+            String mailtoUri = "stdycircleofficial@gmail.com";
 
-            Intent intent = new Intent(Intent.ACTION_SENDTO);
-            intent.setData(Uri.parse(mailtoUri));
-            if (Objects.nonNull(intent.resolveActivity(getActivity().getPackageManager()))) {
-                startActivity(intent);
-            }
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{mailtoUri});
+            startActivity(Intent.createChooser(intent, "Send Email"));
         });
 
         return binding.getRoot();

@@ -1,13 +1,18 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -48,7 +53,10 @@ public class LoginFragment extends Fragment {
     private TextView btnIniciarSesion;
     private TextView btnNavRecuperarContrasena;
     private TextView btnNavRegistrarse;
+    private TextView txtErrorMessage;
     private ImageView btnEmail;
+    private LinearLayout parentView;
+    private ProgressBar progressBar;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -86,12 +94,37 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    private void setVisibleLayout(boolean visible) {
+        if(visible) {
+            parentView.setVisibility(View.VISIBLE);
+        }else {
+            parentView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void closeKeyboard() {
+        InputMethodManager manager = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
+
+    @SuppressLint("QueryPermissionsNeeded")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false);
+
         authTokenRepository = new AuthTokenRepository();
+        dtUsername = binding.dtUsername;
+        dtPassword = binding.dtPassword;
+        btnIniciarSesion = binding.btnIniciarSesion;
+        btnNavRecuperarContrasena = binding.btnNavRecuperarContrasena;
+        btnNavRegistrarse = binding.btnNavRegistrarse;
+        btnEmail = binding.btnEmail;
+        progressBar = binding.progressBar;
+        parentView = (LinearLayout) btnIniciarSesion.getParent();
+        setVisibleLayout(false);
+        progressBar.setVisibility(View.VISIBLE);
         if(Objects.nonNull(viewModel.recuperarTokenSharedPreferences(getContext()))) {
             LiveData<Object> estadoUsuario = viewModel.getEstadoUsuario(viewModel.recuperarTokenSharedPreferences(getContext()));
             estadoUsuario.observe(getViewLifecycleOwner(), new Observer<Object>() {
@@ -106,14 +139,10 @@ public class LoginFragment extends Fragment {
                     }
                 }
             });
+        }else {
+            progressBar.setVisibility(View.INVISIBLE);
+            setVisibleLayout(true);
         }
-        dtUsername = binding.dtUsername;
-        dtPassword = binding.dtPassword;
-        btnIniciarSesion = binding.btnIniciarSesion;
-        btnNavRecuperarContrasena = binding.btnNavRecuperarContrasena;
-        btnNavRegistrarse = binding.btnNavRegistrarse;
-        btnEmail = binding.btnEmail;
-
         if(Objects.nonNull(viewModel.getRegisterSuccessMessage())) {
             RelativeLayout relativeLayout = (RelativeLayout) dtUsername.getParent();
             ViewGroup parentView = (ViewGroup) relativeLayout.getParent();  // Obtener el ViewGroup padre del LinearLayout
@@ -130,19 +159,30 @@ public class LoginFragment extends Fragment {
         });
 
         btnEmail.setOnClickListener(view -> {
-            String mailtoUri = "mailto:stdycircleofficial@gmail.com";
+            String mailtoUri = "stdycircleofficial@gmail.com";
 
-            Intent intent = new Intent(Intent.ACTION_SENDTO);
-            intent.setData(Uri.parse(mailtoUri));
-            if (Objects.nonNull(intent.resolveActivity(requireActivity().getPackageManager()))) {
-                startActivity(intent);
-            }
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{mailtoUri});
+            startActivity(Intent.createChooser(intent, "Send Email"));
         });
 
         /*
             ClickListener para realizar el intento de inicio de sesión del usuario
          */
         btnIniciarSesion.setOnClickListener(view -> {
+            closeKeyboard();
+            if(Objects.nonNull(txtErrorMessage)) {
+                if(txtErrorMessage.getParent() instanceof RelativeLayout) {
+                    RelativeLayout relativeLayout = (RelativeLayout) txtErrorMessage.getParent();
+                    relativeLayout.removeView(txtErrorMessage);
+                } else if (txtErrorMessage.getParent() instanceof LinearLayout) {
+                    LinearLayout linearLayout = (LinearLayout) txtErrorMessage.getParent();
+                    linearLayout.removeView(txtErrorMessage);
+                }
+            }
+            setVisibleLayout(false);
+            progressBar.setVisibility(View.VISIBLE);
             String username = dtUsername.getText().toString();
             String password = dtPassword.getText().toString();
             if(ObjectsUtils.notNullNorEmpty(username, password)) {
@@ -173,17 +213,37 @@ public class LoginFragment extends Fragment {
                                 public void onChanged(Object o) {
                                     if (o instanceof String) {
                                         if(o.equals(EstadosUsuario.STATUS_PENDING_VERIFICATION.getName()))
-                                            Navigation.findNavController(binding.getRoot()).navigate(R.id.action_loginFragment_to_activacionCuentaFragment);
+                                            Navigation.findNavController(container).navigate(R.id.action_loginFragment_to_activacionCuentaFragment);
+                                        if(o.equals(EstadosUsuario.STATUS_ACTIVE.getName()))
+                                            Navigation.findNavController(container).navigate(R.id.action_loginFragment_to_homeFragment);
                                     }
                                 }
                             });
+                            progressBar.setVisibility(View.INVISIBLE);
+                            setVisibleLayout(true);
                         }else if(o instanceof RespuestasAuthToken) {
-                            TextViewUtils.getTextViewLinearLayoutErrorMessage(view.getContext(),
+                            progressBar.setVisibility(View.INVISIBLE);
+                            setVisibleLayout(true);
+                            txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(view.getContext(),
                                     RespuestasAuthToken.INVALID_USERNAME_OR_PASSWORD.getDescripcion());
+                            LinearLayout linearLayout = (LinearLayout) btnIniciarSesion.getParent();
+                            int index = linearLayout.indexOfChild(btnIniciarSesion);  // Obtener el índice del LinearLayout en el ViewGroup padre
+
+                            parentView.addView(txtErrorMessage, index);
                         }
+                        progressBar.setVisibility(View.INVISIBLE);
+                        setVisibleLayout(true);
                     }
                 });
+            }else {
+                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), "Hay campos sin cumplimentar");
+                LinearLayout linearLayout = (LinearLayout) btnIniciarSesion.getParent();
+                int index = linearLayout.indexOfChild(btnIniciarSesion);  // Obtener el índice del LinearLayout en el ViewGroup padre
+
+                linearLayout.addView(txtErrorMessage, index + 1);
             }
+            progressBar.setVisibility(View.INVISIBLE);
+            setVisibleLayout(true);
         });
 
         return binding.getRoot();
