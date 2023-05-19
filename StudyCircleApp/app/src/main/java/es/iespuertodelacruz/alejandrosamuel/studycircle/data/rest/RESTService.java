@@ -12,10 +12,15 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.TutorDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
-import kotlin.ParameterName;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.*;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface RESTService {
 
@@ -28,6 +33,12 @@ public interface RESTService {
 
     @GET("v2/usuarios/resendconfirmationemail")
     Call<String> resendEmail();
+
+    @GET("v2/usuarios/renewToken")
+    Call<String> renewBearerToken();
+
+    @GET("v2/usuarios/activeUser")
+    Call<String> getEstadoUsuario();
 
     //Configuración de perfiles de usuario
     @POST("v2/alumnos")

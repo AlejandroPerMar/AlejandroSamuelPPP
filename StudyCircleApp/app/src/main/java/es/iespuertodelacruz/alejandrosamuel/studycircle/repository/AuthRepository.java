@@ -159,4 +159,48 @@ public class AuthRepository {
         return mutableTokenAuth;
     }
 
+    public LiveData<Object> renewBearerToken(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableTokenAuth = new MutableLiveData<>();
+        Call<String> responseRenewBearerToken = restAuthService.renewBearerToken();
+        responseRenewBearerToken.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call,
+                                   @NonNull Response<String> response) {
+                String respuesta = response.body();
+                if(response.isSuccessful()) {
+                    mutableTokenAuth.setValue(respuesta);
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<String> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableTokenAuth;
+    }
+
+    public LiveData<Object> getEstadoUsuario(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableEstadoUsuario = new MutableLiveData<>();
+        Call<String> responseGetEstadoUsuario = restAuthService.getEstadoUsuario();
+        responseGetEstadoUsuario.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call,
+                                   @NonNull Response<String> response) {
+                String respuesta = response.body();
+                if(response.isSuccessful()) {
+                    mutableEstadoUsuario.setValue(respuesta);
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<String> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableEstadoUsuario;
+    }
+
 }

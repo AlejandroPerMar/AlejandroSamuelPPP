@@ -1,7 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums;
 
 public enum RespuestasAuthToken {
-    INVALID_USERNAME_OR_PASSWORD("INVALID_USERNAME_OR_PASSWORD", "Nombre de usuario/contraseña incorrectos");
+    INVALID_USERNAME_OR_PASSWORD("INVALID_USERNAME_OR_PASSWORD", "Nombre de usuario o contraseña incorrectos");
 
     private final String name;
     private final String descripcion;

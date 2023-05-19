@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Rol;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.EstadosUsuario;
@@ -7,6 +8,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IHTM
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.EmailSender;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.JwtService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Api(tags = {SwaggerConfig.USUARIO_V2_TAG})
 @RestController
@@ -36,6 +40,9 @@ public class UsuarioResourceV2 {
 
     @Autowired
     private IHTMLBuilder htmlBuilder;
+
+    @Autowired
+    private JwtService jwtService;
 
     @Autowired
     private HttpServletRequest request;
@@ -61,6 +68,37 @@ public class UsuarioResourceV2 {
             return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(token.getToken());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body(usuario.getEstado());
+    }
+
+    @GetMapping("activeUser")
+    @ApiOperation(
+            value= "Consultar si el usuario se encuentra activo",
+            notes= """
+                    Posibles respuestas:\s
+                    • "Estado de la cuenta del usuario.
+                    """
+    )
+    public ResponseEntity<?> getEstadoUsuario() {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        return ResponseEntity.ok(usuario.getEstado());
+    }
+
+    @GetMapping("renewToken")
+    @ApiOperation(
+            value = "Renovar toke Bearer de Autorización a partir de un token válido",
+            notes = """
+                    Posibles respuestas:\s
+                    • "Token de Autorización. Devuelve un nuevo token de Autorización para el usuario vinculado al token dado
+                    """
+    )
+    public ResponseEntity<?> renewTokenBearer() {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        List<String> roles = usuario.getRoles()
+                .stream()
+                .map(Rol::getRol)
+                .collect(Collectors.toList());
+        String token = jwtService.generateToken(usuario.getUsername(), roles);
+        return ResponseEntity.ok(token);
     }
 
     private String getUsernameUsuario() {

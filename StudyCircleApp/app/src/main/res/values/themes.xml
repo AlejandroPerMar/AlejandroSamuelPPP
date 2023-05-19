@@ -6,4 +6,13 @@
     </style>
 
     <style name="Theme.StudyCircle" parent="Base.Theme.StudyCircle" />
+
+    <style name="CustomAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
+        <item name="android:background">@drawable/custom_dialog_background</item>
+    </style>
 </resources>

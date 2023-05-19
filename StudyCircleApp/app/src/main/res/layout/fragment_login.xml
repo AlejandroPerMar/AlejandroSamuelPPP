@@ -106,12 +106,12 @@
             android:layout_marginLeft="62dp"
             android:layout_marginTop="18.7dp"
             android:layout_marginRight="62dp"
-            android:background="@drawable/blue_fill__rounded_color"
+            android:background="@drawable/button_background1"
             android:fontFamily="@font/poppins_medium"
             android:gravity="center"
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
-            android:text="Iniciar Sesión"
+            android:text="@string/iniciar_sesi_n"
             android:textColor="#ffffff"
             android:textSize="12sp"/>
         <TextView
@@ -121,7 +121,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/poppins_medium"
-            android:text="¿Has olvidado la contraseña?"
+            android:text="@string/olvidado_contrasena"
             android:textColor="#1566e0"
             android:textSize="10.5dp"/>
         <TextView
@@ -132,12 +132,12 @@
             android:layout_marginLeft="62dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="62dp"
-            android:background="@drawable/blue_border_rounded_cornwe"
+            android:background="@drawable/button_background2"
             android:fontFamily="@font/poppins_medium"
             android:gravity="center"
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
-            android:text="Registrarse"
+            android:text="@string/registrarse"
             android:textColor="#1566e0"
             android:textSize="12sp"/>
 

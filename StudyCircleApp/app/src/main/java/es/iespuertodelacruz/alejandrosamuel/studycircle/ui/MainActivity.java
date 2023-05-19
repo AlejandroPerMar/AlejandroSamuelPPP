@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,8 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityVi
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+
+    private SharedPreferences sharedPreferences;
     MainActivityViewModel viewModel;
 
     @Override

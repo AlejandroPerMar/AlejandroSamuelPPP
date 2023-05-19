@@ -1,6 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -23,6 +24,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.AlertasReposi
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.AmistadesRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.AnunciosRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.AuthRepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.AuthTokenRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.CursosRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.EventosCalendarioRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.MateriasRepository;
@@ -31,6 +33,8 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.ProfilesConfR
 
 public class MainActivityViewModel extends AndroidViewModel {
     private final AuthRepository authRepository;
+
+    private AuthTokenRepository authTokenRepository;
 
     private final ProfilesConfRepository profilesConfRepository;
 
@@ -66,6 +70,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         this.alertasRepository = new AlertasRepository(application);
         this.amistadesRepository = new AmistadesRepository(application);
         this.nivelesEstudiosRepository = new NivelesEstudiosRepository(application);
+        this.authTokenRepository = new AuthTokenRepository();
     }
 
 
@@ -86,6 +91,24 @@ public class MainActivityViewModel extends AndroidViewModel {
         LiveData<Object> resendEmail = authRepository.resendEmail(token);
         responseLiveData = resendEmail;
         return resendEmail;
+    }
+
+    public LiveData<Object> getEstadoUsuario(String token) {
+        LiveData<Object> getEstadoUsuario = authRepository.getEstadoUsuario(token);
+        responseLiveData = getEstadoUsuario;
+        return getEstadoUsuario;
+    }
+
+    public void guardarTokenSharedPreferences(Context context, String token) {
+        authTokenRepository.guardarTokenSharedPreferences(context, token);
+    }
+
+    public String recuperarTokenSharedPreferences(Context context) {
+        return authTokenRepository.recuperarTokenSharedPreferences(context);
+    }
+
+    public void limpiarTokenSharedPreferences(Context context) {
+        authTokenRepository.limpiarTokenSharedPreferences(context);
     }
 
     //Acciones de configuración de perfiles
@@ -304,6 +327,10 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public LiveData<Object> getResponseLiveData() {
         return responseLiveData;
+    }
+
+    public void setResponseLiveData(LiveData<Object> responseLiveData) {
+        this.responseLiveData = responseLiveData;
     }
 
     public String getRegisterSuccessMessage() {

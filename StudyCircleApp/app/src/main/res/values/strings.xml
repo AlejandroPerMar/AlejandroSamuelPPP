@@ -10,4 +10,11 @@
     <string name="correo_electr_nico">Correo Electrónico</string>
     <string name="contrase_a">Contraseña</string>
     <string name="repita_la_contrase_a">Repita la contraseña</string>
+    <string name="reenviar_email">Reenviar Email</string>
+    <string name="se_ha_enviado_un_correo">Se ha enviado un correo electrónico a la dirección indicada en el proceso de registro, por favor, verifique su identidad</string>
+    <string name="verificar_cuenta">Verificar Cuenta</string>
+    <string name="ya_he_verificado">Ya he verificado</string>
+    <string name="iniciar_sesi_n">Iniciar Sesión</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="olvidado_contrasena">¿Has olvidado la contraseña?</string>
 </resources>

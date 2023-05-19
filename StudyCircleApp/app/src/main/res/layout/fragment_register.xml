@@ -227,7 +227,7 @@
                 android:layout_marginLeft="62dp"
                 android:layout_marginTop="18.7dp"
                 android:layout_marginRight="62dp"
-                android:background="@drawable/blue_fill__rounded_color"
+                android:background="@drawable/button_background1"
                 android:fontFamily="@font/poppins_medium"
                 android:gravity="center"
                 android:paddingTop="14dp"
