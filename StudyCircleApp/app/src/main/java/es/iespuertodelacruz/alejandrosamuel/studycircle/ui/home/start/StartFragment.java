@@ -1,10 +1,13 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,11 +50,49 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         cursos.add(new Curso("Curso 2", "Historia", "Tutor 2", actividadesCurso2));
         cursos.add(new Curso("Curso 3", "Ciencias", "Tutor 3", actividadesCurso3));
 
+        cursos.add(new Curso("Curso 4", "Matemáticas", "Tutor 4", actividadesCurso1));
+        cursos.add(new Curso("Curso 5", "Historia", "Tutor 5", actividadesCurso2));
+        cursos.add(new Curso("Curso 6", "Ciencias", "Tutor 6", actividadesCurso3));
+
         cursoAdapter = new CursoAdapter(getActivity(), cursos);
         cursoAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(cursoAdapter);
 
+
+        Button addButton = view.findViewById(R.id.button);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCreateCursoDialog();
+            }
+        });
+
         return view;
+    }
+
+
+
+    private void showCreateCursoDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Crear nuevo curso");
+        // Campos y opciones necesarios para crear un nuevo curso
+
+        builder.setPositiveButton("Crear", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Lógica para crear un nuevo curso
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override

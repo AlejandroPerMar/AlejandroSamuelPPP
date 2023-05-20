@@ -46,7 +46,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="Botón 1" />
+            android:text="Cursos" />
 
         <Button
             android:id="@+id/btn2"
@@ -54,7 +54,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="Botón 2" />
+            android:text="Calendario" />
 
         <Button
             android:id="@+id/btn3"
@@ -62,7 +62,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="Botón 3" />
+            android:text="Alertas"/>
+
 
     </LinearLayout>
     <!--
