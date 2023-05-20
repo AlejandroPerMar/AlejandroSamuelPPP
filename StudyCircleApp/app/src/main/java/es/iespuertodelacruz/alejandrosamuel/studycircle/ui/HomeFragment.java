@@ -7,8 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toolbar;
+
+import com.google.android.material.appbar.MaterialToolbar;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentHomeBinding;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentLoginBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +30,7 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private FragmentHomeBinding binding;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -61,6 +67,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        ((MainActivity) getActivity()).enableDrawer(true);
+        return binding.getRoot();
     }
 }

@@ -113,7 +113,7 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false);
-
+        ((MainActivity) requireActivity()).enableDrawer(false);
         authTokenRepository = new AuthTokenRepository();
         dtUsername = binding.dtUsername;
         dtPassword = binding.dtPassword;
@@ -190,7 +190,6 @@ public class LoginFragment extends Fragment {
                 usuarioLoginDTO.setUsername(username);
                 usuarioLoginDTO.setClave(password);
                 LiveData<Object> login = viewModel.getLiveDataToken(usuarioLoginDTO);
-                viewModel.setResponseLiveData(null);
                 /*
                     Realizamos la petición Retrofit para obtener el token de Autorización para el usuario
                  */
@@ -201,7 +200,6 @@ public class LoginFragment extends Fragment {
                             //Guardamos el token cifrado en SharedPreferences
                             viewModel.guardarTokenSharedPreferences(view.getContext(), (String) o);
                             LiveData<Object> objectLiveData = viewModel.getEstadoUsuario((String) o);
-                            viewModel.setResponseLiveData(null);
                             /*
                                 Realizamos una petición para reenviar el correo de verficación.
                                 Si el usuario se encuentra activo redirigimos a inicio,

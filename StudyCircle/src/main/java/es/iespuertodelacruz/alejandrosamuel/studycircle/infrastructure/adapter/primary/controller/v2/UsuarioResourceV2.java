@@ -76,7 +76,7 @@ public class UsuarioResourceV2 {
             notes= """
                     Posibles respuestas:\s
                     • "Estado de la cuenta del usuario.
-                    """
+                   """
     )
     public ResponseEntity<?> getEstadoUsuario() {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());

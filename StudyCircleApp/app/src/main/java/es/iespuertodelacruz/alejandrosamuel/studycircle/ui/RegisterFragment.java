@@ -117,6 +117,7 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
+        ((MainActivity) requireActivity()).enableDrawer(false);
         dtNombreCompleto = binding.dtNombreCompleto;
         dtUsername = binding.dtUsername;
         dtEmail = binding.dtEmail;
@@ -217,7 +218,7 @@ public class RegisterFragment extends Fragment {
                 setVisibleLayout(false);
                 progressBar.setVisibility(View.VISIBLE);
 
-                viewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
+                viewModel.register(usuarioRegisterDTO).observe(getViewLifecycleOwner(), response -> {
                     if(response instanceof UsuarioDTO) {
                         viewModel.setRegisterSuccessMessage("!Cuenta creada con éxito!\nInicie sesión");
                         Navigation.findNavController(view13).navigate(R.id.action_registerFragment_to_loginFragment);

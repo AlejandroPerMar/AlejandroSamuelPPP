@@ -95,6 +95,7 @@ public class ActivacionCuentaFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentActivacionCuentaBinding.inflate(inflater, container, false);
+        ((MainActivity) requireActivity()).enableDrawer(false);
         View view = binding.getRoot();
         btnSalir = binding.btnSalir;
         btnVerificado = binding.btnVerficado;

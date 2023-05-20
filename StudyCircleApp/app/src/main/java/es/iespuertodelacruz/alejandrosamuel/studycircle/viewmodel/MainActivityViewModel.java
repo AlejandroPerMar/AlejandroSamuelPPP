@@ -1,9 +1,11 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
@@ -34,7 +36,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.ProfilesConfR
 public class MainActivityViewModel extends AndroidViewModel {
     private final AuthRepository authRepository;
 
-    private AuthTokenRepository authTokenRepository;
+    private final AuthTokenRepository authTokenRepository;
 
     private final ProfilesConfRepository profilesConfRepository;
 
@@ -53,8 +55,6 @@ public class MainActivityViewModel extends AndroidViewModel {
     private final AmistadesRepository amistadesRepository;
 
     private final NivelesEstudiosRepository nivelesEstudiosRepository;
-
-    private LiveData<Object> responseLiveData;
 
     private String registerSuccessMessage;
 
@@ -76,27 +76,19 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     //Acciones de autenticación
     public LiveData<Object> getLiveDataToken(UsuarioLoginDTO usuarioLoginDTO) {
-        LiveData<Object> authToken = authRepository.getAuthToken(usuarioLoginDTO);
-        responseLiveData = authToken;
-        return authToken;
+        return authRepository.getAuthToken(usuarioLoginDTO);
     }
 
     public LiveData<Object> register(UsuarioRegisterDTO usuarioRegisterDTO) {
-        LiveData<Object> register = authRepository.registerUsuario(usuarioRegisterDTO);
-        responseLiveData = register;
-        return register;
+        return authRepository.registerUsuario(usuarioRegisterDTO);
     }
 
     public LiveData<Object> resendEmail(String token) {
-        LiveData<Object> resendEmail = authRepository.resendEmail(token);
-        responseLiveData = resendEmail;
-        return resendEmail;
+        return authRepository.resendEmail(token);
     }
 
     public LiveData<Object> getEstadoUsuario(String token) {
-        LiveData<Object> getEstadoUsuario = authRepository.getEstadoUsuario(token);
-        responseLiveData = getEstadoUsuario;
-        return getEstadoUsuario;
+        return authRepository.getEstadoUsuario(token);
     }
 
     public void guardarTokenSharedPreferences(Context context, String token) {
@@ -113,224 +105,147 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     //Acciones de configuración de perfiles
     public LiveData<Object> createStudentProfile(AlumnoDTO alumnoDTO, String token) {
-        LiveData<Object> createStudentProfile = profilesConfRepository.createStudentProfile(alumnoDTO, token);
-        responseLiveData = createStudentProfile;
-        return createStudentProfile;
+        return profilesConfRepository.createStudentProfile(alumnoDTO, token);
     }
 
     public LiveData<Object> updateAlumno(AlumnoDTO alumnoDTO, String token) {
-        LiveData<Object> updateAlumno = profilesConfRepository.updateAlumno(alumnoDTO, token);
-        responseLiveData = updateAlumno;
-        return updateAlumno;
+        return profilesConfRepository.updateAlumno(alumnoDTO, token);
     }
 
     public LiveData<Object> getAlumno(String token) {
-        LiveData<Object> getAlumno = profilesConfRepository.getAlumno(token);
-        responseLiveData = getAlumno;
-        return getAlumno;
+        return profilesConfRepository.getAlumno(token);
     }
 
     public LiveData<Object> createTutorProfile(List<MateriaDTO> materias, String token) {
-        LiveData<Object> createTutorProfile = profilesConfRepository.createTutorProfile(materias, token);
-        responseLiveData = createTutorProfile;
-        return createTutorProfile;
+        return profilesConfRepository.createTutorProfile(materias, token);
     }
 
     public LiveData<Object> updateTutor(TutorDTO tutorDTO, String token) {
-        LiveData<Object> updateTutor = profilesConfRepository.updateTutor(tutorDTO, token);
-        responseLiveData = updateTutor;
-        return updateTutor;
+        return profilesConfRepository.updateTutor(tutorDTO, token);
     }
 
     public LiveData<Object> getTutor(String token) {
-        LiveData<Object> getTutor = profilesConfRepository.getTutor(token);
-        responseLiveData = getTutor;
-        return getTutor;
+        return profilesConfRepository.getTutor(token);
     }
 
     //Acciones de los cursos
     public LiveData<Object> addAlumnoToCurso(Integer idCurso, Integer idAlumno, String token) {
-        LiveData<Object> addAlumnoToCurso = cursosRepository.addAlumnoToCurso(idCurso, idAlumno, token);
-        responseLiveData = addAlumnoToCurso;
-        return addAlumnoToCurso;
+        return cursosRepository.addAlumnoToCurso(idCurso, idAlumno, token);
     }
 
     public LiveData<Object> removeAlumnoFromCurso(Integer idCurso, Integer idAlumno, String token) {
-        LiveData<Object> removeAlumnoFromCurso = cursosRepository.removeAlumnoFromCurso(idCurso, idAlumno, token);
-        responseLiveData = removeAlumnoFromCurso;
-        return removeAlumnoFromCurso;
+        return cursosRepository.removeAlumnoFromCurso(idCurso, idAlumno, token);
     }
 
     public LiveData<Object> findCursosAlumno(String token) {
-        LiveData<Object> findCursosAlumno = cursosRepository.findCursosAlumno(token);
-        responseLiveData = findCursosAlumno;
-        return findCursosAlumno;
+        return cursosRepository.findCursosAlumno(token);
     }
 
     public LiveData<Object> findCursosTutor(String token) {
-        LiveData<Object> findCursosTutor = cursosRepository.findCursosTutor(token);
-        responseLiveData = findCursosTutor;
-        return findCursosTutor;
+        return cursosRepository.findCursosTutor(token);
     }
 
     public LiveData<Object> changeTituloCurso(Integer idCurso, String titulo, String token) {
-        LiveData<Object> changeTituloCurso = cursosRepository.changeTituloCurso(idCurso, titulo, token);
-        responseLiveData = changeTituloCurso;
-        return changeTituloCurso;
+        return cursosRepository.changeTituloCurso(idCurso, titulo, token);
     }
 
     public LiveData<Object> createCurso(CursoDTO cursoDTO, String token) {
-        LiveData<Object> createCurso = cursosRepository.createCurso(cursoDTO, token);
-        responseLiveData = createCurso;
-        return createCurso;
+        return cursosRepository.createCurso(cursoDTO, token);
     }
 
     //Acciones de las materias
     public LiveData<Object> findMateriasByTutor(String token) {
-        LiveData<Object> findMateriasByTutor = materiasRepository.findMateriasByTutor(token);
-        responseLiveData = findMateriasByTutor;
-        return findMateriasByTutor;
+        return materiasRepository.findMateriasByTutor(token);
     }
 
     public LiveData<Object> findMateriaById(Integer idMateria, String token) {
-        LiveData<Object> findMateriabyId = materiasRepository.findById(idMateria, token);
-        responseLiveData = findMateriabyId;
-        return findMateriabyId;
+        return materiasRepository.findById(idMateria, token);
     }
 
     public LiveData<Object> findMateriasByNivelEstudios(Integer idNivelEstudios, String token) {
-        LiveData<Object> findMateriasByNivelEstudios = materiasRepository.findByNivelEstudiosId(idNivelEstudios, token);
-        responseLiveData = findMateriasByNivelEstudios;
-        return findMateriasByNivelEstudios;
+        return materiasRepository.findByNivelEstudiosId(idNivelEstudios, token);
     }
 
     //Acciones de los anuncios
     public LiveData<Object> findAnuncioById(Integer idAnuncio, String token) {
-        LiveData<Object> findAnuncioById = anunciosRepository.findAnuncioById(idAnuncio, token);
-        responseLiveData = findAnuncioById;
-        return findAnuncioById;
+        return anunciosRepository.findAnuncioById(idAnuncio, token);
     }
 
     public LiveData<Object> findAllAnuncios(String token) {
-        LiveData<Object> findAllAnuncios = anunciosRepository.findAnuncios(token);
-        responseLiveData = findAllAnuncios;
-        return findAllAnuncios;
+        return anunciosRepository.findAnuncios(token);
     }
 
     public LiveData<Object> findAnunciosByUsuario(String token) {
-        LiveData<Object> findAnunciosByUsuario = anunciosRepository.findAnunciosByUsuario(token);
-        responseLiveData = findAnunciosByUsuario;
-        return findAnunciosByUsuario;
+        return anunciosRepository.findAnunciosByUsuario(token);
     }
 
     public LiveData<Object> crearAnuncio(AnuncioDTO anuncioDTO, String token) {
-        LiveData<Object> crearAnuncio = anunciosRepository.crearAnuncio(anuncioDTO, token);
-        responseLiveData = crearAnuncio;
-        return crearAnuncio;
+        return anunciosRepository.crearAnuncio(anuncioDTO, token);
     }
 
     //Acciones de los eventos de calendario
     public LiveData<Object> createEventoCalendario(EventoCalendarioDTO eventoCalendarioDTO, String token) {
-        LiveData<Object> createEventoCalendario = eventosCalendarioRepository.createEventoCalendario(eventoCalendarioDTO, token);
-        responseLiveData = createEventoCalendario;
-        return createEventoCalendario;
+        return eventosCalendarioRepository.createEventoCalendario(eventoCalendarioDTO, token);
     }
 
     public LiveData<Object> findByPerfilUsuarioTutor(Integer idUsuario, String token) {
-        LiveData<Object> findByPerfilUsuarioTutor = eventosCalendarioRepository.findByPerfilUsuarioTutor(idUsuario, token);
-        responseLiveData = findByPerfilUsuarioTutor;
-        return findByPerfilUsuarioTutor;
+        return eventosCalendarioRepository.findByPerfilUsuarioTutor(idUsuario, token);
     }
 
     public LiveData<Object> findByPerfilUsuarioAlumno(Integer idUsuario, String token) {
-        LiveData<Object> findByPerfilUsuarioAlumno = eventosCalendarioRepository.findByPerfilUsuarioAlumno(idUsuario, token);
-        responseLiveData = findByPerfilUsuarioAlumno;
-        return findByPerfilUsuarioAlumno;
+        return eventosCalendarioRepository.findByPerfilUsuarioAlumno(idUsuario, token);
     }
 
     //Acciones de las actividades
     public LiveData<Object> findActividadById(Integer id, String token) {
-        LiveData<Object> findActividadById = actividadesRepository.findActividadById(id, token);
-        responseLiveData = findActividadById;
-        return findActividadById;
+        return actividadesRepository.findActividadById(id, token);
     }
 
     public LiveData<Object> crearActividad(ActividadDTO actividadDTO, String token) {
-        LiveData<Object> crearActividad = actividadesRepository.createActividad(actividadDTO, token);
-        responseLiveData = crearActividad;
-        return crearActividad;
+        return actividadesRepository.createActividad(actividadDTO, token);
     }
 
     public LiveData<Object> updateActividad(ActividadDTO actividadDTO, String token) {
-        LiveData<Object> updateActividad = actividadesRepository.updateActividad(actividadDTO, token);
-        responseLiveData = updateActividad;
-        return updateActividad;
+        return actividadesRepository.updateActividad(actividadDTO, token);
     }
 
     public LiveData<Object> eliminarActividadById(Integer id, String token) {
-        LiveData<Object> eliminarActividadById = actividadesRepository.deleteActividad(id, token);
-        responseLiveData = eliminarActividadById;
-        return eliminarActividadById;
+        return actividadesRepository.deleteActividad(id, token);
     }
 
     //Acciones de las alertas
     public LiveData<Object> findAlertasActividadByUsuario(String token) {
-        LiveData<Object> findAlertasActividadByUsuario = alertasRepository.findAlertasActividadByUsuario(token);
-        responseLiveData = findAlertasActividadByUsuario;
-        return findAlertasActividadByUsuario;
+        return alertasRepository.findAlertasActividadByUsuario(token);
     }
 
     public LiveData<Object> findAlertasAmistadByUsuario(String token) {
-        LiveData<Object> findAlertasAmistadByUsuario = alertasRepository.findAlertasAmistadByUsuario(token);
-        responseLiveData = findAlertasAmistadByUsuario;
-        return findAlertasAmistadByUsuario;
+        return alertasRepository.findAlertasAmistadByUsuario(token);
     }
 
     //Acciones de las amistades
     public LiveData<Object> solicitarAmistad(AmistadDTO amistadDTO, String token) {
-        LiveData<Object> solicitarAmistad = amistadesRepository.solicitarAmistad(amistadDTO, token);
-        responseLiveData = solicitarAmistad;
-        return solicitarAmistad;
+        return amistadesRepository.solicitarAmistad(amistadDTO, token);
     }
 
     public LiveData<Object> findAmistadById(Integer id, String token) {
-        LiveData<Object> findAmistadById = amistadesRepository.findAmistadById(id, token);
-        responseLiveData = findAmistadById;
-        return findAmistadById;
+        return amistadesRepository.findAmistadById(id, token);
     }
 
     public LiveData<Object> findAmistadesByUsuario(String token) {
-        LiveData<Object> findAmistadesByUsuario = amistadesRepository.findAmistadesByUsuario(token);
-        responseLiveData = findAmistadesByUsuario;
-        return findAmistadesByUsuario;
+        return amistadesRepository.findAmistadesByUsuario(token);
     }
 
     public LiveData<Object> aceptarAmistad(Integer id, String token) {
-        LiveData<Object> aceptarAmistad = amistadesRepository.aceptarAmistad(id, token);
-        responseLiveData = aceptarAmistad;
-        return aceptarAmistad;
+        return amistadesRepository.aceptarAmistad(id, token);
     }
 
     public LiveData<Object> eliminarAmistad(Integer id, String token) {
-        LiveData<Object> eliminarAmistad = amistadesRepository.eliminarAmistad(id, token);
-        responseLiveData = eliminarAmistad;
-        return eliminarAmistad;
+        return amistadesRepository.eliminarAmistad(id, token);
     }
 
     //Acciones de los niveles de estudio
     public LiveData<Object> findAllNivelesEstudios(String token) {
-        LiveData<Object> findAllNivelesEstudios = nivelesEstudiosRepository.findAllNivelesEstudios(token);
-        responseLiveData = findAllNivelesEstudios;
-        return findAllNivelesEstudios;
-    }
-
-
-    public LiveData<Object> getResponseLiveData() {
-        return responseLiveData;
-    }
-
-    public void setResponseLiveData(LiveData<Object> responseLiveData) {
-        this.responseLiveData = responseLiveData;
+        return nivelesEstudiosRepository.findAllNivelesEstudios(token);
     }
 
     public String getRegisterSuccessMessage() {
