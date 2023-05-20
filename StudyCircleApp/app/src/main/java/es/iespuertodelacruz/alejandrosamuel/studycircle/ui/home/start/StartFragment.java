@@ -4,10 +4,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -75,12 +80,65 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
     private void showCreateCursoDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Crear nuevo curso");
-        // Campos y opciones necesarios para crear un nuevo curso
+
+        View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_create_curso, null);
+        builder.setView(dialogView);
+
+        EditText nombreEditText = dialogView.findViewById(R.id.nombreEditText);
+        Spinner materiaSpinner = dialogView.findViewById(R.id.materiaSpinner);
+        LinearLayout alumnosLayout = dialogView.findViewById(R.id.alumnosLayout);
+        Button addAlumnoButton = dialogView.findViewById(R.id.addAlumnoButton);
+
+        ArrayAdapter<String> materiaAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, obtenerListaMaterias());
+        materiaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        materiaSpinner.setAdapter(materiaAdapter);
+
+        List<String> listaAlumnos = new ArrayList<>();
+
+        addAlumnoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Mostrar un diálogo para ingresar el nombre del alumno
+                AlertDialog.Builder alumnoDialogBuilder = new AlertDialog.Builder(getActivity());
+                alumnoDialogBuilder.setTitle("Agregar Alumno");
+
+                final EditText alumnoEditText = new EditText(getActivity());
+                alumnoDialogBuilder.setView(alumnoEditText);
+
+                alumnoDialogBuilder.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String nombreAlumno = alumnoEditText.getText().toString().trim();
+
+                        if (!TextUtils.isEmpty(nombreAlumno)) {
+                            listaAlumnos.add(nombreAlumno);
+                            TextView alumnoTextView = new TextView(getActivity());
+                            alumnoTextView.setText(nombreAlumno);
+                            alumnosLayout.addView(alumnoTextView);
+                        }
+                    }
+                });
+
+                alumnoDialogBuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alumnoDialog = alumnoDialogBuilder.create();
+                alumnoDialog.show();
+            }
+        });
 
         builder.setPositiveButton("Crear", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Lógica para crear un nuevo curso
+                String nombreCurso = nombreEditText.getText().toString().trim();
+                String materiaSeleccionada = materiaSpinner.getSelectedItem().toString();
+                Curso nuevoCurso = new Curso(nombreCurso, materiaSeleccionada,nombreCurso,listaAlumnos);
+
+                dialog.dismiss();
             }
         });
 
@@ -93,6 +151,15 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    // Lógica para obtener la lista de materias disponibles
+    private List<String> obtenerListaMaterias() {
+        List<String> listaMaterias = new ArrayList<>();
+        listaMaterias.add("Matemáticas");
+        listaMaterias.add("Historia");
+        listaMaterias.add("Ciencias");
+        return listaMaterias;
     }
 
     @Override

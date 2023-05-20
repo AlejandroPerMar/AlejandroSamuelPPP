@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/nombreLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nombre del curso"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/nombreEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edidtext_bg"
+        android:padding="8dp"
+        android:hint="Ingrese el nombre del curso" />
+
+    <TextView
+        android:id="@+id/materiaLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Materia"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp" />
+
+    <Spinner
+        android:id="@+id/materiaSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/spinner_bg"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/alumnosLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Alumnos"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp" />
+
+    <LinearLayout
+        android:id="@+id/alumnosLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/addAlumnoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Agregar Alumno"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
