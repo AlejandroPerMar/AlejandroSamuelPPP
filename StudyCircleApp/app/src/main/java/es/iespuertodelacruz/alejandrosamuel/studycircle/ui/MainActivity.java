@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
@@ -14,6 +15,8 @@ import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.concurrent.TimeUnit;
@@ -30,10 +33,15 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     MainActivityViewModel viewModel;
     DrawerLayout drawerLayout;
+    BottomNavigationView bottomNav;
 
     public void enableDrawer(boolean enable){
         int lockMode = enable ? DrawerLayout.LOCK_MODE_UNLOCKED : DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
         drawerLayout.setDrawerLockMode(lockMode);
+    }
+
+    public void setBottomNavVisibility(int visibility) {
+        bottomNav.setVisibility(visibility);
     }
 
     @Override
@@ -43,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         setContentView(binding.getRoot());
         drawerLayout = binding.drawerLayout;
+        bottomNav = findViewById(R.id.bottom_nav);
+
+
+
+        // Esto hace que el primer elemento (Home en este caso) se seleccione por defecto al iniciar
+        bottomNav.setSelectedItemId(R.id.navigation_home);
 
         /*
         Constraints constraints = new Constraints.Builder()

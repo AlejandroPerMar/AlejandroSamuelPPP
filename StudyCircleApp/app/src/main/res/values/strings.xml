@@ -17,4 +17,7 @@
     <string name="iniciar_sesi_n">Iniciar Sesión</string>
     <string name="registrarse">Registrarse</string>
     <string name="olvidado_contrasena">¿Has olvidado la contraseña?</string>
+    <string name="home" />
+    <string name="dashboard" />
+    <string name="notifications" />
 </resources>

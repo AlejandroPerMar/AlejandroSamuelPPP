@@ -3,7 +3,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -114,6 +113,7 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false);
         ((MainActivity) requireActivity()).enableDrawer(false);
+        ((MainActivity) requireActivity()).setBottomNavVisibility(View.GONE);
         authTokenRepository = new AuthTokenRepository();
         dtUsername = binding.dtUsername;
         dtPassword = binding.dtPassword;

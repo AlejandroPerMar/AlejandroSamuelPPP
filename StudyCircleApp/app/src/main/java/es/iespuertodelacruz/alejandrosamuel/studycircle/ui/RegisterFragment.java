@@ -118,6 +118,7 @@ public class RegisterFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
         ((MainActivity) requireActivity()).enableDrawer(false);
+        ((MainActivity) requireActivity()).setBottomNavVisibility(View.GONE);
         dtNombreCompleto = binding.dtNombreCompleto;
         dtUsername = binding.dtUsername;
         dtEmail = binding.dtEmail;
