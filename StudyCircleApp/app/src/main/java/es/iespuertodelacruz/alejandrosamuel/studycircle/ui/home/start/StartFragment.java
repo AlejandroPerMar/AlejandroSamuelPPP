@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -26,6 +29,8 @@ import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentStartBinding;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start.alumno.Alumno;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start.alumno.AlumnoAdapter;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start.curso.Curso;
 
 public class StartFragment extends Fragment implements CursoAdapter.OnItemClickListener {
@@ -63,7 +68,6 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         cursoAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(cursoAdapter);
 
-
         Button addButton = view.findViewById(R.id.button);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,9 +78,6 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
 
         return view;
     }
-
-
-
     private void showCreateCursoDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Crear nuevo curso");
@@ -93,41 +94,15 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         materiaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         materiaSpinner.setAdapter(materiaAdapter);
 
-        List<String> listaAlumnos = new ArrayList<>();
-
+        List<Alumno> listaAlumnos = new ArrayList<>();
+        listaAlumnos.add(new Alumno("Juan", "Pérez"));
+        listaAlumnos.add(new Alumno("María", "Gómez"));
+        listaAlumnos.add(new Alumno("Pedro", "López"));
+        listaAlumnos.add(new Alumno("Ana", "Sánchez"));
         addAlumnoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Mostrar un diálogo para ingresar el nombre del alumno
-                AlertDialog.Builder alumnoDialogBuilder = new AlertDialog.Builder(getActivity());
-                alumnoDialogBuilder.setTitle("Agregar Alumno");
-
-                final EditText alumnoEditText = new EditText(getActivity());
-                alumnoDialogBuilder.setView(alumnoEditText);
-
-                alumnoDialogBuilder.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String nombreAlumno = alumnoEditText.getText().toString().trim();
-
-                        if (!TextUtils.isEmpty(nombreAlumno)) {
-                            listaAlumnos.add(nombreAlumno);
-                            TextView alumnoTextView = new TextView(getActivity());
-                            alumnoTextView.setText(nombreAlumno);
-                            alumnosLayout.addView(alumnoTextView);
-                        }
-                    }
-                });
-
-                alumnoDialogBuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-                AlertDialog alumnoDialog = alumnoDialogBuilder.create();
-                alumnoDialog.show();
+                showAgregarAlumnoDialog(listaAlumnos, alumnosLayout);
             }
         });
 
@@ -136,7 +111,7 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
             public void onClick(DialogInterface dialog, int which) {
                 String nombreCurso = nombreEditText.getText().toString().trim();
                 String materiaSeleccionada = materiaSpinner.getSelectedItem().toString();
-                Curso nuevoCurso = new Curso(nombreCurso, materiaSeleccionada,nombreCurso,listaAlumnos);
+                Curso nuevoCurso = new Curso(nombreCurso, materiaSeleccionada, nombreCurso, listaAlumnos);
 
                 dialog.dismiss();
             }
@@ -153,38 +128,88 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         dialog.show();
     }
 
-    // Lógica para obtener la lista de materias disponibles
+    private void showAgregarAlumnoDialog(List<Alumno> listaAlumnos, LinearLayout alumnosLayout) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Agregar Alumno");
+
+        View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_agregar_alumno, null);
+        builder.setView(dialogView);
+
+        EditText searchEditText = dialogView.findViewById(R.id.searchEditText);
+        RecyclerView alumnosRecyclerView = dialogView.findViewById(R.id.alumnosRecyclerView);
+
+        // Configurar RecyclerView y adaptador
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        alumnosRecyclerView.setLayoutManager(layoutManager);
+        AlumnoAdapter alumnoAdapter = new AlumnoAdapter(getActivity(), new ArrayList<>());
+        alumnosRecyclerView.setAdapter(alumnoAdapter);
+
+        // Realizar búsqueda de alumnos y actualizar el adaptador con los resultados
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String searchText = s.toString().trim();
+                List<Alumno> resultados = buscarAlumnos(searchText);
+                alumnoAdapter.setAlumnos(resultados);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        builder.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Agregar alumnos seleccionados a la lista
+                List<Alumno> alumnosSeleccionados = alumnoAdapter.getAlumnosSeleccionados();
+                for (Alumno alumno : alumnosSeleccionados) {
+                    listaAlumnos.add(alumno);
+                    TextView alumnoTextView = new TextView(getActivity());
+                    alumnoTextView.setText(alumno.getNombre());
+                    alumnosLayout.addView(alumnoTextView);
+                }
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private List<Alumno> buscarAlumnos(String searchText) {
+        // Implementa la lógica para buscar alumnos en función del texto de búsqueda
+        // y devuelve una lista de resultados
+        // Aquí puedes realizar una búsqueda en una base de datos o en una lista de alumnos preexistente
+        // Por ahora, simplemente devolvemos una lista vacía
+        return new ArrayList<>();
+    }
+
     private List<String> obtenerListaMaterias() {
-        List<String> listaMaterias = new ArrayList<>();
-        listaMaterias.add("Matemáticas");
-        listaMaterias.add("Historia");
-        listaMaterias.add("Ciencias");
-        return listaMaterias;
+        List<String> materias = new ArrayList<>();
+        materias.add("Matemáticas");
+        materias.add("Historia");
+        materias.add("Ciencias");
+        return materias;
     }
 
     @Override
     public void onItemClick(int position) {
-        Curso curso = cursos.get(position);
-        showCursoDialog(curso);
-    }
-
-    private void showCursoDialog(Curso curso) {
-        String nombre = curso.getNombre();
-        String materia = curso.getMateria();
-        String tutor = curso.getTutor();
-        List<String> actividades = curso.getActividades();
-
-        CursoDialogFragment dialogFragment = CursoDialogFragment.newInstance(nombre, materia, tutor, actividades);
-        dialogFragment.show(requireActivity().getSupportFragmentManager(), "curso_dialog");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+        // Acciones a realizar cuando se hace clic en un curso
+        Curso cursoSeleccionado = cursos.get(position);
+        Toast.makeText(getActivity(), "Curso seleccionado: " + cursoSeleccionado.getNombre(), Toast.LENGTH_SHORT).show();
     }
 }
-
 
 class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.CursoViewHolder> {
 
