@@ -31,7 +31,7 @@
         android:layout_margin="16dp"
         android:backgroundTint="#448AFF"
         android:src="@drawable/id_add"
-        android:text="+"
+        android:text="@string/plus"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

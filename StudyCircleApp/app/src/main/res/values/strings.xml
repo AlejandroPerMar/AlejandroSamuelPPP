@@ -33,7 +33,7 @@
     <string name="materia_label">Materia: %s</string>
     <string name="tutor_label">Tutor: %s</string>
     <string name="dialog_close">Cerrar</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="plus">+</string>
 
 </resources>
