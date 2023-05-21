@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/searchEditText"
-        android:layout_width="match_parent"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchAlumno"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Buscar alumno" />
+        android:queryHint="@string/search_hint" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/alumnosRecyclerView"

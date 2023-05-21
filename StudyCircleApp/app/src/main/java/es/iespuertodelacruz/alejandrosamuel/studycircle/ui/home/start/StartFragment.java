@@ -1,12 +1,8 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,11 +23,12 @@ import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentStartBinding;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start.alumno.AgregarAlumnoDialog;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start.alumno.Alumno;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start.alumno.AlumnoAdapter;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start.curso.Curso;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start.curso.CursoAdapter;
 
-public class StartFragment extends Fragment implements CursoAdapter.OnItemClickListener {
+public class StartFragment extends Fragment implements CursoAdapter.OnItemClickListener{
 
     private RecyclerView recyclerView;
     private CursoAdapter cursoAdapter;
@@ -56,13 +51,12 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         List<String> actividadesCurso2 = Arrays.asList("Actividad 4", "Actividad 5", "Actividad 6");
         List<String> actividadesCurso3 = Arrays.asList("Actividad 7", "Actividad 8", "Actividad 9");
 
-        cursos.add(new Curso("Curso 1", "Matemáticas", "Tutor 1", actividadesCurso1));
-        cursos.add(new Curso("Curso 2", "Historia", "Tutor 2", actividadesCurso2));
-        cursos.add(new Curso("Curso 3", "Ciencias", "Tutor 3", actividadesCurso3));
-
-        cursos.add(new Curso("Curso 4", "Matemáticas", "Tutor 4", actividadesCurso1));
-        cursos.add(new Curso("Curso 5", "Historia", "Tutor 5", actividadesCurso2));
-        cursos.add(new Curso("Curso 6", "Ciencias", "Tutor 6", actividadesCurso3));
+        cursos.add(new Curso("Curso 1", "Matemáticas", "Tutor 1", actividadesCurso1,new ArrayList<>()));
+        cursos.add(new Curso("Curso 2", "Historia", "Tutor 2", actividadesCurso2,new ArrayList<>()));
+        cursos.add(new Curso("Curso 3", "Ciencias", "Tutor 3", actividadesCurso3,new ArrayList<>()));
+        cursos.add(new Curso("Curso 4", "Matemáticas", "Tutor 4", actividadesCurso1,new ArrayList<>()));
+        cursos.add(new Curso("Curso 5", "Historia", "Tutor 5", actividadesCurso2,new ArrayList<>()));
+        cursos.add(new Curso("Curso 6", "Ciencias", "Tutor 6", actividadesCurso3,new ArrayList<>()));
 
         cursoAdapter = new CursoAdapter(getActivity(), cursos);
         cursoAdapter.setOnItemClickListener(this);
@@ -94,24 +88,38 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         materiaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         materiaSpinner.setAdapter(materiaAdapter);
 
-        List<Alumno> listaAlumnos = new ArrayList<>();
-        listaAlumnos.add(new Alumno("Juan", "Pérez"));
-        listaAlumnos.add(new Alumno("María", "Gómez"));
-        listaAlumnos.add(new Alumno("Pedro", "López"));
-        listaAlumnos.add(new Alumno("Ana", "Sánchez"));
+        List<Alumno> listaAlumnos = new ArrayList<Alumno>();
         addAlumnoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AgregarAlumnoDialog dialogFragment = new AgregarAlumnoDialog();
+
+                    dialogFragment.setOnAlumnoSelected(new AgregarAlumnoDialog.OnAlumnoSelectedListener() {
+                        @Override
+                        public void onAlumnoSelected(Alumno alumno) {
+                            listaAlumnos.add(alumno);
+                        }
+                    });
+
+                    dialogFragment.show(getChildFragmentManager(), "AgregarAlumnoDialogFragment");
+                }
+
+        });
+
+        /*
             @Override
             public void onClick(View v) {
                 showAgregarAlumnoDialog(listaAlumnos, alumnosLayout);
             }
-        });
+            */
 
         builder.setPositiveButton("Crear", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String nombreCurso = nombreEditText.getText().toString().trim();
                 String materiaSeleccionada = materiaSpinner.getSelectedItem().toString();
-                Curso nuevoCurso = new Curso(nombreCurso, materiaSeleccionada, nombreCurso, listaAlumnos);
+                Curso nuevoCurso = new Curso(nombreCurso, materiaSeleccionada, "Tutor", new ArrayList<>(),listaAlumnos) {
+                };
 
                 dialog.dismiss();
             }
@@ -127,7 +135,7 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
+/*
     private void showAgregarAlumnoDialog(List<Alumno> listaAlumnos, LinearLayout alumnosLayout) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Agregar Alumno");
@@ -135,7 +143,7 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_agregar_alumno, null);
         builder.setView(dialogView);
 
-        EditText searchEditText = dialogView.findViewById(R.id.searchEditText);
+        EditText searchEditText = dialogView.findViewById(R.id./);
         RecyclerView alumnosRecyclerView = dialogView.findViewById(R.id.alumnosRecyclerView);
 
         // Configurar RecyclerView y adaptador
@@ -165,7 +173,6 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         builder.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Agregar alumnos seleccionados a la lista
                 List<Alumno> alumnosSeleccionados = alumnoAdapter.getAlumnosSeleccionados();
                 for (Alumno alumno : alumnosSeleccionados) {
                     listaAlumnos.add(alumno);
@@ -187,89 +194,36 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         dialog.show();
     }
 
-    private List<Alumno> buscarAlumnos(String searchText) {
-        // Implementa la lógica para buscar alumnos en función del texto de búsqueda
-        // y devuelve una lista de resultados
-        // Aquí puedes realizar una búsqueda en una base de datos o en una lista de alumnos preexistente
-        // Por ahora, simplemente devolvemos una lista vacía
-        return new ArrayList<>();
-    }
-
+*/
     private List<String> obtenerListaMaterias() {
         List<String> materias = new ArrayList<>();
         materias.add("Matemáticas");
         materias.add("Historia");
         materias.add("Ciencias");
+        materias.add("Lengua");
+        materias.add("Física");
+        materias.add("Química");
         return materias;
     }
 
     @Override
     public void onItemClick(int position) {
-        // Acciones a realizar cuando se hace clic en un curso
-        Curso cursoSeleccionado = cursos.get(position);
-        Toast.makeText(getActivity(), "Curso seleccionado: " + cursoSeleccionado.getNombre(), Toast.LENGTH_SHORT).show();
-    }
-}
-
-class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.CursoViewHolder> {
-
-    private Context context;
-    private List<Curso> cursos;
-    private OnItemClickListener onItemClickListener;
-
-    public CursoAdapter(Context context, List<Curso> cursos) {
-        this.context = context;
-        this.cursos = cursos;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.onItemClickListener = listener;
-    }
-
-    @NonNull
-    @Override
-    public CursoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.curso_card, parent, false);
-        return new CursoViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull CursoViewHolder holder, int position) {
         Curso curso = cursos.get(position);
-        holder.nombreTextView.setText(curso.getNombre());
-        holder.materiaTextView.setText(curso.getMateria());
-        holder.tutorTextView.setText(curso.getTutor());
+        showCursoDialog(curso);
+    }
+    private void showCursoDialog(Curso curso) {
+        String nombre = curso.getNombre();
+        String materia = curso.getMateria();
+        String tutor = curso.getTutor();
+        List<String> actividades = curso.getActividades();
+        CursoDialogFragment dialogFragment = CursoDialogFragment.newInstance(nombre, materia, tutor, actividades);
+        dialogFragment.show(requireActivity().getSupportFragmentManager(), "curso_dialog");
     }
 
     @Override
-    public int getItemCount() {
-        return cursos.size();
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
-    class CursoViewHolder extends RecyclerView.ViewHolder {
-
-        TextView nombreTextView;
-        TextView materiaTextView;
-        TextView tutorTextView;
-
-        CursoViewHolder(@NonNull View itemView) {
-            super(itemView);
-            nombreTextView = itemView.findViewById(R.id.nombreTextView);
-            materiaTextView = itemView.findViewById(R.id.materiaTextView);
-            tutorTextView = itemView.findViewById(R.id.tutorTextView);
-
-            itemView.setOnClickListener(v -> {
-                if (onItemClickListener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        onItemClickListener.onItemClick(position);
-                    }
-                }
-            });
-        }
-    }
 }

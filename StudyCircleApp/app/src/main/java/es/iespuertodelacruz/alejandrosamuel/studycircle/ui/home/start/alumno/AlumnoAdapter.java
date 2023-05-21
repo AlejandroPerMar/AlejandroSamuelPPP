@@ -67,7 +67,11 @@ public class AlumnoAdapter extends RecyclerView.Adapter<AlumnoAdapter.AlumnoView
                 }
             }
         });
+
+
     }
+
+
 
     @Override
     public int getItemCount() {
