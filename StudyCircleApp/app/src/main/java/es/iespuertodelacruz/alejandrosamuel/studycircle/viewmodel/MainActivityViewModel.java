@@ -31,12 +31,15 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.CursosReposit
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.EventosCalendarioRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.MateriasRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.NivelesEstudiosRepository;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.PerfilSeleccionadoRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.ProfilesConfRepository;
 
 public class MainActivityViewModel extends AndroidViewModel {
     private final AuthRepository authRepository;
 
     private final AuthTokenRepository authTokenRepository;
+
+    private final PerfilSeleccionadoRepository perfilSeleccionadoRepository;
 
     private final ProfilesConfRepository profilesConfRepository;
 
@@ -61,6 +64,7 @@ public class MainActivityViewModel extends AndroidViewModel {
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
         authRepository = new AuthRepository(application);
+        perfilSeleccionadoRepository = new PerfilSeleccionadoRepository();
         profilesConfRepository = new ProfilesConfRepository(application);
         this.cursosRepository = new CursosRepository(application);
         this.materiasRepository = new MateriasRepository(application);
@@ -101,6 +105,18 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public void limpiarTokenSharedPreferences(Context context) {
         authTokenRepository.limpiarTokenSharedPreferences(context);
+    }
+
+    public void guardarPerfilSeleccionadoSharedPreferences(Context context, String perfil) {
+        perfilSeleccionadoRepository.guardarPerfilSeleccionadoSharedPreferences(context, perfil);
+    }
+
+    public String recuperarPerfilSeleccionadoSharedPreferences(Context context) {
+        return perfilSeleccionadoRepository.recuperarPerfilSeleccionadoSharedPreferences(context);
+    }
+
+    public void limpiarPerfilSeleccionadoSharedPreferences(Context context) {
+        perfilSeleccionadoRepository.limpiarPerfilSeleccionadoSharedPreferences(context);
     }
 
     //Acciones de configuración de perfiles

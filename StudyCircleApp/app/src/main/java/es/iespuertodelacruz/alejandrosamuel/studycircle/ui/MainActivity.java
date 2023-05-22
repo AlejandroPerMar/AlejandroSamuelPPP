@@ -3,6 +3,9 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -31,14 +34,26 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     private SharedPreferences sharedPreferences;
-    MainActivityViewModel viewModel;
-    DrawerLayout drawerLayout;
-    BottomNavigationView bottomNav;
+    private MainActivityViewModel viewModel;
+    private DrawerLayout drawerLayout;
+    private BottomNavigationView bottomNav;
+    private RadioGroup switchProfile;
+    private NavigationView navigationView;
 
     public void enableDrawer(boolean enable){
         int lockMode = enable ? DrawerLayout.LOCK_MODE_UNLOCKED : DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
         drawerLayout.setDrawerLockMode(lockMode);
     }
+
+    public void checkTutorProfile() {
+        switchProfile.check(R.id.switchTutor);
+    }
+
+    public void checkAlumnoProfile() {
+        switchProfile.check(R.id.switchAlumno);
+    }
+
+
 
     public void setBottomNavVisibility(int visibility) {
         bottomNav.setVisibility(visibility);
@@ -52,12 +67,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         drawerLayout = binding.drawerLayout;
         bottomNav = findViewById(R.id.bottom_nav);
-
-
+        navigationView = drawerLayout.findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        switchProfile = headerView.findViewById(R.id.toggle);
 
         // Esto hace que el primer elemento (Home en este caso) se seleccione por defecto al iniciar
         bottomNav.setSelectedItemId(R.id.navigation_home);
-
         /*
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED) // Requiere conexión de red
@@ -75,5 +90,21 @@ public class MainActivity extends AppCompatActivity {
         );
          */
 
+    }
+
+    public MainActivityViewModel getViewModel() {
+        return viewModel;
+    }
+
+    public DrawerLayout getDrawerLayout() {
+        return drawerLayout;
+    }
+
+    public RadioGroup getSwitchProfile() {
+        return switchProfile;
+    }
+
+    public void setSwitchProfile(RadioGroup switchProfile) {
+        this.switchProfile = switchProfile;
     }
 }

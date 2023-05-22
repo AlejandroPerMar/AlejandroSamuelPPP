@@ -20,4 +20,14 @@
     <string name="home" />
     <string name="dashboard" />
     <string name="notifications" />
+    <string name="alumno">Alumno</string>
+    <string name="configurai_n_de_perfil">Configuración del perfil</string>
+    <string name="nivel_de_estudios">Nivel de Estudios</string>
+    <string name="seleccione_un_nivel_de_estudios">Seleccione un nivel de estudios</string>
+    <string name="materias_en_las_que_buscas_ayuda">Materias en las que buscas ayuda</string>
+    <string name="creaci_n_de_perfiles">Creación de Perfiles</string>
+    <string name="explicacion_creacion_perfiles">En StudyCircle, nuestra misión es fomentar el desarrollo y la cooperación entre nuestros usuarios. Nos enorgullece ser una de las comunidades más solidarias y unidas en el panorama actual de la educación. Para alcanzar este objetivo, ofrecemos a nuestros usuarios la opción de crear dos tipos de perfiles: &lt;b&gt;ALUMNO&lt;/b&gt; y &lt;b&gt;TUTOR&lt;/b&gt;. De este modo, no solo proporcionamos la oportunidad de recibir clases, sino también de impartirlas. Esta es nuestra forma de promover un ambiente de aprendizaje interactivo y recíproco.</string>
+    <string name="configurar_perfil_alumno">Configurar Perfil Alumno</string>
+    <string name="configurar_perfil_tutor">Configurar Perfil Tutor</string>
+    <string name="aceptar">Aceptar</string>
 </resources>

@@ -14,6 +14,8 @@ public class MateriaDTO {
     @Expose
     private String nombre;
 
+    private boolean selected;
+
     public Integer getId() {
         return id;
     }
@@ -36,5 +38,13 @@ public class MateriaDTO {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

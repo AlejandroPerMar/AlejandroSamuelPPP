@@ -43,5 +43,45 @@
         android:id="@+id/homeFragment"
         android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_alumnoConfFragment"
+            app:destination="@id/alumnoConfFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profilesConfFragment"
+            app:destination="@id/profilesConfFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/alumnoConfFragment"
+        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.AlumnoConfFragment"
+        android:label="fragment_alumno_conf"
+        tools:layout="@layout/fragment_alumno_conf" >
+        <action
+            android:id="@+id/action_alumnoConfFragment_to_profilesConfFragment"
+            app:destination="@id/profilesConfFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profilesConfFragment"
+        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.ProfilesConfFragment"
+        android:label="fragment_profiles_conf"
+        tools:layout="@layout/fragment_profiles_conf" >
+        <action
+            android:id="@+id/action_profilesConfFragment_to_alumnoConfFragment"
+            app:destination="@id/alumnoConfFragment" />
+        <action
+            android:id="@+id/action_profilesConfFragment_to_tutorConfFragment"
+            app:destination="@id/tutorConfFragment" />
+        <action
+            android:id="@+id/action_profilesConfFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tutorConfFragment"
+        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.TutorConfFragment"
+        android:label="fragment_tutor_conf"
+        tools:layout="@layout/fragment_tutor_conf" >
+        <action
+            android:id="@+id/action_tutorConfFragment_to_profilesConfFragment"
+            app:destination="@id/profilesConfFragment" />
+    </fragment>
 </navigation>

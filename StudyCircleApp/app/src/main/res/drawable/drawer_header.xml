@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="250dp"
     android:gravity="bottom"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#164D8F"
+    android:background="#61164D8F"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
@@ -20,5 +20,46 @@
         android:paddingTop="16dp"
         android:text="User Name"
         android:id="@+id/nav_header_textView" />
+
+    <RadioGroup
+        android:checkedButton="@+id/profile"
+        android:id="@+id/toggle"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/out_line"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="1dp"
+            android:id="@+id/switchAlumno"
+            android:background="@drawable/toggle_widget_background"
+            android:layout_width="0dp"
+            android:checked="true"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="ALUMNO"
+            android:textColor="@color/white" />
+
+        <RadioButton
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:id="@+id/switchTutor"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_widget_background"
+            android:button="@null"
+            android:gravity="center"
+            android:text="TUTOR"
+            android:textColor="@color/white" />
+    </RadioGroup>
 
 </LinearLayout>

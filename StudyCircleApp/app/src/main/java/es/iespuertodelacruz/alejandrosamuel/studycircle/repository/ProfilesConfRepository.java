@@ -138,7 +138,7 @@ public class ProfilesConfRepository {
                         respuesta = null;
                     }
                     switch (RespuestasProfileConf.valueOf(respuesta)) {
-                        case STUDENT_PROFILE_ALREADY_CREATED:
+                        case STUDENT_PROFILE_NOT_FOUND:
                             mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_NOT_FOUND);
                             break;
                         default:
@@ -255,7 +255,7 @@ public class ProfilesConfRepository {
                         respuesta = null;
                     }
                     switch (RespuestasProfileConf.valueOf(respuesta)) {
-                        case STUDENT_PROFILE_ALREADY_CREATED:
+                        case TUTOR_PROFILE_NOT_FOUND:
                             mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_FOUND);
                             break;
                         default:

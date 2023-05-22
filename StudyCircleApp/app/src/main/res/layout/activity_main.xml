@@ -24,6 +24,10 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_gravity="bottom"
+            app:itemIconTint="@color/select_bottom_nav_color"
+            app:itemBackground="@color/bluestd"
+            app:itemRippleColor="@color/transparent"
+            android:background="#FFFFFF"
             app:menu="@menu/bottom_nav_menu"
             app:layout_constraintBottom_toBottomOf="parent" />
 

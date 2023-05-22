@@ -5,35 +5,15 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ActivacionCuentaFragment" >
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:indeterminate="true"
-        android:indeterminateTint="#1566e0" />
+    tools:context=".ui.ProfilesConfFragment" >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@drawable/blue_bg">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="25dp"
-                android:src="@drawable/logo_studycircle" />
-        </FrameLayout>
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="9"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/txtVerificarCuenta"
@@ -41,36 +21,37 @@
                 android:layout_width="350dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="62dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="38dp"
                 android:layout_marginRight="62dp"
                 android:fontFamily="@font/poppins_medium"
-                android:gravity="center"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
-                android:text="@string/verificar_cuenta"
+                android:text="@string/creaci_n_de_perfiles"
                 android:textColor="#1566e0"
                 android:textSize="24sp"/>
+
             <TextView
                 android:id="@+id/txtExplicacion"
-                android:layout_gravity="center"
                 android:layout_width="300dp"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginLeft="62dp"
                 android:layout_marginTop="18dp"
+                android:justificationMode="inter_word"
                 android:layout_marginRight="62dp"
                 android:fontFamily="@font/poppins_medium"
                 android:gravity="center"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
-                android:text="@string/se_ha_enviado_un_correo"
+                android:text="@string/explicacion_creacion_perfiles"
                 android:textColor="#1566e0"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/btnReenviarEmail"
-                android:layout_gravity="center"
-                android:layout_width="150dp"
+                android:id="@+id/btnConfAlumno"
+                android:layout_width="180dp"
                 android:layout_height="45dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="62dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginRight="62dp"
@@ -80,31 +61,15 @@
                 android:gravity="center"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
-                android:text="@string/reenviar_email"
+                android:text="@string/configurar_perfil_alumno"
                 android:textColor="#ffffff"
-                android:textSize="12sp"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:gravity="center_horizontal"
-                    android:text="@string/o"
-                    android:textColor="#aeaeae"
-                    android:textSize="13.3sp"/>
-
-            </LinearLayout>
+                android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/btnVerficado"
-                android:layout_gravity="center"
-                android:layout_width="150dp"
+                android:id="@+id/btnConfTutor"
+                android:layout_width="180dp"
                 android:layout_height="45dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="62dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="62dp"
@@ -113,16 +78,16 @@
                 android:gravity="center"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
-                android:text="@string/ya_he_verificado"
+                android:text="@string/configurar_perfil_tutor"
                 android:textColor="#1566e0"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:layout_marginEnd="300dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal" android:layout_height="0dp">
 
             <ImageView
                 android:id="@+id/btnSalir"
