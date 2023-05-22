@@ -41,7 +41,6 @@ public class FormularioAnuncio extends DialogFragment {
 
         EditText tituloEditText = view.findViewById(R.id.edit_text_titulo);
         EditText descripcionEditText = view.findViewById(R.id.edit_text_descripcion);
-        EditText autorEditText = view.findViewById(R.id.edit_text_autor);
         Button guardarButton = view.findViewById(R.id.btn_guardar);
         spinnerMotivo = view.findViewById(R.id.spinner_motivo);
         spinnerMateria = view.findViewById(R.id.spinner_materia);
@@ -59,11 +58,10 @@ public class FormularioAnuncio extends DialogFragment {
         guardarButton.setOnClickListener(v -> {
             String titulo = tituloEditText.getText().toString();
             String descripcion = descripcionEditText.getText().toString();
-            String autor = autorEditText.getText().toString();
             String motivo = spinnerMotivo.getSelectedItem().toString();
             String materia = spinnerMateria.getSelectedItem().toString();
 
-            Anuncio anuncio = new Anuncio(titulo, descripcion, autor);
+            Anuncio anuncio = new Anuncio(titulo, descripcion, "Usuario");
             if (onGuardarClickListener != null) {
                 onGuardarClickListener.onGuardarClick(anuncio);
             }

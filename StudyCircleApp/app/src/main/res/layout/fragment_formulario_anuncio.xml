@@ -18,24 +18,17 @@
         android:layout_marginTop="8dp"
         android:hint="Descripción" />
 
-    <EditText
-        android:id="@+id/edit_text_autor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Autor" />
-
     <Spinner
         android:id="@+id/spinner_motivo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:layout_marginTop="8dp"
         android:prompt="@string/select_motivo" />
 
     <Spinner
         android:id="@+id/spinner_materia"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:layout_marginTop="8dp"
         android:prompt="@string/select_materia" />
 
