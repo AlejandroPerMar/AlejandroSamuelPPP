@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -217,8 +218,58 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         String materia = curso.getMateria();
         String tutor = curso.getTutor();
         List<String> actividades = curso.getActividades();
-        CursoDialogFragment dialogFragment = CursoDialogFragment.newInstance(nombre, materia, tutor, actividades);
-        dialogFragment.show(requireActivity().getSupportFragmentManager(), "curso_dialog");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Detalles del curso");
+
+        View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_curso, null);
+        builder.setView(dialogView);
+
+        TextView nombreTextView = dialogView.findViewById(R.id.nombreTextView);
+        TextView materiaTextView = dialogView.findViewById(R.id.materiaTextView);
+        TextView tutorTextView = dialogView.findViewById(R.id.tutorTextView);
+        LinearLayout actividadesLayout = dialogView.findViewById(R.id.actividadesLayout);
+
+        nombreTextView.setText(nombre);
+        materiaTextView.setText(materia);
+        tutorTextView.setText(tutor);
+
+        for (String actividad : actividades) {
+            TextView actividadTextView = new TextView(getActivity());
+            actividadTextView.setText(actividad);
+            actividadTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showActividadDialog(actividad);
+                }
+            });
+            actividadesLayout.addView(actividadTextView);
+        }
+
+        builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showActividadDialog(String actividad) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Detalles de la actividad");
+        builder.setMessage(actividad);
+        builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
