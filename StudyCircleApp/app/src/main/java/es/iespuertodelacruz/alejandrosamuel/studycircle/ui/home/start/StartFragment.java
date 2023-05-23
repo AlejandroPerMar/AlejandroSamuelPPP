@@ -82,6 +82,7 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         EditText nombreEditText = dialogView.findViewById(R.id.nombreEditText);
         Spinner materiaSpinner = dialogView.findViewById(R.id.materiaSpinner);
         LinearLayout alumnosLayout = dialogView.findViewById(R.id.alumnosLayout);
+
         Button addAlumnoButton = dialogView.findViewById(R.id.addAlumnoButton);
 
         ArrayAdapter<String> materiaAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, obtenerListaMaterias());

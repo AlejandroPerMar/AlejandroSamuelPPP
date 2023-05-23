@@ -62,7 +62,7 @@ public class AgregarAlumnoDialog extends DialogFragment {
         builder.setView(view)
                 .setTitle("Agregar Alumno")
                 .setNegativeButton("Cancelar", null)
-                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         int position = alumnoAdapter.getSelectedPosition();
