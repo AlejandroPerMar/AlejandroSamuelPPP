@@ -18,8 +18,10 @@ public class NivelEstudiosDTOMapper {
 
         NivelEstudios nivelEstudios = new NivelEstudios();
         nivelEstudios.setNombre(in.getNombre());
-        if(Objects.nonNull(in.getMaterias()))
+        if(Objects.nonNull(in.getMaterias())) {
+            System.out.println("Materias size: " + in.getMaterias().size()); // Agrega esta línea
             nivelEstudios.setMaterias(in.getMaterias().stream().map(dtoJustIdMapper::toDomain).toList());
+        }
         return nivelEstudios;
     }
 

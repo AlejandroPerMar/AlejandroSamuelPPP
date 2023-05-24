@@ -65,6 +65,10 @@ public class EventosCalendarioRepository {
                             break;
                         default:
                     }
+
+                    if(response.code() == 403) {
+                        mutableEventoCalendario.setValue(null);
+                    }
                 }
             }
             @Override
@@ -90,6 +94,11 @@ public class EventosCalendarioRepository {
                     Type listType = new TypeToken<List<EventoCalendarioDTO>>() {}.getType();
                     List<EventoCalendarioDTO> eventosCalendarioDTO = new Gson().fromJson(body.charStream(), listType);
                     mutableEventosCalendario.setValue(eventosCalendarioDTO);
+                }else {
+
+                    if(response.code() == 403) {
+                        mutableEventosCalendario.setValue(null);
+                    }
                 }
             }
             @Override
@@ -115,6 +124,11 @@ public class EventosCalendarioRepository {
                     Type listType = new TypeToken<List<EventoCalendarioDTO>>() {}.getType();
                     List<EventoCalendarioDTO> eventosCalendarioDTO = new Gson().fromJson(body.charStream(), listType);
                     mutableEventosCalendario.setValue(eventosCalendarioDTO);
+                }else {
+
+                    if(response.code() == 403) {
+                        mutableEventosCalendario.setValue(null);
+                    }
                 }
             }
             @Override

@@ -100,7 +100,7 @@ public class HomeFragment extends Fragment {
                     String perfilActivo = viewModel.recuperarPerfilSeleccionadoSharedPreferences(getContext());
                     if(Objects.isNull(perfilActivo)) {
                         mainActivity.checkAlumnoProfile();
-                        viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.STUDENT_PROFILE.name());
+                        perfilActivo = viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.STUDENT_PROFILE.name());
                     }
                     if(perfilActivo.equals(UserProfiles.STUDENT_PROFILE.name())) {
 

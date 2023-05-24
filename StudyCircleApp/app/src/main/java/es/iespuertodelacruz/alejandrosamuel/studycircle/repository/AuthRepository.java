@@ -110,6 +110,10 @@ public class AuthRepository {
                             mutableRespuesta.setValue(RespuestasRegister.NOT_AVAILABLE_EMAIL);
                         default:
                     }
+
+                    if(response.code() == 403) {
+                        mutableRespuesta.setValue(null);
+                    }
                 }
             }
             @Override
@@ -148,6 +152,9 @@ public class AuthRepository {
                             default:
                         }
                     } catch (IOException ignored) {}
+                    if(response.code() == 403) {
+                        mutableTokenAuth.setValue(null);
+                    }
                 }
             }
             @Override
@@ -170,6 +177,8 @@ public class AuthRepository {
                 String respuesta = response.body();
                 if(response.isSuccessful()) {
                     mutableTokenAuth.setValue(respuesta);
+                }else {
+                    mutableTokenAuth.setValue(null);
                 }
             }
             @Override
@@ -192,6 +201,8 @@ public class AuthRepository {
                 String respuesta = response.body();
                 if(response.isSuccessful()) {
                     mutableEstadoUsuario.setValue(respuesta);
+                }else {
+                    mutableEstadoUsuario.setValue(null);
                 }
             }
             @Override

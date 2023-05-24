@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_homeFragment_to_profilesConfFragment"
             app:destination="@id/profilesConfFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/alumnoConfFragment"
@@ -59,6 +62,12 @@
         <action
             android:id="@+id/action_alumnoConfFragment_to_profilesConfFragment"
             app:destination="@id/profilesConfFragment" />
+        <action
+            android:id="@+id/action_alumnoConfFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_alumnoConfFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/profilesConfFragment"
@@ -83,5 +92,11 @@
         <action
             android:id="@+id/action_tutorConfFragment_to_profilesConfFragment"
             app:destination="@id/profilesConfFragment" />
+        <action
+            android:id="@+id/action_tutorConfFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_tutorConfFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

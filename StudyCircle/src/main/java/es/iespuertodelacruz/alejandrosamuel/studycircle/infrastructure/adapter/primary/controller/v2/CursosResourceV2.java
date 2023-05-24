@@ -5,6 +5,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.MateriaTutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.*;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.CursoDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
@@ -21,8 +22,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Api(tags = {SwaggerConfig.CURSO_V2_TAG})
 @RestController
@@ -70,6 +73,10 @@ public class CursosResourceV2 {
                     curso.getAlumnos(),
                     curso.getMateriaTutor(),
                     curso.getMateriaTutor().getMateria())) {
+                Alumno alumno = alumnoService.findAlumnoByUsername(getUsernameUsuario());
+                if(Objects.nonNull(alumno)) {
+                    curso.getAlumnos().removeIf(a -> a.getId().equals(alumno.getId()));
+                }
                 Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
                 MateriaTutor materiaTutor = materiaTutorService.findByMateriaTutor(curso.getMateriaTutor().getMateria().getId(), tutor.getId());
                 if(Objects.nonNull(materiaTutor)) {
@@ -230,6 +237,30 @@ public class CursosResourceV2 {
             return ResponseEntity.ok(cursosByTutor.stream().map(mapper::toDTOTutor).toList());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.TUTOR_PROFILE_NOT_CREATED.name());
+    }
+
+    @DeleteMapping("{id}")
+    @ApiOperation(
+            value = "Eliminar Curso por ID",
+            notes = """
+                    Posibles respuestas:\s
+                    • "COURSE_REMOVED" (String). Indica que el curso se ha eliminado correctamente
+                    • "COURSE_NOT_REMOVED" (String). Indica que el curso no se ha podido eliminar
+                    """
+    )
+    public ResponseEntity<?> deleteCourse(@PathVariable("id") Integer id) {
+        Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
+        if(Objects.nonNull(tutor)) {
+            List<Curso> cursosByTutor = cursoService.findByIdTutor(tutor.getId());
+            Curso cursoEncontrado = cursosByTutor.stream().filter(c -> c.getId().equals(id)).findFirst().orElse(null);
+            if(Objects.nonNull(cursoEncontrado)) {
+                boolean delete = cursoService.delete(id);
+                if(delete) {
+                    return ResponseEntity.ok(RespuestasCurso.COURSE_REMOVED.name());
+                }
+            }
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.COURSE_NOT_REMOVED.name());
     }
 
     private String getUsernameUsuario() {

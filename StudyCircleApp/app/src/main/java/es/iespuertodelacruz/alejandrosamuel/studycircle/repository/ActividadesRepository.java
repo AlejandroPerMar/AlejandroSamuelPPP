@@ -62,6 +62,10 @@ public class ActividadesRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableActividad.setValue(null);
+                    }
                 }
             }
             @Override
@@ -104,6 +108,10 @@ public class ActividadesRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableActividad.setValue(null);
+                    }
                 }
             }
             @Override
@@ -140,6 +148,10 @@ public class ActividadesRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableActividad.setValue(null);
+                    }
                 }
             }
             @Override
@@ -181,6 +193,10 @@ public class ActividadesRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableActividad.setValue(null);
+                    }
                 }
             }
             @Override

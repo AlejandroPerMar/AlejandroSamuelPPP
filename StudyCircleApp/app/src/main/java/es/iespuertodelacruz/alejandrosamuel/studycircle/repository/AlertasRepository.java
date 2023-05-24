@@ -49,6 +49,10 @@ public class AlertasRepository {
                     Type listType = new TypeToken<List<AlertaActividadDTO>>() {}.getType();
                     List<AlertaActividadDTO> alertasActividadDTO = new Gson().fromJson(body.charStream(), listType);
                     mutableAlertasActividad.setValue(alertasActividadDTO);
+                }else {
+                    if(response.code() == 403) {
+                        mutableAlertasActividad.setValue(null);
+                    }
                 }
             }
             @Override
@@ -74,6 +78,11 @@ public class AlertasRepository {
                     Type listType = new TypeToken<List<AlertaAmistadDTO>>() {}.getType();
                     List<AlertaAmistadDTO> alertasAmistadDTO = new Gson().fromJson(body.charStream(), listType);
                     mutableAlertasAmistad.setValue(alertasAmistadDTO);
+                }else {
+
+                    if(response.code() == 403) {
+                        mutableAlertasAmistad.setValue(null);
+                    }
                 }
             }
             @Override

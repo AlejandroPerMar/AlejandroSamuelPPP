@@ -61,6 +61,10 @@ public class AnunciosRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableAnuncio.setValue(null);
+                    }
                 }
             }
             @Override
@@ -100,6 +104,10 @@ public class AnunciosRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableAnuncios.setValue(null);
+                    }
                 }
             }
             @Override
@@ -137,6 +145,10 @@ public class AnunciosRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableAnuncios.setValue(null);
+                    }
                 }
             }
             @Override
@@ -173,6 +185,10 @@ public class AnunciosRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableAnuncio.setValue(null);
+                    }
                 }
             }
             @Override

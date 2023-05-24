@@ -1,27 +1,36 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +38,17 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.MateriaAdapter;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.CustomArrayAdapter;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.MateriaAlumnoAdapter;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasProfileConf;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasRegister;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.UserProfiles;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.NivelEstudiosDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentAlumnoConfBinding;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentTutorConfBinding;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.utils.ObjectsUtils;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.utils.TextViewUtils;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
 
 /**
@@ -59,6 +74,9 @@ public class AlumnoConfFragment extends Fragment {
     private ImageView btnAtras;
     private RecyclerView recyclerView;
     private TextView btnAceptar;
+    private AlumnoDTO alumnoDTO;
+    private LinearLayout alumnoConfFragment;
+    private ProgressBar progressBar;
 
 
     public AlumnoConfFragment() {
@@ -83,6 +101,11 @@ public class AlumnoConfFragment extends Fragment {
         return fragment;
     }
 
+    private void closeKeyboard() {
+        InputMethodManager manager = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,13 +121,17 @@ public class AlumnoConfFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentAlumnoConfBinding.inflate(inflater, container, false);
+        alumnoDTO = new AlumnoDTO();
+        alumnoConfFragment = binding.alumnoConfFragment;
+        progressBar = binding.progressBar;
+        progressBar.setVisibility(View.INVISIBLE);
         btnAtras = binding.btnAtras;
         btnAceptar = binding.btnAceptar;
         recyclerView = binding.recyclerView;
         autoCompleteTextView = binding.autoCompleteTextView;
         autoCompleteTextView.setThreshold(1);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        recyclerView.setAdapter(new MateriaAdapter(new ArrayList<>(), getContext()));
+        recyclerView.setAdapter(new MateriaAlumnoAdapter(new ArrayList<>(), getContext(), alumnoDTO));
         LiveData<Object> allNivelesEstudios = viewModel.findAllNivelesEstudios(viewModel.recuperarTokenSharedPreferences(getContext()));
         allNivelesEstudios.observe(getViewLifecycleOwner(), new Observer<Object>() {
             @Override
@@ -125,13 +152,65 @@ public class AlumnoConfFragment extends Fragment {
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                closeKeyboard();
                 String nivelEstudioSeleccionado = parent.getItemAtPosition(position).toString();
-
-                List<MateriaDTO> materiasFiltradas = getNivelesEstudio().stream().filter(n -> n.getNombre().equals(nivelEstudioSeleccionado)).findFirst().get().getMaterias();
-                MateriaAdapter materiaAdapter = (MateriaAdapter) recyclerView.getAdapter();
-                if(Objects.nonNull(materiaAdapter)){
-                    materiaAdapter.actualizarMaterias(materiasFiltradas);
+                NivelEstudiosDTO nivelEstudiosDTO = getNivelesEstudio().stream().filter(n -> n.getNombre().equals(nivelEstudioSeleccionado)).findFirst().get();
+                alumnoDTO.setNivelEstudios(nivelEstudiosDTO);
+                List<MateriaDTO> materiasFiltradas = nivelEstudiosDTO.getMaterias();
+                MateriaAlumnoAdapter materiaAlumnoAdapter = (MateriaAlumnoAdapter) recyclerView.getAdapter();
+                if(Objects.nonNull(materiaAlumnoAdapter)){
+                    alumnoDTO.setMaterias(new ArrayList<>());
+                    materiaAlumnoAdapter.resetSelection(); // Restablecer selección
+                    materiaAlumnoAdapter.actualizarMaterias(materiasFiltradas);
                 }
+            }
+        });
+
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alumnoConfFragment.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
+                if(ObjectsUtils.notNullNorEmpty(alumnoDTO, alumnoDTO.getMaterias(), alumnoDTO.getNivelEstudios())) {
+                    LiveData<Object> studentProfile = viewModel.createStudentProfile(alumnoDTO, viewModel.recuperarTokenSharedPreferences(getContext()));
+                    studentProfile.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                        @Override
+                        public void onChanged(Object o) {
+                            if(o instanceof AlumnoDTO) {
+                                viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.STUDENT_PROFILE.name());
+                                Toast.makeText(getContext(), "Perfil de alumno creado con éxito", Toast.LENGTH_LONG).show();
+                                Navigation.findNavController(container).navigate(R.id.action_alumnoConfFragment_to_homeFragment);
+                            }else if(o instanceof RespuestasProfileConf){
+                                TextView txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasProfileConf.STUDENT_PROFILE_NOT_CREATED.getDescripcion());
+                                LinearLayout linearLayout = binding.btnAceptarLayout;
+                                int index = linearLayout.indexOfChild(btnAceptar);  // Obtener el índice del LinearLayout en el ViewGroup padre
+
+                                linearLayout.addView(txtErrorMessage, index);
+                            }else {
+                                viewModel.limpiarTokenSharedPreferences(getContext());
+                                Navigation.findNavController(container).navigate(R.id.action_alumnoConfFragment_to_loginFragment);
+                            }
+                        }
+                    });
+                }else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
+                    builder.setTitle("Nivel de Estudios no cofigurado");
+                    builder.setMessage("Configure un Nivel de Estudios para agregar");
+                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {}
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                    dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
+                    dialog.show();
+                    Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                    positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                    progressBar.setVisibility(View.INVISIBLE);
+                    alumnoConfFragment.setVisibility(View.VISIBLE);
+                }
+
             }
         });
 
@@ -145,49 +224,5 @@ public class AlumnoConfFragment extends Fragment {
 
     public List<NivelEstudiosDTO> getNivelesEstudio() {
         return nivelesEstudio;
-    }
-
-    class CustomArrayAdapter extends ArrayAdapter<String> {
-
-        private List<String> items;
-        private List<String> itemsAll;
-
-        public CustomArrayAdapter(Context context, int resource, List<String> items) {
-            super(context, resource, items);
-            this.items = items;
-            this.itemsAll = new ArrayList<>(items);
-        }
-
-        @NonNull
-        @Override
-        public Filter getFilter() {
-            return new Filter() {
-                @Override
-                protected FilterResults performFiltering(CharSequence constraint) {
-                    FilterResults filterResults = new FilterResults();
-                    if(constraint != null) {
-                        List<String> suggestions = new ArrayList<>();
-                        for(String item : itemsAll) {
-                            if(item.toLowerCase().contains(constraint.toString().toLowerCase())) {
-                                suggestions.add(item);
-                            }
-                        }
-
-                        filterResults.values = suggestions;
-                        filterResults.count = suggestions.size();
-                    }
-                    return filterResults;
-                }
-
-                @Override
-                protected void publishResults(CharSequence constraint, FilterResults results) {
-                    items.clear();
-                    if(results != null && results.count > 0) {
-                        items.addAll((List<String>) results.values);
-                    }
-                    notifyDataSetChanged();
-                }
-            };
-        }
     }
 }

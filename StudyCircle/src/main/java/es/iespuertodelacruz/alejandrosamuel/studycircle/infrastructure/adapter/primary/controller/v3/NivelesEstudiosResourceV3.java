@@ -48,7 +48,6 @@ public class NivelesEstudiosResourceV3 {
                     """
     )
     public ResponseEntity<?> create(@RequestBody NivelEstudiosDTO nivelEstudiosDTO) {
-        NivelEstudiosDTOMapper mapper = new NivelEstudiosDTOMapper();
         if(!ObjectUtils.notNullNorEmpty(nivelEstudiosDTO, nivelEstudiosDTO.getNombre()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasNivelEstudios.STUDY_LEVEL_NOT_CREATED.name());
         NivelEstudios nivelEstudios = service.create(mapper.toDomain(nivelEstudiosDTO));

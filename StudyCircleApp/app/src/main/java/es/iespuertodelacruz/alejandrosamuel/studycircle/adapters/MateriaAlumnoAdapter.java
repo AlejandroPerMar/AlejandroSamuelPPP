@@ -14,15 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
 
-public class MateriaAdapter extends RecyclerView.Adapter<MateriaAdapter.MateriaViewHolder> {
+public class MateriaAlumnoAdapter extends RecyclerView.Adapter<MateriaAlumnoAdapter.MateriaViewHolder> {
     private List<MateriaDTO> listaMaterias;
     private Context context;
+    private AlumnoDTO alumnoDTO;
 
-    public MateriaAdapter(List<MateriaDTO> listaMaterias, Context context) {
+    public MateriaAlumnoAdapter(List<MateriaDTO> listaMaterias, Context context, AlumnoDTO alumnoDTO) {
         this.listaMaterias = listaMaterias;
         this.context = context;
+        this.alumnoDTO = alumnoDTO;
     }
 
     @NonNull
@@ -37,22 +40,34 @@ public class MateriaAdapter extends RecyclerView.Adapter<MateriaAdapter.MateriaV
         notifyDataSetChanged();
     }
 
+    public void resetSelection() {
+        listaMaterias.forEach(m -> m.setSelected(false));
+    }
+
     @Override
     public void onBindViewHolder(@NonNull MateriaViewHolder holder, int position) {
         MateriaDTO materia = listaMaterias.get(position);
         holder.textView.setText(materia.getNombre());
 
         if (materia.isSelected()) {
-            holder.cardView.setCardBackgroundColor(Color.BLUE);
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#1566e0"));
             holder.textView.setTextColor(Color.WHITE);
         } else {
-            holder.cardView.setCardBackgroundColor(Color.WHITE);
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#ededed"));
             holder.textView.setTextColor(Color.BLACK);
         }
 
         holder.cardView.setOnClickListener(v -> {
-            materia.setSelected(!materia.isSelected());
-            notifyDataSetChanged();
+            boolean wasSelected = materia.isSelected();
+            materia.setSelected(!wasSelected);
+
+            // Actualizar las materias del alumno aquí en lugar de en onBindViewHolder
+            if (materia.isSelected()) {
+                alumnoDTO.getMaterias().add(materia);
+            } else if (wasSelected) { // solo intentar eliminar la materia si estaba seleccionada antes
+                alumnoDTO.getMaterias().remove(materia);
+            }
+            notifyItemChanged(position);
         });
     }
 

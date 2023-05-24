@@ -133,9 +133,17 @@ public class LoginFragment extends Fragment {
                     if(Objects.nonNull(o)) {
                         if(EstadosUsuario.STATUS_PENDING_VERIFICATION.getName().equals(o)) {
                             Navigation.findNavController(container).navigate(R.id.action_loginFragment_to_activacionCuentaFragment);
-                        }else {
+                        }else if(EstadosUsuario.STATUS_ACTIVE.getName().equals(o)){
                             Navigation.findNavController(container).navigate(R.id.action_loginFragment_to_homeFragment);
+                        }else {
+                            viewModel.limpiarTokenSharedPreferences(getContext());
+                            progressBar.setVisibility(View.INVISIBLE);
+                            setVisibleLayout(true);
                         }
+                    }else {
+                        viewModel.limpiarTokenSharedPreferences(getContext());
+                        progressBar.setVisibility(View.INVISIBLE);
+                        setVisibleLayout(true);
                     }
                 }
             });

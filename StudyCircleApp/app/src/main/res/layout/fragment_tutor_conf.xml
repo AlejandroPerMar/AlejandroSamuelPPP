@@ -1,14 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.TutorConfFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:indeterminateTint="#1566e0" />
+    <LinearLayout
+        android:id="@+id/tutorConfFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
 
-</FrameLayout>
+            <ImageView
+                android:id="@+id/btnAtras"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:src="@drawable/ic_exit" />
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="start|center"
+                android:paddingStart="30dp"
+                android:paddingEnd="0dp"
+                android:text="@string/tutor"
+                android:textColor="#272727"
+                android:textSize="24sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="start|center"
+                android:paddingStart="32dp"
+                android:paddingEnd="0dp"
+                android:text="@string/configurai_n_de_perfil"
+                android:textColor="#272727"
+                android:textSize="14sp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="390dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/recycler_border"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_gravity="top"
+                    android:gravity="top"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/level_studies_border"
+                    android:orientation="horizontal">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewNivelesEstudio"
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:scrollbars="horizontal" />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="5dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:layout_gravity="center"
+                    android:text="@string/nivel_de_estudios"
+                    android:textColor="#1566e0"
+                    android:textSize="12sp"/>
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextView"
+                    android:layout_width="250dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:layout_gravity="center"
+                    android:textSize="10sp"
+                    android:textColor="#131313"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/seleccione_un_nivel_de_estudios"
+                    />
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:layout_gravity="center"
+                    android:text="@string/materias_que_puedes_impartir"
+                    android:textColor="#1566e0"
+                    android:textSize="12sp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewMaterias"
+                    android:background="@drawable/recycler_border"
+                    android:layout_width="250dp"
+                    android:layout_gravity="center"
+                    android:layout_height="142dp"
+                    android:clipToPadding="false"
+                    android:scrollbars="vertical" />
+                <TextView
+                    android:id="@+id/btnAgregar"
+                    android:layout_gravity="center|bottom"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/button_background1"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="center"
+                    android:text="@string/agregar"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/btnAceptarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/btnAceptar"
+                    android:layout_gravity="center|bottom"
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/button_background2"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="center"
+                    android:text="@string/aceptar"
+                    android:textColor="#1566e0"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

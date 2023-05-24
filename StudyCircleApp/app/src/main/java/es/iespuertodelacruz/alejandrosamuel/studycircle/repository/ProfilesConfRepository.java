@@ -69,6 +69,10 @@ public class ProfilesConfRepository {
                             break;
                         default:
                     }
+
+                    if(response.code() == 403) {
+                        mutableAlumno.setValue(null);
+                    }
                 }
             }
             @Override
@@ -106,6 +110,10 @@ public class ProfilesConfRepository {
                             break;
                         default:
                     }
+
+                    if(response.code() == 403) {
+                        mutableAlumno.setValue(null);
+                    }
                 }
             }
             @Override
@@ -142,6 +150,10 @@ public class ProfilesConfRepository {
                             mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_NOT_FOUND);
                             break;
                         default:
+                    }
+
+                    if(response.code() == 403) {
+                        mutableAlumno.setValue(null);
                     }
                 }
             }
@@ -183,6 +195,10 @@ public class ProfilesConfRepository {
                             break;
                         default:
                     }
+
+                    if(response.code() == 403) {
+                        mutableTutor.setValue(null);
+                    }
                 }
             }
             @Override
@@ -223,6 +239,10 @@ public class ProfilesConfRepository {
                             break;
                         default:
                     }
+
+                    if(response.code() == 403) {
+                        mutableTutor.setValue(null);
+                    }
                 }
             }
             @Override
@@ -259,6 +279,10 @@ public class ProfilesConfRepository {
                             mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_FOUND);
                             break;
                         default:
+                    }
+
+                    if(response.code() == 403) {
+                        mutableTutor.setValue(null);
                     }
                 }
             }

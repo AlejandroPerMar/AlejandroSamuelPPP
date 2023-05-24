@@ -65,6 +65,10 @@ public class CursosRepository {
                             break;
                         default:
                     }
+
+                    if(response.code() == 403) {
+                        mutableCurso.setValue(null);
+                    }
                 }
             }
             @Override
@@ -110,6 +114,10 @@ public class CursosRepository {
                             mutableCurso.setValue(RespuestasCursos.NON_AUTHENTICATED_OWNER);
                             break;
                         default:
+                    }
+
+                    if(response.code() == 403) {
+                        mutableCurso.setValue(null);
                     }
                 }
             }
@@ -157,6 +165,10 @@ public class CursosRepository {
                             break;
                         default:
                     }
+
+                    if(response.code() == 403) {
+                        mutableCurso.setValue(null);
+                    }
                 }
             }
             @Override
@@ -195,6 +207,10 @@ public class CursosRepository {
                             break;
                         default:
                     }
+
+                    if(response.code() == 403) {
+                        mutableCursos.setValue(null);
+                    }
                 }
             }
             @Override
@@ -232,6 +248,10 @@ public class CursosRepository {
                             mutableCursos.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED);
                             break;
                         default:
+                    }
+
+                    if(response.code() == 403) {
+                        mutableCursos.setValue(null);
                     }
                 }
             }
@@ -278,6 +298,10 @@ public class CursosRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableCurso.setValue(null);
+                    }
                 }
             }
             @Override

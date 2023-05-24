@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.AlumnoConfFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:indeterminateTint="#1566e0" />
     <LinearLayout
+        android:id="@+id/alumnoConfFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -81,6 +89,7 @@
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:paddingTop="20dp"
+                    android:layout_marginBottom="10dp"
                     android:fontFamily="@font/poppins_medium"
                     android:layout_gravity="center"
                     android:text="@string/materias_en_las_que_buscas_ayuda"
@@ -89,6 +98,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
+                    android:background="@drawable/recycler_border"
                     android:layout_width="250dp"
                     android:layout_gravity="center"
                     android:layout_height="142dp"
@@ -96,6 +106,7 @@
                     android:scrollbars="vertical" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/btnAceptarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -115,4 +126,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>

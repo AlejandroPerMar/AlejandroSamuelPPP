@@ -61,6 +61,9 @@ public class MateriasRepository {
                         }
                     } catch (Exception ignored) {}
 
+                    if(response.code() == 403) {
+                        mutableMaterias.setValue(null);
+                    }
                 }
             }
             @Override
@@ -85,6 +88,11 @@ public class MateriasRepository {
                     Type listType = new TypeToken<List<MateriaDTO>>() {}.getType();
                     List<MateriaDTO> materiasDTO = new Gson().fromJson(Objects.requireNonNull(body).charStream(), listType);
                     mutableMaterias.setValue(materiasDTO);
+                }else {
+
+                    if(response.code() == 403) {
+                        mutableMaterias.setValue(null);
+                    }
                 }
             }
             @Override
@@ -121,6 +129,10 @@ public class MateriasRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableMateria.setValue(null);
+                    }
                 }
             }
             @Override

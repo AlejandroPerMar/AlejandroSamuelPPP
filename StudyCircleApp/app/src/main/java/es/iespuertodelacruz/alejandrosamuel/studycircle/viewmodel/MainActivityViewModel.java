@@ -107,8 +107,9 @@ public class MainActivityViewModel extends AndroidViewModel {
         authTokenRepository.limpiarTokenSharedPreferences(context);
     }
 
-    public void guardarPerfilSeleccionadoSharedPreferences(Context context, String perfil) {
+    public String guardarPerfilSeleccionadoSharedPreferences(Context context, String perfil) {
         perfilSeleccionadoRepository.guardarPerfilSeleccionadoSharedPreferences(context, perfil);
+        return recuperarPerfilSeleccionadoSharedPreferences(context);
     }
 
     public String recuperarPerfilSeleccionadoSharedPreferences(Context context) {

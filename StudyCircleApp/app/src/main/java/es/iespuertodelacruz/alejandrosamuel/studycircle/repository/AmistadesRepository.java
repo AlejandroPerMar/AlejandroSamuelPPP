@@ -72,6 +72,10 @@ public class AmistadesRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableAmistad.setValue(null);
+                    }
                 }
             }
             @Override
@@ -108,6 +112,10 @@ public class AmistadesRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableAmistad.setValue(null);
+                    }
                 }
             }
             @Override
@@ -133,6 +141,11 @@ public class AmistadesRepository {
                     Type listType = new TypeToken<List<UsuarioDTO>>() {}.getType();
                     List<UsuarioDTO> amistadesDTO = new Gson().fromJson(body.charStream(), listType);
                     mutableAmistades.setValue(amistadesDTO);
+                }else {
+
+                    if(response.code() == 403) {
+                        mutableAmistades.setValue(null);
+                    }
                 }
             }
             @Override
@@ -172,6 +185,10 @@ public class AmistadesRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableAmistad.setValue(null);
+                    }
                 }
             }
             @Override
@@ -209,6 +226,10 @@ public class AmistadesRepository {
                             default:
                         }
                     } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableAmistades.setValue(null);
+                    }
                 }
             }
             @Override

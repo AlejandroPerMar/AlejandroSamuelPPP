@@ -35,7 +35,7 @@ public class CursoEntity implements Serializable {
 
 
 	//uni-directional many-to-many association to ActividadEntity
-	@OneToMany(mappedBy = "curso")
+	@OneToMany(mappedBy = "curso", cascade = CascadeType.REMOVE)
 	private List<ActividadEntity> actividades;
 
 	//bi-directional many-to-one association to AlumnoEntity

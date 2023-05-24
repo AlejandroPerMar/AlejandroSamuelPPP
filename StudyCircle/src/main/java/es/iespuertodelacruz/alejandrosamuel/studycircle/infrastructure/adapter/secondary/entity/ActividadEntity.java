@@ -3,6 +3,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.List;
 
 
 /**
@@ -34,6 +35,12 @@ public class ActividadEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_course")
 	private CursoEntity curso;
+
+	@OneToMany(mappedBy = "actividad", cascade = CascadeType.REMOVE)
+	private List<AlertaActividadEntity> alertas;
+
+	@OneToMany(mappedBy = "actividad", cascade = CascadeType.REMOVE)
+	private List<EventoCalendarioEntity> eventosCalendario;
 
 	public ActividadEntity() {
 	}

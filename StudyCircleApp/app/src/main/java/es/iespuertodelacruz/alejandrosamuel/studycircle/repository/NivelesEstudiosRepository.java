@@ -50,6 +50,11 @@ public class NivelesEstudiosRepository {
                     Type listType = new TypeToken<List<NivelEstudiosDTO>>() {}.getType();
                     List<NivelEstudiosDTO> nivelesEstudioDTO = new Gson().fromJson(Objects.requireNonNull(body).charStream(), listType);
                     mutableNivelesEstudios.setValue(nivelesEstudioDTO);
+                }else {
+
+                    if(response.code() == 403) {
+                        mutableNivelesEstudios.setValue(null);
+                    }
                 }
             }
             @Override
