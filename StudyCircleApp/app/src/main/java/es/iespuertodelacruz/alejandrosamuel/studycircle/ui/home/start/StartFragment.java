@@ -220,7 +220,7 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         List<String> actividades = curso.getActividades();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Detalles del curso");
+        //builder.setTitle(nombre);
 
         View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_curso, null);
         builder.setView(dialogView);
