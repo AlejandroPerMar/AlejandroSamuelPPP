@@ -33,4 +33,10 @@
     <string name="tutor">Tutor</string>
     <string name="materias_que_puedes_impartir">Materias que puedes impartir</string>
     <string name="agregar">Agregar</string>
+    <string name="tabl_n_de_anuncios">Tablón de Anuncios</string>
+    <string name="buscar_usuarios">Buscar Usuarios</string>
+    <string name="configuraci_n">Configuración</string>
+    <string name="cerrar_sesi_n">Cerrar Sesión</string>
+    <string name="opciones">Opciones</string>
+    <string name="home_nav">Home</string>
 </resources>

@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         switchProfile = headerView.findViewById(R.id.toggle);
 
         // Esto hace que el primer elemento (Home en este caso) se seleccione por defecto al iniciar
-        bottomNav.setSelectedItemId(R.id.navigation_home);
+        bottomNav.setSelectedItemId(R.id.nav_home);
         /*
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED) // Requiere conexión de red

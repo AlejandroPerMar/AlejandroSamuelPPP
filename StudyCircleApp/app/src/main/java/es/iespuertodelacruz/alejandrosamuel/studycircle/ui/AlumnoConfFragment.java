@@ -146,7 +146,7 @@ public class AlumnoConfFragment extends Fragment {
             }
         });
         btnAtras.setOnClickListener(btn -> {
-            Navigation.findNavController(container).navigate(R.id.action_alumnoConfFragment_to_profilesConfFragment);
+            Navigation.findNavController(requireView()).popBackStack();
         });
 
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

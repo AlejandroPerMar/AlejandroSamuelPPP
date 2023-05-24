@@ -40,6 +40,7 @@
         android:layout_gravity="start"
         app:headerLayout="@drawable/drawer_header"
         app:itemIconTint="@color/button_color_selector"
+        android:theme="@style/MyTheme"
         app:menu="@menu/drawer_view"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

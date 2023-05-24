@@ -272,7 +272,7 @@ public class TutorConfFragment extends Fragment {
         });
 
         btnAtras.setOnClickListener(btn -> {
-            Navigation.findNavController(container).navigate(R.id.action_tutorConfFragment_to_profilesConfFragment);
+            Navigation.findNavController(requireView()).popBackStack();
         });
 
         return binding.getRoot();
