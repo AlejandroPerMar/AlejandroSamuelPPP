@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioGroup;
 
@@ -36,9 +37,11 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private MainActivityViewModel viewModel;
     private DrawerLayout drawerLayout;
+
     private BottomNavigationView bottomNav;
     private RadioGroup switchProfile;
     private NavigationView navigationView;
+    private MenuItem previousMenuItem;
 
     public void enableDrawer(boolean enable){
         int lockMode = enable ? DrawerLayout.LOCK_MODE_UNLOCKED : DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
@@ -53,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
         switchProfile.check(R.id.switchAlumno);
     }
 
-
-
     public void setBottomNavVisibility(int visibility) {
         bottomNav.setVisibility(visibility);
     }
@@ -66,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         setContentView(binding.getRoot());
         drawerLayout = binding.drawerLayout;
-        bottomNav = findViewById(R.id.bottom_nav);
-        navigationView = drawerLayout.findViewById(R.id.nav_view);
+        bottomNav = binding.bottomNav;
+        navigationView = binding.navView;
         View headerView = navigationView.getHeaderView(0);
         switchProfile = headerView.findViewById(R.id.toggle);
 
@@ -106,5 +107,29 @@ public class MainActivity extends AppCompatActivity {
 
     public void setSwitchProfile(RadioGroup switchProfile) {
         this.switchProfile = switchProfile;
+    }
+
+    public NavigationView getNavigationView() {
+        return navigationView;
+    }
+
+    public void setNavigationView(NavigationView navigationView) {
+        this.navigationView = navigationView;
+    }
+
+    public BottomNavigationView getBottomNav() {
+        return bottomNav;
+    }
+
+    public void setBottomNav(BottomNavigationView bottomNav) {
+        this.bottomNav = bottomNav;
+    }
+
+    public MenuItem getPreviousMenuItem() {
+        return previousMenuItem;
+    }
+
+    public void setPreviousMenuItem(MenuItem previousMenuItem) {
+        this.previousMenuItem = previousMenuItem;
     }
 }

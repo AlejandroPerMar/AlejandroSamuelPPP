@@ -1,20 +1,35 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasProfileConf;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.UserProfiles;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.TutorDTO;
@@ -40,6 +55,8 @@ public class HomeFragment extends Fragment {
     private MainActivityViewModel viewModel;
     private MainActivity mainActivity;
     private RadioGroup switchProfile;
+    private NavigationView navigationView;
+    private BottomNavigationView bottomNavigationView;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -79,6 +96,8 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         MainActivity mainActivity = (MainActivity) requireActivity();
+        navigationView  = mainActivity.getNavigationView();
+        bottomNavigationView = mainActivity.getBottomNav();
         switchProfile = mainActivity.getSwitchProfile();
         mainActivity.enableDrawer(true);
         mainActivity.setBottomNavVisibility(View.VISIBLE);
@@ -112,16 +131,101 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                // Logic to handle item selection in the BottomNavigationView
+                int itemId = item.getItemId();
+                if(itemId == R.id.nav_home) {
+                    Navigation.findNavController(container).navigate(R.id.action_refresh_home_fragment);
+                }else if(itemId == R.id.nav_notifications) {
+                    Navigation.findNavController(container).navigate(R.id.action_homeFragment_to_alertsFragment);
+                }else if(itemId == R.id.nav_chats) {
+                    Navigation.findNavController(container).navigate(R.id.action_homeFragment_to_chatsFragment);
+                }else if(itemId == R.id.nav_calendar) {
+                    Navigation.findNavController(container).navigate(R.id.action_homeFragment_to_calendarFragment);
+                }
+                return true;
+            }
+        });
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                // Lógica para manejar la selección del item en el NavigationView
+                int itemId = item.getItemId();
+                mainActivity.enableDrawer(false);
+                mainActivity.enableDrawer(true);
+                if(itemId == R.id.nav_home) {
+                    Navigation.findNavController(container).navigate(R.id.action_refresh_home_fragment);
+                }else if(itemId == R.id.nav_anouncements) {
+                    Navigation.findNavController(container).navigate(R.id.action_homeFragment_to_anunciosFragment);
+                }else if(itemId == R.id.nav_search_users) {
+                    Navigation.findNavController(container).navigate(R.id.action_homeFragment_to_busquedaUsuariosFragment);
+                }else if(itemId == R.id.nav_settings) {
+                    Navigation.findNavController(container).navigate(R.id.action_homeFragment_to_configuracionFragment);
+                }else if(itemId == R.id.nav_logout) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
+                    builder.setTitle("Cerrar Sesión");
+                    builder.setMessage("¿Desea cerrar la sesión?");
+                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            viewModel.limpiarTokenSharedPreferences(getContext());
+                            Navigation.findNavController(container).navigate(R.id.action_homeFragment_to_loginFragment);
+                        }
+                    });
+                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {}
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                    dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
+                    dialog.show();
+                    Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                    Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+                    positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                    negativeButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                }
+                return true;
+            }
+        });
+
         switchProfile.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId == R.id.switchAlumno) {
-
+                    LiveData<Object> alumno = viewModel.getAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
+                    alumno.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                        @Override
+                        public void onChanged(Object o) {
+                            if(o instanceof AlumnoDTO) {
+                                viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.STUDENT_PROFILE.name());
+                                Navigation.findNavController(requireView()).navigate(R.id.action_refresh_home_fragment);
+                            }else if(o instanceof RespuestasProfileConf) {
+                                Navigation.findNavController(requireView()).navigate(R.id.action_homeFragment_to_alumnoConfFragment);
+                            }
+                        }
+                    });
                 }else if(checkedId == R.id.switchTutor) {
-
+                    LiveData<Object> alumno = viewModel.getTutor(viewModel.recuperarTokenSharedPreferences(getContext()));
+                    alumno.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                        @Override
+                        public void onChanged(Object o) {
+                            if(o instanceof TutorDTO) {
+                                viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.TUTOR_PROFILE.name());
+                                Navigation.findNavController(requireView()).navigate(R.id.action_refresh_home_fragment);
+                            }else if(o instanceof RespuestasProfileConf) {
+                                Navigation.findNavController(requireView()).navigate(R.id.action_homeFragment_to_tutorConfFragment);
+                            }
+                        }
+                    });
                 }
             }
         });
+
         return binding.getRoot();
     }
 }

@@ -19,7 +19,6 @@
         <!-- Tu color de acento personalizado -->
         <item name="colorAccent">#3F51B5</item>
         <item name="navigationViewStyle">@style/MyNavigationViewStyle</item>
-        <item name="colorControlHighlight">@color/rippleColor</item>
     </style>
     <style name="RoundedAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">@drawable/rounded_dialog</item>
