@@ -243,6 +243,7 @@ public class TutorConfFragment extends Fragment {
                         if(o instanceof TutorDTO) {
                             viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.TUTOR_PROFILE.name());
                             Toast.makeText(getContext(), "Perfil de tutor creado con éxito", Toast.LENGTH_LONG).show();
+                            Navigation.findNavController(requireView()).popBackStack(R.id.tutorConfFragment, true);
                             Navigation.findNavController(container).navigate(R.id.action_tutorConfFragment_to_homeFragment);
                         }else if(o instanceof RespuestasProfileConf){
                             TextView txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasProfileConf.TUTOR_PROFILE_NOT_CREATED.getDescripcion());

@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.NetworkType;
@@ -58,6 +60,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void setBottomNavVisibility(int visibility) {
         bottomNav.setVisibility(visibility);
+    }
+
+    @Override
+    public void onBackPressed() {
+        NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView );
+        if (navController.getCurrentDestination().getId() == R.id.homeFragment) {
+            // Si estás en el fragmento de inicio, no hagas nada (o sal de la aplicación, si prefieres)
+        } else {
+            // Si no estás en el fragmento de inicio, sigue el comportamiento normal de retroceso
+            super.onBackPressed();
+        }
     }
 
     @Override

@@ -167,7 +167,7 @@ public class ActivacionCuentaFragment extends Fragment {
                 resendEmail.observe(getViewLifecycleOwner(), new Observer<Object>() {
                     @Override
                     public void onChanged(Object o) {
-                        if(o.equals(EstadosUsuario.STATUS_ACTIVE.getName())) {
+                        if(o.equals(EstadosUsuario.STATUS_ACTIVE)) {
                             Navigation.findNavController(container).navigate(R.id.action_activacionCuentaFragment_to_homeFragment);
                         }else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
