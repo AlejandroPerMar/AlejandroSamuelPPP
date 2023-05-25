@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui.buscar;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,7 +24,6 @@ import javax.xml.transform.Result;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentBuscarBinding;
-
 public class BuscarFragment extends Fragment {
 
     private SearchView searchView;
@@ -38,6 +39,7 @@ public class BuscarFragment extends Fragment {
         searchView.setQueryHint(getString(R.string.search_hint));
 
         resultsRecyclerView = view.findViewById(R.id.results_recyclerview);
+
         resultsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         resultsAdapter = new ResultsAdapter();
         resultsRecyclerView.setAdapter(resultsAdapter);
@@ -70,24 +72,16 @@ public class BuscarFragment extends Fragment {
 
             resultList.add(new BuscarFragment.Result("Result 1", "Description 1", "Author 1"));
             resultList.add(new BuscarFragment.Result("Result 2", "Description 2", "Author 2"));
-            resultList.add(new BuscarFragment.Result("Result 3", "Description 3", "Author 3"));
             resultList.add(new BuscarFragment.Result("Result 4", "Description 1", "Author 1"));
-            resultList.add(new BuscarFragment.Result("Result 5", "Description 2", "Author 2"));
             resultList.add(new BuscarFragment.Result("Result 6", "Description 3", "Author 3"));
-            resultList.add(new BuscarFragment.Result("Result 7", "Description 1", "Author 1"));
             resultList.add(new BuscarFragment.Result("Result 8", "Description 2", "Author 2"));
             resultList.add(new BuscarFragment.Result("Result 9", "Description 3", "Author 3"));
-            resultList.add(new BuscarFragment.Result("Result 10", "Description 1", "Author 1"));
             resultList.add(new BuscarFragment.Result("Result 11", "Description 2", "Author 2"));
             resultList.add(new BuscarFragment.Result("Result 12", "Description 3", "Author 3"));
-            resultList.add(new BuscarFragment.Result("Result 13", "Description 1", "Author 1"));
             resultList.add(new BuscarFragment.Result("Result 14", "Description 2", "Author 2"));
-            resultList.add(new BuscarFragment.Result("Result 15", "Description 3", "Author 3"));
             resultList.add(new BuscarFragment.Result("Result 16", "Description 1", "Author 1"));
-            resultList.add(new BuscarFragment.Result("Result 17", "Description 2", "Author 2"));
             resultList.add(new BuscarFragment.Result("Result 18", "Description 3", "Author 3"));
             resultList.add(new BuscarFragment.Result("Result 19", "Description 1", "Author 1"));
-            resultList.add(new BuscarFragment.Result("Result 20", "Description 2", "Author 2"));
             resultList.add(new BuscarFragment.Result("Result 30", "Description 3", "Author 3"));
             resultList.add(new BuscarFragment.Result("Result 40", "Description 1", "Author 1"));
             resultList.add(new BuscarFragment.Result("Result 50", "Description 2", "Author 2"));
@@ -111,7 +105,33 @@ public class BuscarFragment extends Fragment {
             holder.titleTextView.setText(result.getTitle());
             holder.descriptionTextView.setText(result.getDescription());
             holder.authorTextView.setText(result.getAuthor());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showDialog(result);
+                }
+            });
         }
+
+        private void showDialog(BuscarFragment.Result result) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle(result.getTitle())
+                    .setMessage(result.getDescription())
+                    .setPositiveButton("Botón 1", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Acción al hacer clic en el botón 1
+                        }
+                    })
+                    .setNegativeButton("Botón 2", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Acción al hacer clic en el botón 2
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
 
         @Override
         public int getItemCount() {

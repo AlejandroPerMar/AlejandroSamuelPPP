@@ -85,6 +85,9 @@ class AnunciosAdapter extends RecyclerView.Adapter<AnunciosAdapter.ViewHolder> {
         holder.tituloTextView.setText(anuncio.getTitulo());
         holder.descripcionTextView.setText(anuncio.getDescripcion());
         holder.autorTextView.setText(anuncio.getAutor());
+        holder.autorTextView.setOnClickListener(v-> {
+            mostrarDialogoUsuario();
+        });
         holder.button.setText("Ver anuncio");
         holder.button.setOnClickListener(v -> {
             mostrarDialogoAnuncio(anuncio);
@@ -109,6 +112,15 @@ class AnunciosAdapter extends RecyclerView.Adapter<AnunciosAdapter.ViewHolder> {
             autorTextView = itemView.findViewById(R.id.user);
             button = itemView.findViewById(R.id.button);
         }
+    }
+
+    private void mostrarDialogoUsuario(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Usuario y tal");
+        builder.setMessage("Descripción del usuario");
+        builder.setPositiveButton("Cerrar", (dialog, which) -> dialog.dismiss());
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void mostrarDialogoAnuncio(Anuncio anuncio) {
