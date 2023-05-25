@@ -24,5 +24,5 @@ public interface ICursoService {
 
     void removeAlumnoFromCurso(Curso curso, Alumno alumno);
 
-    void addAlumnoFromCurso(Curso curso, Alumno alumno);
+    void addAlumnoToCurso(Curso curso, Alumno alumno);
 }

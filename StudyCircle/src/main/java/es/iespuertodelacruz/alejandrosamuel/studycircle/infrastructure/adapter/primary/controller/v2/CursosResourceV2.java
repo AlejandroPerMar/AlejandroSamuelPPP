@@ -1,13 +1,11 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.MateriaTutor;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.*;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.*;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.CursoDTOMapper;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlertaCursoAlumnoEntity;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.EntityJustIdMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasCurso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
@@ -22,10 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Api(tags = {SwaggerConfig.CURSO_V2_TAG})
 @RestController
@@ -49,7 +45,16 @@ public class CursosResourceV2 {
     private IAlumnoService alumnoService;
 
     @Autowired
-    private IMateriaService materiaService;
+    private IUsuarioService usuarioService;
+
+    @Autowired
+    private IAmistadService amistadService;
+
+    @Autowired
+    private IAlertaCursoAlumnoService alertaCursoAlumnoService;
+
+    @Autowired
+    private EntityJustIdMapper entityJustIdMapper;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -166,41 +171,68 @@ public class CursosResourceV2 {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.TUTOR_PROFILE_NOT_CREATED.name());
     }
 
-    @PutMapping("/agregarAlumno")
+    @PutMapping("aceptarInvitacionCursoAlumno")
     @ApiOperation(
-            value= "Agregar alumno al Curso",
+            value= "Aceptar invitación al curso",
             notes= """
                     Parámetros solicitados:\s
-                    • "Integer idCurso. ID del curso al que se quiere agregar al alumno
-                    • "Integer idAlumno. ID del alumno a agregar al curso
+                    • "Integer idAlertaCursoAlumno. ID de la alerta que se ha generado para el alumno (sólo él tiene acceso)
                     
                     Posibles respuestas:\s
-                    • "NON_AUTHENTICATED_OWNER" (String). Indica que el curso no es propiedad del usuario autenticado
-                    • "NON_EXISTING_COURSE_OR_STUDENT" (String). Indica que el curso y/o alumno indicados no existen
-                    • "INVALID_PARAMETERS" (String). Indica que los parámetros indicados no son válidos
-                    • "TUTOR_PROFILE_NOT_CREATED" (String). Indica que el usuario autenticado no cuenta con perfil de tutor
+                    • "STUDENT_OR_COURSE_NOT_FOUND" (String). Indica que el alumno o curso
+                    • "ALERT_NOT_FOUND" (String). Indica que no se ha encontrado la alerta
                     • "CursoDTO. Devuelve el curso actualizado
                     """
     )
-    public ResponseEntity<?> addAlumno(@RequestParam("idCurso") Integer idCurso,
-                                       @RequestParam("idAlumno") Integer idAlumno) {
-        Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
-        if(Objects.nonNull(tutor)) {
-            if(ObjectUtils.notNullNorEmpty(idAlumno, idCurso)) {
-                Curso curso = cursoService.findById(idCurso);
-                Alumno alumno = alumnoService.findAlumnoById(idAlumno);
-                if(ObjectUtils.notNullNorEmpty(curso, alumno)) {
-                    if(curso.getMateriaTutor().getTutor().getId().equals(tutor.getId())) {
-                        cursoService.addAlumnoFromCurso(curso, alumno);
-                        return ResponseEntity.ok(mapper.toDTOTutor(cursoService.findById(idCurso)));
-                    }
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.NON_AUTHENTICATED_OWNER.name());
-                }
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.NON_EXISTING_COURSE_OR_STUDENT.name());
-            }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.INVALID_PARAMETERS.name());
+    public ResponseEntity<?> aceptarInvitacionCurso(@RequestParam("idAlertaCursoAlumno") Integer idAlertaCursoAlumno) {
+        Alumno alumno = alumnoService.findAlumnoByUsername(getUsernameUsuario());
+        AlertaCursoAlumnoEntity alertaCursoAlumnoEntity = alertaCursoAlumnoService.findById(idAlertaCursoAlumno);
+        if(Objects.isNull(alertaCursoAlumnoEntity)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.ALERT_NOT_FOUND.name());
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.TUTOR_PROFILE_NOT_CREATED.name());
+        Curso curso = entityJustIdMapper.toDomain(alertaCursoAlumnoEntity.getCurso());
+        if(ObjectUtils.notNullNorEmpty(alumno, curso)) {
+            cursoService.addAlumnoToCurso(curso, alumno);
+            entityManager.clear();
+            return ResponseEntity.ok(mapper.toDTOTutor(cursoService.findById(curso.getId())));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.STUDENT_OR_COURSE_NOT_FOUND.name());
+    }
+
+    @PostMapping("/inviteStudent")
+    @ApiOperation(
+            value = "Invitar alumno a curso",
+            notes = """
+                    Parámetros solicitados:\s
+                    • "Integer idUser. ID del usuario al que se quiere invitar al curso
+                    • "Integer idCourse. ID del curso al que se quiere invitar
+                    
+                    Posibles respuestas:\s
+                    • "NON_AUTHENTICATED_OWNER" (String). Indica que el curso no es propiedad del usuario autenticado
+                    • "STUDENT_NOT_FOUND_IN_CONTACTS" (String). Indica que el alumno que se quiere invitar no se encuentra en la lista de contactos del usuario
+                    • "STUDENT_INVITED" (String). Indica que se ha invitado con éxito al alumno
+                    • "STUDENT_OR_COURSE_NOT_FOUND" (String). Indica que el alumno o curso no se han encontrado
+                    """
+    )
+    public ResponseEntity<?> inviteStudentToCourse(@RequestParam("idUser") Integer idUser, @RequestParam("idCourse") Integer idCourse) {
+        Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        Alumno alumno = alumnoService.findAlumnoByIdUsuario(idUser);
+        Curso curso = cursoService.findById(idCourse);
+        if(ObjectUtils.notNullNorEmpty(tutor, curso)) {
+            if(!curso.getMateriaTutor().getTutor().getId().equals(tutor.getId())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.NON_AUTHENTICATED_OWNER.name());
+            }
+        }
+        if(Objects.isNull(alumno) ||
+                amistadService.findAmistadesByIdUsuario(usuario.getId()).stream().filter(us -> us.getId().equals(idUser)).findFirst().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.STUDENT_NOT_FOUND_IN_CONTACTS.name());
+        }
+        if(ObjectUtils.notNullNorEmpty(alumno, curso)) {
+            alertaCursoAlumnoService.create(alumno.getId(), curso.getId());
+            return ResponseEntity.ok(RespuestasCurso.STUDENT_INVITED.name());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.STUDENT_OR_COURSE_NOT_FOUND.name());
     }
 
     @GetMapping("/alumno")

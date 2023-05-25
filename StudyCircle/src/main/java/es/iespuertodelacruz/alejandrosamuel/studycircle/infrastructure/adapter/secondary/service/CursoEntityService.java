@@ -116,7 +116,7 @@ public class CursoEntityService implements ICursoRepository {
 
     @Override
     @Transactional
-    public void addAlumnoFromCurso(Curso curso, Alumno alumno) {
+    public void addAlumnoToCurso(Curso curso, Alumno alumno) {
         CursoEntity cursoEntity = repository.findById(curso.getId()).orElse(null);
         AlumnoEntity alumnoEntity = alumnoRepository.findById(alumno.getId()).orElse(null);
         if(Objects.nonNull(alumnoEntity)) {

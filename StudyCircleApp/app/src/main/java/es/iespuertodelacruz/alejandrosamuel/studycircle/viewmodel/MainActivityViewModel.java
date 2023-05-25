@@ -146,8 +146,12 @@ public class MainActivityViewModel extends AndroidViewModel {
     }
 
     //Acciones de los cursos
-    public LiveData<Object> addAlumnoToCurso(Integer idCurso, Integer idAlumno, String token) {
-        return cursosRepository.addAlumnoToCurso(idCurso, idAlumno, token);
+    public LiveData<Object> invitarAlumnoToCurso(Integer idUser, Integer idCurso, String token) {
+        return cursosRepository.invitarAlumnoToCurso(idUser, idCurso, token);
+    }
+
+    public LiveData<Object> aceptarInvitacionCurso(Integer idAlertaCursoAlumno, String token) {
+        return cursosRepository.aceptarInvitacionCurso(idAlertaCursoAlumno, token);
     }
 
     public LiveData<Object> removeAlumnoFromCurso(Integer idCurso, Integer idAlumno, String token) {
@@ -237,6 +241,10 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public LiveData<Object> findAlertasAmistadByUsuario(String token) {
         return alertasRepository.findAlertasAmistadByUsuario(token);
+    }
+
+    public LiveData<Object> findAlertasCursoAlumnodByUsuario(String token) {
+        return alertasRepository.findAlertasCursoAlumnodByUsuario(token);
     }
 
     //Acciones de las amistades

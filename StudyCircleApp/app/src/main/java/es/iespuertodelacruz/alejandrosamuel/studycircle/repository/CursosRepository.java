@@ -80,11 +80,56 @@ public class CursosRepository {
         return mutableCurso;
     }
 
-    public LiveData<Object> addAlumnoToCurso(Integer idCurso, Integer idAlumno, String token) {
+    public LiveData<Object> invitarAlumnoToCurso(Integer idUser, Integer idCurso, String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<Object> mutableCurso = new MutableLiveData<>();
-        Call<ResponseBody> callAddAlumno = restAuthService.addAlumnoToCurso(idCurso, idAlumno);
+        Call<ResponseBody> callAddAlumno = restAuthService.invitarAlumnoToCurso(idUser, idCurso);
         callAddAlumno.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    mutableCurso.setValue(RespuestasCursos.STUDENT_INVITED);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = response.errorBody().string();
+                    } catch (IOException e) {
+                        respuesta = null;
+                    }
+                    switch (RespuestasCursos.valueOf(respuesta)) {
+                        case STUDENT_OR_COURSE_NOT_FOUND:
+                            mutableCurso.setValue(RespuestasCursos.STUDENT_OR_COURSE_NOT_FOUND);
+                            break;
+                        case STUDENT_NOT_FOUND_IN_CONTACTS:
+                            mutableCurso.setValue(RespuestasCursos.STUDENT_NOT_FOUND_IN_CONTACTS);
+                            break;
+                        case NON_AUTHENTICATED_OWNER:
+                            mutableCurso.setValue(RespuestasCursos.NON_AUTHENTICATED_OWNER);
+                            break;
+                        default:
+                    }
+
+                    if(response.code() == 403) {
+                        mutableCurso.setValue(null);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableCurso;
+    }
+
+    public LiveData<Object> aceptarInvitacionCurso(Integer idAlertaCursoAlumno, String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableCurso = new MutableLiveData<>();
+        Call<ResponseBody> callAceptarInvitacion = restAuthService.aceptarInvitacionCursoAlumno(idAlertaCursoAlumno);
+        callAceptarInvitacion.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,
                                    Response<ResponseBody> response) {
@@ -101,17 +146,11 @@ public class CursosRepository {
                         respuesta = null;
                     }
                     switch (RespuestasCursos.valueOf(respuesta)) {
-                        case TUTOR_PROFILE_NOT_CREATED:
-                            mutableCurso.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED);
+                        case ALERT_NOT_FOUND:
+                            mutableCurso.setValue(RespuestasCursos.ALERT_NOT_FOUND);
                             break;
-                        case INVALID_PARAMETERS:
-                            mutableCurso.setValue(RespuestasCursos.INVALID_PARAMETERS);
-                            break;
-                        case NON_EXISTING_COURSE_OR_STUDENT:
-                            mutableCurso.setValue(RespuestasCursos.NON_EXISTING_COURSE_OR_STUDENT);
-                            break;
-                        case NON_AUTHENTICATED_OWNER:
-                            mutableCurso.setValue(RespuestasCursos.NON_AUTHENTICATED_OWNER);
+                        case STUDENT_OR_COURSE_NOT_FOUND:
+                            mutableCurso.setValue(RespuestasCursos.STUDENT_OR_COURSE_NOT_FOUND);
                             break;
                         default:
                     }

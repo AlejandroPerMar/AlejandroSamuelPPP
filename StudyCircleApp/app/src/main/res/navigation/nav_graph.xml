@@ -120,9 +120,6 @@
             android:id="@+id/action_tutorConfFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
-    <action
-        android:id="@+id/action_refresh_home_fragment"
-        app:destination="@id/homeFragment" />
     <fragment
         android:id="@+id/anunciosFragment"
         android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.AnunciosFragment"
@@ -134,7 +131,7 @@
         android:label="fragment_alerts"
         tools:layout="@layout/fragment_alerts" >
         <action
-            android:id="@+id/action_alertsFragment_to_homeFragment2"
+            android:id="@+id/action_alertsFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_alertsFragment_to_calendarFragment"
@@ -142,6 +139,24 @@
         <action
             android:id="@+id/action_alertsFragment_to_chatsFragment"
             app:destination="@id/chatsFragment" />
+        <action
+            android:id="@+id/action_alertsFragment_to_busquedaUsuariosFragment"
+            app:destination="@id/busquedaUsuariosFragment" />
+        <action
+            android:id="@+id/action_alertsFragment_to_anunciosFragment"
+            app:destination="@id/anunciosFragment" />
+        <action
+            android:id="@+id/action_alertsFragment_to_configuracionFragment"
+            app:destination="@id/configuracionFragment" />
+        <action
+            android:id="@+id/action_alertsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_alertsFragment_to_alumnoConfFragment"
+            app:destination="@id/alumnoConfFragment" />
+        <action
+            android:id="@+id/action_alertsFragment_to_tutorConfFragment"
+            app:destination="@id/tutorConfFragment" />
     </fragment>
     <fragment
         android:id="@+id/busquedaUsuariosFragment"
@@ -162,6 +177,24 @@
         <action
             android:id="@+id/action_calendarFragment_to_alertsFragment"
             app:destination="@id/alertsFragment" />
+        <action
+            android:id="@+id/action_calendarFragment_to_configuracionFragment"
+            app:destination="@id/configuracionFragment" />
+        <action
+            android:id="@+id/action_calendarFragment_to_busquedaUsuariosFragment"
+            app:destination="@id/busquedaUsuariosFragment" />
+        <action
+            android:id="@+id/action_calendarFragment_to_anunciosFragment"
+            app:destination="@id/anunciosFragment" />
+        <action
+            android:id="@+id/action_calendarFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_calendarFragment_to_tutorConfFragment"
+            app:destination="@id/tutorConfFragment" />
+        <action
+            android:id="@+id/action_calendarFragment_to_alumnoConfFragment"
+            app:destination="@id/alumnoConfFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatsFragment"
@@ -177,10 +210,40 @@
         <action
             android:id="@+id/action_chatsFragment_to_alertsFragment"
             app:destination="@id/alertsFragment" />
+        <action
+            android:id="@+id/action_chatsFragment_to_configuracionFragment"
+            app:destination="@id/configuracionFragment" />
+        <action
+            android:id="@+id/action_chatsFragment_to_busquedaUsuariosFragment"
+            app:destination="@id/busquedaUsuariosFragment" />
+        <action
+            android:id="@+id/action_chatsFragment_to_anunciosFragment"
+            app:destination="@id/anunciosFragment" />
+        <action
+            android:id="@+id/action_chatsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_chatsFragment_to_tutorConfFragment"
+            app:destination="@id/tutorConfFragment" />
+        <action
+            android:id="@+id/action_chatsFragment_to_alumnoConfFragment"
+            app:destination="@id/alumnoConfFragment" />
     </fragment>
     <fragment
         android:id="@+id/configuracionFragment"
         android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.ConfiguracionFragment"
         android:label="fragment_configuracion"
         tools:layout="@layout/fragment_configuracion" />
+    <action
+        android:id="@+id/action_refresh_home_fragment"
+        app:destination="@id/homeFragment" />
+    <action
+        android:id="@+id/action_refresh_alerts_fragment"
+        app:destination="@id/alertsFragment" />
+    <action
+        android:id="@+id/action_refresh_chats_fragment"
+        app:destination="@id/chatsFragment" />
+    <action
+        android:id="@+id/action_refresh_calendar_fragment"
+        app:destination="@id/calendarFragment" />
 </navigation>

@@ -7,7 +7,12 @@ public enum RespuestasCursos {
     INVALID_PARAMETERS("INVALID_PARAMETERS", "Parámetros inválidos"),
     NON_EXISTING_COURSE_OR_STUDENT("NON_EXISTING_COURSE_OR_STUDENT", "Curso o alumno no existente"),
     NON_AUTHENTICATED_OWNER("NON_AUTHENTICATED_OWNER", "El curso no pertenece al usuario"),
-    NON_EXISTING_COURSE("NON_EXISTING_COURSE", "Curso no existente");
+    NON_EXISTING_COURSE("NON_EXISTING_COURSE", "Curso no existente"),
+    STUDENT_OR_COURSE_NOT_FOUND("STUDENT_OR_COURSE_NOT_FOUND", "Alumno o curso no encontrados"),
+    STUDENT_INVITED("STUDENT_INVITED", "Se ha invitado con éxito al alumno"),
+    STUDENT_NOT_FOUND_IN_CONTACTS("STUDENT_NOT_FOUND_IN_CONTACTS", "Alumno no se encuentra en la lista de contactos del usuario"),
+    ALERT_NOT_FOUND("ALERT_NOT_FOUND", "No se ha encontrado la alerta");
+
 
     private final String name;
     private final String descripcion;

@@ -69,8 +69,11 @@ public interface RESTService {
     @GET("v2/cursos/tutor")
     Call<ResponseBody> findCursosTutor();
 
-    @PUT("v2/cursos/agregarAlumno")
-    Call<ResponseBody> addAlumnoToCurso(@Query("idCurso") Integer idCurso, @Query("idAlumno") Integer idAlumno);
+    @POST("v2/cursos/inviteStudent")
+    Call<ResponseBody> invitarAlumnoToCurso(@Query("idUser") Integer idUser, @Query("idCourse") Integer idCourse);
+
+    @PUT("v2/cursos/aceptarInvitacionCursoAlumno")
+    Call<ResponseBody> aceptarInvitacionCursoAlumno(@Query("idAlertaCursoAlumno") Integer idAlertaCursoAlumno);
 
     @PUT("v2/cursos/eliminarAlumno")
     Call<ResponseBody> removeAlumnoFromCurso(@Query("idCurso") Integer idCurso, @Query("idAlumno") Integer idAlumno);
@@ -146,6 +149,9 @@ public interface RESTService {
 
     @GET("v2/alertas/amistades")
     Call<ResponseBody> findAlertasAmistadByUsuario();
+
+    @GET("v2/alertas/invitacionesCursos")
+    Call<ResponseBody> findAlertasCursoAlumnodByUsuario();
 
     //Acciones niveles de estudios
     @GET("v2/estudios")

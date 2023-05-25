@@ -20,6 +20,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RESTService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RetrofitClient;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlertaActividadDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlertaAmistadDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlertaCursoAlumnoDTO;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,6 +93,36 @@ public class AlertasRepository {
             }
         });
         return mutableAlertasAmistad;
+    }
+
+    public LiveData<Object> findAlertasCursoAlumnodByUsuario(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableAlertasCursoAlumno = new MutableLiveData<>();
+        Call<ResponseBody> callFindAlertasCursoAlumnoByUsuario = restAuthService.findAlertasCursoAlumnodByUsuario();
+        callFindAlertasCursoAlumnoByUsuario.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<AlertaAmistadDTO>>() {}.getType();
+                    List<AlertaCursoAlumnoDTO> alertasCursoAlumnoDTO = new Gson().fromJson(body.charStream(), listType);
+                    mutableAlertasCursoAlumno.setValue(alertasCursoAlumnoDTO);
+                }else {
+
+                    if(response.code() == 403) {
+                        mutableAlertasCursoAlumno.setValue(null);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableAlertasCursoAlumno;
     }
 
 }

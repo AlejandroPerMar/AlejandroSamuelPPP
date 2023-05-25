@@ -56,7 +56,7 @@ public class CursoService implements ICursoService {
     }
 
     @Override
-    public void addAlumnoFromCurso(Curso curso, Alumno alumno) {
-        repository.addAlumnoFromCurso(curso, alumno);
+    public void addAlumnoToCurso(Curso curso, Alumno alumno) {
+        repository.addAlumnoToCurso(curso, alumno);
     }
 }
