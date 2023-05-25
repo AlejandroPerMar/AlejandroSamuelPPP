@@ -52,12 +52,18 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         List<String> actividadesCurso2 = Arrays.asList("Actividad 4", "Actividad 5", "Actividad 6");
         List<String> actividadesCurso3 = Arrays.asList("Actividad 7", "Actividad 8", "Actividad 9");
 
-        cursos.add(new Curso("Curso 1", "Matemáticas", "Tutor 1", actividadesCurso1,new ArrayList<>()));
+        List<Alumno> alumnoList = new ArrayList<>();
+        alumnoList.add(new Alumno("Juan", "Pérez"));
+        alumnoList.add(new Alumno("María", "Gómez"));
+        alumnoList.add(new Alumno("Pedro", "López"));
+        alumnoList.add(new Alumno("Ana", "Sánchez"));
+
+        cursos.add(new Curso("Curso 1", "Matemáticas", "Tutor 1", actividadesCurso1,alumnoList));
         cursos.add(new Curso("Curso 2", "Historia", "Tutor 2", actividadesCurso2,new ArrayList<>()));
-        cursos.add(new Curso("Curso 3", "Ciencias", "Tutor 3", actividadesCurso3,new ArrayList<>()));
+        cursos.add(new Curso("Curso 3", "Ciencias", "Tutor 3", actividadesCurso3,alumnoList));
         cursos.add(new Curso("Curso 4", "Matemáticas", "Tutor 4", actividadesCurso1,new ArrayList<>()));
-        cursos.add(new Curso("Curso 5", "Historia", "Tutor 5", actividadesCurso2,new ArrayList<>()));
-        cursos.add(new Curso("Curso 6", "Ciencias", "Tutor 6", actividadesCurso3,new ArrayList<>()));
+        cursos.add(new Curso("Curso 5", "Historia", "Tutor 5", actividadesCurso2,alumnoList));
+        cursos.add(new Curso("Curso 6", "Ciencias", "Tutor 6", actividadesCurso3,alumnoList));
 
         cursoAdapter = new CursoAdapter(getActivity(), cursos);
         cursoAdapter.setOnItemClickListener(this);
@@ -218,10 +224,9 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         String materia = curso.getMateria();
         String tutor = curso.getTutor();
         List<String> actividades = curso.getActividades();
+        List<Alumno> alumnos = curso.getAlumnos();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        //builder.setTitle(nombre);
-
         View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_curso, null);
         builder.setView(dialogView);
 
@@ -229,6 +234,7 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         TextView materiaTextView = dialogView.findViewById(R.id.materiaTextView);
         TextView tutorTextView = dialogView.findViewById(R.id.tutorTextView);
         LinearLayout actividadesLayout = dialogView.findViewById(R.id.actividadesLayout);
+        LinearLayout alumnosLayout = dialogView.findViewById(R.id.alumnosLayout);
 
         nombreTextView.setText(nombre);
         materiaTextView.setText(materia);
@@ -244,6 +250,19 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
                 }
             });
             actividadesLayout.addView(actividadTextView);
+        }
+
+        for (Alumno alumno : alumnos) {
+            TextView alumnoTextView = new TextView(getActivity());
+            String nombreCompleto = alumno.getNombre()+" "+alumno.getApellido();
+            alumnoTextView.setText(nombreCompleto);
+            alumnoTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showAlumnoDialog(alumno);
+                }
+            });
+            alumnosLayout.addView(alumnoTextView);
         }
 
         builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
@@ -268,6 +287,21 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
             }
         });
 
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showAlumnoDialog(Alumno alumno) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        String nombreCompleto = alumno.getNombre()+" "+alumno.getApellido();
+        builder.setTitle(nombreCompleto);
+        builder.setMessage("Detalles del alumno");
+        builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
         AlertDialog dialog = builder.create();
         dialog.show();
     }

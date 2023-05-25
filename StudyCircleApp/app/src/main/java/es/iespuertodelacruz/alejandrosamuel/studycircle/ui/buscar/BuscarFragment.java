@@ -117,12 +117,12 @@ public class BuscarFragment extends Fragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle(result.getTitle())
                     .setMessage(result.getDescription())
-                    .setPositiveButton("Botón 1", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Agregar contacto", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // Acción al hacer clic en el botón 1
                         }
                     })
-                    .setNegativeButton("Botón 2", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Ver perfil", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // Acción al hacer clic en el botón 2
                         }
