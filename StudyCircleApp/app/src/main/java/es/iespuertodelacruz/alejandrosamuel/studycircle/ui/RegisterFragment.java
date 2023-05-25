@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -215,11 +216,11 @@ public class RegisterFragment extends Fragment {
                 usuarioRegisterDTO.setEmail(email);
                 usuarioRegisterDTO.setUsername(username);
                 usuarioRegisterDTO.setClave(password);
-                viewModel.register(usuarioRegisterDTO);
+                LiveData<Object> register = viewModel.register(usuarioRegisterDTO);
                 setVisibleLayout(false);
                 progressBar.setVisibility(View.VISIBLE);
 
-                viewModel.register(usuarioRegisterDTO).observe(getViewLifecycleOwner(), response -> {
+                register.observe(getViewLifecycleOwner(), response -> {
                     if(response instanceof UsuarioDTO) {
                         viewModel.setRegisterSuccessMessage("!Cuenta creada con éxito!\nInicie sesión");
                         Navigation.findNavController(view13).navigate(R.id.action_registerFragment_to_loginFragment);
