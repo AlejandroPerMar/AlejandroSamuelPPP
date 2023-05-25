@@ -115,6 +115,9 @@ public class TutorConfFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentTutorConfBinding.inflate(inflater, container, false);
+        MainActivity mainActivity = (MainActivity) requireActivity();
+        mainActivity.enableDrawer(false);
+        mainActivity.setBottomNavVisibility(View.INVISIBLE);
         tutorConfFragment = binding.tutorConfFragment;
         materiasPorNivelEstudiosList = new ArrayList<>();
         progressBar = binding.progressBar;
