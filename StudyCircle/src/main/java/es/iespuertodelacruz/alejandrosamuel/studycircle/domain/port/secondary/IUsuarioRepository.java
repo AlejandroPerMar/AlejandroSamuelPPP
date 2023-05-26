@@ -20,4 +20,6 @@ public interface IUsuarioRepository {
 	TokenConfirmacionEntity resendConfirmationToken(Usuario usuario);
 
 	Usuario findById(Integer id);
+
+	List<Usuario> findUsuarios(Integer idUsuario);
 }

@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardViewCursos"
+    android:id="@+id/cardViewUsuarios"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
+    android:layout_height="70dp"
     android:layout_margin="4dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardCornerRadius="15dp">
+    app:cardCornerRadius="10dp">
     <LinearLayout
         android:id="@+id/popUpCurso"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="70dp"
         android:orientation="vertical"
-        android:background="@drawable/blue_border_rounded_cornwe_bold">
+        android:background="@drawable/blue_border_rounded_10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/header_popup"
             android:layout_weight="5">
             <TextView
-                android:id="@+id/txtCursoTitulo"
+                android:id="@+id/txtUsuarioNombre"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/curso"
-                android:gravity="center_horizontal|center_vertical"
-                android:textColor="@color/white"
-                android:textSize="30sp"
-                android:fontFamily="@font/poppins_medium_italic">
+                android:text="usuario"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/grey"
+                android:textSize="20sp"
+                android:fontFamily="@font/poppins_medium">
 
             </TextView>
         </LinearLayout>

@@ -3,6 +3,8 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 
+import java.util.List;
+
 public interface IUsuarioService {
 	
 	boolean checkCredentials(String username, String pass);
@@ -18,4 +20,6 @@ public interface IUsuarioService {
 	Usuario findByEmail(String email);
 
     Usuario findById(Integer id);
+
+	List<Usuario> findUsuarios(Integer idUsuario);
 }

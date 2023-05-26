@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -89,6 +90,11 @@ public class UsuarioService implements IUsuarioService {
 	@Override
 	public Usuario findById(Integer id) {
 		return usuarioRepository.findById(id);
+	}
+
+	@Override
+	public List<Usuario> findUsuarios(Integer idUsuario) {
+		return usuarioRepository.findUsuarios(idUsuario);
 	}
 
 }

@@ -92,6 +92,10 @@ public class MainActivityViewModel extends AndroidViewModel {
         return authRepository.getUsuario(token);
     }
 
+    public LiveData<Object> getPerfilesUsuarios(String token) {
+        return authRepository.getPerfilesUsuarios(token);
+    }
+
     public LiveData<Object> resendEmail(String token) {
         return authRepository.resendEmail(token);
     }

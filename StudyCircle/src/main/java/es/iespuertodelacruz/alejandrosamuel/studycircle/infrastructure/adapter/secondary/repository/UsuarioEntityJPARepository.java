@@ -1,5 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.RolEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -27,4 +30,7 @@ public interface UsuarioEntityJPARepository extends JpaRepository<UsuarioEntity,
 	@Modifying
 	@Query("UPDATE TokenConfirmacionEntity t SET t.valido = false WHERE t.usuario.id = :id")
 	Integer invalidarTokensUsuario(@Param("id") Integer id);
+
+	@Query("SELECT u FROM UsuarioEntity u WHERE :rolEntity MEMBER OF u.roles AND u.id != :idUsuario")
+    List<UsuarioEntity> findUsuarios(@Param("rolEntity") RolEntity rolEntity, @Param("idUsuario") Integer idUsuario);
 }

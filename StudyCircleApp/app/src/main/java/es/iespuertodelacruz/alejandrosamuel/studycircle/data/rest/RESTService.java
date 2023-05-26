@@ -34,6 +34,9 @@ public interface RESTService {
     @GET("v2/usuarios")
     Call<ResponseBody> getUsuario();
 
+    @GET("v2/usuarios/perfilesUsuarios")
+    Call<ResponseBody> getPerfilesUsuarios();
+
     @GET("v2/usuarios/resendconfirmationemail")
     Call<String> resendEmail();
 

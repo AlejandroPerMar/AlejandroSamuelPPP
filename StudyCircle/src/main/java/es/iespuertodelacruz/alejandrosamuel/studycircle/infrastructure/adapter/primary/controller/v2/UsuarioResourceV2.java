@@ -60,6 +60,19 @@ public class UsuarioResourceV2 {
         return ResponseEntity.ok(mapper.toDTO(usuarioService.findByUsername(getUsernameUsuario())));
     }
 
+    @GetMapping("/perfilesUsuarios")
+    @ApiOperation(
+            value = "Obtener lista de usuarios",
+            notes = """
+                    Posibles respuestas:\s
+                    • "List<UsuarioDTO>. Devuelve lista de usuarios
+                    """
+    )
+    public ResponseEntity<?> getPerfilesUsuarios() {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        return ResponseEntity.ok(usuarioService.findUsuarios(usuario.getId()).stream().map(mapper::toDTO).toList());
+    }
+
     @GetMapping("resendconfirmationemail")
     @ApiOperation(
             value= "Reenviar el correo de confirmación de email",

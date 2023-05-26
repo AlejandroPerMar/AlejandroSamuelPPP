@@ -11,8 +11,11 @@ import androidx.lifecycle.MutableLiveData;
 
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.DatabaseStudyCircle;
@@ -39,11 +42,40 @@ public class AuthRepository {
         database = DatabaseStudyCircle.getDatabase(application);
     }
 
+    public LiveData<Object> getPerfilesUsuarios(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableUsuarios = new MutableLiveData<>();
+        Call<ResponseBody> callFindUsuarios = restAuthService.getPerfilesUsuarios();
+        callFindUsuarios.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<UsuarioDTO>>() {}.getType();
+                    List<UsuarioDTO> usuariosDTO = new Gson().fromJson(body.charStream(), listType);
+                    mutableUsuarios.setValue(usuariosDTO);
+                }else {
+                    if(response.code() == 403) {
+                        mutableUsuarios.setValue(null);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableUsuarios;
+    }
+
     public LiveData<Object> getUsuario(String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<Object> mutableUsuario = new MutableLiveData<>();
-        Call<ResponseBody> callToken = restAuthService.getUsuario();
-        callToken.enqueue(new Callback<ResponseBody>() {
+        Call<ResponseBody> callGetUsuario = restAuthService.getUsuario();
+        callGetUsuario.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,
                                    Response<ResponseBody> response) {
