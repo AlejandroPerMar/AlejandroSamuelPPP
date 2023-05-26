@@ -13,17 +13,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.transform.Result;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentBuscarBinding;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.ui.alumno.AlumnoFragment;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.HomeFragment;
+
+
 public class BuscarFragment extends Fragment {
 
     private SearchView searchView;
@@ -63,12 +69,13 @@ public class BuscarFragment extends Fragment {
 
     private class ResultsAdapter extends RecyclerView.Adapter<ResultsViewHolder> implements Filterable {
 
+
+
         private final List<BuscarFragment.Result> resultList;
         private List<BuscarFragment.Result> resultListFiltered;
 
         public ResultsAdapter() {
             resultList = new ArrayList<>();
-            resultListFiltered = new ArrayList<>();
 
             resultList.add(new BuscarFragment.Result("Result 1", "Description 1", "Author 1"));
             resultList.add(new BuscarFragment.Result("Result 2", "Description 2", "Author 2"));
@@ -87,8 +94,7 @@ public class BuscarFragment extends Fragment {
             resultList.add(new BuscarFragment.Result("Result 50", "Description 2", "Author 2"));
             resultList.add(new BuscarFragment.Result("Result 61", "Description 3", "Author 3"));
 
-
-
+            resultListFiltered = new ArrayList<>();
             resultListFiltered.addAll(resultList);
         }
 
@@ -119,19 +125,29 @@ public class BuscarFragment extends Fragment {
                     .setMessage(result.getDescription())
                     .setPositiveButton("Agregar contacto", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // Acción al hacer clic en el botón 1
+                            // Acción al hacer clic en el botón "Agregar contacto"
                         }
                     })
                     .setNegativeButton("Ver perfil", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // Acción al hacer clic en el botón 2
+
+                            NavController navController = Navigation.findNavController(requireView());
+                            navController.navigate(R.id.action_nav_buscar_to_nav_perfil);
+
+                           /*
+                           FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                            AlumnoFragment miFragment = new AlumnoFragment();
+                            fragmentTransaction.add(miFragment,"Perfil");
+                            fragmentTransaction.commit();
+                            */
                         }
                     });
 
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-
 
         @Override
         public int getItemCount() {

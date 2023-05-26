@@ -32,9 +32,6 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-
         /*
         BottomNavigationView navView = binding.navStart;
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
