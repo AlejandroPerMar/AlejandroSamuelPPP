@@ -91,7 +91,7 @@ public class UsuarioEntityService implements IUsuarioRepository {
 	public boolean checkPassword(String username, String pswd) {
 		boolean ok = false;
 		Usuario usuario = findByUsername(username);
-		if (usuario != null)
+		if (Objects.nonNull(usuario))
 			ok = passwordEncoder.matches(pswd, usuario.getHashpswd());
 		return ok;
 

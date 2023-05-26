@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="grey">#8F8F8F</color>
+    <color name="red">#FF0000</color>
+    <color name="blue">#0037FF</color>
+    <color name="green">#2EFF00</color>
+    <color name="bluestd">#FF1566E0</color>
+    <color name="bluestdtrans">#521566E0</color>
+    <color name="headerbackground">#541E2D80</color>
     <color name="white">#FFFFFFFF</color>
     <color name="rippleColor">#00FFFFFF</color>
 </resources>

@@ -39,4 +39,11 @@
     <string name="cerrar_sesi_n">Cerrar Sesión</string>
     <string name="opciones">Opciones</string>
     <string name="home_nav">Home</string>
+    <string name="notificaciones">Notificaciones</string>
+    <string name="chats">Chats</string>
+    <string name="perfil_de_tutor">Perfil de tutor</string>
+    <string name="perfil_de_alumno">Perfil de alumno</string>
+    <string name="friends_count">%1$s Amistades</string>
+    <string name="curso">Curso</string>
+    <string name="cursos">Cursos</string>
 </resources>

@@ -83,7 +83,7 @@ public class MateriaAlumnoAdapter extends RecyclerView.Adapter<MateriaAlumnoAdap
         MateriaViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.textView);
-            cardView = itemView.findViewById(R.id.cardView);
+            cardView = itemView.findViewById(R.id.cardViewMaterias);
         }
     }
 }

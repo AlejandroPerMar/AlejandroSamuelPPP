@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -232,6 +233,14 @@ public class TutorConfFragment extends Fragment {
             }
         });
 
+        mainActivity.getSwitchProfile().setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+            }
+        });
+
         btnAceptar.setOnClickListener(btn -> {
             List<MateriaDTO> materiasSeleccionadas = new ArrayList<>();
             getMateriasPorNivelEstudiosList().forEach(mn -> materiasSeleccionadas.addAll(mn.getMateriasSeleccionadas()));
@@ -241,12 +250,12 @@ public class TutorConfFragment extends Fragment {
                     @Override
                     public void onChanged(Object o) {
                         if(o instanceof TutorDTO) {
+                            mainActivity.getSwitchProfile().check(R.id.switchTutor);
                             viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.TUTOR_PROFILE.name());
                             Toast.makeText(getContext(), "Perfil de tutor creado con éxito", Toast.LENGTH_LONG).show();
-                            Navigation.findNavController(requireView()).popBackStack(R.id.tutorConfFragment, true);
                             Navigation.findNavController(container).navigate(R.id.action_tutorConfFragment_to_homeFragment);
                         }else if(o instanceof RespuestasProfileConf){
-                            TextView txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasProfileConf.TUTOR_PROFILE_NOT_CREATED.getDescripcion());
+                            TextView txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasProfileConf.TUTOR_PROFILE_NOT_CREATED.getDescripcion(), 20);
                             LinearLayout linearLayout = binding.btnAceptarLayout;
                             int index = linearLayout.indexOfChild(btnAceptar);  // Obtener el índice del LinearLayout en el ViewGroup padre
 

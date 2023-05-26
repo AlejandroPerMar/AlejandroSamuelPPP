@@ -1,13 +1,17 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -231,7 +236,7 @@ public class LoginFragment extends Fragment {
                             progressBar.setVisibility(View.INVISIBLE);
                             setVisibleLayout(true);
                             txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(view.getContext(),
-                                    RespuestasAuthToken.INVALID_USERNAME_OR_PASSWORD.getDescripcion());
+                                    RespuestasAuthToken.INVALID_USERNAME_OR_PASSWORD.getDescripcion(), 20);
                             LinearLayout linearLayout = (LinearLayout) btnIniciarSesion.getParent();
                             int index = linearLayout.indexOfChild(btnIniciarSesion);  // Obtener el índice del LinearLayout en el ViewGroup padre
 
@@ -242,7 +247,7 @@ public class LoginFragment extends Fragment {
                     }
                 });
             }else {
-                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), "Hay campos sin cumplimentar");
+                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), "Hay campos sin cumplimentar", 20);
                 LinearLayout linearLayout = (LinearLayout) btnIniciarSesion.getParent();
                 int index = linearLayout.indexOfChild(btnIniciarSesion);  // Obtener el índice del LinearLayout en el ViewGroup padre
 
@@ -250,6 +255,26 @@ public class LoginFragment extends Fragment {
             }
             progressBar.setVisibility(View.INVISIBLE);
             setVisibleLayout(true);
+        });
+
+        btnNavRecuperarContrasena.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
+                builder.setTitle("¿Contraseña olvidada?");
+                builder.setMessage("Mala suerte   ☜(ˆ▿ˆc)");
+                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
+                dialog.show();
+                Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+            }
         });
 
         return binding.getRoot();

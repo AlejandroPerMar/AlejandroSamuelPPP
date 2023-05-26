@@ -29,6 +29,7 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -169,6 +170,14 @@ public class AlumnoConfFragment extends Fragment {
             }
         });
 
+        mainActivity.getSwitchProfile().setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+            }
+        });
+
         btnAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,11 +189,12 @@ public class AlumnoConfFragment extends Fragment {
                         @Override
                         public void onChanged(Object o) {
                             if(o instanceof AlumnoDTO) {
+                                mainActivity.getSwitchProfile().check(R.id.switchAlumno);
                                 viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.STUDENT_PROFILE.name());
                                 Toast.makeText(getContext(), "Perfil de alumno creado con éxito", Toast.LENGTH_LONG).show();
                                 Navigation.findNavController(container).navigate(R.id.action_alumnoConfFragment_to_homeFragment);
                             }else if(o instanceof RespuestasProfileConf){
-                                TextView txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasProfileConf.STUDENT_PROFILE_NOT_CREATED.getDescripcion());
+                                TextView txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasProfileConf.STUDENT_PROFILE_NOT_CREATED.getDescripcion(), 20);
                                 LinearLayout linearLayout = binding.btnAceptarLayout;
                                 int index = linearLayout.indexOfChild(btnAceptar);  // Obtener el índice del LinearLayout en el ViewGroup padre
 

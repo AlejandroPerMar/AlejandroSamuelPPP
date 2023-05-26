@@ -5,19 +5,26 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -54,6 +61,68 @@ public class CalendarFragment extends Fragment {
     private RadioGroup switchProfile;
     private NavigationView navigationView;
     private BottomNavigationView bottomNavigationView;
+    NavController navController;
+    private ProgressBar progressBar;
+    private ImageView btnExpand;
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        navController = NavHostFragment.findNavController(this);
+
+        // En tu onViewCreated...
+
+        // Define tu OnItemSelectedListener
+        NavigationBarView.OnItemSelectedListener onItemSelectedListener = new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() != bottomNavigationView.getSelectedItemId()) {
+                    if(item.getItemId() == R.id.nav_home) {
+                        navController.navigate(R.id.homeFragment);
+                    }else if(item.getItemId() == R.id.nav_notifications) {
+                        navController.navigate(R.id.alertsFragment);
+                    }else if(item.getItemId() == R.id.nav_chats) {
+                        navController.navigate(R.id.chatsFragment);
+                    }else if(item.getItemId() == R.id.nav_calendar) {
+                        navController.navigate(R.id.calendarFragment);
+                    }
+                }
+                return true;
+            }
+        };
+
+        // Establece el OnItemSelectedListener
+        bottomNavigationView.setOnItemSelectedListener(onItemSelectedListener);
+
+        // Añade el OnDestinationChangedListener
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                // Deshabilita el listener temporalmente
+                bottomNavigationView.setOnItemSelectedListener(null);
+
+                Menu menu = bottomNavigationView.getMenu();
+                MenuItem menuItem = null;
+
+                if(destination.getId() == R.id.homeFragment) {
+                    menuItem = menu.findItem(R.id.nav_home);
+                }else if(destination.getId() == R.id.alertsFragment) {
+                    menuItem = menu.findItem(R.id.nav_notifications);
+                }else if(destination.getId() == R.id.chatsFragment) {
+                    menuItem = menu.findItem(R.id.nav_chats);
+                }else if(destination.getId() == R.id.calendarFragment) {
+                    menuItem = menu.findItem(R.id.nav_calendar);
+                }
+
+                if (menuItem != null) {
+                    menuItem.setChecked(true);
+                }
+
+                // Reestablece el listener
+                bottomNavigationView.setOnItemSelectedListener(onItemSelectedListener);
+            }
+        });
+    }
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -92,29 +161,15 @@ public class CalendarFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentCalendarBinding.inflate(inflater, container, false);
-        MainActivity mainActivity = (MainActivity) requireActivity();
+        mainActivity = (MainActivity) requireActivity();
+        progressBar = binding.progressBar;
+        progressBar.setVisibility(View.INVISIBLE);
+        btnExpand = binding.btnExpand;
         navigationView  = mainActivity.getNavigationView();
         bottomNavigationView = mainActivity.getBottomNav();
         switchProfile = mainActivity.getSwitchProfile();
         mainActivity.enableDrawer(true);
         mainActivity.setBottomNavVisibility(View.VISIBLE);
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                // Logic to handle item selection in the BottomNavigationView
-                int itemId = item.getItemId();
-                if(itemId == R.id.nav_home) {
-                    Navigation.findNavController(container).navigate(R.id.action_calendarFragment_to_homeFragment);
-                }else if(itemId == R.id.nav_notifications) {
-                    Navigation.findNavController(container).navigate(R.id.action_calendarFragment_to_alertsFragment);
-                }else if(itemId == R.id.nav_chats) {
-                    Navigation.findNavController(container).navigate(R.id.action_calendarFragment_to_chatsFragment);
-                }else if(itemId == R.id.nav_calendar) {
-                    Navigation.findNavController(container).navigate(R.id.action_refresh_calendar_fragment);
-                }
-                return true;
-            }
-        });
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -191,6 +246,10 @@ public class CalendarFragment extends Fragment {
                     });
                 }
             }
+        });
+
+        btnExpand.setOnClickListener(btn -> {
+            mainActivity.openDrawer();
         });
 
         return binding.getRoot();

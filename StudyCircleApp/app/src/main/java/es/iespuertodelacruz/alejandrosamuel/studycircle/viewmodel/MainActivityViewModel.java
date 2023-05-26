@@ -19,6 +19,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.EventoCalendarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.TutorDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.ActividadesRepository;
@@ -85,6 +86,10 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public LiveData<Object> register(UsuarioRegisterDTO usuarioRegisterDTO) {
         return authRepository.registerUsuario(usuarioRegisterDTO);
+    }
+
+    public LiveData<Object> getUsuario(String token) {
+        return authRepository.getUsuario(token);
     }
 
     public LiveData<Object> resendEmail(String token) {

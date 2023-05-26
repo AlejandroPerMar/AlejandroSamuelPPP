@@ -20,11 +20,11 @@ public class TextViewUtils {
      * @param texto     Texto a mostrar en el TextView
      * @return          TextView con el mensaje de error
      */
-    public static TextView getTextViewLinearLayoutErrorMessage(Context context, String texto) {
+    public static TextView getTextViewLinearLayoutErrorMessage(Context context, String texto, int altura) {
         TextView textView = new TextView(context);
         textView.setText(texto);
         textView.setWidth(convertDpToPx(context, 320));
-        textView.setHeight(convertDpToPx(context, 20));
+        textView.setHeight(convertDpToPx(context, altura));
         textView.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,  // Ancho deseado, puede ser WRAP_CONTENT, MATCH_PARENT o un valor específico en píxeles

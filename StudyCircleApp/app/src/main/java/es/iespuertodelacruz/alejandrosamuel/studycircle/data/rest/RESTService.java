@@ -31,6 +31,9 @@ public interface RESTService {
     @POST("register")
     Call<ResponseBody> register(@Body UsuarioRegisterDTO usuarioRegisterDTO);
 
+    @GET("v2/usuarios")
+    Call<ResponseBody> getUsuario();
+
     @GET("v2/usuarios/resendconfirmationemail")
     Call<String> resendEmail();
 

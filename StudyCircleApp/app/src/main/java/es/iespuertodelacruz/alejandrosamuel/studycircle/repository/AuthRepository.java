@@ -21,6 +21,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasAut
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasRegister;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RESTService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RetrofitClient;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
@@ -36,6 +37,34 @@ public class AuthRepository {
 
     public AuthRepository(Application application) {
         database = DatabaseStudyCircle.getDatabase(application);
+    }
+
+    public LiveData<Object> getUsuario(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableUsuario = new MutableLiveData<>();
+        Call<ResponseBody> callToken = restAuthService.getUsuario();
+        callToken.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    UsuarioDTO usuarioDTO = gson.fromJson(body.charStream(), UsuarioDTO.class);
+                    mutableUsuario.setValue(usuarioDTO);
+                }else {
+                    if(response.code() == 403) {
+                        mutableUsuario.setValue(null);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableUsuario;
     }
 
     public LiveData<Object> getAuthToken(UsuarioLoginDTO usuarioLoginDTO) {
@@ -207,6 +236,7 @@ public class AuthRepository {
             }
             @Override
             public void onFailure(@NonNull Call<String> call, Throwable t) {
+                mutableEstadoUsuario.setValue(null);
                 Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
                 t.printStackTrace();
             }

@@ -232,7 +232,7 @@ public class RegisterFragment extends Fragment {
                         int index;
                         switch ((RespuestasRegister)response) {
                             case INVALID_EMAIL:
-                                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.INVALID_EMAIL.getDescripcion());
+                                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.INVALID_EMAIL.getDescripcion(), 20);
                                 relativeLayout = (RelativeLayout) dtEmail.getParent();
                                 parentView = (ViewGroup) relativeLayout.getParent();  // Obtener el ViewGroup padre del LinearLayout
                                 index = parentView.indexOfChild(relativeLayout);  // Obtener el índice del LinearLayout en el ViewGroup padre
@@ -240,7 +240,7 @@ public class RegisterFragment extends Fragment {
                                 parentView.addView(txtErrorMessage, index + 1);
                                 break;
                             case INVALID_NAME:
-                                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.INVALID_NAME.getDescripcion());
+                                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.INVALID_NAME.getDescripcion(), 20);
                                 relativeLayout = (RelativeLayout) dtNombreCompleto.getParent();
                                 parentView = (ViewGroup) relativeLayout.getParent();  // Obtener el ViewGroup padre del LinearLayout
                                 index = parentView.indexOfChild(relativeLayout);  // Obtener el índice del LinearLayout en el ViewGroup padre
@@ -248,7 +248,7 @@ public class RegisterFragment extends Fragment {
                                 parentView.addView(txtErrorMessage, index + 1);
                                 break;
                             case NOT_MINIMUN_REQUIREMENTS_PASSWORD:
-                                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.NOT_MINIMUN_REQUIREMENTS_PASSWORD.getDescripcion());
+                                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.NOT_MINIMUN_REQUIREMENTS_PASSWORD.getDescripcion(), 60);
                                 relativeLayout = (RelativeLayout) dtPassword.getParent();
                                 parentView = (ViewGroup) relativeLayout.getParent();  // Obtener el ViewGroup padre del LinearLayout
                                 index = parentView.indexOfChild(relativeLayout);  // Obtener el índice del LinearLayout en el ViewGroup padre
@@ -256,7 +256,7 @@ public class RegisterFragment extends Fragment {
                                 parentView.addView(txtErrorMessage, index + 1);
                                 break;
                             case NOT_AVAILABLE_USERNAME:
-                                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.NOT_AVAILABLE_USERNAME.getDescripcion());
+                                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.NOT_AVAILABLE_USERNAME.getDescripcion(), 20);
                                 relativeLayout = (RelativeLayout) dtUsername.getParent();
                                 parentView = (ViewGroup) relativeLayout.getParent();  // Obtener el ViewGroup padre del LinearLayout
                                 index = parentView.indexOfChild(relativeLayout);  // Obtener el índice del LinearLayout en el ViewGroup padre
@@ -264,7 +264,7 @@ public class RegisterFragment extends Fragment {
                                 parentView.addView(txtErrorMessage, index + 1);
                                 break;
                             case NOT_AVAILABLE_EMAIL:
-                                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.NOT_AVAILABLE_EMAIL.getDescripcion());
+                                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), RespuestasRegister.NOT_AVAILABLE_EMAIL.getDescripcion(), 20);
                                 relativeLayout = (RelativeLayout) dtEmail.getParent();
                                 parentView = (ViewGroup) relativeLayout.getParent();  // Obtener el ViewGroup padre del LinearLayout
                                 index = parentView.indexOfChild(relativeLayout);  // Obtener el índice del LinearLayout en el ViewGroup padre
@@ -275,7 +275,7 @@ public class RegisterFragment extends Fragment {
                     }
                 });
             }else {
-                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), "Hay campos sin cumplimentar");
+                txtErrorMessage = TextViewUtils.getTextViewLinearLayoutErrorMessage(requireContext(), "Hay campos sin cumplimentar", 20);
                 LinearLayout linearLayout = (LinearLayout) btnRegistrarme.getParent();
                 int index = linearLayout.indexOfChild(btnRegistrarme);  // Obtener el índice del LinearLayout en el ViewGroup padre
 

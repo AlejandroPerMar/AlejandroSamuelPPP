@@ -8,13 +8,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.NetworkType;
@@ -50,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.setDrawerLockMode(lockMode);
     }
 
+    public void openDrawer() {
+        drawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    public void closeDrawer() {
+        drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
     public void checkTutorProfile() {
         switchProfile.check(R.id.switchTutor);
     }
@@ -67,7 +81,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView );
         if (navController.getCurrentDestination().getId() == R.id.homeFragment) {
             // Si estás en el fragmento de inicio, no hagas nada (o sal de la aplicación, si prefieres)
-        } else {
+        } else if (navController.getCurrentDestination().getId() == R.id.profilesConfFragment){
+
+        } else if (navController.getCurrentDestination().getId() == R.id.activacionCuentaFragment){
+
+        }else {
             // Si no estás en el fragmento de inicio, sigue el comportamiento normal de retroceso
             super.onBackPressed();
         }
@@ -87,6 +105,16 @@ public class MainActivity extends AppCompatActivity {
 
         // Esto hace que el primer elemento (Home en este caso) se seleccione por defecto al iniciar
         bottomNav.setSelectedItemId(R.id.nav_home);
+
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        if (navHostFragment != null) {
+            NavController navController = navHostFragment.getNavController();
+
+            // Configura la vista de navegación inferior para trabajar con el NavController.
+            NavigationUI.setupWithNavController(bottomNav, navController);
+        }
+
+
         /*
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED) // Requiere conexión de red
@@ -103,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
                 renewalWorkRequest
         );
          */
+
+
 
     }
 
