@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Rol;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.UsuarioDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.EstadosUsuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IHTMLBuilder;
@@ -43,6 +44,21 @@ public class UsuarioResourceV2 {
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private UsuarioDTOMapper mapper;
+
+    @GetMapping
+    @ApiOperation(
+            value= "Obtener usuario autenticado",
+            notes= """
+                    Posibles respuestas:\s
+                    • "UsuarioDTO. Devuelve el usuario autenticado
+                    """
+    )
+    public ResponseEntity<?> getUsuario() {
+        return ResponseEntity.ok(mapper.toDTO(usuarioService.findByUsername(getUsernameUsuario())));
+    }
 
     @GetMapping("resendconfirmationemail")
     @ApiOperation(
