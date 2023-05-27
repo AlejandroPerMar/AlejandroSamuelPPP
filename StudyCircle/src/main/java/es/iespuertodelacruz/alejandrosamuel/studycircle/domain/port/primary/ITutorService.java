@@ -18,4 +18,5 @@ public interface ITutorService {
 
     Tutor findTutorByUsername(String username);
 
+    Integer countStudents(Tutor tutor);
 }

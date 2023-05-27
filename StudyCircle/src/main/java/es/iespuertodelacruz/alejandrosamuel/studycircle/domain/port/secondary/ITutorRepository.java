@@ -16,4 +16,6 @@ public interface ITutorRepository {
     Tutor findTutorByIdUsuario(Integer id);
 
     Tutor findTutorByUsername(String username);
+
+    Integer countStudents(Tutor tutor);
 }

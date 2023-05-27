@@ -66,6 +66,7 @@ public class HomeFragment extends Fragment {
     private NavController navController;
     private ProgressBar progressBar;
     private ImageView btnExpand;
+    private boolean isProgrammaticChange;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -172,35 +173,46 @@ public class HomeFragment extends Fragment {
         switchProfile = mainActivity.getSwitchProfile();
         mainActivity.enableDrawer(true);
         mainActivity.setBottomNavVisibility(View.VISIBLE);
-        LiveData<Object> alumno = viewModel.getAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
-        alumno.observe(getViewLifecycleOwner(), new Observer<Object>() {
-            @Override
-            public void onChanged(Object o) {
-                if(!(o instanceof AlumnoDTO)) {
-                    LiveData<Object> tutor = viewModel.getTutor(viewModel.recuperarTokenSharedPreferences(getContext()));
-                    tutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
-                        @Override
-                        public void onChanged(Object o) {
-                            if(!(o instanceof TutorDTO)) {
-                                Navigation.findNavController(container).navigate(R.id.action_homeFragment_to_profilesConfFragment);
-                            }
-                        }
-                    });
-                }else {
-                    String perfilActivo = viewModel.recuperarPerfilSeleccionadoSharedPreferences(getContext());
-                    if(Objects.isNull(perfilActivo)) {
-                        mainActivity.checkAlumnoProfile();
-                        perfilActivo = viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.STUDENT_PROFILE.name());
-                    }
-                    if(perfilActivo.equals(UserProfiles.STUDENT_PROFILE.name())) {
+        isProgrammaticChange = false;
 
-                    }else if(perfilActivo.equals(UserProfiles.TUTOR_PROFILE.name())) {
-
-                    }
-                }
-
+        String perfilSeleccionado = viewModel.recuperarPerfilSeleccionadoSharedPreferences(getContext());
+        if(Objects.nonNull(perfilSeleccionado)) {
+            if(perfilSeleccionado.equals(UserProfiles.TUTOR_PROFILE.name())) {
+                mainActivity.checkTutorProfile();
+            }else if(perfilSeleccionado.equals(UserProfiles.STUDENT_PROFILE.name())) {
+                mainActivity.checkAlumnoProfile();
+            }else {
+                Navigation.findNavController(container).navigate(R.id.action_homeFragment_to_profilesConfFragment);
             }
-        });
+        }else {
+            LiveData<Object> alumno = viewModel.getAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
+            alumno.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                @Override
+                public void onChanged(Object o) {
+                    if(o instanceof AlumnoDTO) {
+                        viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.STUDENT_PROFILE.name());
+                        mainActivity.checkAlumnoProfile();
+                    }else {
+                        LiveData<Object> tutor = viewModel.getTutor(viewModel.recuperarTokenSharedPreferences(getContext()));
+                        tutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                            @Override
+                            public void onChanged(Object o) {
+                                if(o instanceof TutorDTO) {
+                                    viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.TUTOR_PROFILE.name());
+                                    isProgrammaticChange = true;
+                                    mainActivity.checkTutorProfile();
+                                }else {
+                                    Navigation.findNavController(container).navigate(R.id.action_homeFragment_to_profilesConfFragment);
+                                }
+                            }
+                        });
+                    }
+
+                }
+            });
+        }
+
+        LiveData<Object> alumno = viewModel.getAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -249,7 +261,7 @@ public class HomeFragment extends Fragment {
         switchProfile.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId == R.id.switchAlumno) {
+                if(checkedId == R.id.switchAlumno && !isProgrammaticChange) {
                     LiveData<Object> alumno = viewModel.getAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
                     alumno.observe(getViewLifecycleOwner(), new Observer<Object>() {
                         @Override
@@ -263,9 +275,9 @@ public class HomeFragment extends Fragment {
                             }
                         }
                     });
-                }else if(checkedId == R.id.switchTutor) {
-                    LiveData<Object> alumno = viewModel.getTutor(viewModel.recuperarTokenSharedPreferences(getContext()));
-                    alumno.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                }else if(checkedId == R.id.switchTutor && !isProgrammaticChange) {
+                    LiveData<Object> tutor = viewModel.getTutor(viewModel.recuperarTokenSharedPreferences(getContext()));
+                    tutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
                         @Override
                         public void onChanged(Object o) {
                             if(o instanceof TutorDTO) {
@@ -278,6 +290,7 @@ public class HomeFragment extends Fragment {
                         }
                     });
                 }
+                isProgrammaticChange = false;
             }
         });
 

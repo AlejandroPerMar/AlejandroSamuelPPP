@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/titleEditText"
+        style="@style/EditTextCreateEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Título" />
+
+    <EditText
+        android:id="@+id/descriptionEditText"
+        style="@style/EditTextCreateEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Descripción"
+        android:inputType="textMultiLine"
+        android:minLines="4"
+        android:maxLines="6"
+        android:scrollbars="vertical" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:textColor="@color/bluestd"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Fecha del evento"/>
+    <DatePicker
+        android:id="@+id/datePicker"
+        style="@style/DatePickerTheme"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:datePickerMode="spinner"
+        android:calendarViewShown="false"
+
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+</LinearLayout>
+

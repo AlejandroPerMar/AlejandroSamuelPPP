@@ -163,6 +163,52 @@ public class ActividadesRepository {
         return mutableActividad;
     }
 
+    public LiveData<Object> getNumeroActividadesPendientes(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableNumeroActividadesPendientes = new MutableLiveData<>();
+        Call<ResponseBody> callGetNumeroActividadesPendientes = restAuthService.getNumeroActividadesPendientes();
+        callGetNumeroActividadesPendientes.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+
+                    Integer numAlumnos = null;
+                    try {
+                        numAlumnos = Integer.valueOf(body.string());
+                    } catch (IOException ignored) {}
+                    mutableNumeroActividadesPendientes.setValue(numAlumnos);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = Objects.requireNonNull(response.errorBody()).string();
+                        RespuestasActividad respuestasActividad = RespuestasActividad.valueOf(respuesta);
+                        switch (respuestasActividad) {
+                            case STUDENT_PROFILE_NOT_CREATED:
+                                mutableNumeroActividadesPendientes.setValue(RespuestasActividad.STUDENT_PROFILE_NOT_CREATED);
+                                break;
+                            case ACTIVITY_NOT_REMOVED:
+                                mutableNumeroActividadesPendientes.setValue(RespuestasActividad.ACTIVITY_NOT_REMOVED);
+                                break;
+                            default:
+                        }
+                    } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableNumeroActividadesPendientes.setValue(null);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableNumeroActividadesPendientes;
+    }
+
     public LiveData<Object> deleteActividad(Integer idActividad, String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<Object> mutableActividad = new MutableLiveData<>();

@@ -228,6 +228,7 @@ public class AlertsFragment extends Fragment {
                                 viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.STUDENT_PROFILE.name());
                                 Navigation.findNavController(requireView()).navigate(R.id.action_refresh_alerts_fragment);
                             }else if(o instanceof RespuestasProfileConf) {
+                                switchProfile.check(R.id.switchTutor);
                                 Navigation.findNavController(requireView()).navigate(R.id.action_alertsFragment_to_alumnoConfFragment);
                             }
                         }
@@ -241,6 +242,7 @@ public class AlertsFragment extends Fragment {
                                 viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.TUTOR_PROFILE.name());
                                 Navigation.findNavController(requireView()).navigate(R.id.action_refresh_alerts_fragment);
                             }else if(o instanceof RespuestasProfileConf) {
+                                switchProfile.check(R.id.switchAlumno);
                                 Navigation.findNavController(requireView()).navigate(R.id.action_alertsFragment_to_tutorConfFragment);
                             }
                         }

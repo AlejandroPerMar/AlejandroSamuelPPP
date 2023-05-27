@@ -4,8 +4,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Curso;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAlumnoService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ICursoService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.ITutorService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasActividad;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Actividad;
@@ -42,6 +45,9 @@ public class ActividadesResourceV2 {
 
     @Autowired
     private ActividadDTOMapper mapper;
+
+    @Autowired
+    private IAlumnoService alumnoService;
 
     @GetMapping("{id}")
     @ApiOperation(
@@ -107,6 +113,23 @@ public class ActividadesResourceV2 {
         return ResponseEntity.ok(mapper.toDTO(actividad));
     }
 
+    @GetMapping("/numeroActividadesPendientes")
+    @ApiOperation(
+            value = "Obtener cantidad de actividades pendientes",
+            notes = """
+                    Posibles respuestas:s
+                    • "STUDENT_PROFILE_NOT_CREATED" (String). Indica que el usuario autenticado no tiene un perfil de alumno creado
+                    • Integer numeroActividadesPendientes. Se da la cantidad de actividades abiertas hasta la fecha actual que tiene el alumno
+                    """
+    )
+    public ResponseEntity<?> getNumeroActividadesPendientes() {
+        Alumno alumno = alumnoService.findAlumnoByUsername(getUsernameUsuario());
+        if(Objects.nonNull(alumno)) {
+            Integer numeroActividadesPendientes = service.getNumeroActividadesPendientes(alumno.getId());
+            return ResponseEntity.ok(numeroActividadesPendientes);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasActividad.STUDENT_PROFILE_NOT_CREATED.name());
+    }
     
     @PutMapping
     @ApiOperation(

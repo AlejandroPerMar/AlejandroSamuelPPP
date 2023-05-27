@@ -235,16 +235,15 @@ public class CursosRepository {
                     mutableCursos.setValue(cursosDTO);
                 }else {
                     String respuesta;
+                    RespuestasCursos respuestasCursos = null;
                     try {
                         respuesta = response.errorBody().string();
-                    } catch (IOException e) {
-                        respuesta = null;
-                    }
-                    switch (RespuestasCursos.valueOf(respuesta)) {
-                        case TUTOR_PROFILE_NOT_CREATED:
+                        respuestasCursos = RespuestasCursos.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {}
+                    if(Objects.nonNull(respuestasCursos)) {
+                        if (Objects.requireNonNull(respuestasCursos) == RespuestasCursos.TUTOR_PROFILE_NOT_CREATED) {
                             mutableCursos.setValue(RespuestasCursos.STUDENT_PROFILE_NOT_CREATED);
-                            break;
-                        default:
+                        }
                     }
 
                     if(response.code() == 403) {
@@ -277,18 +276,16 @@ public class CursosRepository {
                     mutableCursos.setValue(cursosDTO);
                 }else {
                     String respuesta;
+                    RespuestasCursos respuestasCursos = null;
                     try {
                         respuesta = response.errorBody().string();
-                    } catch (IOException e) {
-                        respuesta = null;
-                    }
-                    switch (RespuestasCursos.valueOf(respuesta)) {
-                        case TUTOR_PROFILE_NOT_CREATED:
+                        respuestasCursos = RespuestasCursos.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {}
+                    if(Objects.nonNull(respuestasCursos)) {
+                        if (Objects.requireNonNull(respuestasCursos) == RespuestasCursos.TUTOR_PROFILE_NOT_CREATED) {
                             mutableCursos.setValue(RespuestasCursos.TUTOR_PROFILE_NOT_CREATED);
-                            break;
-                        default:
+                        }
                     }
-
                     if(response.code() == 403) {
                         mutableCursos.setValue(null);
                     }

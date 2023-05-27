@@ -115,6 +115,25 @@ public class TutoresResourceV2 {
 
     }
 
+    @GetMapping("/numeroAlumnos")
+    @ApiOperation(
+            value = "Obtener cantidad de alumnos diferentes de los cursos del tutor",
+            notes = """
+                    Posibles respuestas:s
+                    • Integer numAlumnos. Indica la cantidad de alumnos diferentes que tiene el tutor en sus cursos
+                    • "TUTOR_PROFILE_NOT_CREATED" (String). Indica que no hay un perfil de tutor para el usuario autenticado
+                    """
+    )
+    public ResponseEntity<?> getNumeroAlumnosTutor() {
+        Tutor tutor = service.findTutorByUsername(getUsernameUsuario());
+        if(Objects.nonNull(tutor)) {
+            Integer numAlumnos = service.countStudents(tutor);
+            return ResponseEntity.ok(numAlumnos);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasTutor.TUTOR_PROFILE_NOT_CREATED.name());
+
+    }
+
     private String getUsernameUsuario() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ((UserDetailsLogin) principal).getUsername();

@@ -237,7 +237,14 @@
         android:id="@+id/configuracionFragment"
         android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.ConfiguracionFragment"
         android:label="fragment_configuracion"
-        tools:layout="@layout/fragment_configuracion" />
+        tools:layout="@layout/fragment_configuracion" >
+        <action
+            android:id="@+id/action_configuracionFragment_to_tutorConfFragment"
+            app:destination="@id/tutorConfFragment" />
+        <action
+            android:id="@+id/action_configuracionFragment_to_alumnoConfFragment"
+            app:destination="@id/alumnoConfFragment" />
+    </fragment>
     <action
         android:id="@+id/action_refresh_home_fragment"
         app:destination="@id/homeFragment" />

@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.entity.ActividadEntity;
@@ -18,19 +19,22 @@ public class EventoCalendarioDTO {
     @SerializedName("id")
     @Expose
     private int id;
-    @SerializedName("id")
+    @SerializedName("descripcion")
     @Expose
     private String descripcion;
-    @SerializedName("id")
+    @SerializedName("nombre")
     @Expose
     private String nombre;
-    @SerializedName("id")
+    @SerializedName("fechaEvento")
     @Expose
-    private Date fechaEvento;
-    @SerializedName("id")
+    private BigInteger fechaEvento;
+    @SerializedName("idActividad")
     @Expose
     private Integer idActividad;
-    @SerializedName("id")
+    @SerializedName("perfilUsuario")
+    @Expose
+    private String perfilUsuario;
+    @SerializedName("idUsuario")
     @Expose
     private Integer idUsuario;
 
@@ -62,10 +66,10 @@ public class EventoCalendarioDTO {
     }
 
     public Date getFechaEvento() {
-        return fechaEvento;
+        return new Date(fechaEvento.longValue());
     }
 
-    public void setFechaEvento(Date fechaEvento) {
+    public void setFechaEvento(BigInteger fechaEvento) {
         this.fechaEvento = fechaEvento;
     }
 
@@ -83,5 +87,13 @@ public class EventoCalendarioDTO {
 
     public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getPerfilUsuario() {
+        return perfilUsuario;
+    }
+
+    public void setPerfilUsuario(String perfilUsuario) {
+        this.perfilUsuario = perfilUsuario;
     }
 }

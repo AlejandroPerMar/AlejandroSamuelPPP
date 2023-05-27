@@ -40,4 +40,9 @@ public class TutorService implements ITutorService {
     public Tutor findTutorByUsername(String username) {
         return repository.findTutorByUsername(username);
     }
+
+    @Override
+    public Integer countStudents(Tutor tutor) {
+        return repository.countStudents(tutor);
+    }
 }

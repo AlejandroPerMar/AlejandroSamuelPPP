@@ -40,6 +40,11 @@ public class ActividadService implements IActividadService {
 		return repository.findAll();
 	}
 
+	@Override
+	public Integer getNumeroActividadesPendientes(Integer idAlumno) {
+		return repository.getNumeroActividadesPendientes(idAlumno);
+	}
+
 	/*
 	@Override
 	public List<Actividad> findByCourse(String name) {

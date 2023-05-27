@@ -127,4 +127,9 @@ public class ActividadEntityService implements IActividadRepository {
         return repository.findAll().stream().map(m -> mapper.toDomain(m)).toList();
 	}
 
+	@Override
+	public Integer getNumeroActividadesPendientes(Integer idAlumno) {
+		return repository.getNumeroActividadesPendientes(idAlumno, new Date().getTime());
+	}
+
 }

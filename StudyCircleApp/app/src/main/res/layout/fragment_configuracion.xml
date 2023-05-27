@@ -138,23 +138,25 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/txtNumCursosTutor"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="5"
+                            android:layout_weight="1"
                             android:gravity="center"
                             android:fontFamily="@font/poppins_medium"
                             android:layout_marginStart="10dp"
-                            android:text="0 cursos">
+                            android:text="@string/_0_cursos">
                         </TextView>
 
                         <TextView
+                            android:id="@+id/txtNumAlumnos"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/poppins_medium"
                             android:gravity="center"
-                            android:layout_weight="5"
-                            android:text="0 alumnos">
+                            android:layout_weight="1"
+                            android:text="@string/_0_alumnos">
                         </TextView>
                     </LinearLayout>
                     <!-- Contenido del primer elemento -->
@@ -195,23 +197,25 @@
 
 
                         <TextView
+                            android:id="@+id/txtNumCursosAlumno"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="5"
+                            android:layout_weight="1"
                             android:gravity="center"
                             android:fontFamily="@font/poppins_medium"
                             android:layout_marginStart="10dp"
-                            android:text="0 cursos">
+                            android:text="@string/_0_cursos">
                         </TextView>
 
                         <TextView
+                            android:id="@+id/txtNumActividadesPendientes"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/poppins_medium"
                             android:gravity="center"
-                            android:layout_weight="5"
-                            android:text="0 actividades pendientes">
+                            android:layout_weight="1"
+                            android:text="@string/_0_actividades_pendientes">
                         </TextView>
                     </LinearLayout>
                     <!-- Contenido del primer elemento -->

@@ -9,7 +9,8 @@ public enum RespuestasActividad {
     ACTIVITY_FORBIDDEN("ACTIVITY_FORBIDDEN", "Actividad no disponible"),
     COURSE_ACTIVITY_NOT_VALID("COURSE_ACTIVITY_NOT_VALID", "Curso indicado no válido"),
     TUTOR_PROFILE_NOT_CREATED("TUTOR_PROFILE_NOT_CREATED", "Perfil de tutor no creado para el usuario"),
-    INVALID_ACTIVITY_FORMAT("INVALID_ACTIVITY_FORMAT", "Valores de actividad no válido");
+    INVALID_ACTIVITY_FORMAT("INVALID_ACTIVITY_FORMAT", "Valores de actividad no válido"),
+    STUDENT_PROFILE_NOT_CREATED("STUDENT_PROFILE_NOT_CREATED", "Perfil de estudiante no creado para el usuario");
 
     private final String name;
     private final String descripcion;

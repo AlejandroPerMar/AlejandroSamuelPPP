@@ -112,16 +112,15 @@ public class AuthRepository {
                     mutableToken.setValue(tokenResponse);
                 }else {
                     String respuesta;
+                    RespuestasAuthToken respuestasAuthToken = null;
                     try {
                         respuesta = response.errorBody().string();
-                    } catch (IOException e) {
-                        respuesta = null;
-                    }
-                    switch (RespuestasAuthToken.valueOf(respuesta)) {
-                        case INVALID_USERNAME_OR_PASSWORD:
+                        respuestasAuthToken = RespuestasAuthToken.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {}
+                    if(Objects.nonNull(respuestasAuthToken)) {
+                        if (Objects.requireNonNull(respuestasAuthToken) == RespuestasAuthToken.INVALID_USERNAME_OR_PASSWORD) {
                             mutableToken.setValue(RespuestasAuthToken.INVALID_USERNAME_OR_PASSWORD);
-                            break;
-                        default:
+                        }
                     }
                 }
             }
@@ -149,27 +148,29 @@ public class AuthRepository {
                     mutableRespuesta.setValue(usuarioDTO);
                 }else {
                     String respuesta;
+                    RespuestasRegister respuestasRegister = null;
                     try {
                         respuesta = response.errorBody().string();
-                    } catch (IOException e) {
-                        respuesta = null;
-                    }
-                    switch (RespuestasRegister.valueOf(respuesta)) {
-                        case INVALID_NAME:
-                            mutableRespuesta.setValue(RespuestasRegister.INVALID_NAME);
-                            break;
-                        case INVALID_EMAIL:
-                            mutableRespuesta.setValue(RespuestasRegister.INVALID_EMAIL);
-                            break;
-                        case NOT_AVAILABLE_USERNAME:
-                            mutableRespuesta.setValue(RespuestasRegister.NOT_AVAILABLE_USERNAME);
-                            break;
-                        case NOT_MINIMUN_REQUIREMENTS_PASSWORD:
-                            mutableRespuesta.setValue(RespuestasRegister.NOT_MINIMUN_REQUIREMENTS_PASSWORD);
-                            break;
-                        case NOT_AVAILABLE_EMAIL:
-                            mutableRespuesta.setValue(RespuestasRegister.NOT_AVAILABLE_EMAIL);
-                        default:
+                        respuestasRegister = RespuestasRegister.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {}
+                    if(Objects.nonNull(respuestasRegister)) {
+                        switch (Objects.requireNonNull(respuestasRegister)) {
+                            case INVALID_NAME:
+                                mutableRespuesta.setValue(RespuestasRegister.INVALID_NAME);
+                                break;
+                            case INVALID_EMAIL:
+                                mutableRespuesta.setValue(RespuestasRegister.INVALID_EMAIL);
+                                break;
+                            case NOT_AVAILABLE_USERNAME:
+                                mutableRespuesta.setValue(RespuestasRegister.NOT_AVAILABLE_USERNAME);
+                                break;
+                            case NOT_MINIMUN_REQUIREMENTS_PASSWORD:
+                                mutableRespuesta.setValue(RespuestasRegister.NOT_MINIMUN_REQUIREMENTS_PASSWORD);
+                                break;
+                            case NOT_AVAILABLE_EMAIL:
+                                mutableRespuesta.setValue(RespuestasRegister.NOT_AVAILABLE_EMAIL);
+                            default:
+                        }
                     }
 
                     if(response.code() == 403) {
@@ -212,7 +213,7 @@ public class AuthRepository {
                                 break;
                             default:
                         }
-                    } catch (IOException ignored) {}
+                    } catch (Exception ignored) {}
                     if(response.code() == 403) {
                         mutableTokenAuth.setValue(null);
                     }

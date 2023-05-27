@@ -15,6 +15,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
@@ -30,14 +34,28 @@ import android.widget.RadioGroup;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+
+import org.threeten.bp.Instant;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.EventosAdapter;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasProfileConf;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.UserProfiles;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.EventoCalendarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.TutorDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentCalendarBinding;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentChatsBinding;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.decorators.EventDecorator;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.utils.ObjectsUtils;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
 
 /**
@@ -64,6 +82,11 @@ public class CalendarFragment extends Fragment {
     NavController navController;
     private ProgressBar progressBar;
     private ImageView btnExpand;
+    private MaterialCalendarView calendarView;
+    private RecyclerView eventsRecyclerView;
+    private ImageView btnCrearEvento;
+
+    List<EventoCalendarioDTO> eventos;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -156,6 +179,28 @@ public class CalendarFragment extends Fragment {
         }
     }
 
+    private List<EventoCalendarioDTO> filtrarEventosPorFecha(List<EventoCalendarioDTO> eventos, CalendarDay fecha) {
+        List<EventoCalendarioDTO> eventosDelDia = new ArrayList<>();
+        LocalDate fechaSeleccionada = fecha.getDate();
+
+        for (EventoCalendarioDTO evento : eventos) {
+            System.out.println(evento.getFechaEvento());
+            Instant instant = Instant.ofEpochMilli(evento.getFechaEvento().getTime());
+            ZonedDateTime zdt = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
+            LocalDate localDate = zdt.toLocalDate();
+            if (localDate.isEqual(fechaSeleccionada)) {
+                eventosDelDia.add(evento);
+            }
+        }
+
+        return eventosDelDia;
+    }
+
+    private void actualizarRecyclerView(List<EventoCalendarioDTO> eventos) {
+        EventosAdapter adapter = new EventosAdapter(eventos);
+        eventsRecyclerView.setAdapter(adapter);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -165,11 +210,68 @@ public class CalendarFragment extends Fragment {
         progressBar = binding.progressBar;
         progressBar.setVisibility(View.INVISIBLE);
         btnExpand = binding.btnExpand;
+        btnCrearEvento = binding.btnCrearEvento;
         navigationView  = mainActivity.getNavigationView();
         bottomNavigationView = mainActivity.getBottomNav();
         switchProfile = mainActivity.getSwitchProfile();
         mainActivity.enableDrawer(true);
         mainActivity.setBottomNavVisibility(View.VISIBLE);
+        calendarView = binding.calendarView;
+        eventsRecyclerView = binding.eventsRecyclerView;
+        eventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        String perfilSeleccionado = viewModel.recuperarPerfilSeleccionadoSharedPreferences(getContext());
+        if(UserProfiles.TUTOR_PROFILE.name().equals(perfilSeleccionado)) {
+            LiveData<Object> eventosByPerfilUsuarioTutor = viewModel.findEventosByPerfilUsuarioTutor(viewModel.recuperarTokenSharedPreferences(getContext()));
+            eventosByPerfilUsuarioTutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                @Override
+                public void onChanged(Object o) {
+                    if(o instanceof List) {
+                        setEventos((List<EventoCalendarioDTO>) o);
+                        getEventos().forEach(ev -> {
+                            Instant instant = Instant.ofEpochMilli(ev.getFechaEvento().getTime());
+                            ZonedDateTime zdt = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
+                            LocalDate localDate = zdt.toLocalDate();
+                            calendarView.addDecorator(new EventDecorator(localDate));
+                        });
+
+                        // Configura un listener para cuando se seleccione una fecha
+                        calendarView.setOnDateChangedListener((widget, date, selected) -> {
+                            // Filtra los eventos para solo mostrar los del día seleccionado
+                            List<EventoCalendarioDTO> eventosDelDia = filtrarEventosPorFecha(eventos, date);
+
+                            // Actualiza tu RecyclerView con los eventos del día
+                            actualizarRecyclerView(eventosDelDia);
+                        });
+                    }
+                }
+            });
+        }else if(UserProfiles.STUDENT_PROFILE.name().equals(perfilSeleccionado)) {
+            LiveData<Object> eventosByPerfilUsuarioAlumno = viewModel.findEventosByPerfilUsuarioAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
+            eventosByPerfilUsuarioAlumno.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                @Override
+                public void onChanged(Object o) {
+                    if(o instanceof List) {
+                        setEventos((List<EventoCalendarioDTO>) o);
+                        getEventos().forEach(ev -> {
+                            Instant instant = Instant.ofEpochMilli(ev.getFechaEvento().getTime());
+                            ZonedDateTime zdt = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
+                            LocalDate localDate = zdt.toLocalDate();
+                            calendarView.addDecorator(new EventDecorator(localDate));
+                        });
+
+                        // Configura un listener para cuando se seleccione una fecha
+                        calendarView.setOnDateChangedListener((widget, date, selected) -> {
+                            // Filtra los eventos para solo mostrar los del día seleccionado
+                            List<EventoCalendarioDTO> eventosDelDia = filtrarEventosPorFecha(eventos, date);
+
+                            // Actualiza tu RecyclerView con los eventos del día
+                            actualizarRecyclerView(eventosDelDia);
+                        });
+                    }
+                }
+            });
+        }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -227,6 +329,7 @@ public class CalendarFragment extends Fragment {
                                 viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.STUDENT_PROFILE.name());
                                 Navigation.findNavController(requireView()).navigate(R.id.action_refresh_calendar_fragment);
                             }else if(o instanceof RespuestasProfileConf) {
+                                switchProfile.check(R.id.switchTutor);
                                 Navigation.findNavController(requireView()).navigate(R.id.action_calendarFragment_to_alumnoConfFragment);
                             }
                         }
@@ -240,6 +343,7 @@ public class CalendarFragment extends Fragment {
                                 viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.TUTOR_PROFILE.name());
                                 Navigation.findNavController(requireView()).navigate(R.id.action_refresh_calendar_fragment);
                             }else if(o instanceof RespuestasProfileConf) {
+                                switchProfile.check(R.id.switchAlumno);
                                 Navigation.findNavController(requireView()).navigate(R.id.action_calendarFragment_to_tutorConfFragment);
                             }
                         }
@@ -248,10 +352,115 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        btnCrearEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
+                LayoutInflater inflater = getLayoutInflater();
+                View viewE = inflater.inflate(R.layout.dialog_new_event, null);
+
+                builder.setView(viewE);
+
+                EditText titleEditText = viewE.findViewById(R.id.titleEditText);
+                EditText descriptionEditText = viewE.findViewById(R.id.descriptionEditText);
+                DatePicker datePicker = viewE.findViewById(R.id.datePicker);
+
+                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        String title = titleEditText.getText().toString();
+                        String description = descriptionEditText.getText().toString();
+                        LocalDate date = LocalDate.of(datePicker.getYear(), datePicker.getMonth() + 1, datePicker.getDayOfMonth());
+                        if((date.isEqual(LocalDate.now()) || date.isAfter(LocalDate.now())) && ObjectsUtils.notNullNorEmpty(title, description)) {
+                            EventoCalendarioDTO eventoCalendarioDTO = new EventoCalendarioDTO();
+                            eventoCalendarioDTO.setNombre(title);
+                            eventoCalendarioDTO.setDescripcion(description);
+
+                            ZoneId defaultZoneId = ZoneId.systemDefault();
+                            Instant instant = date.atStartOfDay(defaultZoneId).toInstant();
+                            long milliseconds = instant.toEpochMilli();
+                            eventoCalendarioDTO.setFechaEvento(new BigInteger(String.valueOf(milliseconds)));
+                            eventoCalendarioDTO.setPerfilUsuario(viewModel.recuperarPerfilSeleccionadoSharedPreferences(getContext()));
+                            LiveData<Object> eventoCalendario = viewModel.createEventoCalendario(eventoCalendarioDTO, viewModel.recuperarTokenSharedPreferences(getContext()));
+
+                            eventoCalendario.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                                @Override
+                                public void onChanged(Object o) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
+                                    builder.setTitle("Evento creado");
+                                    builder.setMessage("Se ha creado el evento correctamente");
+                                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    });
+
+                                    AlertDialog dialogFechaError = builder.create();
+                                    dialogFechaError.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                                    dialogFechaError.getWindow().getDecorView().setPadding(50, 0, 50, 0);
+                                    dialogFechaError.show();
+                                    Button positiveButton = dialogFechaError.getButton(DialogInterface.BUTTON_POSITIVE);
+                                    positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                                }
+                            });
+                        }else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
+                            builder.setTitle("Datos incorrectos");
+                            builder.setMessage("La fecha no puede ser anterior a la actual y los campos no pueden estar vacíos");
+                            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+
+                            AlertDialog dialogFechaError = builder.create();
+                            dialogFechaError.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                            dialogFechaError.getWindow().getDecorView().setPadding(50, 0, 50, 0);
+                            dialogFechaError.show();
+                            Button positiveButton = dialogFechaError.getButton(DialogInterface.BUTTON_POSITIVE);
+                            positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+
+                // Aquí ajustas el tamaño y los márgenes del diálogo, así como los colores de los botones.
+                dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
+
+                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialogInterface) {
+                        Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                        Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+                        positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                        negativeButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                    }
+                });
+
+                dialog.show();
+            }
+        });
+
         btnExpand.setOnClickListener(btn -> {
             mainActivity.openDrawer();
         });
 
         return binding.getRoot();
+    }
+
+    public List<EventoCalendarioDTO> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<EventoCalendarioDTO> eventos) {
+        this.eventos = eventos;
     }
 }

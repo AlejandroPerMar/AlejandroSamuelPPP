@@ -46,4 +46,9 @@
     <string name="friends_count">%1$s Amistades</string>
     <string name="curso">Curso</string>
     <string name="cursos">Cursos</string>
+    <string name="_0_cursos">%1$s cursos</string>
+    <string name="_0_alumnos">%1$s alumnos</string>
+    <string name="_0_actividades_pendientes">%1$s actividades pendientes</string>
+    <string name="goback"><![CDATA[<-]]></string>
+    <string name="goahead"><![CDATA[->]]></string>
 </resources>

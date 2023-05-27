@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.DatabaseStudyCircle;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasEventoCalendario;
@@ -51,19 +52,21 @@ public class EventosCalendarioRepository {
                     mutableEventoCalendario.setValue(eventoCalendarioDTO);
                 }else {
                     String respuesta;
+                    RespuestasEventoCalendario respuestasEventoCalendario = null;
                     try {
                         respuesta = response.errorBody().string();
-                    } catch (IOException e) {
-                        respuesta = null;
-                    }
-                    switch (RespuestasEventoCalendario.valueOf(respuesta)) {
-                        case INVALID_USER_PROFILE:
-                            mutableEventoCalendario.setValue(RespuestasEventoCalendario.INVALID_USER_PROFILE);
-                            break;
-                        case CALENDAR_EVENT_DTO_NOT_VALID:
-                            mutableEventoCalendario.setValue(RespuestasEventoCalendario.CALENDAR_EVENT_DTO_NOT_VALID);
-                            break;
-                        default:
+                        respuestasEventoCalendario = RespuestasEventoCalendario.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {}
+                    if(Objects.nonNull(respuestasEventoCalendario)) {
+                        switch (Objects.requireNonNull(respuestasEventoCalendario)) {
+                            case INVALID_USER_PROFILE:
+                                mutableEventoCalendario.setValue(RespuestasEventoCalendario.INVALID_USER_PROFILE);
+                                break;
+                            case CALENDAR_EVENT_DTO_NOT_VALID:
+                                mutableEventoCalendario.setValue(RespuestasEventoCalendario.CALENDAR_EVENT_DTO_NOT_VALID);
+                                break;
+                            default:
+                        }
                     }
 
                     if(response.code() == 403) {
@@ -80,7 +83,7 @@ public class EventosCalendarioRepository {
         return mutableEventoCalendario;
     }
 
-    public LiveData<Object> findByPerfilUsuarioTutor(Integer idUsuario, String token) {
+    public LiveData<Object> findByPerfilUsuarioTutor(String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<Object> mutableEventosCalendario = new MutableLiveData<>();
         Call<ResponseBody> callFindByPerfilUsuarioTutor = restAuthService.findByPerfilUsuarioTutor();
@@ -110,7 +113,7 @@ public class EventosCalendarioRepository {
         return mutableEventosCalendario;
     }
 
-    public LiveData<Object> findByPerfilUsuarioAlumno(Integer idUsuario, String token) {
+    public LiveData<Object> findByPerfilUsuarioAlumno(String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<Object> mutableEventosCalendario = new MutableLiveData<>();
         Call<ResponseBody> callFindByPerfilUsuarioAlumno = restAuthService.findByPerfilUsuarioAlumno();

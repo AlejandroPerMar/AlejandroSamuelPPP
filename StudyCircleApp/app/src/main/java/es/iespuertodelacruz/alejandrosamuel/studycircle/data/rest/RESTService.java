@@ -62,6 +62,9 @@ public interface RESTService {
     @PUT("v2/tutores")
     Call<ResponseBody> updateTutor(@Body TutorDTO tutorDTO);
 
+    @GET("v2/tutores/numeroAlumnos")
+    Call<ResponseBody> getNumeroAlumnosTutor();
+
     @GET("v2/tutores")
     Call<ResponseBody> getTutor();
 
@@ -148,6 +151,9 @@ public interface RESTService {
 
     @DELETE("v2/actividades/{id}")
     Call<ResponseBody> removeActividad(@Path("id") Integer id);
+
+    @GET("v2/actividades/numeroActividadesPendientes")
+    Call<ResponseBody> getNumeroActividadesPendientes();
 
     //Acciones referentes a las alertas
     @GET("v2/alertas/actividades")

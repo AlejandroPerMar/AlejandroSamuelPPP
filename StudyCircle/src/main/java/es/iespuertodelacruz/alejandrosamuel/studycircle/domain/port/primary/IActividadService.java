@@ -16,6 +16,8 @@ public interface IActividadService {
     boolean delete(Integer id);
 
     List<Actividad> findAll();
+
+    Integer getNumeroActividadesPendientes(Integer idAlumno);
     
     //List<Actividad> findByCourse(String name);
 	

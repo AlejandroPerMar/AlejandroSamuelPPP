@@ -227,6 +227,7 @@ public class ChatsFragment extends Fragment {
                                 viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.STUDENT_PROFILE.name());
                                 Navigation.findNavController(requireView()).navigate(R.id.action_refresh_chats_fragment);
                             }else if(o instanceof RespuestasProfileConf) {
+                                switchProfile.check(R.id.switchTutor);
                                 Navigation.findNavController(requireView()).navigate(R.id.action_chatsFragment_to_alumnoConfFragment);
                             }
                         }
@@ -240,6 +241,7 @@ public class ChatsFragment extends Fragment {
                                 viewModel.guardarPerfilSeleccionadoSharedPreferences(getContext(), UserProfiles.TUTOR_PROFILE.name());
                                 Navigation.findNavController(requireView()).navigate(R.id.action_refresh_chats_fragment);
                             }else if(o instanceof RespuestasProfileConf) {
+                                switchProfile.check(R.id.switchAlumno);
                                 Navigation.findNavController(requireView()).navigate(R.id.action_chatsFragment_to_tutorConfFragment);
                             }
                         }

@@ -108,4 +108,9 @@ public class TutorEntityService implements ITutorRepository {
         Optional<TutorEntity> optTutor = repository.findByUsername(username);
         return optTutor.map(a -> mapper.toDomain(a)).orElse(null);
     }
+
+    @Override
+    public Integer countStudents(Tutor tutor) {
+        return repository.countStudents(tutor.getId());
+    }
 }

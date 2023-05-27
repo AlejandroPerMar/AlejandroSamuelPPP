@@ -142,6 +142,10 @@ public class MainActivityViewModel extends AndroidViewModel {
         return profilesConfRepository.getAlumno(token);
     }
 
+    public LiveData<Object> getNumAlumnosForTutor(String token) {
+        return profilesConfRepository.getNumeroAlumnosTutor(token);
+    }
+
     public LiveData<Object> createTutorProfile(List<MateriaDTO> materias, String token) {
         return profilesConfRepository.createTutorProfile(materias, token);
     }
@@ -218,12 +222,12 @@ public class MainActivityViewModel extends AndroidViewModel {
         return eventosCalendarioRepository.createEventoCalendario(eventoCalendarioDTO, token);
     }
 
-    public LiveData<Object> findByPerfilUsuarioTutor(Integer idUsuario, String token) {
-        return eventosCalendarioRepository.findByPerfilUsuarioTutor(idUsuario, token);
+    public LiveData<Object> findEventosByPerfilUsuarioTutor(String token) {
+        return eventosCalendarioRepository.findByPerfilUsuarioTutor(token);
     }
 
-    public LiveData<Object> findByPerfilUsuarioAlumno(Integer idUsuario, String token) {
-        return eventosCalendarioRepository.findByPerfilUsuarioAlumno(idUsuario, token);
+    public LiveData<Object> findEventosByPerfilUsuarioAlumno(String token) {
+        return eventosCalendarioRepository.findByPerfilUsuarioAlumno(token);
     }
 
     //Acciones de las actividades
@@ -241,6 +245,10 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public LiveData<Object> eliminarActividadById(Integer id, String token) {
         return actividadesRepository.deleteActividad(id, token);
+    }
+
+    public LiveData<Object> getNumActividadesPendientesAlumno(String token) {
+        return actividadesRepository.getNumeroActividadesPendientes(token);
     }
 
     //Acciones de las alertas

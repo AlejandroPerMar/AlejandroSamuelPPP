@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.DatabaseStudyCircle;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasAuthToken;
@@ -55,19 +56,21 @@ public class ProfilesConfRepository {
                     mutableAlumno.setValue(alumnoDTO);
                 }else {
                     String respuesta;
+                    RespuestasProfileConf respuestasProfileConf = null;
                     try {
                         respuesta = response.errorBody().string();
-                    } catch (IOException e) {
-                        respuesta = null;
-                    }
-                    switch (RespuestasProfileConf.valueOf(respuesta)) {
-                        case STUDENT_PROFILE_ALREADY_CREATED:
-                            mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_ALREADY_CREATED);
-                            break;
-                        case STUDENT_PROFILE_NOT_CREATED:
-                            mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_NOT_CREATED);
-                            break;
-                        default:
+                        respuestasProfileConf = RespuestasProfileConf.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {}
+                    if(Objects.nonNull(respuestasProfileConf)) {
+                        switch (Objects.requireNonNull(respuestasProfileConf)) {
+                            case STUDENT_PROFILE_ALREADY_CREATED:
+                                mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_ALREADY_CREATED);
+                                break;
+                            case STUDENT_PROFILE_NOT_CREATED:
+                                mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_NOT_CREATED);
+                                break;
+                            default:
+                        }
                     }
 
                     if(response.code() == 403) {
@@ -99,16 +102,15 @@ public class ProfilesConfRepository {
                     mutableAlumno.setValue(alumnoDTO);
                 }else {
                     String respuesta;
+                    RespuestasProfileConf respuestasProfileConf = null;
                     try {
                         respuesta = response.errorBody().string();
-                    } catch (IOException e) {
-                        respuesta = null;
-                    }
-                    switch (RespuestasProfileConf.valueOf(respuesta)) {
-                        case STUDENT_PROFILE_NOT_FOUND:
+                        respuestasProfileConf = RespuestasProfileConf.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {}
+                    if(Objects.nonNull(respuestasProfileConf)) {
+                        if (Objects.requireNonNull(respuestasProfileConf) == RespuestasProfileConf.STUDENT_PROFILE_NOT_FOUND) {
                             mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_NOT_FOUND);
-                            break;
-                        default:
+                        }
                     }
 
                     if(response.code() == 403) {
@@ -140,18 +142,16 @@ public class ProfilesConfRepository {
                     mutableAlumno.setValue(alumnoDTO);
                 }else {
                     String respuesta;
+                    RespuestasProfileConf respuestasProfileConf = null;
                     try {
                         respuesta = response.errorBody().string();
-                    } catch (IOException e) {
-                        respuesta = null;
-                    }
-                    switch (RespuestasProfileConf.valueOf(respuesta)) {
-                        case STUDENT_PROFILE_NOT_FOUND:
+                        respuestasProfileConf = RespuestasProfileConf.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {}
+                    if(Objects.nonNull(respuestasProfileConf)) {
+                        if (Objects.requireNonNull(respuestasProfileConf) == RespuestasProfileConf.STUDENT_PROFILE_NOT_FOUND) {
                             mutableAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_NOT_FOUND);
-                            break;
-                        default:
+                        }
                     }
-
                     if(response.code() == 403) {
                         mutableAlumno.setValue(null);
                     }
@@ -181,21 +181,22 @@ public class ProfilesConfRepository {
                     mutableTutor.setValue(tutorDTO);
                 }else {
                     String respuesta;
+                    RespuestasProfileConf respuestasProfileConf = null;
                     try {
                         respuesta = response.errorBody().string();
-                    } catch (IOException e) {
-                        respuesta = null;
+                        respuestasProfileConf = RespuestasProfileConf.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {}
+                    if(Objects.nonNull(respuestasProfileConf)) {
+                        switch (Objects.requireNonNull(respuestasProfileConf)) {
+                            case STUDENT_PROFILE_ALREADY_CREATED:
+                                mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_ALREADY_CREATED);
+                                break;
+                            case STUDENT_PROFILE_NOT_CREATED:
+                                mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_CREATED);
+                                break;
+                            default:
+                        }
                     }
-                    switch (RespuestasProfileConf.valueOf(respuesta)) {
-                        case STUDENT_PROFILE_ALREADY_CREATED:
-                            mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_ALREADY_CREATED);
-                            break;
-                        case STUDENT_PROFILE_NOT_CREATED:
-                            mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_CREATED);
-                            break;
-                        default:
-                    }
-
                     if(response.code() == 403) {
                         mutableTutor.setValue(null);
                     }
@@ -225,19 +226,22 @@ public class ProfilesConfRepository {
                     mutableTutor.setValue(tutorDTO);
                 }else {
                     String respuesta;
+                    RespuestasProfileConf respuestasProfileConf = null;
                     try {
                         respuesta = response.errorBody().string();
-                    } catch (IOException e) {
-                        respuesta = null;
-                    }
-                    switch (RespuestasProfileConf.valueOf(respuesta)) {
-                        case TUTOR_PROFILE_NOT_FOUND:
-                            mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_FOUND);
-                            break;
-                        case TUTOR_PROFILE_NOT_UPDATED:
-                            mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_UPDATED);
-                            break;
-                        default:
+                        respuestasProfileConf = RespuestasProfileConf.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {}
+
+                    if(Objects.nonNull(respuestasProfileConf)) {
+                        switch (Objects.requireNonNull(respuestasProfileConf)) {
+                            case TUTOR_PROFILE_NOT_FOUND:
+                                mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_FOUND);
+                                break;
+                            case TUTOR_PROFILE_NOT_UPDATED:
+                                mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_UPDATED);
+                                break;
+                            default:
+                        }
                     }
 
                     if(response.code() == 403) {
@@ -269,16 +273,16 @@ public class ProfilesConfRepository {
                     mutableTutor.setValue(tutorDTO);
                 }else {
                     String respuesta;
+                    RespuestasProfileConf respuestasProfileConf = null;
                     try {
                         respuesta = response.errorBody().string();
-                    } catch (IOException e) {
-                        respuesta = null;
+                        respuestasProfileConf = RespuestasProfileConf.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {
                     }
-                    switch (RespuestasProfileConf.valueOf(respuesta)) {
-                        case TUTOR_PROFILE_NOT_FOUND:
+                    if(Objects.nonNull(respuestasProfileConf)) {
+                        if (Objects.requireNonNull(respuestasProfileConf) == RespuestasProfileConf.TUTOR_PROFILE_NOT_FOUND) {
                             mutableTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_FOUND);
-                            break;
-                        default:
+                        }
                     }
 
                     if(response.code() == 403) {
@@ -293,5 +297,48 @@ public class ProfilesConfRepository {
             }
         });
         return mutableTutor;
+    }
+
+    public LiveData<Object> getNumeroAlumnosTutor(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableNumAlumnosTutor = new MutableLiveData<>();
+        Call<ResponseBody> callGetNumeroAlumnosTutor = restAuthService.getNumeroAlumnosTutor();
+        callGetNumeroAlumnosTutor.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Integer numAlumnos = null;
+                    try {
+                        numAlumnos = Integer.valueOf(body.string());
+                    } catch (IOException ignored) {}
+                    mutableNumAlumnosTutor.setValue(numAlumnos);
+                }else {
+                    String respuesta;
+                    RespuestasProfileConf respuestasProfileConf = null;
+                    try {
+                        respuesta = response.errorBody().string();
+                        respuestasProfileConf = RespuestasProfileConf.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {
+                    }
+                    if(Objects.nonNull(respuestasProfileConf)) {
+                        if (Objects.requireNonNull(respuestasProfileConf) == RespuestasProfileConf.TUTOR_PROFILE_NOT_CREATED) {
+                            mutableNumAlumnosTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_CREATED);
+                        }
+                    }
+
+                    if(response.code() == 403) {
+                        mutableNumAlumnosTutor.setValue(null);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableNumAlumnosTutor;
     }
 }

@@ -26,4 +26,14 @@
     <style name="MyNavigationViewStyle" parent="Widget.Design.NavigationView">
         <item name="android:listDivider">@drawable/my_divider</item>
     </style>
+    <style name="EditTextCreateEvent">
+        <item name="android:background">@drawable/rounded_dialog</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+    <style name="DatePickerTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorAccent">@color/bluestd</item> <!-- color del indicador y botón -->
+    </style>
+
 </resources>
