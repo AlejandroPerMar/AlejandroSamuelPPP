@@ -10,16 +10,32 @@
     android:padding="16dp"
     app:cardCornerRadius="16dp">
 
+
     <TextView
         android:id="@+id/nombreTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageButton
+        android:id="@+id/editCurso"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_button_background"
+        android:src="@drawable/baseline_edit_24"
+        app:layout_constraintBottom_toTopOf="@+id/addActividadButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.868"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.188" />
 
     <TextView
         android:id="@+id/tutorTextView"
@@ -29,6 +45,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nombreTextView" />
 
@@ -55,22 +72,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materiaTextView" />
 
+    <ImageButton
+        android:id="@+id/addActividadButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="120dp"
+        android:background="@drawable/round_button_background"
+        android:src="@drawable/baseline_add_24"
+        app:layout_constraintBottom_toTopOf="@+id/addAlumnoButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.791"
+        app:layout_constraintStart_toStartOf="@+id/actividadesTextView"
+        app:layout_constraintTop_toTopOf="@+id/actividadesTextView"
+        app:layout_constraintVertical_bias="0.0" />
+
     <LinearLayout
         android:id="@+id/actividadesLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/actividadesTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/actividadesTextView" >
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/alumnosTextView"
-        android:text="Alumnos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:text="Alumnos"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,10 +116,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alumnosTextView" />
+
+
+
+    <ImageButton
+        android:id="@+id/addAlumnoButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_button_background"
+        android:src="@drawable/baseline_add_24"
+        android:layout_marginStart="120dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/alumnosTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="@+id/alumnosTextView"
+        app:layout_constraintTop_toTopOf="@+id/alumnosTextView"
+        app:layout_constraintVertical_bias="0.4"  />
 
 
 

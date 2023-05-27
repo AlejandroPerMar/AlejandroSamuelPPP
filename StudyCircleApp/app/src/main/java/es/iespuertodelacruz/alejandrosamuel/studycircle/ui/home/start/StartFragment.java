@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -69,7 +71,7 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         cursoAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(cursoAdapter);
 
-        Button addButton = view.findViewById(R.id.button);
+        ImageButton addButton = view.findViewById(R.id.button);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,13 +115,6 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
                 }
 
         });
-
-        /*
-            @Override
-            public void onClick(View v) {
-                showAgregarAlumnoDialog(listaAlumnos, alumnosLayout);
-            }
-            */
 
         builder.setPositiveButton("Crear", new DialogInterface.OnClickListener() {
             @Override
@@ -236,9 +231,57 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         LinearLayout actividadesLayout = dialogView.findViewById(R.id.actividadesLayout);
         LinearLayout alumnosLayout = dialogView.findViewById(R.id.alumnosLayout);
 
+
+        ImageButton editNameButton = (ImageButton) dialogView.findViewById(R.id.editCurso);
+        ImageButton addAlumnoButton = (ImageButton) dialogView.findViewById(R.id.addAlumnoButton);
+        ImageButton addActividadButton = (ImageButton) dialogView.findViewById(R.id.addActividadButton);
+
+
+
         nombreTextView.setText(nombre);
         materiaTextView.setText(materia);
         tutorTextView.setText(tutor);
+
+        editNameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Cambiar nombre del curso");
+
+                View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_edit_name, null);
+                builder.setView(dialogView);
+                EditText nameEditText = dialogView.findViewById(R.id.nameEditText);
+                nameEditText.setText(curso.getNombre());
+
+                builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String nuevoNombre = nameEditText.getText().toString().trim();
+                        curso.setNombre(nuevoNombre);
+                        //cursoAdapter.notifyItemChanged(position);
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+        addAlumnoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        addActividadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
 
         for (String actividad : actividades) {
             TextView actividadTextView = new TextView(getActivity());
@@ -249,10 +292,22 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
                     showActividadDialog(actividad);
                 }
             });
+            Button deleteActividadButton = new Button(getActivity());
+            deleteActividadButton.setText("Eliminar");
+            deleteActividadButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Lógica para eliminar el alumno
+                }
+            });
+
             actividadesLayout.addView(actividadTextView);
+            actividadesLayout.addView(deleteActividadButton);
+
         }
 
         for (Alumno alumno : alumnos) {
+            Button deleteAlumnoButton = new Button(getActivity());
             TextView alumnoTextView = new TextView(getActivity());
             String nombreCompleto = alumno.getNombre()+" "+alumno.getApellido();
             alumnoTextView.setText(nombreCompleto);
@@ -262,7 +317,17 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
                     showAlumnoDialog(alumno);
                 }
             });
+
+            deleteAlumnoButton.setText("Eliminar");
+            deleteAlumnoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Lógica para eliminar el alumno
+                }
+            });
             alumnosLayout.addView(alumnoTextView);
+            alumnosLayout.addView(deleteAlumnoButton);
+
         }
 
         builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
