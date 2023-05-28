@@ -1,6 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui.home.start;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.media.Image;
 import android.os.Bundle;
@@ -21,9 +22,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentStartBinding;
@@ -294,25 +298,44 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Agregar Actividad");
 
-                // Inflar el diseño del diálogo
                 LayoutInflater inflater = requireActivity().getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.dialog_add_actividad, null);
                 builder.setView(dialogView);
 
-                // Obtener referencias a los componentes del diálogo
                 EditText tituloEditText = dialogView.findViewById(R.id.txtTitulo);
                 EditText descripcionEditText = dialogView.findViewById(R.id.txtDescripcion);
-                DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
+                Button fechaButton = dialogView.findViewById(R.id.buttonFecha);
+
+                int dia = 0;
+                int mes = 0;
+                int anio = 0;
+
+                fechaButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
+                                new DatePickerDialog.OnDateSetListener() {
+                                    @Override
+                                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                        Calendar selectedDate = Calendar.getInstance();
+                                        selectedDate.set(year, month, day);
+                                        selectedDate.set(Calendar.HOUR_OF_DAY, 0);
+                                        selectedDate.set(Calendar.MINUTE, 0);
+                                        selectedDate.set(Calendar.SECOND, 0);
+                                        selectedDate.set(Calendar.MILLISECOND, 0);
+
+                                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                                        String formattedDate = sdf.format(selectedDate.getTime());
+                                        fechaButton.setText(formattedDate);
+                                    }
+                                }, anio, mes, dia);
+                        datePickerDialog.show();
+                    }
+                });
 
                 builder.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String titulo = tituloEditText.getText().toString();
-                        String descripcion = descripcionEditText.getText().toString();
-                        int dia = datePicker.getDayOfMonth();
-                        int mes = datePicker.getMonth();
-                        int anio = datePicker.getYear();
-
                         dialog.dismiss();
                     }
                 });

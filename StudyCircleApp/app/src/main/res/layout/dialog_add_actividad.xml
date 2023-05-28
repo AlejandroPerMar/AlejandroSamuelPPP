@@ -31,9 +31,10 @@
         android:inputType="textMultiLine"
         android:lines="5" />
 
-    <DatePicker
-        android:id="@+id/datePicker"
+    <Button
+        android:id="@+id/buttonFecha"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Seleccionar fecha" />
 
 </LinearLayout>
