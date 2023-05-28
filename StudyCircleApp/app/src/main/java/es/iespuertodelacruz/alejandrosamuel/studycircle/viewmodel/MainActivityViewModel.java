@@ -61,6 +61,8 @@ public class MainActivityViewModel extends AndroidViewModel {
     private final NivelesEstudiosRepository nivelesEstudiosRepository;
 
     private String registerSuccessMessage;
+    private UsuarioDTO usuarioDTO;
+    private UsuarioDTO selectedUsuarioDTO;
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
@@ -142,8 +144,8 @@ public class MainActivityViewModel extends AndroidViewModel {
         return profilesConfRepository.getAlumno(token);
     }
 
-    public LiveData<Object> getNumAlumnosForTutor(String token) {
-        return profilesConfRepository.getNumeroAlumnosTutor(token);
+    public LiveData<Object> getNumAlumnosForTutor(Integer id, String token) {
+        return profilesConfRepository.getNumeroAlumnosTutor(id, token);
     }
 
     public LiveData<Object> createTutorProfile(List<MateriaDTO> materias, String token) {
@@ -173,6 +175,14 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public LiveData<Object> findCursosAlumno(String token) {
         return cursosRepository.findCursosAlumno(token);
+    }
+
+    public LiveData<Object> findCantidadCursosTutor(Integer id, String token) {
+        return cursosRepository.getCantidadCursosTutor(id, token);
+    }
+
+    public LiveData<Object> findCantidadCursosAlumno(Integer id, String token) {
+        return cursosRepository.getCantidadCursosAlumno(id, token);
     }
 
     public LiveData<Object> findCursosTutor(String token) {
@@ -247,8 +257,8 @@ public class MainActivityViewModel extends AndroidViewModel {
         return actividadesRepository.deleteActividad(id, token);
     }
 
-    public LiveData<Object> getNumActividadesPendientesAlumno(String token) {
-        return actividadesRepository.getNumeroActividadesPendientes(token);
+    public LiveData<Object> getNumActividadesPendientesAlumno(Integer idUsuario, String token) {
+        return actividadesRepository.getNumeroActividadesPendientes(idUsuario, token);
     }
 
     //Acciones de las alertas
@@ -285,6 +295,10 @@ public class MainActivityViewModel extends AndroidViewModel {
         return amistadesRepository.eliminarAmistad(id, token);
     }
 
+    public LiveData<Object> getEstadoAmistad(Integer idUsuario, String token) {
+        return amistadesRepository.getEstadoAmistad(idUsuario, token);
+    }
+
     //Acciones de los niveles de estudio
     public LiveData<Object> findAllNivelesEstudios(String token) {
         return nivelesEstudiosRepository.findAllNivelesEstudios(token);
@@ -296,5 +310,21 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public void setRegisterSuccessMessage(String registerSuccessMessage) {
         this.registerSuccessMessage = registerSuccessMessage;
+    }
+
+    public UsuarioDTO getUsuarioDTO() {
+        return usuarioDTO;
+    }
+
+    public void setUsuarioDTO(UsuarioDTO usuarioDTO) {
+        this.usuarioDTO = usuarioDTO;
+    }
+
+    public UsuarioDTO getSelectedUsuarioDTO() {
+        return selectedUsuarioDTO;
+    }
+
+    public void setSelectedUsuarioDTO(UsuarioDTO selectedUsuarioDTO) {
+        this.selectedUsuarioDTO = selectedUsuarioDTO;
     }
 }

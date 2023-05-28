@@ -166,7 +166,11 @@
         android:id="@+id/busquedaUsuariosFragment"
         android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.BusquedaUsuariosFragment"
         android:label="fragment_busqueda_usuarios"
-        tools:layout="@layout/fragment_busqueda_usuarios" />
+        tools:layout="@layout/fragment_busqueda_usuarios" >
+        <action
+            android:id="@+id/action_busquedaUsuariosFragment_to_visualizarPerfilFragment"
+            app:destination="@id/visualizarPerfilFragment" />
+    </fragment>
     <fragment
         android:id="@+id/calendarFragment"
         android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.CalendarFragment"
@@ -257,4 +261,16 @@
     <action
         android:id="@+id/action_refresh_calendar_fragment"
         app:destination="@id/calendarFragment" />
+    <action
+        android:id="@+id/action_refresh_visualizar_perfil_fragment"
+        app:destination="@id/visualizarPerfilFragment" />
+    <fragment
+        android:id="@+id/visualizarPerfilFragment"
+        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.VisualizarPerfilFragment"
+        android:label="fragment_visualizar_perfil"
+        tools:layout="@layout/fragment_visualizar_perfil" >
+        <action
+            android:id="@+id/action_visualizarPerfilFragment_to_busquedaUsuariosFragment"
+            app:destination="@id/busquedaUsuariosFragment" />
+    </fragment>
 </navigation>

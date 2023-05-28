@@ -328,6 +328,7 @@ public class CalendarFragment extends Fragment {
         switchProfile.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                mainActivity.closeDrawer();
                 if(checkedId == R.id.switchAlumno) {
                     LiveData<Object> alumno = viewModel.getAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
                     alumno.observe(getViewLifecycleOwner(), new Observer<Object>() {

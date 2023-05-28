@@ -299,10 +299,10 @@ public class ProfilesConfRepository {
         return mutableTutor;
     }
 
-    public LiveData<Object> getNumeroAlumnosTutor(String token) {
+    public LiveData<Object> getNumeroAlumnosTutor(Integer id, String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<Object> mutableNumAlumnosTutor = new MutableLiveData<>();
-        Call<ResponseBody> callGetNumeroAlumnosTutor = restAuthService.getNumeroAlumnosTutor();
+        Call<ResponseBody> callGetNumeroAlumnosTutor = restAuthService.getNumeroAlumnosTutor(id);
         callGetNumeroAlumnosTutor.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,

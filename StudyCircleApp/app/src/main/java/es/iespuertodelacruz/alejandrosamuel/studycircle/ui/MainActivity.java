@@ -61,13 +61,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView );
+        NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
         if (navController.getCurrentDestination().getId() == R.id.homeFragment) {
             // Si estás en el fragmento de inicio, no hagas nada (o sal de la aplicación, si prefieres)
         } else if (navController.getCurrentDestination().getId() == R.id.profilesConfFragment){
 
         } else if (navController.getCurrentDestination().getId() == R.id.activacionCuentaFragment){
 
+        } else if (navController.getCurrentDestination().getId() == R.id.visualizarPerfilFragment){
+            navController.navigate(R.id.action_visualizarPerfilFragment_to_busquedaUsuariosFragment);
         }else {
             // Si no estás en el fragmento de inicio, sigue el comportamiento normal de retroceso
             super.onBackPressed();

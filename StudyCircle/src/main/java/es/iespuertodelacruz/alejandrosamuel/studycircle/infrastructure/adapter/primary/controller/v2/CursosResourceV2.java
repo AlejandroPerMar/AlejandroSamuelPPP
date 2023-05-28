@@ -271,6 +271,42 @@ public class CursosResourceV2 {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.TUTOR_PROFILE_NOT_CREATED.name());
     }
 
+    @GetMapping("/tutor/cantidadCursos/{idUsuario}")
+    @ApiOperation(
+            value= "Encontrar Cursos en los que está inscrito el tutor",
+            notes= """
+                    Posibles respuestas:\s
+                    • "TUTOR_PROFILE_NOT_CREATED" (String). Indica que el usuario no tiene perfil de tutor creado
+                    • "List<CursoDTO>. Devuelve la cantidad de cursos del tutor
+                    """
+    )
+    public ResponseEntity<?> findCantidadCursosByTutor(@PathVariable("idUsuario") Integer idUsuario) {
+        Tutor tutor = tutorService.findTutorById(idUsuario);
+        if(Objects.nonNull(tutor)) {
+            List<Curso> cursosByTutor = cursoService.findByIdTutor(tutor.getId());
+            return ResponseEntity.ok(cursosByTutor.size());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.TUTOR_PROFILE_NOT_CREATED.name());
+    }
+
+    @GetMapping("/alumno/cantidadCursos/{idUsuario}")
+    @ApiOperation(
+            value= "Encontrar Cursos en los que está inscrito el alumno",
+            notes= """
+                    Posibles respuestas:\s
+                    • "STUDENT_PROFILE_NOT_CREATED" (String). Indica que el usuario no tiene perfil de alumno creado
+                    • "List<CursoDTO>. Devuelve la cantidad de cursos del tutor
+                    """
+    )
+    public ResponseEntity<?> findCantidadCursosByAlumno(@PathVariable("idUsuario") Integer idUsuario) {
+        Alumno alumno = alumnoService.findAlumnoByIdUsuario(idUsuario);
+        if(Objects.nonNull(alumno)) {
+            List<Curso> cursosByAlumno = cursoService.findByAlumno(alumno.getId());
+            return ResponseEntity.ok(cursosByAlumno.size());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.STUDENT_PROFILE_NOT_CREATED.name());
+    }
+
     @DeleteMapping("{id}")
     @ApiOperation(
             value = "Eliminar Curso por ID",

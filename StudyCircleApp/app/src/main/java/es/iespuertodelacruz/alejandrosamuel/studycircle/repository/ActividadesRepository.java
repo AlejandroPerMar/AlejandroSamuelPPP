@@ -163,10 +163,10 @@ public class ActividadesRepository {
         return mutableActividad;
     }
 
-    public LiveData<Object> getNumeroActividadesPendientes(String token) {
+    public LiveData<Object> getNumeroActividadesPendientes(Integer idUsuario, String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<Object> mutableNumeroActividadesPendientes = new MutableLiveData<>();
-        Call<ResponseBody> callGetNumeroActividadesPendientes = restAuthService.getNumeroActividadesPendientes();
+        Call<ResponseBody> callGetNumeroActividadesPendientes = restAuthService.getNumeroActividadesPendientes(idUsuario);
         callGetNumeroActividadesPendientes.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,

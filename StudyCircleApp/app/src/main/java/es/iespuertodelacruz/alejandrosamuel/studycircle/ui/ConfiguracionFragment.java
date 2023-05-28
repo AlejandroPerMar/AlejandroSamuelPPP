@@ -157,8 +157,8 @@ public class ConfiguracionFragment extends Fragment {
                         }
                     });
 
-                    LiveData<Object> numAlumnosForTutor = viewModel.getNumActividadesPendientesAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
-                    numAlumnosForTutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                    LiveData<Object> numActividadesPendientes = viewModel.getNumActividadesPendientesAlumno(viewModel.getUsuarioDTO().getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
+                    numActividadesPendientes.observe(getViewLifecycleOwner(), new Observer<Object>() {
                         @Override
                         public void onChanged(Object o) {
                              if(o instanceof Integer) {
@@ -221,7 +221,7 @@ public class ConfiguracionFragment extends Fragment {
                         }
                     });
 
-                    LiveData<Object> numAlumnosForTutor = viewModel.getNumAlumnosForTutor(viewModel.recuperarTokenSharedPreferences(getContext()));
+                    LiveData<Object> numAlumnosForTutor = viewModel.getNumAlumnosForTutor(viewModel.getUsuarioDTO().getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
                     numAlumnosForTutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
                         @Override
                         public void onChanged(Object o) {

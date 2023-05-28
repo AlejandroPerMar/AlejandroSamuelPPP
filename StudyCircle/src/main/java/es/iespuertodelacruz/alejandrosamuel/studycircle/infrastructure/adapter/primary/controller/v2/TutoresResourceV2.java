@@ -16,6 +16,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.
 import io.swagger.annotations.Api;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Rol;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -115,17 +116,17 @@ public class TutoresResourceV2 {
 
     }
 
-    @GetMapping("/numeroAlumnos")
+    @GetMapping("/numeroAlumnos/{idUsuario}")
     @ApiOperation(
             value = "Obtener cantidad de alumnos diferentes de los cursos del tutor",
             notes = """
                     Posibles respuestas:s
                     • Integer numAlumnos. Indica la cantidad de alumnos diferentes que tiene el tutor en sus cursos
-                    • "TUTOR_PROFILE_NOT_CREATED" (String). Indica que no hay un perfil de tutor para el usuario autenticado
+                    • "TUTOR_PROFILE_NOT_CREATED" (String). Indica que no hay un perfil de tutor para el usuario indicado
                     """
     )
-    public ResponseEntity<?> getNumeroAlumnosTutor() {
-        Tutor tutor = service.findTutorByUsername(getUsernameUsuario());
+    public ResponseEntity<?> getNumeroAlumnosTutor(@PathVariable("idUsuario") Integer idUsuario) {
+        Tutor tutor = service.findTutorByIdUsuario(idUsuario);
         if(Objects.nonNull(tutor)) {
             Integer numAlumnos = service.countStudents(tutor);
             return ResponseEntity.ok(numAlumnos);

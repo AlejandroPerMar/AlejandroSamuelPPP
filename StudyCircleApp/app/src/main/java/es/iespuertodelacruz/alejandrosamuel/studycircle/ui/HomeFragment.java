@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +39,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasPro
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.UserProfiles;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.TutorDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentHomeBinding;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
 
@@ -173,10 +175,21 @@ public class HomeFragment extends Fragment {
         mainActivity.enableDrawer(true);
         mainActivity.setBottomNavVisibility(View.VISIBLE);
         isProgrammaticChange = false;
+        LiveData<Object> usuario = viewModel.getUsuario(viewModel.recuperarTokenSharedPreferences(getContext()));
+        usuario.observe(getViewLifecycleOwner(), new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                if(o instanceof UsuarioDTO) {
+                    viewModel.setUsuarioDTO((UsuarioDTO) o);
+                    TextView viewById = navigationView.getHeaderView(0).findViewById(R.id.nav_header_textView);
+                    viewById.setText(viewModel.getUsuarioDTO().getUsername());
+                }
+            }
+        });
 
         String perfilSeleccionado = viewModel.recuperarPerfilSeleccionadoSharedPreferences(getContext());
 
-        Log.d("TAG", perfilSeleccionado);
+        Log.d("TAG", perfilSeleccionado != null ? perfilSeleccionado : "");
         if(Objects.nonNull(perfilSeleccionado)) {
             if(perfilSeleccionado.equals(UserProfiles.TUTOR_PROFILE.name())) {
                 mainActivity.checkTutorProfile();
@@ -263,6 +276,7 @@ public class HomeFragment extends Fragment {
         switchProfile.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                mainActivity.closeDrawer();
                 if(checkedId == R.id.switchAlumno && !isProgrammaticChange) {
                     LiveData<Object> alumno = viewModel.getAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
                     alumno.observe(getViewLifecycleOwner(), new Observer<Object>() {

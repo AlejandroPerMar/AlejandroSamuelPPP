@@ -86,7 +86,7 @@ public class AmistadEntityService implements IAmistadRepository {
 
     @Override
     public List<Usuario> findAmistadesById(Integer id) {
-        List<UsuarioEntity> amistadesById = repository.findAmistadesById(id, EstadosAmistad.FRIENDSHIP_ACCEPTED.name());
+        List<UsuarioEntity> amistadesById = repository.findAmistadesById(id);
         return amistadesById.stream().map(mapper::toDomain).toList();
     }
 

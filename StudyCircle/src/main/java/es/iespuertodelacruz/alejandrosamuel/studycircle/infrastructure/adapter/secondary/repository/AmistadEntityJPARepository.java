@@ -20,7 +20,6 @@ public interface AmistadEntityJPARepository extends JpaRepository<AmistadEntity,
             ") " +
             "FROM AmistadEntity a " +
             "WHERE (a.usuario1.id = :id OR a.usuario2.id = :id) " +
-            "AND (a.usuario1.id <> :id OR a.usuario2.id <> :id) " +
-            "AND a.estado = :estadoAmistad")
-    List<UsuarioEntity> findAmistadesById(@Param("id") Integer id, @Param("estadoAmistad") String estadoAmistad);
+            "AND (a.usuario1.id <> :id OR a.usuario2.id <> :id)")
+    List<UsuarioEntity> findAmistadesById(@Param("id") Integer id);
 }

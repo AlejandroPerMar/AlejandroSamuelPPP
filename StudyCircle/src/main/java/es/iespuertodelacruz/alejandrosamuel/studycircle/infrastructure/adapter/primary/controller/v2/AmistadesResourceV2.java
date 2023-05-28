@@ -115,7 +115,30 @@ public class AmistadesResourceV2 {
         return ResponseEntity.ok(amistadesByIdUsuario.stream().map(mapper::toDTO).toList());
     }
 
-    @PostMapping("/accept")
+    @GetMapping("/estadoAmistad/{idUsuario}")
+    @ApiOperation(
+            value= "Devolver estado de amistad del usuario con usuario indicado",
+            notes= """
+                    Posibles respuestas:\s
+                    • "FORBIDDEN_FRIENDSHIP_FOR_USER" (String). Indica que la amistad no está disponible para el usuario autenticado
+                    • "NON_EXISTING_USER1_OR_USER2" (String). Indica que la amistad no está disponible para el usuario autenticado
+                    • "Estado de amistad (String). Devuelve el estado de la amistad
+                    """
+    )
+    public ResponseEntity<?> getEstadoAmistad(@PathVariable("idUsuario") Integer idUsuario) {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        Usuario usuario2 = usuarioService.findById(idUsuario);
+        if(ObjectUtils.notNullNorEmpty(usuario, usuario2)) {
+            Amistad amistadByIds = amistadService.findAmistadByIds(usuario.getId(), usuario2.getId());
+            if(Objects.nonNull(amistadByIds)) {
+                return ResponseEntity.ok(amistadByIds.getEstado());
+            }
+            return ResponseEntity.ok(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER.name());
+        }
+        return ResponseEntity.ok(RespuestasAmistad.NON_EXISTING_USER1_OR_USER2.name());
+    }
+
+    @PutMapping("/accept")
     @ApiOperation(
             value= "Aceptar Amistad",
             notes= """
@@ -140,7 +163,7 @@ public class AmistadesResourceV2 {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER.name());
     }
 
-    @PostMapping("/remove")
+    @DeleteMapping("/remove")
     @ApiOperation(
             value= "Eliminar Amistad",
             notes= """

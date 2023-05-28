@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.DatabaseStudyCircle;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasCursos;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasProfileConf;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RESTService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RetrofitClient;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
@@ -298,6 +299,92 @@ public class CursosRepository {
             }
         });
         return mutableCursos;
+    }
+
+    public LiveData<Object> getCantidadCursosTutor(Integer id, String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableNumCursosTutor = new MutableLiveData<>();
+        Call<ResponseBody> callGetCantidadCursosTutor = restAuthService.getCantidadCursosTutor(id);
+        callGetCantidadCursosTutor.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Integer numCursos = null;
+                    try {
+                        numCursos = Integer.valueOf(body.string());
+                    } catch (IOException ignored) {}
+                    mutableNumCursosTutor.setValue(numCursos);
+                }else {
+                    String respuesta;
+                    RespuestasProfileConf respuestasProfileConf = null;
+                    try {
+                        respuesta = response.errorBody().string();
+                        respuestasProfileConf = RespuestasProfileConf.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {
+                    }
+                    if(Objects.nonNull(respuestasProfileConf)) {
+                        if (Objects.requireNonNull(respuestasProfileConf) == RespuestasProfileConf.TUTOR_PROFILE_NOT_CREATED) {
+                            mutableNumCursosTutor.setValue(RespuestasProfileConf.TUTOR_PROFILE_NOT_CREATED);
+                        }
+                    }
+
+                    if(response.code() == 403) {
+                        mutableNumCursosTutor.setValue(null);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableNumCursosTutor;
+    }
+
+    public LiveData<Object> getCantidadCursosAlumno(Integer id, String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableNumCursosAlumno = new MutableLiveData<>();
+        Call<ResponseBody> callGetCantidadCursosAlumno = restAuthService.getCantidadCursosAlumno(id);
+        callGetCantidadCursosAlumno.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Integer numCursos = null;
+                    try {
+                        numCursos = Integer.valueOf(body.string());
+                    } catch (IOException ignored) {}
+                    mutableNumCursosAlumno.setValue(numCursos);
+                }else {
+                    String respuesta;
+                    RespuestasProfileConf respuestasProfileConf = null;
+                    try {
+                        respuesta = response.errorBody().string();
+                        respuestasProfileConf = RespuestasProfileConf.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {
+                    }
+                    if(Objects.nonNull(respuestasProfileConf)) {
+                        if (Objects.requireNonNull(respuestasProfileConf) == RespuestasProfileConf.STUDENT_PROFILE_NOT_CREATED) {
+                            mutableNumCursosAlumno.setValue(RespuestasProfileConf.STUDENT_PROFILE_NOT_CREATED);
+                        }
+                    }
+
+                    if(response.code() == 403) {
+                        mutableNumCursosAlumno.setValue(null);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableNumCursosAlumno;
     }
 
     public LiveData<Object> changeTituloCurso(Integer idCurso, String titulo, String token) {

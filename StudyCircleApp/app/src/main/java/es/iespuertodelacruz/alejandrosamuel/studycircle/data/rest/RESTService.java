@@ -62,8 +62,8 @@ public interface RESTService {
     @PUT("v2/tutores")
     Call<ResponseBody> updateTutor(@Body TutorDTO tutorDTO);
 
-    @GET("v2/tutores/numeroAlumnos")
-    Call<ResponseBody> getNumeroAlumnosTutor();
+    @GET("v2/tutores/numeroAlumnos/{idUsuario}")
+    Call<ResponseBody> getNumeroAlumnosTutor(@Path("idUsuario") Integer idUsuario);
 
     @GET("v2/tutores")
     Call<ResponseBody> getTutor();
@@ -77,6 +77,12 @@ public interface RESTService {
 
     @GET("v2/cursos/tutor")
     Call<ResponseBody> findCursosTutor();
+
+    @GET("v2/cursos/tutor/cantidadCursos/{idUsuario}")
+    Call<ResponseBody> getCantidadCursosTutor(@Path("idUsuario") Integer idUsuario);
+
+    @GET("v2/cursos/alumno/cantidadCursos/{idUsuario}")
+    Call<ResponseBody> getCantidadCursosAlumno(@Path("idUsuario") Integer idUsuario);
 
     @POST("v2/cursos/inviteStudent")
     Call<ResponseBody> invitarAlumnoToCurso(@Query("idUser") Integer idUser, @Query("idCourse") Integer idCourse);
@@ -110,11 +116,14 @@ public interface RESTService {
     @GET("v2/amistades/usuario")
     Call<ResponseBody> findAmistadesByUsuario();
 
-    @GET("v2/amistades/accept")
+    @PUT("v2/amistades/accept")
     Call<ResponseBody> aceptarAmistad(@Query("idUsuarioAmistad") Integer idUsuarioAmistad);
 
-    @GET("v2/amistades/remove")
+    @DELETE("v2/amistades/remove")
     Call<ResponseBody> eliminarAmistad(@Query("idUsuarioAmistad") Integer idUsuarioAmistad);
+
+    @GET("v2/amistades/estadoAmistad/{idUsuario}")
+    Call<ResponseBody> getEstadoAmistad(@Path("idUsuario") Integer idUsuario);
 
     //Acciones referentes a los anuncios
     @GET("v2/anuncios/{id}")
@@ -152,8 +161,8 @@ public interface RESTService {
     @DELETE("v2/actividades/{id}")
     Call<ResponseBody> removeActividad(@Path("id") Integer id);
 
-    @GET("v2/actividades/numeroActividadesPendientes")
-    Call<ResponseBody> getNumeroActividadesPendientes();
+    @GET("v2/actividades/numeroActividadesPendientes/{idUsuario}")
+    Call<ResponseBody> getNumeroActividadesPendientes(@Path("idUsuario") Integer idUsuario);
 
     //Acciones referentes a las alertas
     @GET("v2/alertas/actividades")

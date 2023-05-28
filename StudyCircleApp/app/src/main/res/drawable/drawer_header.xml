@@ -8,16 +8,12 @@
     android:background="#61164D8F"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/nav_header_imageView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/ic_profile"/>
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
+        android:paddingTop="6dp"
+        android:textSize="30sp"
+        android:fontFamily="@font/poppins_medium"
         android:text="User Name"
         android:id="@+id/nav_header_textView" />
 

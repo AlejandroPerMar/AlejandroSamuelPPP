@@ -32,6 +32,7 @@ import java.util.Objects;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.EventoCalendarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.utils.ObjectsUtils;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
 
 public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventoViewHolder> {
 

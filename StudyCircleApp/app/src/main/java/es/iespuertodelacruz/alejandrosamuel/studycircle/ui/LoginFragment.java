@@ -32,6 +32,7 @@ import java.util.Objects;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.EstadosUsuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasAuthToken;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentLoginBinding;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.repository.AuthTokenRepository;
@@ -213,7 +214,17 @@ public class LoginFragment extends Fragment {
                         if(o instanceof String) {
                             //Guardamos el token cifrado en SharedPreferences
                             viewModel.guardarTokenSharedPreferences(getContext(), (String) o);
-                            Log.d("TAG", viewModel.recuperarTokenSharedPreferences(getContext()));
+                            String s = viewModel.recuperarTokenSharedPreferences(getContext());
+                            Log.d("TAG", s != null ? s : "");
+                            LiveData<Object> usuario = viewModel.getUsuario((String) o);
+                            usuario.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                                @Override
+                                public void onChanged(Object o) {
+                                    if(o instanceof UsuarioDTO) {
+                                        viewModel.setUsuarioDTO((UsuarioDTO) o);
+                                    }
+                                }
+                            });
                             LiveData<Object> objectLiveData = viewModel.getEstadoUsuario((String) o);
                             /*
                                 Realizamos una petición para reenviar el correo de verficación.

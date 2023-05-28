@@ -108,7 +108,7 @@ public class BusquedaUsuariosFragment extends Fragment {
             public void onChanged(Object o) {
                 if(o instanceof List) {
                     setUsuariosDTO((List<UsuarioDTO>) o);
-                    searchUsuariosAdapter = new SearchUsuariosAdapter(usuariosDTO);
+                    searchUsuariosAdapter = new SearchUsuariosAdapter(usuariosDTO, viewModel, container);
                     recyclerView.setAdapter(searchUsuariosAdapter);
                 }
             }

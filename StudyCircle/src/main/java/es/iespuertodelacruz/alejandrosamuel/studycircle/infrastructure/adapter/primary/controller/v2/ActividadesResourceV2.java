@@ -113,17 +113,17 @@ public class ActividadesResourceV2 {
         return ResponseEntity.ok(mapper.toDTO(actividad));
     }
 
-    @GetMapping("/numeroActividadesPendientes")
+    @GetMapping("/numeroActividadesPendientes/{idUsuario}")
     @ApiOperation(
             value = "Obtener cantidad de actividades pendientes",
             notes = """
                     Posibles respuestas:s
-                    • "STUDENT_PROFILE_NOT_CREATED" (String). Indica que el usuario autenticado no tiene un perfil de alumno creado
+                    • "STUDENT_PROFILE_NOT_CREATED" (String). Indica que el usuario indicado no tiene un perfil de alumno creado
                     • Integer numeroActividadesPendientes. Se da la cantidad de actividades abiertas hasta la fecha actual que tiene el alumno
                     """
     )
-    public ResponseEntity<?> getNumeroActividadesPendientes() {
-        Alumno alumno = alumnoService.findAlumnoByUsername(getUsernameUsuario());
+    public ResponseEntity<?> getNumeroActividadesPendientes(@PathVariable("idUsuario") Integer idUsuario) {
+        Alumno alumno = alumnoService.findAlumnoByIdUsuario(idUsuario);
         if(Objects.nonNull(alumno)) {
             Integer numeroActividadesPendientes = service.getNumeroActividadesPendientes(alumno.getId());
             return ResponseEntity.ok(numeroActividadesPendientes);

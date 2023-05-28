@@ -213,17 +213,14 @@ public class AmistadesRepository {
                     try {
                         RespuestasAmistad respuestasAmistad = RespuestasAmistad.valueOf(body.string());
                         mutableAmistades.setValue(respuestasAmistad);
-                    } catch (IOException ignored) {}
+                    } catch (IOException | IllegalArgumentException ignored) {}
                 }else {
                     String respuesta;
                     try {
                         respuesta = Objects.requireNonNull(response.errorBody()).string();
                         RespuestasAmistad respuestasAmistad = RespuestasAmistad.valueOf(respuesta);
-                        switch (respuestasAmistad) {
-                            case FORBIDDEN_FRIENDSHIP_FOR_USER:
-                                mutableAmistades.setValue(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER);
-                                break;
-                            default:
+                        if (respuestasAmistad == RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER) {
+                            mutableAmistades.setValue(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER);
                         }
                     } catch (Exception ignored) {}
 
@@ -239,5 +236,47 @@ public class AmistadesRepository {
             }
         });
         return mutableAmistades;
+    }
+
+    public LiveData<Object> getEstadoAmistad(Integer idUsuario, String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableEstadoAmistad = new MutableLiveData<>();
+        Call<ResponseBody> callGetEstadoAmistad = restAuthService.getEstadoAmistad(idUsuario);
+        callGetEstadoAmistad.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    try {
+                        mutableEstadoAmistad.setValue(body.string());
+                    } catch (Exception e) {
+                        mutableEstadoAmistad.setValue(null);
+                    }
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = Objects.requireNonNull(response.errorBody()).string();
+                        RespuestasAmistad respuestasAmistad = RespuestasAmistad.valueOf(respuesta);
+                        if (respuestasAmistad == RespuestasAmistad.NON_EXISTING_USER1_OR_USER2) {
+                            mutableEstadoAmistad.setValue(RespuestasAmistad.NON_EXISTING_USER1_OR_USER2);
+                        }
+                        if (respuestasAmistad == RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER) {
+                            mutableEstadoAmistad.setValue(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER);
+                        }
+                    } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableEstadoAmistad.setValue(null);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableEstadoAmistad;
     }
 }

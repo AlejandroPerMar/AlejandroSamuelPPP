@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -14,15 +15,20 @@ import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
 
 public class SearchUsuariosAdapter extends RecyclerView.Adapter<SearchUsuariosAdapter.ViewHolder> {
 
     private List<UsuarioDTO> usuariosDTO;
     private List<UsuarioDTO> usuariosFiltradosDTO;
+    private MainActivityViewModel viewModel;
+    ViewGroup container;
 
-    public SearchUsuariosAdapter(List<UsuarioDTO> usuariosDTO) {
+    public SearchUsuariosAdapter(List<UsuarioDTO> usuariosDTO, MainActivityViewModel mainActivityViewModel, ViewGroup container) {
         this.usuariosDTO = usuariosDTO;
         this.usuariosFiltradosDTO = new ArrayList<>(usuariosDTO);
+        this.viewModel = mainActivityViewModel;
+        this.container = container;
     }
 
     public void actualizarDatos(List<UsuarioDTO> nuevosDatos) {
@@ -58,7 +64,11 @@ public class SearchUsuariosAdapter extends RecyclerView.Adapter<SearchUsuariosAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         UsuarioDTO objeto = usuariosFiltradosDTO.get(position);
         holder.textView.setText(objeto.getUsername());
-        // Aquí debes poner el código para configurar el viewHolder según tu objeto
+
+        holder.cardView.setOnClickListener(v -> {
+            viewModel.setSelectedUsuarioDTO(objeto);
+            Navigation.findNavController(container).navigate(R.id.action_busquedaUsuariosFragment_to_visualizarPerfilFragment);
+        });
     }
 
     @Override
