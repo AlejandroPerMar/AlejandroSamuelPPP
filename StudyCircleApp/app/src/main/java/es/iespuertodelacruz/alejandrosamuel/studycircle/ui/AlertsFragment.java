@@ -195,6 +195,7 @@ public class AlertsFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             viewModel.limpiarTokenSharedPreferences(getContext());
+                            viewModel.limpiarPerfilSeleccionadoSharedPreferences(getContext());
                             Navigation.findNavController(container).navigate(R.id.action_alertsFragment_to_loginFragment);
                         }
                     });

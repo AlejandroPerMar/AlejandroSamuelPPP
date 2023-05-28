@@ -24,12 +24,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -43,8 +45,11 @@ import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.EventosAdapter;
@@ -85,6 +90,7 @@ public class CalendarFragment extends Fragment {
     private MaterialCalendarView calendarView;
     private RecyclerView eventsRecyclerView;
     private ImageView btnCrearEvento;
+    private EventosAdapter eventosAdapter;
 
     List<EventoCalendarioDTO> eventos;
 
@@ -92,7 +98,6 @@ public class CalendarFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = NavHostFragment.findNavController(this);
-
         // En tu onViewCreated...
 
         // Define tu OnItemSelectedListener
@@ -198,6 +203,7 @@ public class CalendarFragment extends Fragment {
 
     private void actualizarRecyclerView(List<EventoCalendarioDTO> eventos) {
         EventosAdapter adapter = new EventosAdapter(eventos);
+        eventosAdapter = adapter;
         eventsRecyclerView.setAdapter(adapter);
     }
 
@@ -217,6 +223,7 @@ public class CalendarFragment extends Fragment {
         mainActivity.enableDrawer(true);
         mainActivity.setBottomNavVisibility(View.VISIBLE);
         calendarView = binding.calendarView;
+        eventosAdapter = new EventosAdapter(new ArrayList<>());
         eventsRecyclerView = binding.eventsRecyclerView;
         eventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -296,6 +303,7 @@ public class CalendarFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             viewModel.limpiarTokenSharedPreferences(getContext());
+                            viewModel.limpiarPerfilSeleccionadoSharedPreferences(getContext());
                             Navigation.findNavController(container).navigate(R.id.action_calendarFragment_to_loginFragment);
                         }
                     });
@@ -386,12 +394,14 @@ public class CalendarFragment extends Fragment {
                             eventoCalendario.observe(getViewLifecycleOwner(), new Observer<Object>() {
                                 @Override
                                 public void onChanged(Object o) {
+                                    Navigation.findNavController(container).navigate(R.id.action_refresh_calendar_fragment);
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
                                     builder.setTitle("Evento creado");
                                     builder.setMessage("Se ha creado el evento correctamente");
                                     builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+
                                         }
                                     });
 

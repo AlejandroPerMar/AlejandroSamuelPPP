@@ -3,6 +3,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,8 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -176,6 +175,8 @@ public class HomeFragment extends Fragment {
         isProgrammaticChange = false;
 
         String perfilSeleccionado = viewModel.recuperarPerfilSeleccionadoSharedPreferences(getContext());
+
+        Log.d("TAG", perfilSeleccionado);
         if(Objects.nonNull(perfilSeleccionado)) {
             if(perfilSeleccionado.equals(UserProfiles.TUTOR_PROFILE.name())) {
                 mainActivity.checkTutorProfile();
@@ -237,6 +238,7 @@ public class HomeFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             viewModel.limpiarTokenSharedPreferences(getContext());
+                            viewModel.limpiarPerfilSeleccionadoSharedPreferences(getContext());
                             Navigation.findNavController(container).navigate(R.id.action_homeFragment_to_loginFragment);
                         }
                     });

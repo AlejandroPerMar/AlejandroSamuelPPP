@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -211,7 +212,8 @@ public class LoginFragment extends Fragment {
                     public void onChanged(Object o) {
                         if(o instanceof String) {
                             //Guardamos el token cifrado en SharedPreferences
-                            viewModel.guardarTokenSharedPreferences(view.getContext(), (String) o);
+                            viewModel.guardarTokenSharedPreferences(getContext(), (String) o);
+                            Log.d("TAG", viewModel.recuperarTokenSharedPreferences(getContext()));
                             LiveData<Object> objectLiveData = viewModel.getEstadoUsuario((String) o);
                             /*
                                 Realizamos una petición para reenviar el correo de verficación.
@@ -230,8 +232,6 @@ public class LoginFragment extends Fragment {
                                     }
                                 }
                             });
-                            progressBar.setVisibility(View.INVISIBLE);
-                            setVisibleLayout(true);
                         }else if(o instanceof RespuestasAuthToken) {
                             progressBar.setVisibility(View.INVISIBLE);
                             setVisibleLayout(true);
@@ -241,9 +241,9 @@ public class LoginFragment extends Fragment {
                             int index = linearLayout.indexOfChild(btnIniciarSesion);  // Obtener el índice del LinearLayout en el ViewGroup padre
 
                             parentView.addView(txtErrorMessage, index);
+                            progressBar.setVisibility(View.INVISIBLE);
+                            setVisibleLayout(true);
                         }
-                        progressBar.setVisibility(View.INVISIBLE);
-                        setVisibleLayout(true);
                     }
                 });
             }else {
@@ -252,9 +252,9 @@ public class LoginFragment extends Fragment {
                 int index = linearLayout.indexOfChild(btnIniciarSesion);  // Obtener el índice del LinearLayout en el ViewGroup padre
 
                 linearLayout.addView(txtErrorMessage, index + 1);
+                progressBar.setVisibility(View.INVISIBLE);
+                setVisibleLayout(true);
             }
-            progressBar.setVisibility(View.INVISIBLE);
-            setVisibleLayout(true);
         });
 
         btnNavRecuperarContrasena.setOnClickListener(new View.OnClickListener() {
