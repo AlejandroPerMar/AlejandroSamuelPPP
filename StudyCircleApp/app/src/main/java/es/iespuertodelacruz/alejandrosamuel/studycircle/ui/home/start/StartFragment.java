@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -275,15 +276,62 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
         addAlumnoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AgregarAlumnoDialog dialogFragment = new AgregarAlumnoDialog();
+
+                dialogFragment.setOnAlumnoSelected(new AgregarAlumnoDialog.OnAlumnoSelectedListener() {
+                    @Override
+                    public void onAlumnoSelected(Alumno alumno) {
+                        curso.getAlumnos().add(alumno);
+                    }
+                });
+
+                dialogFragment.show(getChildFragmentManager(), "AgregarAlumnoDialogFragment");
             }
         });
         addActividadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Agregar Actividad");
+
+                // Inflar el diseño del diálogo
+                LayoutInflater inflater = requireActivity().getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.dialog_add_actividad, null);
+                builder.setView(dialogView);
+
+                // Obtener referencias a los componentes del diálogo
+                EditText tituloEditText = dialogView.findViewById(R.id.txtTitulo);
+                EditText descripcionEditText = dialogView.findViewById(R.id.txtDescripcion);
+                DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
+
+                builder.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String titulo = tituloEditText.getText().toString();
+                        String descripcion = descripcionEditText.getText().toString();
+                        int dia = datePicker.getDayOfMonth();
+                        int mes = datePicker.getMonth();
+                        int anio = datePicker.getYear();
+
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.create().show();
             }
         });
 
         for (String actividad : actividades) {
+            LinearLayout container = new LinearLayout(getActivity());
+            container.setOrientation(LinearLayout.HORIZONTAL);
+
             TextView actividadTextView = new TextView(getActivity());
             actividadTextView.setText(actividad);
             actividadTextView.setOnClickListener(new View.OnClickListener() {
@@ -292,24 +340,46 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
                     showActividadDialog(actividad);
                 }
             });
-            Button deleteActividadButton = new Button(getActivity());
-            deleteActividadButton.setText("Eliminar");
-            deleteActividadButton.setOnClickListener(new View.OnClickListener() {
+
+            ImageButton button = new ImageButton(getActivity());
+            button.setLayoutParams(new LinearLayout.LayoutParams(60, 60));
+            button.setPadding(16, 16, 16, 16);
+            button.setImageResource(R.drawable.baseline_delete_24);
+            button.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    // Lógica para eliminar el alumno
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Borrar "+actividad);
+                    builder.setMessage("¿Estás seguro de que deseas eliminar esta actividad?");
+                    builder.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            container.removeView(actividadTextView);
+                            container.removeView(button);
+                        }
+                    });
+                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+                    builder.create().show();
                 }
             });
 
-            actividadesLayout.addView(actividadTextView);
-            actividadesLayout.addView(deleteActividadButton);
+            container.addView(actividadTextView);
+            container.addView(button);
+
+            actividadesLayout.addView(container);
 
         }
 
         for (Alumno alumno : alumnos) {
-            Button deleteAlumnoButton = new Button(getActivity());
+            LinearLayout container = new LinearLayout(getActivity());
+            container.setOrientation(LinearLayout.HORIZONTAL);
+
             TextView alumnoTextView = new TextView(getActivity());
-            String nombreCompleto = alumno.getNombre()+" "+alumno.getApellido();
+            String nombreCompleto = alumno.getNombre() + " " + alumno.getApellido();
             alumnoTextView.setText(nombreCompleto);
             alumnoTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -318,16 +388,35 @@ public class StartFragment extends Fragment implements CursoAdapter.OnItemClickL
                 }
             });
 
-            deleteAlumnoButton.setText("Eliminar");
-            deleteAlumnoButton.setOnClickListener(new View.OnClickListener() {
+            ImageButton button = new ImageButton(getActivity());
+            button.setLayoutParams(new LinearLayout.LayoutParams(60, 60));
+            button.setPadding(16, 16, 16, 16);
+            button.setImageResource(R.drawable.baseline_delete_24);
+            button.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    // Lógica para eliminar el alumno
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Borrar "+ alumno.getNombre()+alumno.getApellido());
+                    builder.setMessage("¿Estás seguro de que deseas eliminar este alumno?");
+                    builder.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            container.removeView(alumnoTextView);
+                            container.removeView(button);
+                        }
+                    });
+                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+                    builder.create().show();
                 }
             });
-            alumnosLayout.addView(alumnoTextView);
-            alumnosLayout.addView(deleteAlumnoButton);
 
+            container.addView(alumnoTextView);
+            container.addView(button);
+            alumnosLayout.addView(container);
         }
 
         builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
