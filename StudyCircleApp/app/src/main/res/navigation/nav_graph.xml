@@ -264,6 +264,9 @@
     <action
         android:id="@+id/action_refresh_visualizar_perfil_fragment"
         app:destination="@id/visualizarPerfilFragment" />
+    <action
+        android:id="@+id/action_refresh_anuncios_fragment"
+        app:destination="@id/anunciosFragment" />
     <fragment
         android:id="@+id/visualizarPerfilFragment"
         android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.VisualizarPerfilFragment"

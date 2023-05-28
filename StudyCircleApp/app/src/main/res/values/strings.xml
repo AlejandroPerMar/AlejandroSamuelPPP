@@ -51,4 +51,5 @@
     <string name="_0_actividades_pendientes">%1$s actividades pendientes</string>
     <string name="goback"><![CDATA[<-]]></string>
     <string name="goahead"><![CDATA[->]]></string>
+    <string name="seleccione_la_materia_relacionada_al_anuncio">Seleccione la materia para la que necesita apoyo relacionada al anuncio</string>
 </resources>
