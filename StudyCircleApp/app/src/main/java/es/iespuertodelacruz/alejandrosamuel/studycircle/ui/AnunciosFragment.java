@@ -13,6 +13,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.TypedValue;
@@ -50,6 +52,7 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.MateriaAlumnoAd
 import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.SearchUsuariosAdapter;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.MotivosAnuncio;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.UserProfiles;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AnuncioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.EventoCalendarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
@@ -159,6 +162,7 @@ public class AnunciosFragment extends Fragment {
                         LinearLayout layout = (LinearLayout) recyclerView.getParent();
                         layout.addView(textView);
                     }else {
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                         AnunciosAdapter anunciosAdapter = new AnunciosAdapter(getAnuncioDTOList());
                         recyclerView.setAdapter(anunciosAdapter);
                     }
@@ -184,14 +188,17 @@ public class AnunciosFragment extends Fragment {
                 EditText titleEditText = viewE.findViewById(R.id.titleEditText);
                 EditText descriptionEditText = viewE.findViewById(R.id.descriptionEditText);
                 AutoCompleteTextView autoCompleteTextView = viewE.findViewById(R.id.autoCompleteTextView);
+                autoCompleteTextView.setThreshold(1);
                 if(viewModel.recuperarPerfilSeleccionadoSharedPreferences(getContext()).equals(UserProfiles.STUDENT_PROFILE.name())) {
+                    TextView txtCabecera = viewE.findViewById(R.id.txtCabecera);
+                    txtCabecera.setText("Búsqueda de tutor");
                     anuncioDTO.setMotivo(MotivosAnuncio.SEARCHING_TUTOR.getName());
                     LiveData<Object> materiasAlumno = viewModel.getAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
                     materiasAlumno.observe(getViewLifecycleOwner(), new Observer<Object>() {
                         @Override
                         public void onChanged(Object o) {
-                            if(o instanceof List) {
-                                List<MateriaDTO> materias = ((List<MateriaDTO>)o);
+                            if(o instanceof AlumnoDTO) {
+                                List<MateriaDTO> materias = ((AlumnoDTO) o).getMaterias();
                                 List<String> nombresMateria = materias.stream().map(MateriaDTO::getNombre).collect(Collectors.toList());
                                 CustomArrayAdapter adapter = new CustomArrayAdapter(getContext(), android.R.layout.simple_dropdown_item_1line, nombresMateria);
                                 autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -222,13 +229,13 @@ public class AnunciosFragment extends Fragment {
                                     @Override
                                     public void onChanged(Object o) {
                                         if(o instanceof AnuncioDTO) {
-                                            Navigation.findNavController(container).navigate(R.id.action_refresh_anuncios_fragment);
                                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
                                             builder.setTitle("Anuncio creado");
                                             builder.setMessage("Se ha creado el anuncio correctamente");
                                             builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
+                                                    Navigation.findNavController(container).navigate(R.id.action_refresh_anuncios_fragment);
 
                                                 }
                                             });
@@ -277,17 +284,14 @@ public class AnunciosFragment extends Fragment {
                     dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
                     dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
 
-                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                        @Override
-                        public void onShow(DialogInterface dialogInterface) {
-                            Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                            Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-                            positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
-                            negativeButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
-                        }
-                    });
+                    dialog.show();
+
+                    Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                    Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+                    positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                    negativeButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
                 }else {
-                    autoCompleteTextView.setHint("Seleccione la materia que puede impartir relacionada al anuncio");
+                    autoCompleteTextView.setHint("Seleccione la materia relacionada al anuncio");
                     LiveData<Object> materiasByTutor = viewModel.findMateriasByTutor(viewModel.recuperarTokenSharedPreferences(getContext()));
                     materiasByTutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
                         @Override
@@ -380,15 +384,12 @@ public class AnunciosFragment extends Fragment {
                     dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
                     dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
 
-                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                        @Override
-                        public void onShow(DialogInterface dialogInterface) {
-                            Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                            Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-                            positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
-                            negativeButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
-                        }
-                    });
+                    dialog.show();
+
+                    Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                    Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+                    positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                    negativeButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
                 }
 
             }
