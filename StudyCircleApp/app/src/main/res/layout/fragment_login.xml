@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.LoginFragment" >
+    tools:context=".ui.LoginFragment">
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -52,6 +51,7 @@
                     android:layout_toRightOf="@+id/username_icon"
                     android:fontFamily="@font/poppins_regular"
                     android:hint="Username"
+                    android:maxLength="15"
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:paddingLeft="17dp"
@@ -83,14 +83,15 @@
                     android:id="@+id/dtPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/icon"
+                    android:layout_toEndOf="@+id/icon"
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/poppins_regular"
-                    android:hint="Contraseña"
+                    android:hint="@string/contrase_a"
                     android:inputType="textPassword"
-                    android:maxLength="25"
+                    android:maxLength="20"
                     android:maxLines="1"
-                    android:paddingLeft="17dp"
+                    android:paddingStart="17dp"
+                    android:paddingEnd="0dp"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:textCursorDrawable="@drawable/cursor_color"
@@ -103,7 +104,8 @@
                     android:layout_width="14.7dp"
                     android:layout_height="10.3dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="17dp"
+                    android:layout_marginStart="17dp"
+                    android:paddingEnd="0dp"
                     android:src="@drawable/password"/>
             </RelativeLayout>
 
@@ -115,6 +117,7 @@
                 android:layout_marginLeft="62dp"
                 android:layout_marginTop="18.7dp"
                 android:layout_marginRight="62dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/button_background1"
                 android:fontFamily="@font/poppins_medium"
                 android:gravity="center"
@@ -123,23 +126,45 @@
                 android:text="@string/iniciar_sesi_n"
                 android:textColor="#ffffff"
                 android:textSize="12sp"/>
-            <TextView
-                android:id="@+id/btnNavRecuperarContrasena"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="12dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="@string/olvidado_contrasena"
-                android:textColor="#1566e0"
-                android:textSize="10.5dp"/>
+                android:gravity="center|bottom"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:text=" o "
+                    android:textColor="@android:color/darker_gray" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray" />
+            </LinearLayout>
             <TextView
                 android:id="@+id/btnNavRegistrarse"
                 android:layout_gravity="center"
                 android:layout_width="150dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="62dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="62dp"
                 android:background="@drawable/button_background2"
                 android:fontFamily="@font/poppins_medium"
@@ -157,23 +182,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center|bottom">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="13.7dp"
-                android:gravity="center|bottom"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:gravity="center_horizontal"
-                    android:text="@string/o"
-                    android:textColor="#aeaeae"
-                    android:textSize="13.3sp"/>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.RegisterFragment" >
+    tools:context=".ui.RegisterFragment">
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -48,6 +47,7 @@
                 <EditText
                     android:id="@+id/dtNombreCompleto"
                     android:layout_width="match_parent"
+                    android:maxLength="60"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:layout_toEndOf="@+id/nombre_icon"
@@ -88,6 +88,7 @@
                     android:background="@android:color/transparent"
                     android:layout_toEndOf="@+id/username_icon"
                     android:fontFamily="@font/poppins_regular"
+                    android:maxLength="15"
                     android:hint="@string/username"
                     android:inputType="textPersonName"
                     android:maxLines="1"
@@ -123,6 +124,7 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:layout_toEndOf="@+id/email_icon"
+                    android:maxLength="80"
                     android:fontFamily="@font/poppins_regular"
                     android:hint="@string/correo_electr_nico"
                     android:inputType="textEmailAddress"
@@ -162,7 +164,7 @@
                     android:fontFamily="@font/poppins_regular"
                     android:hint="@string/contrase_a"
                     android:inputType="textPassword"
-                    android:maxLength="25"
+                    android:maxLength="20"
                     android:maxLines="1"
                     android:paddingStart="17dp"
                     android:paddingEnd="17dp"
@@ -199,7 +201,7 @@
                     android:fontFamily="@font/poppins_regular"
                     android:hint="@string/repita_la_contrase_a"
                     android:inputType="textPassword"
-                    android:maxLength="25"
+                    android:maxLength="20"
                     android:maxLines="1"
                     android:paddingStart="17dp"
                     android:paddingEnd="17dp"

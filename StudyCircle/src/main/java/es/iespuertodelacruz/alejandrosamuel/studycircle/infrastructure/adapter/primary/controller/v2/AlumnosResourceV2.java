@@ -54,7 +54,7 @@ public class AlumnosResourceV2 {
 		if(Objects.isNull(alumno))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAlumno.STUDENT_PROFILE_NOT_FOUND.name());
 
-		AlumnoDTO alumnoDTO = mapper.toDTOGet(alumno);
+		AlumnoDTO alumnoDTO = mapper.toDTO(alumno);
 		return ResponseEntity.ok().body(alumnoDTO);
 	}
 	
@@ -77,7 +77,7 @@ public class AlumnosResourceV2 {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body(RespuestasAlumno.STUDENT_PROFILE_ALREADY_CREATED.name());
 		alumnoDTO.setUsuario(dtoJustIdMapper.toDTO(usuario));
 		Alumno alumno = mapper.toDomainPost(alumnoDTO);
-		alumnoDTO = mapper.toDTOGet(service.create(alumno));
+		alumnoDTO = mapper.toDTOPost(service.create(alumno));
 		if(Objects.isNull(alumnoDTO))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body(RespuestasAlumno.STUDENT_PROFILE_NOT_CREATED.name());
 
@@ -102,7 +102,7 @@ public class AlumnosResourceV2 {
 			Alumno alumno = mapper.toDomain(alumnoDTO);
 			alumnoExistente.setNivelEstudios(alumno.getNivelEstudios());
 			alumnoExistente.setMaterias(alumno.getMaterias());
-			alumnoDTO = mapper.toDTOGet(service.update(alumnoExistente));
+			alumnoDTO = mapper.toDTOPost(service.update(alumnoExistente));
 
 			return ResponseEntity.ok().body(alumnoDTO);
 		}

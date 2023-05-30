@@ -76,6 +76,11 @@ public class RetrofitClient {
         return Objects.isNull(instance.restAuthService) ? new RetrofitClient(token) : instance;
     }
 
+    public static synchronized RetrofitClient getCleanNewInstance(String token) {
+        instance = new RetrofitClient(token);
+        return Objects.isNull(instance.restAuthService) ? new RetrofitClient(token) : instance;
+    }
+
     public static synchronized RetrofitClient getInstance() {
         if (Objects.isNull(instance)) {
             instance = new RetrofitClient();

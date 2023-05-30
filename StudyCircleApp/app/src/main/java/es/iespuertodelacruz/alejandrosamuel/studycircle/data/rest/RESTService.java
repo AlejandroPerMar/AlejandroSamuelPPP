@@ -122,7 +122,7 @@ public interface RESTService {
     @DELETE("v2/amistades/remove")
     Call<ResponseBody> eliminarAmistad(@Query("idUsuarioAmistad") Integer idUsuarioAmistad);
 
-    @GET("v2/amistades/estadoAmistad/{idUsuario}")
+    @GET("v2/amistades/amistadConUsuario/{idUsuario}")
     Call<ResponseBody> getEstadoAmistad(@Path("idUsuario") Integer idUsuario);
 
     //Acciones referentes a los anuncios
@@ -134,6 +134,9 @@ public interface RESTService {
 
     @GET("v2/anuncios/usuario")
     Call<ResponseBody> findByUsuario();
+
+    @DELETE("v2/anuncios/{idAnuncio}")
+    Call<ResponseBody> deleteAnuncio(@Path("idAnuncio") Integer idAnuncio);
 
     @POST("v2/anuncios")
     Call<ResponseBody> createAnuncio(@Body AnuncioDTO anuncioDTO);

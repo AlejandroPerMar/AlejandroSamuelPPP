@@ -33,4 +33,9 @@ public class AnuncioService implements IAnuncioService {
     public Anuncio create(Anuncio anuncio) {
         return repository.create(anuncio);
     }
+
+    @Override
+    public void delete(Integer idAnuncio) {
+        repository.delete(idAnuncio);
+    }
 }

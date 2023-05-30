@@ -4,7 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
-
+    <ImageView
+        android:id="@+id/btnEliminarAnuncio"
+        android:layout_width="30dp"
+        android:visibility="gone"
+        android:layout_height="30dp"
+        android:background="@drawable/ic_borrar"
+        android:layout_gravity="end"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -67,6 +74,7 @@
         style="@style/EditTextCreateEvent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/blueenlace"
         android:textSize="16sp"
         android:padding="10dp" />
 

@@ -23,6 +23,7 @@
             android:id="@+id/titleEditText"
             style="@style/EditTextCreateEvent"
             android:layout_width="match_parent"
+            android:maxLength="100"
             android:layout_height="wrap_content"
             android:hint="Título" />
 
@@ -31,6 +32,7 @@
             style="@style/EditTextCreateEvent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="255"
             android:hint="Descripción"
             android:inputType="textMultiLine"
             android:minLines="4"

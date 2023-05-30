@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.StudyCircle" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -29,7 +29,6 @@
     <style name="EditTextCreateEvent">
         <item name="android:background">@drawable/rounded_dialog</item>
         <item name="android:padding">10dp</item>
-        <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginBottom">10dp</item>
     </style>
     <style name="DatePickerTheme" parent="ThemeOverlay.MaterialComponents.Dialog">

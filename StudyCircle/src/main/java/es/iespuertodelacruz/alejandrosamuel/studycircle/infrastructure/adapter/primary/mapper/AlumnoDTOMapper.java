@@ -10,6 +10,9 @@ public class AlumnoDTOMapper {
 
 	@Autowired
 	private DTOJustIdMapper dtoJustIdMapper;
+
+	@Autowired
+	private MateriaDTOMapper materiaDTOMapper;
 	
 	public Alumno toDomain(AlumnoDTO in) {
 		if(Objects.isNull(in))
@@ -41,16 +44,27 @@ public class AlumnoDTOMapper {
 		return alumno;
 	}
 
-	public AlumnoDTO toDTOGet(Alumno in) {
+	public AlumnoDTO toDTO(Alumno in) {
 		if(Objects.isNull(in))
 			return null;
 		
 		AlumnoDTO alumno = new AlumnoDTO();
 		alumno.setId(in.getId());
 		alumno.setNivelEstudios(dtoJustIdMapper.toDTO(in.getNivelEstudios()));
-		if(Objects.isNull(in.getMaterias()))
-			alumno.setMaterias(null);
-		else
+		if(Objects.nonNull(in.getMaterias()))
+			alumno.setMaterias(in.getMaterias().stream().map(materiaDTOMapper::toDTO).toList());
+		alumno.setUsuario(dtoJustIdMapper.toDTO(in.getUsuario()));
+		return alumno;
+	}
+
+	public AlumnoDTO toDTOPost(Alumno in) {
+		if(Objects.isNull(in))
+			return null;
+
+		AlumnoDTO alumno = new AlumnoDTO();
+		alumno.setId(in.getId());
+		alumno.setNivelEstudios(dtoJustIdMapper.toDTO(in.getNivelEstudios()));
+		if(Objects.nonNull(in.getMaterias()))
 			alumno.setMaterias(in.getMaterias().stream().map(dtoJustIdMapper::toDTO).toList());
 		alumno.setUsuario(dtoJustIdMapper.toDTO(in.getUsuario()));
 		return alumno;

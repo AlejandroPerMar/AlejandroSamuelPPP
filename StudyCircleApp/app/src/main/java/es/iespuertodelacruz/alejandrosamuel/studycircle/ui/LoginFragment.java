@@ -1,18 +1,14 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,7 +16,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -57,7 +52,6 @@ public class LoginFragment extends Fragment {
     private EditText dtUsername;
     private EditText dtPassword;
     private TextView btnIniciarSesion;
-    private TextView btnNavRecuperarContrasena;
     private TextView btnNavRegistrarse;
     private TextView txtErrorMessage;
     private ImageView btnEmail;
@@ -125,7 +119,6 @@ public class LoginFragment extends Fragment {
         dtUsername = binding.dtUsername;
         dtPassword = binding.dtPassword;
         btnIniciarSesion = binding.btnIniciarSesion;
-        btnNavRecuperarContrasena = binding.btnNavRecuperarContrasena;
         btnNavRegistrarse = binding.btnNavRegistrarse;
         btnEmail = binding.btnEmail;
         progressBar = binding.progressBar;
@@ -168,10 +161,6 @@ public class LoginFragment extends Fragment {
         }
 
         btnNavRegistrarse.setOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment));
-
-        btnNavRecuperarContrasena.setOnClickListener(view -> {
-
-        });
 
         btnEmail.setOnClickListener(view -> {
             String mailtoUri = "stdycircleofficial@gmail.com";
@@ -216,7 +205,7 @@ public class LoginFragment extends Fragment {
                             viewModel.guardarTokenSharedPreferences(getContext(), (String) o);
                             String s = viewModel.recuperarTokenSharedPreferences(getContext());
                             Log.d("TAG", s != null ? s : "");
-                            LiveData<Object> usuario = viewModel.getUsuario((String) o);
+                            LiveData<Object> usuario = viewModel.getUsuario(s);
                             usuario.observe(getViewLifecycleOwner(), new Observer<Object>() {
                                 @Override
                                 public void onChanged(Object o) {
@@ -265,26 +254,6 @@ public class LoginFragment extends Fragment {
                 linearLayout.addView(txtErrorMessage, index + 1);
                 progressBar.setVisibility(View.INVISIBLE);
                 setVisibleLayout(true);
-            }
-        });
-
-        btnNavRecuperarContrasena.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
-                builder.setTitle("¿Contraseña olvidada?");
-                builder.setMessage("Mala suerte   ☜(ˆ▿ˆc)");
-                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
-                dialog.show();
-                Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
             }
         });
 

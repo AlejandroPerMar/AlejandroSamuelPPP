@@ -1,11 +1,9 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
@@ -63,6 +61,7 @@ public class MainActivityViewModel extends AndroidViewModel {
     private String registerSuccessMessage;
     private UsuarioDTO usuarioDTO;
     private UsuarioDTO selectedUsuarioDTO;
+    private boolean fromAnunciosToVisualizarPerfil;
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
@@ -227,6 +226,10 @@ public class MainActivityViewModel extends AndroidViewModel {
         return anunciosRepository.crearAnuncio(anuncioDTO, token);
     }
 
+    public LiveData<Object> deleteAnuncio(Integer idAnuncio, String token) {
+        return anunciosRepository.deleteAnuncio(idAnuncio, token);
+    }
+
     //Acciones de los eventos de calendario
     public LiveData<Object> createEventoCalendario(EventoCalendarioDTO eventoCalendarioDTO, String token) {
         return eventosCalendarioRepository.createEventoCalendario(eventoCalendarioDTO, token);
@@ -295,8 +298,8 @@ public class MainActivityViewModel extends AndroidViewModel {
         return amistadesRepository.eliminarAmistad(id, token);
     }
 
-    public LiveData<Object> getEstadoAmistad(Integer idUsuario, String token) {
-        return amistadesRepository.getEstadoAmistad(idUsuario, token);
+    public LiveData<Object> getAmistadConUsuario(Integer idUsuario, String token) {
+        return amistadesRepository.getAmistadConUsuario(idUsuario, token);
     }
 
     //Acciones de los niveles de estudio
@@ -326,5 +329,13 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public void setSelectedUsuarioDTO(UsuarioDTO selectedUsuarioDTO) {
         this.selectedUsuarioDTO = selectedUsuarioDTO;
+    }
+
+    public boolean isFromAnunciosToVisualizarPerfil() {
+        return fromAnunciosToVisualizarPerfil;
+    }
+
+    public void setFromAnunciosToVisualizarPerfil(boolean fromAnunciosToVisualizarPerfil) {
+        this.fromAnunciosToVisualizarPerfil = fromAnunciosToVisualizarPerfil;
     }
 }

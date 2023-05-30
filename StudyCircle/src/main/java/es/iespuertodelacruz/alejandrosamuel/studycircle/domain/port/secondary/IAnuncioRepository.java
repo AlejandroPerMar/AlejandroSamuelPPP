@@ -13,4 +13,6 @@ public interface IAnuncioRepository {
     Anuncio create(Anuncio anuncio);
 
     List<Anuncio> findByIdUsuario(Integer id);
+
+    void delete(Integer idAnuncio);
 }

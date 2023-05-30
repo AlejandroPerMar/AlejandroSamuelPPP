@@ -13,13 +13,13 @@
         android:indeterminate="true"
         android:indeterminateTint="#1566e0" />
     <LinearLayout
-        android:id="@+id/tutorConfFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="70dp">
+
             <ImageView
                 android:id="@+id/btnExpand"
                 android:layout_marginTop="15dp"
@@ -28,16 +28,64 @@
                 android:layout_height="33dp"
                 android:src="@drawable/ic_hamburger" />
         </FrameLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:text="@string/notificaciones">
-           </TextView>
-        </LinearLayout>
-    </LinearLayout>
 
+        <TextView
+            android:text="@string/notificaciones"
+            android:gravity="center_vertical"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textSize="20sp"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="@color/bluestd"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <TextView
+            android:text="@string/solicitudes_de_amistad"
+            android:gravity="center_vertical"
+            android:paddingStart="10dp"
+            android:paddingEnd="5dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="@color/bluestd"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/solicitudes_amistad_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:text="@string/invitaciones_a_cursos"
+            android:gravity="center_vertical"
+            android:paddingStart="10dp"
+            android:paddingEnd="5dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="@color/bluestd"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/solicitudes_cursos_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:text="@string/alertas_de_nuevas_actividades"
+            android:gravity="center_vertical"
+            android:paddingStart="10dp"
+            android:paddingEnd="5dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="@color/bluestd"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/alertas_nueva_actividad_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </RelativeLayout>

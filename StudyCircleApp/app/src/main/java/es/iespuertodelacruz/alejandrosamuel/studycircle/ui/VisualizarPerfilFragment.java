@@ -4,14 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,16 +16,20 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+
 import java.util.List;
 import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.EstadosAmistad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasAmistad;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AmistadDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.TutorDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentVisualizarPerfilBinding;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
@@ -120,53 +116,79 @@ public class VisualizarPerfilFragment extends Fragment {
         amistadesByUsuario.observe(getViewLifecycleOwner(), new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
-                if(o instanceof List) {
+                if (o instanceof List) {
                     UsuarioDTO usuarioDTO = ((List<UsuarioDTO>) o).stream().filter(u -> u.getId().equals(selectedUsuarioDTO.getId())).findFirst().orElse(null);
-                    if(Objects.nonNull(usuarioDTO)) {
-                        LiveData<Object> estadoAmistad = viewModel.getEstadoAmistad(usuarioDTO.getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
-                        estadoAmistad.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                    if (Objects.nonNull(usuarioDTO)) {
+                        LiveData<Object> amistad = viewModel.getAmistadConUsuario(usuarioDTO.getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
+                        amistad.observe(getViewLifecycleOwner(), new Observer<Object>() {
                             @Override
                             public void onChanged(Object o) {
-                                if(o.equals(EstadosAmistad.FRIENDSHIP_ACCEPTED.name())) {
-                                    btnAmistad.setBackgroundResource(R.drawable.ic_eliminar_amistad);
-                                    btnAmistad.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
+                                if (o instanceof AmistadDTO) {
+                                    if (((AmistadDTO) o).getEstado().equals(EstadosAmistad.FRIENDSHIP_ACCEPTED.name())) {
+                                        btnAmistad.setBackgroundResource(R.drawable.ic_eliminar_amistad);
+                                        btnAmistad.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
+                                                builder.setTitle("Eliminar Amistad");
+                                                builder.setMessage("¿Desea eliminar su amistad con este usuario?");
+                                                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        LiveData<Object> objectLiveData = viewModel.eliminarAmistad(selectedUsuarioDTO.getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
+                                                        objectLiveData.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                                                            @Override
+                                                            public void onChanged(Object o) {
+                                                                if (o instanceof RespuestasAmistad) {
+                                                                    if (o.equals(RespuestasAmistad.REMOVED_FRIENDSHIP)) {
+                                                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
+                                                                        builder.setTitle("Amistad eliminada");
+                                                                        builder.setMessage("Se ha eliminado la amistad correctamente");
+                                                                        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                            }
+                                                                        });
+
+                                                                        AlertDialog dialog = builder.create();
+                                                                        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                                                                        dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
+                                                                        dialog.show();
+                                                                        Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                                                                        positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+                                                        Navigation.findNavController(container).navigate(R.id.action_refresh_visualizar_perfil_fragment);
+                                                    }
+                                                });
+                                                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                    }
+                                                });
+
+                                                AlertDialog dialog = builder.create();
+                                                dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                                                dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
+                                                dialog.show();
+                                                Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                                                Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+                                                positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                                                negativeButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                                            }
+                                        });
+                                    } else if (((AmistadDTO) o).getEstado().equals(EstadosAmistad.FRIENDSHIP_REQUESTED.name())) {
+                                        if (((AmistadDTO) o).getUsuario1().getId().equals(viewModel.getUsuarioDTO().getId())) {
+                                            btnAmistad.setBackgroundResource(R.drawable.ic_pending);
                                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
-                                            builder.setTitle("Eliminar Amistad");
-                                            builder.setMessage("¿Desea eliminar su amistad con este usuario?");
+                                            builder.setTitle("Amistad pendiente");
+                                            builder.setMessage("El usuario aún no ha aceptado su amistad");
                                             builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    LiveData<Object> objectLiveData = viewModel.eliminarAmistad(selectedUsuarioDTO.getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
-                                                    objectLiveData.observe(getViewLifecycleOwner(), new Observer<Object>() {
-                                                        @Override
-                                                        public void onChanged(Object o) {
-                                                            if(o instanceof RespuestasAmistad) {
-                                                                if(o.equals(RespuestasAmistad.REMOVED_FRIENDSHIP)) {
-                                                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
-                                                                    builder.setTitle("Amistad eliminada");
-                                                                    builder.setMessage("Se ha eliminado la amistad correctamente");
-                                                                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                                                        @Override
-                                                                        public void onClick(DialogInterface dialog, int which) {}
-                                                                    });
-
-                                                                    AlertDialog dialog = builder.create();
-                                                                    dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                                                                    dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
-                                                                    dialog.show();
-                                                                    Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                                                                    positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));}
-                                                            }
-                                                        }
-                                                    });
-                                                    Navigation.findNavController(container).navigate(R.id.action_refresh_visualizar_perfil_fragment);
                                                 }
-                                            });
-                                            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {}
                                             });
 
                                             AlertDialog dialog = builder.create();
@@ -174,32 +196,29 @@ public class VisualizarPerfilFragment extends Fragment {
                                             dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
                                             dialog.show();
                                             Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                                            Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
                                             positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
-                                            negativeButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                                        } else {
+                                            btnAmistad.setBackgroundResource(R.drawable.ic_accept);
+                                            btnAmistad.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    LiveData<Object> objectLiveData = viewModel.aceptarAmistad(((AmistadDTO) o).getUsuario1().getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
+                                                    objectLiveData.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                                                        @Override
+                                                        public void onChanged(Object o) {
+                                                            if (o instanceof AmistadDTO) {
+                                                                Navigation.findNavController(container).navigate(R.id.action_refresh_visualizar_perfil_fragment);
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            });
                                         }
-                                    });
-                                }else if(o.equals(EstadosAmistad.FRIENDSHIP_REQUESTED.name())) {
-                                    btnAmistad.setBackgroundResource(R.drawable.ic_pending);
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
-                                    builder.setTitle("Amistad pendiente");
-                                    builder.setMessage("El usuario aún no ha aceptado su amistad");
-                                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                        }
-                                    });
-
-                                    AlertDialog dialog = builder.create();
-                                    dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                                    dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
-                                    dialog.show();
-                                    Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                                    positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                                    }
                                 }
                             }
                         });
-                    }else {
+                    } else {
                         btnAmistad.setBackgroundResource(R.drawable.ic_solicitar_amistad);
                         btnAmistad.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -211,7 +230,7 @@ public class VisualizarPerfilFragment extends Fragment {
                                 objectLiveData.observe(getViewLifecycleOwner(), new Observer<Object>() {
                                     @Override
                                     public void onChanged(Object o) {
-                                        if(o instanceof AmistadDTO) {
+                                        if (o instanceof AmistadDTO) {
                                             btnAmistad.setBackgroundResource(R.drawable.ic_pending);
                                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
                                             builder.setTitle("Solicitud enviada");
@@ -238,18 +257,16 @@ public class VisualizarPerfilFragment extends Fragment {
                 }
             }
         });
-
         TextView txtNumCursosAlumno = binding.perfilAlumno.findViewById(R.id.txtNumCursosAlumno);
         TextView txtNumActividadesPendientes = binding.perfilAlumno.findViewById(R.id.txtNumActividadesPendientes);
         txtNumCursosAlumno.setVisibility(View.VISIBLE);
         txtNumActividadesPendientes.setVisibility(View.VISIBLE);
-        LiveData<Object> cursosAlumno = viewModel.getNumAlumnosForTutor(selectedUsuarioDTO.getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
+        LiveData<Object> cursosAlumno = viewModel.findCantidadCursosAlumno(selectedUsuarioDTO.getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
         cursosAlumno.observe(getViewLifecycleOwner(), new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
-                if(o instanceof List) {
-                    int size = ((List<CursoDTO>) o).size();
-                    String numCursos = getString(R.string._0_cursos, String.valueOf(size));
+                if(o instanceof Integer) {
+                    String numCursos = getString(R.string._0_cursos, String.valueOf((Integer)o));
                     txtNumCursosAlumno.setText(numCursos);
                     LiveData<Object> numActividadesPendientes = viewModel.getNumActividadesPendientesAlumno(selectedUsuarioDTO.getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
                     numActividadesPendientes.observe(getViewLifecycleOwner(), new Observer<Object>() {
@@ -295,9 +312,8 @@ public class VisualizarPerfilFragment extends Fragment {
         cursosTutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
-                if(o instanceof List) {
-                    int size = ((List<CursoDTO>) o).size();
-                    String numCursos = getString(R.string._0_cursos, String.valueOf(size));
+                if(o instanceof Integer) {
+                    String numCursos = getString(R.string._0_cursos, String.valueOf((Integer)o));
                     txtNumCursosTutor.setText(numCursos);
                     LiveData<Object> numAlumnosForTutor = viewModel.getNumAlumnosForTutor(selectedUsuarioDTO.getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
                     numAlumnosForTutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
@@ -338,7 +354,12 @@ public class VisualizarPerfilFragment extends Fragment {
         btnAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(container).navigate(R.id.action_visualizarPerfilFragment_to_busquedaUsuariosFragment);
+                if(viewModel.isFromAnunciosToVisualizarPerfil()) {
+                    viewModel.setFromAnunciosToVisualizarPerfil(false);
+                    Navigation.findNavController(container).navigate(R.id.action_visualizarPerfilFragment_to_anunciosFragment);
+                }else {
+                    Navigation.findNavController(container).navigate(R.id.action_visualizarPerfilFragment_to_busquedaUsuariosFragment);
+                }
             }
         });
 

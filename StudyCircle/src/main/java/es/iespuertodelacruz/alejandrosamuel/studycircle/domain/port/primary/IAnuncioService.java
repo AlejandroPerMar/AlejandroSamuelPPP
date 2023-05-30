@@ -14,4 +14,6 @@ public interface IAnuncioService {
 
     Anuncio create(Anuncio anuncio);
 
+    void  delete(Integer idAnuncio);
+
 }

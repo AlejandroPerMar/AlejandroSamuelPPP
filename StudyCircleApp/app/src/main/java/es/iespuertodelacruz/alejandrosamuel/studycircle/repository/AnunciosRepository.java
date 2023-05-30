@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
@@ -198,6 +199,48 @@ public class AnunciosRepository {
             }
         });
         return mutableAnuncio;
+    }
+
+    public LiveData<Object> deleteAnuncio(Integer idAnuncio, String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableDeleteAnuncio = new MutableLiveData<>();
+        Call<ResponseBody> callDeleteAnuncio = restAuthService.deleteAnuncio(idAnuncio);
+        callDeleteAnuncio.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                if(response.isSuccessful()) {
+                    String anuncioEliminado = response.toString();
+                    mutableDeleteAnuncio.setValue(RespuestasAnuncio.valueOf(anuncioEliminado));
+                }else {
+                    String respuesta;
+                    RespuestasAnuncio respuestasAnuncio = null;
+                    try {
+                        respuesta = response.errorBody().string();
+                        respuestasAnuncio = RespuestasAnuncio.valueOf(respuesta);
+                    } catch (IOException | IllegalArgumentException ignored) {}
+                    if(Objects.nonNull(respuestasAnuncio)) {
+                        switch (respuestasAnuncio) {
+                            case ANNOUNCEMENT_REMOVED:
+                                mutableDeleteAnuncio.setValue(RespuestasAnuncio.ANNOUNCEMENT_REMOVED);
+                                break;
+                            case INVALID_ANNOUNCEMENT:
+                                mutableDeleteAnuncio.setValue(RespuestasAnuncio.INVALID_ANNOUNCEMENT);
+                                break;
+                            case INVALID_ID:
+                                mutableDeleteAnuncio.setValue(RespuestasAnuncio.INVALID_ID);
+                                break;
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableDeleteAnuncio;
     }
 
 }

@@ -3,6 +3,16 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,17 +25,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RadioGroup;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -37,8 +37,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.UserProfiles;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.TutorDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentAlertsBinding;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentAlumnoConfBinding;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentHomeBinding;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
 
 /**
@@ -65,6 +63,9 @@ public class AlertsFragment extends Fragment {
     NavController navController;
     private ProgressBar progressBar;
     private ImageView btnExpand;
+    private RecyclerView solicitudesAmistadRecyclerView;
+    private RecyclerView solicitudesCursosRecyclerView;
+    private RecyclerView alertasNuevaActividadRecyclerView;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -164,8 +165,11 @@ public class AlertsFragment extends Fragment {
         binding = FragmentAlertsBinding.inflate(inflater, container, false);
         mainActivity = (MainActivity) requireActivity();
         progressBar = binding.progressBar;
-        btnExpand = binding.btnExpand;
+        solicitudesCursosRecyclerView = binding.solicitudesCursosRecyclerView;
+        solicitudesAmistadRecyclerView = binding.solicitudesAmistadRecyclerView;
+        alertasNuevaActividadRecyclerView = binding.alertasNuevaActividadRecyclerView;
         progressBar.setVisibility(View.INVISIBLE);
+        btnExpand = binding.btnExpand;
         navigationView  = mainActivity.getNavigationView();
         bottomNavigationView = mainActivity.getBottomNav();
         switchProfile = mainActivity.getSwitchProfile();

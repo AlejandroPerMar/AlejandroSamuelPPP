@@ -3,6 +3,18 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,21 +30,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
@@ -45,11 +42,11 @@ import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
 import java.math.BigInteger;
-import java.text.SimpleDateFormat;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.EventosAdapter;
@@ -223,7 +220,18 @@ public class CalendarFragment extends Fragment {
         mainActivity.enableDrawer(true);
         mainActivity.setBottomNavVisibility(View.VISIBLE);
         calendarView = binding.calendarView;
-        eventosAdapter = new EventosAdapter(new ArrayList<>());
+        Locale locale = new Locale("es");
+        DateFormatSymbols symbols = new DateFormatSymbols(locale);
+        String[] weekDayLabels = symbols.getShortWeekdays();
+        // Asegurarse de tener exactamente 7 elementos en el array
+        if (weekDayLabels.length == 8) {
+            weekDayLabels = Arrays.copyOfRange(weekDayLabels, 1, weekDayLabels.length);
+        }
+        // Establecer los nombres de los días de la semana en español
+        calendarView.setWeekDayLabels(weekDayLabels);
+        // Establecer los nombres de los meses en español
+        calendarView.setTitleMonths(symbols.getMonths());
+
         eventsRecyclerView = binding.eventsRecyclerView;
         eventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -234,6 +242,7 @@ public class CalendarFragment extends Fragment {
                 @Override
                 public void onChanged(Object o) {
                     if(o instanceof List) {
+                        actualizarRecyclerView((List<EventoCalendarioDTO>) o);
                         setEventos((List<EventoCalendarioDTO>) o);
                         getEventos().forEach(ev -> {
                             Instant instant = Instant.ofEpochMilli(ev.getFechaEvento().getTime());
@@ -259,6 +268,7 @@ public class CalendarFragment extends Fragment {
                 @Override
                 public void onChanged(Object o) {
                     if(o instanceof List) {
+                        actualizarRecyclerView((List<EventoCalendarioDTO>) o);
                         setEventos((List<EventoCalendarioDTO>) o);
                         getEventos().forEach(ev -> {
                             Instant instant = Instant.ofEpochMilli(ev.getFechaEvento().getTime());

@@ -34,6 +34,7 @@ public class AnuncioDTOMapper {
         if(Objects.isNull(in)) return null;
 
         AnuncioDTO anuncio = new AnuncioDTO();
+        anuncio.setId(in.getId());
         anuncio.setDescripcion(in.getDescripcion());
         anuncio.setMotivo(in.getMotivo());
         anuncio.setMateria(materiaMapper.toDTO(in.getMateria()));

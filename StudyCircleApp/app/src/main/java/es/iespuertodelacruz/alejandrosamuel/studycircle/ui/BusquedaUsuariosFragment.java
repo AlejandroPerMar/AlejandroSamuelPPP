@@ -1,6 +1,11 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -8,25 +13,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.MateriaAlumnoAdapter;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.SearchUsuariosAdapter;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentBusquedaUsuariosBinding;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentConfiguracionBinding;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
 
 /**
@@ -116,7 +112,7 @@ public class BusquedaUsuariosFragment extends Fragment {
         btnAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(container).popBackStack();
+                Navigation.findNavController(container).navigate(R.id.action_busquedaUsuariosFragment_to_homeFragment);
             }
         });
 
@@ -131,7 +127,6 @@ public class BusquedaUsuariosFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                System.out.println("hola");
                 search(newText);
                 return true;
             }

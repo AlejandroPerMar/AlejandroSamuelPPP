@@ -238,36 +238,34 @@ public class AmistadesRepository {
         return mutableAmistades;
     }
 
-    public LiveData<Object> getEstadoAmistad(Integer idUsuario, String token) {
+    public LiveData<Object> getAmistadConUsuario(Integer idUsuario, String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
-        MutableLiveData<Object> mutableEstadoAmistad = new MutableLiveData<>();
-        Call<ResponseBody> callGetEstadoAmistad = restAuthService.getEstadoAmistad(idUsuario);
-        callGetEstadoAmistad.enqueue(new Callback<ResponseBody>() {
+        MutableLiveData<Object> mutableAmistad = new MutableLiveData<>();
+        Call<ResponseBody> callGetAmistad = restAuthService.getEstadoAmistad(idUsuario);
+        callGetAmistad.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,
                                    Response<ResponseBody> response) {
                 ResponseBody body = response.body();
                 if(response.isSuccessful()) {
-                    try {
-                        mutableEstadoAmistad.setValue(body.string());
-                    } catch (Exception e) {
-                        mutableEstadoAmistad.setValue(null);
-                    }
+                    Gson gson = new Gson();
+                    AmistadDTO amistadDTO = gson.fromJson(body.charStream(), AmistadDTO.class);
+                    mutableAmistad.setValue(amistadDTO);
                 }else {
                     String respuesta;
                     try {
                         respuesta = Objects.requireNonNull(response.errorBody()).string();
                         RespuestasAmistad respuestasAmistad = RespuestasAmistad.valueOf(respuesta);
                         if (respuestasAmistad == RespuestasAmistad.NON_EXISTING_USER1_OR_USER2) {
-                            mutableEstadoAmistad.setValue(RespuestasAmistad.NON_EXISTING_USER1_OR_USER2);
+                            mutableAmistad.setValue(RespuestasAmistad.NON_EXISTING_USER1_OR_USER2);
                         }
                         if (respuestasAmistad == RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER) {
-                            mutableEstadoAmistad.setValue(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER);
+                            mutableAmistad.setValue(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER);
                         }
                     } catch (Exception ignored) {}
 
                     if(response.code() == 403) {
-                        mutableEstadoAmistad.setValue(null);
+                        mutableAmistad.setValue(null);
                     }
                 }
             }
@@ -277,6 +275,6 @@ public class AmistadesRepository {
                 t.printStackTrace();
             }
         });
-        return mutableEstadoAmistad;
+        return mutableAmistad;
     }
 }

@@ -11,12 +11,27 @@ import java.util.Objects;
 public class AlumnoEntityMapper {
 
     @Autowired
+    private MateriaEntityMapper materiaEntityMapper;
+
+    @Autowired
     private EntityJustIdMapper entityJustIdMapper;
 
     public Alumno toDomain(AlumnoEntity in) {
         Alumno alumno = new Alumno();
         alumno.setId(in.getId());
 		alumno.setNivelEstudios(entityJustIdMapper.toDomain(in.getNivelEstudios()));
+        if(Objects.nonNull(in.getMaterias())) {
+            List<Materia> materias = in.getMaterias().stream().map(materiaEntityMapper::toDomain).toList();
+            alumno.setMaterias(materias);
+        }
+        alumno.setUsuario(entityJustIdMapper.toDomain(in.getUsuario()));
+        return alumno;
+    }
+
+    public Alumno toDomainPost(AlumnoEntity in) {
+        Alumno alumno = new Alumno();
+        alumno.setId(in.getId());
+        alumno.setNivelEstudios(entityJustIdMapper.toDomain(in.getNivelEstudios()));
         if(Objects.nonNull(in.getMaterias())) {
             List<Materia> materias = in.getMaterias().stream().map(entityJustIdMapper::toDomain).toList();
             alumno.setMaterias(materias);

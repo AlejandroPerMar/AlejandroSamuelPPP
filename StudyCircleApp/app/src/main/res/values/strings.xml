@@ -52,4 +52,7 @@
     <string name="goback"><![CDATA[<-]]></string>
     <string name="goahead"><![CDATA[->]]></string>
     <string name="seleccione_la_materia_relacionada_al_anuncio">Seleccione la materia relacionada al anuncio</string>
+    <string name="alertas_de_nuevas_actividades">Alertas de nuevas actividades</string>
+    <string name="invitaciones_a_cursos">Invitaciones a cursos</string>
+    <string name="solicitudes_de_amistad">Solicitudes de amistad</string>
 </resources>

@@ -2,13 +2,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,7 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import java.util.List;
 import java.util.Objects;
@@ -29,7 +26,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.TutorDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentActivacionCuentaBinding;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentConfiguracionBinding;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
 
@@ -119,150 +115,150 @@ public class ConfiguracionFragment extends Fragment {
                     txtUsername.setText(((UsuarioDTO) o).getUsername());
                     txtEmail.setText(((UsuarioDTO) o).getEmail());
                     txtNombreCompleto.setText(((UsuarioDTO) o).getNombreCompleto());
-                }
-            }
-        });
+                    LiveData<Object> amistadesByUsuario = viewModel.findAmistadesByUsuario(viewModel.recuperarTokenSharedPreferences(getContext()));
 
-        LiveData<Object> amistadesByUsuario = viewModel.findAmistadesByUsuario(viewModel.recuperarTokenSharedPreferences(getContext()));
-
-        amistadesByUsuario.observe(getViewLifecycleOwner(), new Observer<Object>() {
-            @Override
-            public void onChanged(Object o) {
-                if(o instanceof List) {
-                    int size = ((List<?>) o).size();
-                    String countAmistades = getString(R.string.friends_count, String.valueOf(size));
-                    btnFollowers.setText(countAmistades);
-                }
-            }
-        });
-
-        LiveData<Object> alumno = viewModel.getAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
-        alumno.observe(getViewLifecycleOwner(), new Observer<Object>() {
-            @Override
-            public void onChanged(Object o) {
-                TextView txtNumCursos = binding.perfilAlumno.findViewById(R.id.txtNumCursosAlumno);
-                TextView txtNumActividadesPendientes = binding.perfilAlumno.findViewById(R.id.txtNumActividadesPendientes);
-                txtNumCursos.setVisibility(View.VISIBLE);
-                txtNumActividadesPendientes.setVisibility(View.VISIBLE);
-                if(o instanceof AlumnoDTO) {
-                    LiveData<Object> cursosAlumno = viewModel.findCursosAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
-                    cursosAlumno.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                    amistadesByUsuario.observe(getViewLifecycleOwner(), new Observer<Object>() {
                         @Override
                         public void onChanged(Object o) {
                             if(o instanceof List) {
-                                int size = ((List<CursoDTO>) o).size();
-                                String numCursos = getString(R.string._0_cursos, String.valueOf(size));
-                                txtNumCursos.setText(numCursos);
+                                int size = ((List<?>) o).size();
+                                String countAmistades = getString(R.string.friends_count, String.valueOf(size));
+                                btnFollowers.setText(countAmistades);
                             }
                         }
                     });
 
-                    LiveData<Object> numActividadesPendientes = viewModel.getNumActividadesPendientesAlumno(viewModel.getUsuarioDTO().getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
-                    numActividadesPendientes.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                    LiveData<Object> alumno = viewModel.getAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
+                    alumno.observe(getViewLifecycleOwner(), new Observer<Object>() {
                         @Override
                         public void onChanged(Object o) {
-                             if(o instanceof Integer) {
-                                 if(Objects.nonNull(o)) {
-                                     String numCursos = getString(R.string._0_actividades_pendientes, String.valueOf((Integer) o));
-                                     txtNumActividadesPendientes.setText(numCursos);
-                                 }else {
-                                     txtNumActividadesPendientes.setText(getString(R.string._0_actividades_pendientes, String.valueOf(0)));
-                                 }
-                             }
+                            TextView txtNumCursos = binding.perfilAlumno.findViewById(R.id.txtNumCursosAlumno);
+                            TextView txtNumActividadesPendientes = binding.perfilAlumno.findViewById(R.id.txtNumActividadesPendientes);
+                            txtNumCursos.setVisibility(View.VISIBLE);
+                            txtNumActividadesPendientes.setVisibility(View.VISIBLE);
+                            if(o instanceof AlumnoDTO) {
+                                LiveData<Object> cursosAlumno = viewModel.findCursosAlumno(viewModel.recuperarTokenSharedPreferences(getContext()));
+                                cursosAlumno.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                                    @Override
+                                    public void onChanged(Object o) {
+                                        if(o instanceof List) {
+                                            int size = ((List<CursoDTO>) o).size();
+                                            String numCursos = getString(R.string._0_cursos, String.valueOf(size));
+                                            txtNumCursos.setText(numCursos);
+                                        }
+                                    }
+                                });
+
+                                LiveData<Object> numActividadesPendientes = viewModel.getNumActividadesPendientesAlumno(viewModel.getUsuarioDTO().getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
+                                numActividadesPendientes.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                                    @Override
+                                    public void onChanged(Object o) {
+                                        if(o instanceof Integer) {
+                                            if(Objects.nonNull(o)) {
+                                                String numCursos = getString(R.string._0_actividades_pendientes, String.valueOf((Integer) o));
+                                                txtNumActividadesPendientes.setText(numCursos);
+                                            }else {
+                                                txtNumActividadesPendientes.setText(getString(R.string._0_actividades_pendientes, String.valueOf(0)));
+                                            }
+                                        }
+                                    }
+                                });
+                            }else {
+                                txtNumCursos.setVisibility(View.GONE);
+                                txtNumActividadesPendientes.setVisibility(View.GONE);
+                                TextView textView = new TextView(getContext());
+
+                                textView.setText("Configure su perfil de alumno");
+
+                                float scaledSizeInPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 5, getResources().getDisplayMetrics());
+                                textView.setTextSize(scaledSizeInPixels);
+
+                                textView.setTextColor(Color.GRAY);
+
+                                textView.setGravity(Gravity.CENTER);
+
+                                textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+                                LinearLayout layout = (LinearLayout) txtNumActividadesPendientes.getParent();
+                                layout.addView(textView);
+
+                                textView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Navigation.findNavController(container).navigate(R.id.action_configuracionFragment_to_alumnoConfFragment);
+                                    }
+                                });
+                            }
                         }
                     });
-                }else {
-                    txtNumCursos.setVisibility(View.GONE);
-                    txtNumActividadesPendientes.setVisibility(View.GONE);
-                    TextView textView = new TextView(getContext());
 
-                    textView.setText("Configure su perfil de alumno");
-
-                    float scaledSizeInPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 5, getResources().getDisplayMetrics());
-                    textView.setTextSize(scaledSizeInPixels);
-
-                    textView.setTextColor(Color.GRAY);
-
-                    textView.setGravity(Gravity.CENTER);
-
-                    textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-
-                    LinearLayout layout = (LinearLayout) txtNumActividadesPendientes.getParent();
-                    layout.addView(textView);
-
-                    textView.setOnClickListener(new View.OnClickListener() {
+                    LiveData<Object> tutor = viewModel.getTutor(viewModel.recuperarTokenSharedPreferences(getContext()));
+                    tutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
                         @Override
-                        public void onClick(View view) {
-                            Navigation.findNavController(container).navigate(R.id.action_configuracionFragment_to_alumnoConfFragment);
+                        public void onChanged(Object o) {
+                            TextView txtNumCursos = binding.perfilTutor.findViewById(R.id.txtNumCursosTutor);
+                            TextView txtNumAlumnos = binding.perfilTutor.findViewById(R.id.txtNumAlumnos);
+                            txtNumAlumnos.setVisibility(View.VISIBLE);
+                            txtNumCursos.setVisibility(View.VISIBLE);
+                            if(o instanceof TutorDTO) {
+                                LiveData<Object> cursosTutor = viewModel.findCursosTutor(viewModel.recuperarTokenSharedPreferences(getContext()));
+                                cursosTutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                                    @Override
+                                    public void onChanged(Object o) {
+                                        if(o instanceof List) {
+                                            int size = ((List<CursoDTO>) o).size();
+                                            String numCursos = getString(R.string._0_cursos, String.valueOf(size));
+                                            txtNumCursos.setText(numCursos);
+                                        }
+                                    }
+                                });
+
+                                LiveData<Object> numAlumnosForTutor = viewModel.getNumAlumnosForTutor(viewModel.getUsuarioDTO().getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
+                                numAlumnosForTutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                                    @Override
+                                    public void onChanged(Object o) {
+                                        if(o instanceof Integer) {
+                                            if(Objects.nonNull(o)) {
+                                                String numCursos = getString(R.string._0_cursos, String.valueOf((Integer) o));
+                                                txtNumAlumnos.setText(numCursos);
+                                            }else {
+                                                txtNumAlumnos.setText(getString(R.string._0_cursos, String.valueOf(0)));
+                                            }
+                                        }
+                                    }
+                                });
+                            }else {
+                                txtNumAlumnos.setVisibility(View.GONE);
+                                txtNumCursos.setVisibility(View.GONE);
+                                TextView textView = new TextView(getContext());
+
+                                textView.setText("Configure su perfil de tutor");
+
+                                float scaledSizeInPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 5, getResources().getDisplayMetrics());
+                                textView.setTextSize(scaledSizeInPixels);
+
+                                textView.setTextColor(Color.GRAY);
+
+                                textView.setGravity(Gravity.CENTER);
+
+                                textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+                                LinearLayout layout = (LinearLayout) txtNumAlumnos.getParent();
+                                layout.addView(textView);
+                                textView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Navigation.findNavController(container).navigate(R.id.action_configuracionFragment_to_tutorConfFragment);
+                                    }
+                                });
+                            }
                         }
                     });
                 }
             }
         });
 
-        LiveData<Object> tutor = viewModel.getTutor(viewModel.recuperarTokenSharedPreferences(getContext()));
-        tutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
-            @Override
-            public void onChanged(Object o) {
-                TextView txtNumCursos = binding.perfilTutor.findViewById(R.id.txtNumCursosTutor);
-                TextView txtNumAlumnos = binding.perfilTutor.findViewById(R.id.txtNumAlumnos);
-                txtNumAlumnos.setVisibility(View.VISIBLE);
-                txtNumCursos.setVisibility(View.VISIBLE);
-                if(o instanceof TutorDTO) {
-                    LiveData<Object> cursosTutor = viewModel.findCursosTutor(viewModel.recuperarTokenSharedPreferences(getContext()));
-                    cursosTutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
-                        @Override
-                        public void onChanged(Object o) {
-                            if(o instanceof List) {
-                                int size = ((List<CursoDTO>) o).size();
-                                String numCursos = getString(R.string._0_cursos, String.valueOf(size));
-                                txtNumCursos.setText(numCursos);
-                            }
-                        }
-                    });
 
-                    LiveData<Object> numAlumnosForTutor = viewModel.getNumAlumnosForTutor(viewModel.getUsuarioDTO().getId(), viewModel.recuperarTokenSharedPreferences(getContext()));
-                    numAlumnosForTutor.observe(getViewLifecycleOwner(), new Observer<Object>() {
-                        @Override
-                        public void onChanged(Object o) {
-                            if(o instanceof Integer) {
-                                if(Objects.nonNull(o)) {
-                                    String numCursos = getString(R.string._0_cursos, String.valueOf((Integer) o));
-                                    txtNumAlumnos.setText(numCursos);
-                                }else {
-                                    txtNumAlumnos.setText(getString(R.string._0_cursos, String.valueOf(0)));
-                                }
-                            }
-                        }
-                    });
-                }else {
-                    txtNumAlumnos.setVisibility(View.GONE);
-                    txtNumCursos.setVisibility(View.GONE);
-                    TextView textView = new TextView(getContext());
-
-                    textView.setText("Configure su perfil de tutor");
-
-                    float scaledSizeInPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 5, getResources().getDisplayMetrics());
-                    textView.setTextSize(scaledSizeInPixels);
-
-                    textView.setTextColor(Color.GRAY);
-
-                    textView.setGravity(Gravity.CENTER);
-
-                    textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-
-                    LinearLayout layout = (LinearLayout) txtNumAlumnos.getParent();
-                    layout.addView(textView);
-
-                    textView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Navigation.findNavController(container).navigate(R.id.action_configuracionFragment_to_tutorConfFragment);
-                        }
-                    });
-                }
-            }
-        });
 
         btnFollowers.setOnClickListener(new View.OnClickListener() {
             @Override

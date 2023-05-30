@@ -1,11 +1,13 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.AlertaAmistad;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Tutor;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.*;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAlertaCursoAlumnoService;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.service.AlertaCursoAlumnoService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlertaActividadDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlertaAmistadDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AlertaCursoAlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlertaAmistadDTOMapper;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlertaCursoAlumnoDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlertaCursoAlumnoEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.CursoEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.MateriaTutorEntity;
@@ -21,7 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.AlertaActividad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAlertaService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.mapper.AlertaActividadDTOMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.SwaggerConfig;
@@ -45,7 +46,10 @@ public class AlertasResourceV2 {
     private AlertaAmistadDTOMapper amistadMapper;
 
     @Autowired
-    private AlertaCursoAlumnoEntityService cursoAlumnoEntityService;
+    private AlertaCursoAlumnoDTOMapper alertaCursoAlumnoMapper;
+
+    @Autowired
+    private IAlertaCursoAlumnoService cursoAlumnoEntityService;
 
     @GetMapping("/actividades")
     @ApiOperation(
@@ -80,21 +84,12 @@ public class AlertasResourceV2 {
             value= "Encontrar las alertas de invitaciones a cursos del usuario autenticado",
             notes= """
                     Posibles respuestas:\s
-                    • List<AlertaCursoAlumnoEntity>. Devuelve la lista de alertas correspondiente al usuario, aunque esté vacía
+                    • List<AlertaCursoAlumnoDTO>. Devuelve la lista de alertas correspondiente al usuario, aunque esté vacía
                     """
     )
     public ResponseEntity<?> findAlertasCursoAlumnodByUsuario() {
-        List<AlertaCursoAlumnoEntity> alertasUsuario = cursoAlumnoEntityService.findAlertasCursoAlumnoByUsername(getUsernameUsuario());
-        alertasUsuario.forEach(a -> {
-            UsuarioEntity usuario = new UsuarioEntity();
-            usuario.setId(a.getUsuario().getId());
-            a.setUsuario(usuario);
-            CursoEntity cursoEntity = new CursoEntity();
-            cursoEntity.setId(a.getCurso().getId());
-            cursoEntity.setTitulo(a.getCurso().getTitulo());
-            a.setCurso(cursoEntity);
-        });
-        return ResponseEntity.ok(alertasUsuario);
+        List<AlertaCursoAlumno> alertasUsuario = cursoAlumnoEntityService.findAlertasCursoAlumnoByUsername(getUsernameUsuario());
+        return ResponseEntity.ok(alertasUsuario.stream().map(alertaCursoAlumnoMapper::toDTO).toList());
     }
 
     private String getUsernameUsuario() {

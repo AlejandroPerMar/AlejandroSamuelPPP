@@ -11,6 +11,9 @@ public class AmistadDTO {
     @SerializedName("usuario1")
     @Expose
     private UsuarioDTO usuario1;
+    @SerializedName(("estado"))
+    @Expose
+    private String estado;
     @SerializedName("usuario2")
     @Expose
     private UsuarioDTO usuario2;
@@ -46,5 +49,13 @@ public class AmistadDTO {
                 ", usuario1=" + usuario1 +
                 ", usuario2=" + usuario2 +
                 '}';
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

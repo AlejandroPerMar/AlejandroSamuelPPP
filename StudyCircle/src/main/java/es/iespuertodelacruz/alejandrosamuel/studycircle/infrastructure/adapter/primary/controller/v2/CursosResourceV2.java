@@ -186,11 +186,11 @@ public class CursosResourceV2 {
     )
     public ResponseEntity<?> aceptarInvitacionCurso(@RequestParam("idAlertaCursoAlumno") Integer idAlertaCursoAlumno) {
         Alumno alumno = alumnoService.findAlumnoByUsername(getUsernameUsuario());
-        AlertaCursoAlumnoEntity alertaCursoAlumnoEntity = alertaCursoAlumnoService.findById(idAlertaCursoAlumno);
-        if(Objects.isNull(alertaCursoAlumnoEntity)) {
+        AlertaCursoAlumno alertaCursoAlumno = alertaCursoAlumnoService.findById(idAlertaCursoAlumno);
+        if(Objects.isNull(alertaCursoAlumno)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.ALERT_NOT_FOUND.name());
         }
-        Curso curso = entityJustIdMapper.toDomain(alertaCursoAlumnoEntity.getCurso());
+        Curso curso = alertaCursoAlumno.getCurso();
         if(ObjectUtils.notNullNorEmpty(alumno, curso)) {
             cursoService.addAlumnoToCurso(curso, alumno);
             entityManager.clear();
@@ -281,7 +281,7 @@ public class CursosResourceV2 {
                     """
     )
     public ResponseEntity<?> findCantidadCursosByTutor(@PathVariable("idUsuario") Integer idUsuario) {
-        Tutor tutor = tutorService.findTutorById(idUsuario);
+        Tutor tutor = tutorService.findTutorByIdUsuario(idUsuario);
         if(Objects.nonNull(tutor)) {
             List<Curso> cursosByTutor = cursoService.findByIdTutor(tutor.getId());
             return ResponseEntity.ok(cursosByTutor.size());

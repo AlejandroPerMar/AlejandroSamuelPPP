@@ -4,19 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.Path;
 import android.os.Bundle;
-
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,7 +15,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,30 +22,28 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.threeten.bp.Instant;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.ZoneId;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.AnunciosAdapter;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.CustomArrayAdapter;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.MateriaAlumnoAdapter;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.SearchUsuariosAdapter;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.MotivosAnuncio;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.UserProfiles;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AnuncioDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.EventoCalendarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.NivelEstudiosDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentAnunciosBinding;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentConfiguracionBinding;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.utils.ObjectsUtils;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
 
@@ -82,7 +67,7 @@ public class AnunciosFragment extends Fragment {
     private ImageView btnAtras;
     private ProgressBar progressBar;
     private List<AnuncioDTO> anuncioDTOList;
-    private ImageView btnCrearEvento;
+    private ImageView btnCrearAnuncio;
     private RecyclerView recyclerView;
 
     private AnuncioDTO anuncioDTO;
@@ -135,7 +120,7 @@ public class AnunciosFragment extends Fragment {
         btnAtras = binding.btnAtras;
         progressBar = binding.progressBar;
         recyclerView = binding.recyclerView;
-        btnCrearEvento = binding.btnCrearEvento;
+        btnCrearAnuncio = binding.btnCrearAnuncio;
         progressBar.setVisibility(View.INVISIBLE);
 
         LiveData<Object> allAnuncios = viewModel.findAllAnuncios(viewModel.recuperarTokenSharedPreferences(getContext()));
@@ -162,8 +147,9 @@ public class AnunciosFragment extends Fragment {
                         LinearLayout layout = (LinearLayout) recyclerView.getParent();
                         layout.addView(textView);
                     }else {
+                        UsuarioDTO usuarioDTO = viewModel.getUsuarioDTO();
                         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                        AnunciosAdapter anunciosAdapter = new AnunciosAdapter(getAnuncioDTOList());
+                        AnunciosAdapter anunciosAdapter = new AnunciosAdapter(getAnuncioDTOList(), viewModel, container, usuarioDTO, getViewLifecycleOwner());
                         recyclerView.setAdapter(anunciosAdapter);
                     }
                 }
@@ -173,11 +159,11 @@ public class AnunciosFragment extends Fragment {
         btnAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(requireView()).popBackStack();
+                Navigation.findNavController(requireView()).navigate(R.id.action_anunciosFragment_to_homeFragment);
             }
         });
 
-        btnCrearEvento.setOnClickListener(new View.OnClickListener() {
+        btnCrearAnuncio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 anuncioDTO = new AnuncioDTO();

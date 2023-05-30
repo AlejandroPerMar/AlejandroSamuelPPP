@@ -40,7 +40,7 @@ public class AlumnoEntityService implements IAlumnoRepository {
 		AlumnoEntity savedEntity = repository.save(mapper.toEntityPost(alumno));
 		UsuarioEntity usuario = usuarioRepository.getReferenceById(savedEntity.getUsuario().getId());
 		usuario.getRoles().add(rolRepository.findByRol(Roles.ROLE_STUDENT.name()));
-		return mapper.toDomain(savedEntity);
+		return mapper.toDomainPost(savedEntity);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class AlumnoEntityService implements IAlumnoRepository {
 	@Override
 	public Alumno findAlumnoByUsername(String username) {
 		Optional<AlumnoEntity> optAlumno = repository.findByUsername(username);
-		return optAlumno.map(a -> mapper.toDomain(a)).orElse(null);
+		return optAlumno.map(mapper::toDomain).orElse(null);
 	}
 
 }

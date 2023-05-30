@@ -3,6 +3,9 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums;
 public enum RespuestasAnuncio {
     NON_EXISTING_ANNOUNCEMENT("NON_EXISTING_ANNOUNCEMENT", ""),
     NON_EXISTING_ANNOUNCEMENTS("NON_EXISTING_ANNOUNCEMENTS", ""),
+    ANNOUNCEMENT_REMOVED("ANNOUNCEMENT_REMOVED", ""),
+    INVALID_ANNOUNCEMENT("INVALID_ANNOUNCEMENT", ""),
+    INVALID_ID("INVALID_ID", ""),
     INVALID_DTO_ANNOUNCEMENT("INVALID_DTO_ANNOUNCEMENT", "");
 
     private final String name;

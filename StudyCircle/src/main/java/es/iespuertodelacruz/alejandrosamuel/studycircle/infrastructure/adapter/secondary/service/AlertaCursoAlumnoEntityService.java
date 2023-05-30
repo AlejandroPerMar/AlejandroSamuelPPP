@@ -1,7 +1,9 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.service;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.AlertaCursoAlumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.secondary.IAlertaCursoAlumnoRepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AlertaCursoAlumnoEntity;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.mapper.AlertaCursoAlumnoEntityMapper;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.AlertaCursoAlumnoEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.CursoEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.UsuarioEntityJPARepository;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class AlertaCursoAlumnoEntityService implements IAlertaCursoAlumnoRepository {
@@ -24,6 +27,9 @@ public class AlertaCursoAlumnoEntityService implements IAlertaCursoAlumnoReposit
     @Autowired
     private UsuarioEntityJPARepository usuarioRepository;
 
+    @Autowired
+    private AlertaCursoAlumnoEntityMapper alertaCursoAlumnoEntityMapper;
+
     @Override
     public void create(Integer idUsuarioAlumno, Integer idCurso) {
         AlertaCursoAlumnoEntity alertaCursoAlumnoEntity = new AlertaCursoAlumnoEntity();
@@ -34,12 +40,15 @@ public class AlertaCursoAlumnoEntityService implements IAlertaCursoAlumnoReposit
     }
 
     @Override
-    public AlertaCursoAlumnoEntity findById(Integer idAlertaCursoAlumnoEntity) {
-        return repository.findById(idAlertaCursoAlumnoEntity).orElse(null);
+    public AlertaCursoAlumno findById(Integer idAlertaCursoAlumno) {
+        AlertaCursoAlumnoEntity alertaCursoAlumnoEntity = repository.findById(idAlertaCursoAlumno).orElse(null);
+        return alertaCursoAlumnoEntityMapper.toDomain(alertaCursoAlumnoEntity);
+
     }
 
     @Override
-    public List<AlertaCursoAlumnoEntity> findAlertasCursoAlumnoByUsername(String username) {
-        return repository.findAlertasCursoAlumnoByUsername(username);
+    public List<AlertaCursoAlumno> findAlertasCursoAlumnoByUsername(String username) {
+        List<AlertaCursoAlumnoEntity> alertasCursoAlumnoByUsername = repository.findAlertasCursoAlumnoByUsername(username);
+        return alertasCursoAlumnoByUsername.stream().map(alertaCursoAlumnoEntityMapper::toDomain).toList();
     }
 }

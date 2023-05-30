@@ -123,6 +123,34 @@ public class AnunciosResourceV2 {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAnuncio.INVALID_DTO_ANNOUNCEMENT.name());
     }
 
+    @DeleteMapping("/{idAnuncio}")
+    @ApiOperation(
+            value= "Eliminar Anuncio del usuario",
+            notes= """
+                    Parámetros solicitados:\s
+                    • "Integer idAnuncio. ID del anuncio a eliminar
+                    
+                    Posibles respuestas:\s
+                    • "INVALID_ID" (String). Indica que el id no es válido
+                    • "INVALID_ANNOUNCEMENT" (String). Indica que el anuncio no es propiedad del usuario o no existe
+                    • "ANNOUNCEMENT_REMOVED" (String). Indica que el anuncio se ha eliminado correctamente
+                    """
+    )
+    public ResponseEntity<?> delete(@PathVariable("idAnuncio") Integer idAnuncio) {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        if(ObjectUtils.notNullNorEmpty(idAnuncio)) {
+            Anuncio anuncio = service.findById(idAnuncio);
+            if(Objects.nonNull(anuncio)) {
+                if(anuncio.getUsuario().getId().equals(usuario.getId())) {
+                    service.delete(idAnuncio);
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAnuncio.ANNOUNCEMENT_REMOVED.name());
+                }
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAnuncio.INVALID_ANNOUNCEMENT.name());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasAnuncio.INVALID_ID.name());
+    }
+
     private String getUsernameUsuario() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ((UserDetailsLogin) principal).getUsername();

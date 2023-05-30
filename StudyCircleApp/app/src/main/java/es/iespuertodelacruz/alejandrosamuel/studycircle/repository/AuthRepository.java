@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -24,7 +23,6 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasAut
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasRegister;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RESTService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RetrofitClient;
-import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
@@ -72,7 +70,7 @@ public class AuthRepository {
     }
 
     public LiveData<Object> getUsuario(String token) {
-        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        restAuthService = RetrofitClient.getCleanNewInstance(token).getAuthRestService();
         MutableLiveData<Object> mutableUsuario = new MutableLiveData<>();
         Call<ResponseBody> callGetUsuario = restAuthService.getUsuario();
         callGetUsuario.enqueue(new Callback<ResponseBody>() {

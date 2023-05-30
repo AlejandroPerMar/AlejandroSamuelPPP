@@ -128,7 +128,17 @@
         android:id="@+id/anunciosFragment"
         android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.AnunciosFragment"
         android:label="fragment_anuncios"
-        tools:layout="@layout/fragment_anuncios" />
+        tools:layout="@layout/fragment_anuncios" >
+        <action
+            android:id="@+id/action_anunciosFragment_to_visualizarPerfilFragment"
+            app:destination="@id/visualizarPerfilFragment" />
+        <action
+            android:id="@+id/action_anunciosFragment_to_configuracionFragment"
+            app:destination="@id/configuracionFragment" />
+        <action
+            android:id="@+id/action_anunciosFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/alertsFragment"
         android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.AlertsFragment"
@@ -170,6 +180,9 @@
         <action
             android:id="@+id/action_busquedaUsuariosFragment_to_visualizarPerfilFragment"
             app:destination="@id/visualizarPerfilFragment" />
+        <action
+            android:id="@+id/action_busquedaUsuariosFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/calendarFragment"
@@ -275,5 +288,8 @@
         <action
             android:id="@+id/action_visualizarPerfilFragment_to_busquedaUsuariosFragment"
             app:destination="@id/busquedaUsuariosFragment" />
+        <action
+            android:id="@+id/action_visualizarPerfilFragment_to_anunciosFragment"
+            app:destination="@id/anunciosFragment" />
     </fragment>
 </navigation>

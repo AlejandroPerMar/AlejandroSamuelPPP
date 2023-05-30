@@ -28,6 +28,7 @@
                 android:src="@drawable/ic_goback" />
         </FrameLayout>
         <LinearLayout
+            android:id="@+id/layout_configuracion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -71,6 +72,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginEnd="10dp"
                     android:textSize="16sp"
                     android:text="Full Name"
                     android:textColor="@color/bluestd" />
