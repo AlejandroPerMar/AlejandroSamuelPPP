@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -405,23 +406,28 @@ public class CalendarFragment extends Fragment {
                             eventoCalendario.observe(getViewLifecycleOwner(), new Observer<Object>() {
                                 @Override
                                 public void onChanged(Object o) {
-                                    Navigation.findNavController(container).navigate(R.id.action_refresh_calendar_fragment);
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
-                                    builder.setTitle("Evento creado");
-                                    builder.setMessage("Se ha creado el evento correctamente");
-                                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                                    if(o instanceof EventoCalendarioDTO) {
+                                        Navigation.findNavController(container).navigate(R.id.action_refresh_calendar_fragment);
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
+                                        builder.setTitle("Evento creado");
+                                        builder.setMessage("Se ha creado el evento correctamente");
+                                        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
 
-                                        }
-                                    });
+                                            }
+                                        });
 
-                                    AlertDialog dialogFechaError = builder.create();
-                                    dialogFechaError.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                                    dialogFechaError.getWindow().getDecorView().setPadding(50, 0, 50, 0);
-                                    dialogFechaError.show();
-                                    Button positiveButton = dialogFechaError.getButton(DialogInterface.BUTTON_POSITIVE);
-                                    positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                                        AlertDialog dialogFechaError = builder.create();
+                                        dialogFechaError.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                                        dialogFechaError.getWindow().getDecorView().setPadding(50, 0, 50, 0);
+                                        dialogFechaError.show();
+                                        Button positiveButton = dialogFechaError.getButton(DialogInterface.BUTTON_POSITIVE);
+                                        positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+
+                                    }else {
+                                        Toast.makeText(container.getContext(), "No se ha podido crear el evento", Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             });
                         }else {

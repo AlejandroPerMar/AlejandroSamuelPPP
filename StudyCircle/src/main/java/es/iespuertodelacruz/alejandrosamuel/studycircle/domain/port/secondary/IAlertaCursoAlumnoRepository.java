@@ -10,4 +10,6 @@ public interface IAlertaCursoAlumnoRepository {
     AlertaCursoAlumno findById(Integer idAlertaCursoAlumno);
 
     List<AlertaCursoAlumno> findAlertasCursoAlumnoByUsername(String username);
+
+    void delete(Integer id);
 }

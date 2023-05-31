@@ -20,4 +20,6 @@ public interface IAmistadService {
     Amistad findAmistadByIds(Integer id1, Integer id2);
 
     List<Usuario> findAmistadesByIdUsuario(Integer id);
+
+    List<Amistad> findAmistades(Integer id);
 }

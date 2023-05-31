@@ -110,7 +110,9 @@ public class VisualizarPerfilFragment extends Fragment {
         perfilTutor = binding.perfilTutor;
         UsuarioDTO selectedUsuarioDTO = viewModel.getSelectedUsuarioDTO();
         txtUsername.setText(selectedUsuarioDTO.getUsername());
+        txtUsername.setVisibility(View.VISIBLE);
         txtNombreCompleto.setText(selectedUsuarioDTO.getNombreCompleto());
+        txtNombreCompleto.setVisibility(View.VISIBLE);
 
         LiveData<Object> amistadesByUsuario = viewModel.findAmistadesByUsuario(viewModel.recuperarTokenSharedPreferences(getContext()));
         amistadesByUsuario.observe(getViewLifecycleOwner(), new Observer<Object>() {
@@ -276,8 +278,10 @@ public class VisualizarPerfilFragment extends Fragment {
                                 if(Objects.nonNull(o)) {
                                     String numCursos = getString(R.string._0_actividades_pendientes, String.valueOf((Integer) o));
                                     txtNumActividadesPendientes.setText(numCursos);
+                                    perfilAlumno.setVisibility(View.VISIBLE);
                                 }else {
                                     txtNumActividadesPendientes.setText(getString(R.string._0_actividades_pendientes, String.valueOf(0)));
+                                    perfilAlumno.setVisibility(View.VISIBLE);
                                 }
                             }
                         }
@@ -300,6 +304,7 @@ public class VisualizarPerfilFragment extends Fragment {
 
                     LinearLayout layout = (LinearLayout) txtNumActividadesPendientes.getParent();
                     layout.addView(textView);
+                    perfilAlumno.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -323,8 +328,10 @@ public class VisualizarPerfilFragment extends Fragment {
                                 if(Objects.nonNull(o)) {
                                     String numCursos = getString(R.string._0_cursos, String.valueOf((Integer) o));
                                     txtNumAlumnos.setText(numCursos);
+                                    perfilTutor.setVisibility(View.VISIBLE);
                                 }else {
                                     txtNumAlumnos.setText(getString(R.string._0_cursos, String.valueOf(0)));
+                                    perfilTutor.setVisibility(View.VISIBLE);
                                 }
                             }
                         }
@@ -347,6 +354,7 @@ public class VisualizarPerfilFragment extends Fragment {
 
                     LinearLayout layout = (LinearLayout) txtNumAlumnos.getParent();
                     layout.addView(textView);
+                    perfilTutor.setVisibility(View.VISIBLE);
                 }
             }
         });

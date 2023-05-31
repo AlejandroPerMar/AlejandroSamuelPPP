@@ -106,7 +106,7 @@ public class AlertasRepository {
                 ResponseBody body = response.body();
                 if(response.isSuccessful()) {
                     Gson gson = new Gson();
-                    Type listType = new TypeToken<List<AlertaAmistadDTO>>() {}.getType();
+                    Type listType = new TypeToken<List<AlertaCursoAlumnoDTO>>() {}.getType();
                     List<AlertaCursoAlumnoDTO> alertasCursoAlumnoDTO = new Gson().fromJson(body.charStream(), listType);
                     mutableAlertasCursoAlumno.setValue(alertasCursoAlumnoDTO);
                 }else {

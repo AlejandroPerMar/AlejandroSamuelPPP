@@ -48,10 +48,13 @@
     <string name="cursos">Cursos</string>
     <string name="_0_cursos">%1$s cursos</string>
     <string name="_0_alumnos">%1$s alumnos</string>
+    <string name="materia_">Materia: %1$s</string>
+    <string name="tutor_">Tutor: %1$s</string>
     <string name="_0_actividades_pendientes">%1$s actividades pendientes</string>
     <string name="goback"><![CDATA[<-]]></string>
     <string name="goahead"><![CDATA[->]]></string>
     <string name="seleccione_la_materia_relacionada_al_anuncio">Seleccione la materia relacionada al anuncio</string>
+    <string name="seleccione_la_materia_relacionada_al_curso">Seleccione la materia relacionada al curso</string>
     <string name="alertas_de_nuevas_actividades">Alertas de nuevas actividades</string>
     <string name="invitaciones_a_cursos">Invitaciones a cursos</string>
     <string name="solicitudes_de_amistad">Solicitudes de amistad</string>

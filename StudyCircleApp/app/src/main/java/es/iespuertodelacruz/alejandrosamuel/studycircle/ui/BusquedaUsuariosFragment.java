@@ -18,9 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.SearchUsuariosAdapter;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.EstadosAmistad;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AmistadDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentBusquedaUsuariosBinding;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
@@ -47,8 +50,8 @@ public class BusquedaUsuariosFragment extends Fragment {
     private RecyclerView recyclerView;
     private SearchUsuariosAdapter searchUsuariosAdapter;
     private SearchView searchView;
-
     List<UsuarioDTO> usuariosDTO;
+    private boolean visualizarAmistades;
 
     public BusquedaUsuariosFragment() {
         // Required empty public constructor
@@ -96,25 +99,62 @@ public class BusquedaUsuariosFragment extends Fragment {
         progressBar.setVisibility(View.INVISIBLE);
         View view = binding.getRoot();
         usuariosDTO = new ArrayList<>();
-        LiveData<Object> perfilesUsuarios = viewModel.getPerfilesUsuarios(viewModel.recuperarTokenSharedPreferences(getContext()));
+        visualizarAmistades = viewModel.isVisualizarAmistades();
+        if(!visualizarAmistades) {
+            LiveData<Object> perfilesUsuarios = viewModel.getPerfilesUsuarios(viewModel.recuperarTokenSharedPreferences(getContext()));
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        perfilesUsuarios.observe(getViewLifecycleOwner(), new Observer<Object>() {
-            @Override
-            public void onChanged(Object o) {
-                if(o instanceof List) {
-                    setUsuariosDTO((List<UsuarioDTO>) o);
-                    searchUsuariosAdapter = new SearchUsuariosAdapter(usuariosDTO, viewModel, container);
-                    recyclerView.setAdapter(searchUsuariosAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            perfilesUsuarios.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                @Override
+                public void onChanged(Object o) {
+                    if(o instanceof List) {
+                        setUsuariosDTO((List<UsuarioDTO>) o);
+                        searchUsuariosAdapter = new SearchUsuariosAdapter(usuariosDTO, viewModel, container);
+                        recyclerView.setAdapter(searchUsuariosAdapter);
+                    }
                 }
-            }
-        });
-        btnAtras.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(container).navigate(R.id.action_busquedaUsuariosFragment_to_homeFragment);
-            }
-        });
+            });
+            btnAtras.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Navigation.findNavController(container).navigate(R.id.action_busquedaUsuariosFragment_to_homeFragment);
+                }
+            });
+        }else {
+            LiveData<Object> amistades = viewModel.getAmistades(viewModel.recuperarTokenSharedPreferences(getContext()));
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            amistades.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                @Override
+                public void onChanged(Object o) {
+                    if(o instanceof List) {
+                        List<AmistadDTO> collect = ((List<AmistadDTO>) o).stream().
+                                filter(a -> a.getEstado().equals(EstadosAmistad.FRIENDSHIP_ACCEPTED.name())).
+                                collect(Collectors.toList());
+                        setUsuariosDTO(collect.stream()
+                                .map(amistad -> {
+                                    if (amistad.getUsuario1().getId().equals(viewModel.getUsuarioDTO().getId())) {
+                                        return amistad.getUsuario2();
+                                    } else {
+                                        return amistad.getUsuario1();
+                                    }
+                                })
+                                .filter(usuario -> !usuario.getId().equals(viewModel.getUsuarioDTO().getId()))
+                                .collect(Collectors.toList()));
+                        searchUsuariosAdapter = new SearchUsuariosAdapter(usuariosDTO, viewModel, container);
+                        recyclerView.setAdapter(searchUsuariosAdapter);
+                    }
+                }
+            });
+            btnAtras.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    viewModel.setVisualizarAmistades(false);
+                    Navigation.findNavController(container).navigate(R.id.action_busquedaUsuariosFragment_to_configuracionFragment);
+                }
+            });
+        }
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -145,5 +185,13 @@ public class BusquedaUsuariosFragment extends Fragment {
 
     public void setUsuariosDTO(List<UsuarioDTO> usuariosDTO) {
         this.usuariosDTO = usuariosDTO;
+    }
+
+    public boolean isVisualizarAmistades() {
+        return visualizarAmistades;
+    }
+
+    public void setVisualizarAmistades(boolean visualizarAmistades) {
+        this.visualizarAmistades = visualizarAmistades;
     }
 }

@@ -28,6 +28,7 @@ import java.util.List;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasAnuncio;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AnuncioDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.MateriaDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.viewmodel.MainActivityViewModel;
 
@@ -56,6 +57,11 @@ public class AnunciosAdapter extends RecyclerView.Adapter<AnunciosAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_anuncios, parent, false);
         return new ViewHolder(view);
+    }
+
+    public void actualizarAnuncios(List<AnuncioDTO> nuevosAnuncios) {
+        this.anunciosDTO = nuevosAnuncios;
+        notifyDataSetChanged();
     }
 
     @Override

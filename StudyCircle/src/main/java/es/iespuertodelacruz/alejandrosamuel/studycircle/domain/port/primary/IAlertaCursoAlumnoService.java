@@ -10,4 +10,6 @@ public interface IAlertaCursoAlumnoService {
     AlertaCursoAlumno findById(Integer idAlertaCursoAlumnoEntity);
 
     List<AlertaCursoAlumno> findAlertasCursoAlumnoByUsername(String username);
+
+    void delete(Integer id);
 }

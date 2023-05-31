@@ -43,6 +43,7 @@ public class AlertaAmistadDTOMapper {
         AmistadDTO amistad = new AmistadDTO();
         amistad.setId(in.getId());
         amistad.setUsuario1(toDTO(in.getUsuario1()));
+        amistad.setEstado(in.getEstado());
 
         return amistad;
     }

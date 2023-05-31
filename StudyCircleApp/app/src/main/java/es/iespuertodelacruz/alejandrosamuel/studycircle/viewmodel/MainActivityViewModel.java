@@ -62,6 +62,8 @@ public class MainActivityViewModel extends AndroidViewModel {
     private UsuarioDTO usuarioDTO;
     private UsuarioDTO selectedUsuarioDTO;
     private boolean fromAnunciosToVisualizarPerfil;
+    private boolean visualizarAmistades;
+    private CursoDTO selectedCursoDTO;
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
@@ -103,6 +105,14 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public LiveData<Object> getEstadoUsuario(String token) {
         return authRepository.getEstadoUsuario(token);
+    }
+
+    public LiveData<Object> changeNombreCompleto(String nombreCompleto, String token) {
+        return authRepository.changeNombreCompleto(nombreCompleto, token);
+    }
+
+    public LiveData<Object> changeUsername(String username, String token) {
+        return authRepository.changeUsername(username, token);
     }
 
     public void guardarTokenSharedPreferences(Context context, String token) {
@@ -166,6 +176,10 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public LiveData<Object> aceptarInvitacionCurso(Integer idAlertaCursoAlumno, String token) {
         return cursosRepository.aceptarInvitacionCurso(idAlertaCursoAlumno, token);
+    }
+
+    public LiveData<Object> rechazarInvitacion(Integer idInvitacion, String token) {
+        return cursosRepository.rechazarInvitacion(idInvitacion, token);
     }
 
     public LiveData<Object> removeAlumnoFromCurso(Integer idCurso, Integer idAlumno, String token) {
@@ -290,16 +304,24 @@ public class MainActivityViewModel extends AndroidViewModel {
         return amistadesRepository.findAmistadesByUsuario(token);
     }
 
-    public LiveData<Object> aceptarAmistad(Integer id, String token) {
-        return amistadesRepository.aceptarAmistad(id, token);
+    public LiveData<Object> getAmistades(String token) {
+        return amistadesRepository.getAmistades(token);
     }
 
-    public LiveData<Object> eliminarAmistad(Integer id, String token) {
-        return amistadesRepository.eliminarAmistad(id, token);
+    public LiveData<Object> aceptarAmistad(Integer idUsuarioAmistad, String token) {
+        return amistadesRepository.aceptarAmistad(idUsuarioAmistad, token);
+    }
+
+    public LiveData<Object> eliminarAmistad(Integer idUsuarioAmistad, String token) {
+        return amistadesRepository.eliminarAmistad(idUsuarioAmistad, token);
     }
 
     public LiveData<Object> getAmistadConUsuario(Integer idUsuario, String token) {
         return amistadesRepository.getAmistadConUsuario(idUsuario, token);
+    }
+
+    public LiveData<Object> getAmistadesAlumno(String token) {
+        return amistadesRepository.getAmistadesConAlumno(token);
     }
 
     //Acciones de los niveles de estudio
@@ -337,5 +359,21 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public void setFromAnunciosToVisualizarPerfil(boolean fromAnunciosToVisualizarPerfil) {
         this.fromAnunciosToVisualizarPerfil = fromAnunciosToVisualizarPerfil;
+    }
+
+    public boolean isVisualizarAmistades() {
+        return visualizarAmistades;
+    }
+
+    public void setVisualizarAmistades(boolean visualizarAmistades) {
+        this.visualizarAmistades = visualizarAmistades;
+    }
+
+    public CursoDTO getSelectedCursoDTO() {
+        return selectedCursoDTO;
+    }
+
+    public void setSelectedCursoDTO(CursoDTO selectedCursoDTO) {
+        this.selectedCursoDTO = selectedCursoDTO;
     }
 }

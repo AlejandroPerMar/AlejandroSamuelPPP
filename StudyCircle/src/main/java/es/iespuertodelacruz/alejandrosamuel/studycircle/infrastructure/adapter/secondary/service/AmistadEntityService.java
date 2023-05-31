@@ -90,4 +90,9 @@ public class AmistadEntityService implements IAmistadRepository {
         return amistadesById.stream().map(mapper::toDomain).toList();
     }
 
+    @Override
+    public List<Amistad> findAmistades(Integer id) {
+        return repository.findAll().stream().map(mapper::toDomain).toList();
+    }
+
 }

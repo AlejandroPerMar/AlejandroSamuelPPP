@@ -9,30 +9,76 @@
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="15dp">
+
     <LinearLayout
         android:id="@+id/popUpCurso"
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:orientation="vertical"
-        android:background="@drawable/blue_border_rounded_cornwe_bold">
+        android:orientation="vertical">
         <LinearLayout
+            android:id="@+id/headerCurso"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/header_popup"
-            android:layout_weight="5">
-            <TextView
-                android:id="@+id/txtCursoTitulo"
+            android:layout_height="50dp"
+            android:orientation="vertical"
+            android:background="@drawable/blue_border_rounded_cornwe_bold">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/curso"
-                android:gravity="center_horizontal|center_vertical"
-                android:textColor="@color/white"
-                android:textSize="30sp"
-                android:fontFamily="@font/poppins_medium_italic">
+                android:layout_height="0dp"
+                android:background="@drawable/header_popup"
+                android:layout_weight="5">
+                <TextView
+                    android:id="@+id/txtCursoTitulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="@string/curso"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:fontFamily="@font/poppins_medium_italic">
 
-            </TextView>
+                </TextView>
+            </LinearLayout>
+
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/cuerpoCurso"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:layout_weight="5">
+                <TextView
+                    android:id="@+id/txtMateria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/materia_"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/poppins_medium">
 
+                </TextView>
+                <TextView
+                    android:id="@+id/txtTutor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:padding="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/tutor_"
+                    android:layout_weight="1"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/poppins_medium">
+
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

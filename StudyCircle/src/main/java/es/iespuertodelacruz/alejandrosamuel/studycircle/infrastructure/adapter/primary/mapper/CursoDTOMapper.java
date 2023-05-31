@@ -2,6 +2,7 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.*;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.*;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.MateriaTutorEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
@@ -15,7 +16,6 @@ public class CursoDTOMapper {
         Curso curso = new Curso();
         curso.setTitulo(in.getTitulo());
         curso.setMateriaTutor(dtoJustIdMapper.toDomain(in.getMateriaTutor()));
-        curso.setAlumnos(in.getAlumnos().stream().map(dtoJustIdMapper::toDomain).toList());
         return curso;
     }
 
@@ -25,7 +25,7 @@ public class CursoDTOMapper {
         curso.setTitulo(in.getTitulo());
         curso.setMateriaTutor(toDTO(in.getMateriaTutor()));
         if(Objects.nonNull(in.getActividades()))
-            curso.setActividades(in.getActividades().stream().map(dtoJustIdMapper::toDTO).toList());
+            curso.setActividades(in.getActividades().stream().map(this::toDTO).toList());
         return curso;
     }
 
@@ -80,6 +80,11 @@ public class CursoDTOMapper {
         ActividadDTO actividad = new ActividadDTO();
         actividad.setId(in.getId());
         actividad.setNombre(in.getNombre());
+        actividad.setFechaActividad(in.getFechaActividad());
+        actividad.setDescripcion(in.getDescripcion());
+        CursoDTO curso = new CursoDTO();
+        curso.setMateriaTutor(toDTO(in.getCurso().getMateriaTutor()));
+        actividad.setCurso(curso);
         return actividad;
     }
 }

@@ -157,7 +157,7 @@ public class RegisterFragment extends Fragment {
                 String passwordConfirmation = dtPasswordConfirmation.getText().toString();
                 RelativeLayout relativeLayoutPasswordConfirmation = (RelativeLayout) dtPasswordConfirmation.getParent();
                 relativeLayoutPasswordConfirmation.setBackground(getResources().getDrawable(R.drawable.blue_border_rounded_cornwe, requireContext().getTheme()));
-                if(ObjectsUtils.notNullNorEmpty(passwordConfirmation, editable.toString())) {
+                if(ObjectsUtils.notNullNorEmpty(editable.toString())) {
                     if (passwordConfirmation.equals(editable.toString()))
                         relativeLayoutPasswordConfirmation.setBackground(getResources().getDrawable(R.drawable.green_border_rounded_cornwe, requireContext().getTheme()));
                     else
@@ -210,7 +210,8 @@ public class RegisterFragment extends Fragment {
             String email = dtEmail.getText().toString();
             String username = dtUsername.getText().toString();
             String password = dtPassword.getText().toString();
-            if(ObjectsUtils.notNullNorEmpty(nombreCompleto, email, username, password)) {
+            String passwordConfirmation = dtPasswordConfirmation.getText().toString();
+            if(ObjectsUtils.notNullNorEmpty(nombreCompleto, email, username, password, passwordConfirmation)) {
                 UsuarioRegisterDTO usuarioRegisterDTO = new UsuarioRegisterDTO();
                 usuarioRegisterDTO.setNombre(nombreCompleto);
                 usuarioRegisterDTO.setEmail(email);

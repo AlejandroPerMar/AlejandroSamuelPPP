@@ -75,13 +75,8 @@ public class CursosResourceV2 {
     public ResponseEntity<?> create(@RequestBody CursoDTO curso) {
         if(ObjectUtils.notNullNorEmpty(curso))
             if(ObjectUtils.notNullNorEmpty(curso.getTitulo(),
-                    curso.getAlumnos(),
                     curso.getMateriaTutor(),
                     curso.getMateriaTutor().getMateria())) {
-                Alumno alumno = alumnoService.findAlumnoByUsername(getUsernameUsuario());
-                if(Objects.nonNull(alumno)) {
-                    curso.getAlumnos().removeIf(a -> a.getId().equals(alumno.getId()));
-                }
                 Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
                 MateriaTutor materiaTutor = materiaTutorService.findByMateriaTutor(curso.getMateriaTutor().getMateria().getId(), tutor.getId());
                 if(Objects.nonNull(materiaTutor)) {
@@ -193,6 +188,7 @@ public class CursosResourceV2 {
         Curso curso = alertaCursoAlumno.getCurso();
         if(ObjectUtils.notNullNorEmpty(alumno, curso)) {
             cursoService.addAlumnoToCurso(curso, alumno);
+            alertaCursoAlumnoService.delete(alertaCursoAlumno.getId());
             entityManager.clear();
             return ResponseEntity.ok(mapper.toDTOTutor(cursoService.findById(curso.getId())));
         }
@@ -218,7 +214,12 @@ public class CursosResourceV2 {
         Tutor tutor = tutorService.findTutorByUsername(getUsernameUsuario());
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
         Alumno alumno = alumnoService.findAlumnoByIdUsuario(idUser);
+        Usuario usuarioAlumno = usuarioService.findById(idUser);
         Curso curso = cursoService.findById(idCourse);
+        if(curso.getAlumnos().stream().anyMatch(a -> a.getId().equals(alumno.getId())) ||
+                alertaCursoAlumnoService.findAlertasCursoAlumnoByUsername(usuarioAlumno.getUsername()).stream().anyMatch(a -> a.getCurso().getId().equals(idCourse))) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.USER_ALREADY_IN_COURSE_OR_INVITED.name());
+        }
         if(ObjectUtils.notNullNorEmpty(tutor, curso)) {
             if(!curso.getMateriaTutor().getTutor().getId().equals(tutor.getId())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.NON_AUTHENTICATED_OWNER.name());
@@ -229,10 +230,36 @@ public class CursosResourceV2 {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.STUDENT_NOT_FOUND_IN_CONTACTS.name());
         }
         if(ObjectUtils.notNullNorEmpty(alumno, curso)) {
-            alertaCursoAlumnoService.create(alumno.getId(), curso.getId());
+            alertaCursoAlumnoService.create(idUser, curso.getId());
             return ResponseEntity.ok(RespuestasCurso.STUDENT_INVITED.name());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.STUDENT_OR_COURSE_NOT_FOUND.name());
+    }
+
+    @DeleteMapping("/refuseInvitacion/{idInvitacion}")
+    @ApiOperation(
+            value = "Rechazar invitación a curso",
+            notes = """
+                    Parámetros solicitados:\s
+                    • "Integer idInvitacion. ID de la alerta generada
+                    
+                    Posibles respuestas:\s
+                    • "NON_AUTHENTICATED_OWNER" (String). Indica que el curso no es propiedad del usuario autenticado
+                    • "STUDENT_NOT_FOUND_IN_CONTACTS" (String). Indica que el alumno que se quiere invitar no se encuentra en la lista de contactos del usuario
+                    • "STUDENT_INVITED" (String). Indica que se ha invitado con éxito al alumno
+                    • "STUDENT_OR_COURSE_NOT_FOUND" (String). Indica que el alumno o curso no se han encontrado
+                    """
+    )
+    public ResponseEntity<?> rechazarInvitación(@PathVariable("idInvitacion") Integer idInvitacion) {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        AlertaCursoAlumno alerta = alertaCursoAlumnoService.findById(idInvitacion);
+        if(ObjectUtils.notNullNorEmpty(usuario, alerta)) {
+            if(alerta.getUsuario().getId().equals(usuario.getId())) {
+                alertaCursoAlumnoService.delete(alerta.getId());
+                return ResponseEntity.ok(RespuestasCurso.INVITATION_REMOVED.name());
+            }
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasCurso.STUDENT_OR_INVITATION_NOT_FOUND.name());
     }
 
     @GetMapping("/alumno")

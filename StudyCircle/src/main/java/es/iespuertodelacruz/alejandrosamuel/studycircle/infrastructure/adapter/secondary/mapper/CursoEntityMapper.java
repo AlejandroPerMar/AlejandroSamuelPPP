@@ -56,6 +56,12 @@ public class CursoEntityMapper {
         Actividad actividad = new Actividad();
         actividad.setId(in.getId());
         actividad.setNombre(in.getNombre());
+        actividad.setDescripcion(in.getDescripcion());
+        actividad.setFechaActividad(in.getFechaActividad());
+        Curso curso = new Curso();
+        curso.setMateriaTutor(toDomain(in.getCurso().getMateriaTutor()));
+        actividad.setCurso(curso);
+        actividad.setFechaCreacion(in.getFechaCreacion());
         return actividad;
     }
 

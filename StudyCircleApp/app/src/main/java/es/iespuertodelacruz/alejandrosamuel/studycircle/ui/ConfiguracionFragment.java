@@ -1,5 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -7,11 +9,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -20,9 +27,12 @@ import androidx.navigation.Navigation;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.EstadosAmistad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AmistadDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.CursoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.TutorDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
@@ -48,12 +58,14 @@ public class ConfiguracionFragment extends Fragment {
     private MainActivityViewModel viewModel;
     private ImageView btnAtras;
     private ProgressBar progressBar;
-    private TextView txtUsername;
-    private TextView txtNombreCompleto;
+    private EditText txtUsername;
+    private EditText txtNombreCompleto;
     private TextView txtEmail;
     private TextView btnFollowers;
     private LinearLayout perfilAlumno;
     private LinearLayout perfilTutor;
+    private ImageView btnCambiarUsername;
+    private ImageView btnCambiarNombreCompleto;
 
 
     public ConfiguracionFragment() {
@@ -103,6 +115,10 @@ public class ConfiguracionFragment extends Fragment {
         txtNombreCompleto = binding.txtNombreCompleto;
         txtEmail = binding.txtEmail;
         btnFollowers = binding.btnFollowers;
+        btnCambiarUsername = binding.btnCambiarUsername;
+        btnCambiarUsername.setVisibility(View.INVISIBLE);
+        btnCambiarNombreCompleto = binding.btnCambiarNombreCompleto;
+        btnCambiarNombreCompleto.setVisibility(View.INVISIBLE);
         perfilAlumno = binding.perfilAlumno;
         perfilTutor = binding.perfilTutor;
 
@@ -113,15 +129,88 @@ public class ConfiguracionFragment extends Fragment {
             public void onChanged(Object o) {
                 if(o instanceof UsuarioDTO) {
                     txtUsername.setText(((UsuarioDTO) o).getUsername());
+                    btnCambiarUsername.setVisibility(View.VISIBLE);
+                    btnCambiarUsername.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(!((UsuarioDTO) o).getUsername().contentEquals(txtUsername.getText())) {
+                                LiveData<Object> objectLiveData = viewModel.changeUsername(String.valueOf(txtUsername.getText()), viewModel.recuperarTokenSharedPreferences(getContext()));
+                                objectLiveData.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                                    @Override
+                                    public void onChanged(Object o) {
+                                        if(o instanceof String) {
+                                            Toast.makeText(getContext(), "Username actualizado correctamente", Toast.LENGTH_LONG).show();
+                                            viewModel.guardarTokenSharedPreferences(getContext(), (String) o);
+                                            Navigation.findNavController(container).navigate(R.id.action_refresh_configuracion_fragment);
+                                        }else {
+                                            Toast.makeText(getContext(), "No se ha podido actualizar el username", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
+                                builder.setTitle("Cambiar username");
+                                builder.setMessage("Debe introducir un nuevo username antes de intentar modificarlo");
+                                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+
+                                AlertDialog dialog = builder.create();
+                                dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                                dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
+                                dialog.show();
+                                Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                                positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                            }
+                        }
+                    });
                     txtEmail.setText(((UsuarioDTO) o).getEmail());
                     txtNombreCompleto.setText(((UsuarioDTO) o).getNombreCompleto());
-                    LiveData<Object> amistadesByUsuario = viewModel.findAmistadesByUsuario(viewModel.recuperarTokenSharedPreferences(getContext()));
+                    btnCambiarNombreCompleto.setVisibility(View.VISIBLE);
+                    btnCambiarNombreCompleto.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(!((UsuarioDTO) o).getNombreCompleto().contentEquals(txtNombreCompleto.getText())) {
+                                LiveData<Object> objectLiveData = viewModel.changeNombreCompleto(String.valueOf(txtNombreCompleto.getText()), viewModel.recuperarTokenSharedPreferences(getContext()));
+                                objectLiveData.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                                    @Override
+                                    public void onChanged(Object o) {
+                                        if(o instanceof UsuarioDTO) {
+                                            Toast.makeText(getContext(), "Nombre actualizado correctamente", Toast.LENGTH_LONG).show();
+                                            Navigation.findNavController(container).navigate(R.id.action_refresh_configuracion_fragment);
+                                        }else {
+                                            Toast.makeText(getContext(), "No se ha podido actualizar el nombre", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogStyle);
+                                builder.setTitle("Cambiar nombre");
+                                builder.setMessage("Debe introducir un nuevo nombre antes de intentar modificarlo");
+                                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+
+                                AlertDialog dialog = builder.create();
+                                dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                                dialog.getWindow().getDecorView().setPadding(50, 0, 50, 0);
+                                dialog.show();
+                                Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                                positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.button_color_selector));
+                            }
+                        }
+                    });
+                    LiveData<Object> amistadesByUsuario = viewModel.getAmistades(viewModel.recuperarTokenSharedPreferences(getContext()));
 
                     amistadesByUsuario.observe(getViewLifecycleOwner(), new Observer<Object>() {
                         @Override
                         public void onChanged(Object o) {
                             if(o instanceof List) {
-                                int size = ((List<?>) o).size();
+                                int size = (int) ((List<AmistadDTO>) o).stream().filter(a -> a.getEstado().equals(EstadosAmistad.FRIENDSHIP_ACCEPTED.name())).count();
                                 String countAmistades = getString(R.string.friends_count, String.valueOf(size));
                                 btnFollowers.setText(countAmistades);
                             }
@@ -155,8 +244,8 @@ public class ConfiguracionFragment extends Fragment {
                                     public void onChanged(Object o) {
                                         if(o instanceof Integer) {
                                             if(Objects.nonNull(o)) {
-                                                String numCursos = getString(R.string._0_actividades_pendientes, String.valueOf((Integer) o));
-                                                txtNumActividadesPendientes.setText(numCursos);
+                                                String numActividades = getString(R.string._0_actividades_pendientes, String.valueOf((Integer) o));
+                                                txtNumActividadesPendientes.setText(numActividades);
                                             }else {
                                                 txtNumActividadesPendientes.setText(getString(R.string._0_actividades_pendientes, String.valueOf(0)));
                                             }
@@ -263,14 +352,15 @@ public class ConfiguracionFragment extends Fragment {
         btnFollowers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                viewModel.setVisualizarAmistades(true);
+                Navigation.findNavController(container).navigate(R.id.action_configuracionFragment_to_busquedaUsuariosFragment);
             }
         });
 
         btnAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(container).popBackStack();
+                Navigation.findNavController(container).navigate(R.id.action_configuracionFragment_to_homeFragment);
             }
         });
 

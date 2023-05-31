@@ -157,6 +157,35 @@ public class AmistadesRepository {
         return mutableAmistades;
     }
 
+    public LiveData<Object> getAmistades(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableAmistades = new MutableLiveData<>();
+        Call<ResponseBody> callGetAmistades = restAuthService.getAmistades();
+        callGetAmistades.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<AmistadDTO>>() {}.getType();
+                    List<AmistadDTO> amistadesDTO = new Gson().fromJson(body.charStream(), listType);
+                    mutableAmistades.setValue(amistadesDTO);
+                }else {
+                    if(response.code() == 403) {
+                        mutableAmistades.setValue(null);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableAmistades;
+    }
+
     public LiveData<Object> aceptarAmistad(Integer idUsuarioAmistad, String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
         MutableLiveData<Object> mutableAmistad = new MutableLiveData<>();
@@ -267,6 +296,33 @@ public class AmistadesRepository {
                     if(response.code() == 403) {
                         mutableAmistad.setValue(null);
                     }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableAmistad;
+    }
+
+    public LiveData<Object> getAmistadesConAlumno(String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableAmistad = new MutableLiveData<>();
+        Call<ResponseBody> callGetAmistadesConAlumno = restAuthService.getAmistadesConAlumno();
+        callGetAmistadesConAlumno.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<UsuarioDTO>>() {}.getType();
+                    List<UsuarioDTO> usuariosDTO = new Gson().fromJson(body.charStream(), listType);
+                    mutableAmistad.setValue(usuariosDTO);
+                }else {
+                    mutableAmistad.setValue(null);
                 }
             }
             @Override

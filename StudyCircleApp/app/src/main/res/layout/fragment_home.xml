@@ -28,6 +28,14 @@
                 android:layout_width="33dp"
                 android:layout_height="33dp"
                 android:src="@drawable/ic_hamburger" />
+            <ImageView
+                android:id="@+id/btnCrearCurso"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="15dp"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:src="@drawable/ic_add" />
         </FrameLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,6 +52,9 @@
                 android:textColor="@color/bluestd"
                 android:textStyle="bold"/>
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerCursos"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </LinearLayout>

@@ -36,7 +36,14 @@
                 android:src="@drawable/ic_add" />
         </FrameLayout>
 
-
+        <Spinner
+            android:id="@+id/spinnerFiltrosAnuncios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:gravity="end"
+            android:layout_gravity="end"
+            android:layout_margin="10dp"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"

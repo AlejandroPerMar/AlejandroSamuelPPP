@@ -12,7 +12,7 @@ public class AlertaCursoAlumnoDTOMapper {
     @Autowired
     private UsuarioDTOMapper usuarioDTOMapper;
     public AlertaCursoAlumnoDTO toDTO(AlertaCursoAlumno in) {
-        if(Objects.nonNull(in)) return null;
+        if(Objects.isNull(in)) return null;
 
         AlertaCursoAlumnoDTO alertaCursoAlumnoDTO = new AlertaCursoAlumnoDTO();
         alertaCursoAlumnoDTO.setId(in.getId());

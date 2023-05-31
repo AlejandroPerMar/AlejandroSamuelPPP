@@ -42,6 +42,7 @@
                 <TextView
                     android:id="@+id/txtUsername"
                     android:layout_width="0dp"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="24sp"
@@ -59,6 +60,7 @@
                 <TextView
                     android:id="@+id/txtNombreCompleto"
                     android:layout_width="0dp"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="16sp"
@@ -96,6 +98,7 @@
                 <!-- Primer elemento -->
                 <LinearLayout
                     android:id="@+id/perfilTutor"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:orientation="vertical"
@@ -153,6 +156,7 @@
                 <!-- Segundo elemento -->
                 <LinearLayout
                     android:id="@+id/perfilAlumno"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:orientation="vertical"

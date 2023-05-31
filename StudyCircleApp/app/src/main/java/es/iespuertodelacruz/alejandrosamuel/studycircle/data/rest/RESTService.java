@@ -46,6 +46,12 @@ public interface RESTService {
     @GET("v2/usuarios/activeUser")
     Call<String> getEstadoUsuario();
 
+    @PUT("v2/usuarios/cambiarUsername/{username}")
+    Call<String> changeUsername(@Path("username") String username);
+
+    @PUT("v2/usuarios/cambiarNombreCompleto/{nombreCompleto}")
+    Call<ResponseBody> changeNombreCompleto(@Path("nombreCompleto") String nombreCompleto);
+
     //Configuración de perfiles de usuario
     @POST("v2/alumnos")
     Call<ResponseBody> createStudent(@Body AlumnoDTO alumnoDTO);
@@ -87,6 +93,9 @@ public interface RESTService {
     @POST("v2/cursos/inviteStudent")
     Call<ResponseBody> invitarAlumnoToCurso(@Query("idUser") Integer idUser, @Query("idCourse") Integer idCourse);
 
+    @DELETE("v2/cursos/refuseInvitacion/{idInvitacion}")
+    Call<ResponseBody> rechazarInvitacion(@Path("idInvitacion") Integer idInvitacion);
+
     @PUT("v2/cursos/aceptarInvitacionCursoAlumno")
     Call<ResponseBody> aceptarInvitacionCursoAlumno(@Query("idAlertaCursoAlumno") Integer idAlertaCursoAlumno);
 
@@ -116,6 +125,9 @@ public interface RESTService {
     @GET("v2/amistades/usuario")
     Call<ResponseBody> findAmistadesByUsuario();
 
+    @GET("v2/amistades")
+    Call<ResponseBody> getAmistades();
+
     @PUT("v2/amistades/accept")
     Call<ResponseBody> aceptarAmistad(@Query("idUsuarioAmistad") Integer idUsuarioAmistad);
 
@@ -124,6 +136,9 @@ public interface RESTService {
 
     @GET("v2/amistades/amistadConUsuario/{idUsuario}")
     Call<ResponseBody> getEstadoAmistad(@Path("idUsuario") Integer idUsuario);
+
+    @GET("v2/amistades/conAlumno")
+    Call<ResponseBody> getAmistadesConAlumno();
 
     //Acciones referentes a los anuncios
     @GET("v2/anuncios/{id}")

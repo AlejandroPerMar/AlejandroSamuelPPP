@@ -109,6 +109,9 @@ public class CursosRepository {
                         case NON_AUTHENTICATED_OWNER:
                             mutableCurso.setValue(RespuestasCursos.NON_AUTHENTICATED_OWNER);
                             break;
+                        case USER_ALREADY_IN_COURSE_OR_INVITED:
+                            mutableCurso.setValue(RespuestasCursos.USER_ALREADY_IN_COURSE_OR_INVITED);
+                            break;
                         default:
                     }
 
@@ -125,6 +128,46 @@ public class CursosRepository {
         });
         return mutableCurso;
     }
+
+    public LiveData<Object> rechazarInvitacion(Integer idInvitacion, String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableInvitacion = new MutableLiveData<>();
+        Call<ResponseBody> callRechazarInvitacion = restAuthService.rechazarInvitacion(idInvitacion);
+        callRechazarInvitacion.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    mutableInvitacion.setValue(RespuestasCursos.INVITATION_REMOVED);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = response.errorBody().string();
+                    } catch (IOException e) {
+                        respuesta = null;
+                    }
+                    switch (RespuestasCursos.valueOf(respuesta)) {
+                        case STUDENT_OR_INVITATION_NOT_FOUND:
+                            mutableInvitacion.setValue(RespuestasCursos.STUDENT_OR_INVITATION_NOT_FOUND);
+                            break;
+                        default:
+                    }
+
+                    if(response.code() == 403) {
+                        mutableInvitacion.setValue(null);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableInvitacion;
+    }
+
 
     public LiveData<Object> aceptarInvitacionCurso(Integer idAlertaCursoAlumno, String token) {
         restAuthService = RetrofitClient.getInstance(token).getAuthRestService();

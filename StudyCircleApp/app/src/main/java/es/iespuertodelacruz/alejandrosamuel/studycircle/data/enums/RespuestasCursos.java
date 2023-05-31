@@ -11,7 +11,11 @@ public enum RespuestasCursos {
     STUDENT_OR_COURSE_NOT_FOUND("STUDENT_OR_COURSE_NOT_FOUND", "Alumno o curso no encontrados"),
     STUDENT_INVITED("STUDENT_INVITED", "Se ha invitado con éxito al alumno"),
     STUDENT_NOT_FOUND_IN_CONTACTS("STUDENT_NOT_FOUND_IN_CONTACTS", "Alumno no se encuentra en la lista de contactos del usuario"),
-    ALERT_NOT_FOUND("ALERT_NOT_FOUND", "No se ha encontrado la alerta");
+    ALERT_NOT_FOUND("ALERT_NOT_FOUND", "No se ha encontrado la alerta"),
+    STUDENT_OR_INVITATION_NOT_FOUND("STUDENT_OR_INVITATION_NOT_FOUND", ""),
+    INVITATION_REMOVED("INVITATION_REMOVED", ""),
+    COURSE_REMOVED("INVITATION_REMOVED", ""),
+    USER_ALREADY_IN_COURSE_OR_INVITED("USER_ALREADY_IN_COURSE_OR_INVITED", "");
 
 
     private final String name;

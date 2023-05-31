@@ -97,4 +97,14 @@ public class UsuarioService implements IUsuarioService {
 		return usuarioRepository.findUsuarios(idUsuario);
 	}
 
+	@Override
+	public Usuario changeNombreCompleto(String nombreCompleto, Integer id) {
+		return usuarioRepository.changeNombreCompleto(nombreCompleto, id);
+	}
+
+	@Override
+	public Usuario changeUsername(String username, Integer id) {
+		return usuarioRepository.changeUsername(username, id);
+	}
+
 }

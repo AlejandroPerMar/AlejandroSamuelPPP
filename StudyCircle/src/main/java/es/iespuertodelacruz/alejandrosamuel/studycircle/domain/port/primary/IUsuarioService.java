@@ -22,4 +22,8 @@ public interface IUsuarioService {
     Usuario findById(Integer id);
 
 	List<Usuario> findUsuarios(Integer idUsuario);
+
+    Usuario changeNombreCompleto(String nombreCompleto, Integer id);
+
+	Usuario changeUsername(String username, Integer id);
 }

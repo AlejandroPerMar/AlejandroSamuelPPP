@@ -4,6 +4,7 @@ import java.util.List;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
+import io.swagger.models.auth.In;
 
 public interface IUsuarioRepository {
 	
@@ -22,4 +23,8 @@ public interface IUsuarioRepository {
 	Usuario findById(Integer id);
 
 	List<Usuario> findUsuarios(Integer idUsuario);
+
+    Usuario changeNombreCompleto(String nombreCompleto, Integer id);
+
+	Usuario changeUsername(String username, Integer id);
 }

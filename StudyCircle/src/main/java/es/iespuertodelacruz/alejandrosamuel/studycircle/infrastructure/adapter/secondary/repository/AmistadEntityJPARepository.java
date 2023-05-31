@@ -1,6 +1,7 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository;
 
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Amistad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.AmistadEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.UsuarioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

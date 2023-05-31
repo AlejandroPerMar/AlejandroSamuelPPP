@@ -9,8 +9,10 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IHTM
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.config.EmailSender;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.RespuestasUsuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.JwtService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.security.UserDetailsLogin;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.utils.ObjectUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Api(tags = {SwaggerConfig.USUARIO_V2_TAG})
@@ -94,6 +97,50 @@ public class UsuarioResourceV2 {
             return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(token.getToken());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body(usuario.getEstado());
+    }
+
+
+
+    @PutMapping("/cambiarNombreCompleto/{nombreCompleto}")
+    @ApiOperation(
+            value= "Cambiar el nombre completo del usuario",
+            notes = """
+                    Posibles respuestas:\s
+                    • "Token Bearer nuevo de autenticación. Devuelve el token renovado
+                    • "USER_OR_NOMBRE_COMPLETO_NOT_VALID" (String). Indica que no se ha encontrado el usuario o el nombre nuevo no es válido
+                    """
+    )
+    public ResponseEntity<?> cambiarNombreCompleto(@PathVariable("nombreCompleto") String nombreCompleto) {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        if(ObjectUtils.notNullNorEmpty(nombreCompleto, usuario)) {
+            usuario = usuarioService.changeNombreCompleto(nombreCompleto, usuario.getId());
+            return ResponseEntity.ok(mapper.toDTO(usuario));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasUsuario.USER_OR_NOMBRE_COMPLETO_NOT_VALID.name());
+    }
+
+    @PutMapping("/cambiarUsername/{username}")
+    @ApiOperation(
+            value= "Cambiar el username del usuario",
+            notes = """
+                    Posibles respuestas:\s
+                    • "Token Bearer nuevo de autenticación. Devuelve el token renovado
+                    • "USER_OR_USERNAME_NOT_VALID" (String). Indica que no se ha encontrado el usuario o el username nuevo no es válido
+                    """
+    )
+    public ResponseEntity<?> cambiarUsername(@PathVariable("username") String username) {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        Usuario findUsuario = usuarioService.findByUsername(username);
+        if(ObjectUtils.notNullNorEmpty(username, usuario) && Objects.isNull(findUsuario)) {
+            usuario = usuarioService.changeUsername(username, usuario.getId());
+            List<String> roles = usuario.getRoles()
+                    .stream()
+                    .map(Rol::getRol)
+                    .collect(Collectors.toList());
+            String token = jwtService.generateToken(usuario.getUsername(), roles);
+            return ResponseEntity.ok(token);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RespuestasUsuario.USER_OR_USERNAME_NOT_VALID.name());
     }
 
     @GetMapping("activeUser")

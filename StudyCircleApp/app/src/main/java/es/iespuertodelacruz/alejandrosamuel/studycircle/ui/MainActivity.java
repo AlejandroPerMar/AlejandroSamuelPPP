@@ -71,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
         } else if (navController.getCurrentDestination().getId() == R.id.visualizarPerfilFragment){
             navController.navigate(R.id.action_visualizarPerfilFragment_to_busquedaUsuariosFragment);
         }else {
-            // Si no estás en el fragmento de inicio, sigue el comportamiento normal de retroceso
-            super.onBackPressed();
         }
     }
 

@@ -74,6 +74,9 @@
         <action
             android:id="@+id/action_homeFragment_to_anunciosFragment"
             app:destination="@id/anunciosFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_cursoFragment"
+            app:destination="@id/cursoFragment" />
     </fragment>
     <fragment
         android:id="@+id/alumnoConfFragment"
@@ -183,6 +186,9 @@
         <action
             android:id="@+id/action_busquedaUsuariosFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_busquedaUsuariosFragment_to_configuracionFragment"
+            app:destination="@id/configuracionFragment" />
     </fragment>
     <fragment
         android:id="@+id/calendarFragment"
@@ -261,10 +267,25 @@
         <action
             android:id="@+id/action_configuracionFragment_to_alumnoConfFragment"
             app:destination="@id/alumnoConfFragment" />
+        <action
+            android:id="@+id/action_configuracionFragment_self"
+            app:destination="@id/configuracionFragment" />
+        <action
+            android:id="@+id/action_configuracionFragment_to_busquedaUsuariosFragment"
+            app:destination="@id/busquedaUsuariosFragment" />
+        <action
+            android:id="@+id/action_configuracionFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
+    <action
+        android:id="@+id/action_refresh_cursoFragment"
+        app:destination="@id/cursoFragment" />
     <action
         android:id="@+id/action_refresh_home_fragment"
         app:destination="@id/homeFragment" />
+    <action
+        android:id="@+id/action_refresh_configuracion_fragment"
+        app:destination="@id/configuracionFragment" />
     <action
         android:id="@+id/action_refresh_alerts_fragment"
         app:destination="@id/alertsFragment" />
@@ -291,5 +312,14 @@
         <action
             android:id="@+id/action_visualizarPerfilFragment_to_anunciosFragment"
             app:destination="@id/anunciosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cursoFragment"
+        android:name="es.iespuertodelacruz.alejandrosamuel.studycircle.ui.CursoFragment"
+        android:label="fragment_curso"
+        tools:layout="@layout/fragment_curso" >
+        <action
+            android:id="@+id/action_cursoFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

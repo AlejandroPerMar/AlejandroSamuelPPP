@@ -3,7 +3,6 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.
 import java.math.BigInteger;
 import java.util.*;
 
-import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.entity.TokenConfirmacionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -93,6 +92,20 @@ public class UsuarioEntityService implements IUsuarioRepository {
 		RolEntity rol = rolRepository.findByRol(Roles.ROLE_USER.name());
 		List<UsuarioEntity> usuarios = usuarioRepository.findUsuarios(rol, idUsuario);
 		return usuarios.stream().map(mapper::toDomain).toList();
+	}
+
+	@Override
+	public Usuario changeNombreCompleto(String nombreCompleto, Integer id) {
+		UsuarioEntity usuario = usuarioRepository.findById(id).orElse(null);
+		usuario.setNombreCompleto(nombreCompleto);
+		return mapper.toDomain(usuarioRepository.save(usuario));
+	}
+
+	@Override
+	public Usuario changeUsername(String username, Integer id) {
+		UsuarioEntity usuario = usuarioRepository.findById(id).orElse(null);
+		usuario.setUsername(username);
+		return mapper.toDomain(usuarioRepository.save(usuario));
 	}
 
 	@Override

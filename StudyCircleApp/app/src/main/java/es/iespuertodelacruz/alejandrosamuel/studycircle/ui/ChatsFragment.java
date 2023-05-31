@@ -62,7 +62,6 @@ public class ChatsFragment extends Fragment {
     private NavigationView navigationView;
     private BottomNavigationView bottomNavigationView;
     NavController navController;
-    private ProgressBar progressBar;
     private ImageView btnExpand;
 
     @Override
@@ -162,8 +161,6 @@ public class ChatsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentChatsBinding.inflate(inflater, container, false);
         mainActivity = (MainActivity) requireActivity();
-        progressBar = binding.progressBar;
-        progressBar.setVisibility(View.INVISIBLE);
         btnExpand = binding.btnExpand;
         navigationView  = mainActivity.getNavigationView();
         bottomNavigationView = mainActivity.getBottomNav();

@@ -14,11 +14,13 @@ import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.s
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.CursoEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.secondary.repository.EventoCalendarioEntityJPARepository;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.enums.PerfilUsuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -67,7 +69,6 @@ public class CursoEntityService implements ICursoRepository {
         cursoEntity.setTitulo(curso.getTitulo());
         cursoEntity.setFechaCreacion(new BigInteger(String.valueOf(new Date().getTime())));
         cursoEntity.setMateriaTutor(entityJustIdMapper.toEntity(curso.getMateriaTutor()));
-        cursoEntity.setAlumnos(curso.getAlumnos().stream().map(entityJustIdMapper::toEntity).toList());
         cursoEntity = repository.save(cursoEntity);
 
         return mapper.toDomain(cursoEntity);
@@ -119,11 +120,12 @@ public class CursoEntityService implements ICursoRepository {
     public void addAlumnoToCurso(Curso curso, Alumno alumno) {
         CursoEntity cursoEntity = repository.findById(curso.getId()).orElse(null);
         AlumnoEntity alumnoEntity = alumnoRepository.findById(alumno.getId()).orElse(null);
-        if(Objects.nonNull(alumnoEntity)) {
-            if(Objects.requireNonNull(cursoEntity).getAlumnos().stream().
+        if(ObjectUtils.notNullNorEmpty(cursoEntity, alumnoEntity)) {
+            if(cursoEntity.getAlumnos().stream().
                     filter(a -> a.getId().equals(alumnoEntity.getId())).findFirst().isEmpty()) {
-                Objects.requireNonNull(cursoEntity).getAlumnos().add(alumnoEntity);
-                repository.save(cursoEntity);
+                List<AlumnoEntity> alumnos = cursoEntity.getAlumnos();
+                alumnos.add(alumnoEntity);
+                cursoEntity.setAlumnos(alumnos);
                 cursoEntity.getActividades().forEach(a -> {
                         EventoCalendarioEntity eventoCalendarioEntity = new EventoCalendarioEntity();
                         eventoCalendarioEntity.setFechaEvento(a.getFechaActividad());

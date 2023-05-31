@@ -49,4 +49,9 @@ public class AmistadService implements IAmistadService {
     public List<Usuario> findAmistadesByIdUsuario(Integer id) {
         return repository.findAmistadesById(id);
     }
+
+    @Override
+    public List<Amistad> findAmistades(Integer id) {
+        return repository.findAmistades(id);
+    }
 }

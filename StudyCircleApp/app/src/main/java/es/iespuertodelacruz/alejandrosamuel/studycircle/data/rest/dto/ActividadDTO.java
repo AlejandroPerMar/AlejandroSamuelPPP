@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.math.BigInteger;
+import java.util.Date;
 
 public class ActividadDTO {
     @SerializedName("id")
@@ -62,8 +63,8 @@ public class ActividadDTO {
         this.nombre = nombre;
     }
 
-    public BigInteger getFechaActividad() {
-        return fechaActividad;
+    public Date getFechaActividad() {
+        return new Date(fechaActividad.longValue());
     }
 
     public void setFechaActividad(BigInteger fechaActividad) {

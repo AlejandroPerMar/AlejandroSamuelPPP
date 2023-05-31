@@ -30,4 +30,9 @@ public class AlertaCursoAlumnoService implements IAlertaCursoAlumnoService {
     public List<AlertaCursoAlumno> findAlertasCursoAlumnoByUsername(String username) {
         return repository.findAlertasCursoAlumnoByUsername(username);
     }
+
+    @Override
+    public void delete(Integer id) {
+        repository.delete(id);
+    }
 }

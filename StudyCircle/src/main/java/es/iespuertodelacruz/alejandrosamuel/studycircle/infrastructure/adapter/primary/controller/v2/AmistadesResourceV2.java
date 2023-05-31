@@ -1,7 +1,9 @@
 package es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.controller.v2;
 
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Alumno;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Amistad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.model.Usuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAlumnoService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IAmistadService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.domain.port.primary.IUsuarioService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.infrastructure.adapter.primary.dto.AmistadDTO;
@@ -37,6 +39,9 @@ public class AmistadesResourceV2 {
 
     @Autowired
     private IAmistadService amistadService;
+
+    @Autowired
+    private IAlumnoService alumnoService;
 
     @Autowired
     private AmistadDTOMapper mapper;
@@ -122,10 +127,10 @@ public class AmistadesResourceV2 {
                     Posibles respuestas:\s
                     • "FORBIDDEN_FRIENDSHIP_FOR_USER" (String). Indica que la amistad no está disponible para el usuario autenticado
                     • "NON_EXISTING_USER1_OR_USER2" (String). Indica que la amistad no está disponible para el usuario autenticado
-                    • "AmistadDTO. Devuelve el estado de la amistad
+                    • "AmistadDTO. Devuelve la amistad
                     """
     )
-    public ResponseEntity<?> getEstadoAmistad(@PathVariable("idUsuario") Integer idUsuario) {
+    public ResponseEntity<?> getAmistad(@PathVariable("idUsuario") Integer idUsuario) {
         Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
         Usuario usuario2 = usuarioService.findById(idUsuario);
         if(ObjectUtils.notNullNorEmpty(usuario, usuario2)) {
@@ -136,6 +141,42 @@ public class AmistadesResourceV2 {
             return ResponseEntity.ok(RespuestasAmistad.FORBIDDEN_FRIENDSHIP_FOR_USER.name());
         }
         return ResponseEntity.ok(RespuestasAmistad.NON_EXISTING_USER1_OR_USER2.name());
+    }
+
+    @GetMapping
+    @ApiOperation(
+            value= "Devolver amistades del usuario",
+            notes= """
+                    Posibles respuestas:\s
+                    • "List<AmistadDTO>. Devuelve las amistades del usuario, independientemente de su estado
+                    """
+    )
+    public ResponseEntity<?> getAmistades() {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        List<Amistad> amistades = amistadService.findAmistades(usuario.getId());
+        return ResponseEntity.ok(amistades.stream().map(mapper::toDTO).toList());
+    }
+
+    @GetMapping("/conAlumno")
+    @ApiOperation(
+            value= "Devolver amistades del usuario que tengan configurado el perfil de alumno",
+            notes= """
+                    Posibles respuestas:\s
+                    • "List<UsuarioDTO>. Devuelve las amistades del usuario con perfil de alumno
+                    """
+    )
+    public ResponseEntity<?> getAmistadesWithAlumno() {
+        Usuario usuario = usuarioService.findByUsername(getUsernameUsuario());
+        List<Usuario> amistades = amistadService.findAmistadesByIdUsuario(usuario.getId());
+        List<Usuario> usuariosConAlumnoProfile = amistades.stream().filter(a -> {
+            Alumno alumnoByIdUsuario = alumnoService.findAlumnoByIdUsuario(a.getId());
+            if(Objects.nonNull(alumnoByIdUsuario)) {
+                Amistad amistadByIds = amistadService.findAmistadByIds(usuario.getId(), a.getId());
+                return amistadByIds.getEstado().equals(EstadosAmistad.FRIENDSHIP_ACCEPTED.name());
+            }
+            return false;
+        }).toList();
+        return ResponseEntity.ok(usuariosConAlumnoProfile.stream().map(mapper::toDTO).toList());
     }
 
     @PutMapping("/accept")

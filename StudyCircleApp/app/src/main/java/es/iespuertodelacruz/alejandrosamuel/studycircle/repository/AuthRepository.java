@@ -19,10 +19,13 @@ import java.util.Objects;
 
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.db.DatabaseStudyCircle;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.EstadosUsuario;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasAnuncio;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasAuthToken;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasRegister;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasUsuario;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RESTService;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.RetrofitClient;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AnuncioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioLoginDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.UsuarioRegisterDTO;
@@ -273,6 +276,86 @@ public class AuthRepository {
             }
         });
         return mutableEstadoUsuario;
+    }
+
+    public LiveData<Object> changeUsername(String username, String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableUsuario = new MutableLiveData<>();
+        Call<String> responseChangeUsername = restAuthService.changeUsername(username);
+        responseChangeUsername.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call,
+                                   @NonNull Response<String> response) {
+                String body = response.body();
+                if(response.isSuccessful()) {
+                    mutableUsuario.setValue(body);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = Objects.requireNonNull(response.errorBody()).string();
+                        RespuestasUsuario respuestasUsuario = RespuestasUsuario.valueOf(respuesta);
+                        switch (respuestasUsuario) {
+                            case USER_OR_USERNAME_NOT_VALID:
+                                mutableUsuario.setValue(RespuestasUsuario.USER_OR_USERNAME_NOT_VALID);
+                                break;
+                            default:
+                        }
+                    } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableUsuario.setValue(null);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<String> call, Throwable t) {
+                mutableUsuario.setValue(null);
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableUsuario;
+    }
+
+    public LiveData<Object> changeNombreCompleto(String nombreCompleto, String token) {
+        restAuthService = RetrofitClient.getInstance(token).getAuthRestService();
+        MutableLiveData<Object> mutableUsuario = new MutableLiveData<>();
+        Call<ResponseBody> responseChangeUsername = restAuthService.changeNombreCompleto(nombreCompleto);
+        responseChangeUsername.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   @NonNull Response<ResponseBody> response) {
+                ResponseBody body = response.body();
+                if(response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    UsuarioDTO usuarioDTO = gson.fromJson(body.charStream(), UsuarioDTO.class);
+                    mutableUsuario.setValue(usuarioDTO);
+                }else {
+                    String respuesta;
+                    try {
+                        respuesta = Objects.requireNonNull(response.errorBody()).string();
+                        RespuestasUsuario respuestasUsuario = RespuestasUsuario.valueOf(respuesta);
+                        switch (respuestasUsuario) {
+                            case USER_OR_NOMBRE_COMPLETO_NOT_VALID:
+                                mutableUsuario.setValue(RespuestasUsuario.USER_OR_NOMBRE_COMPLETO_NOT_VALID);
+                                break;
+                            default:
+                        }
+                    } catch (Exception ignored) {}
+
+                    if(response.code() == 403) {
+                        mutableUsuario.setValue(null);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                mutableUsuario.setValue(null);
+                Log.e(TAG, "Error en la llamada a la API: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+        return mutableUsuario;
     }
 
 }

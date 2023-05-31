@@ -15,7 +15,7 @@ public class AlertaCursoAlumnoEntityMapper {
     private UsuarioEntityMapper usuarioEntityMapper;
 
     public AlertaCursoAlumno toDomain(AlertaCursoAlumnoEntity in) {
-        if(Objects.nonNull(in)) return null;
+        if(Objects.isNull(in)) return null;
 
         AlertaCursoAlumno alertaCursoAlumno = new AlertaCursoAlumno();
         alertaCursoAlumno.setId(in.getId());

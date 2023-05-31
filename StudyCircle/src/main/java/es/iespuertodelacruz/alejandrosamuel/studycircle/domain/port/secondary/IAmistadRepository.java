@@ -20,4 +20,6 @@ public interface IAmistadRepository {
     Amistad findAmistadByIds(Integer id1, Integer id2);
 
     List<Usuario> findAmistadesById(Integer id);
+
+    List<Amistad> findAmistades(Integer id);
 }

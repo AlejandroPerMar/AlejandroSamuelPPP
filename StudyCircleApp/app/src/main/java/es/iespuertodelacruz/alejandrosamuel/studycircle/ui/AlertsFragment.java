@@ -2,7 +2,10 @@ package es.iespuertodelacruz.alejandrosamuel.studycircle.ui;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,8 +14,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,15 +30,25 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import es.iespuertodelacruz.alejandrosamuel.studycircle.R;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.AlumnosAdapter;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.InvitacionesAdapter;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.adapters.SolicitudesAdapter;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.EstadosAmistad;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.RespuestasProfileConf;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.enums.UserProfiles;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlertaAmistadDTO;
+import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlertaCursoAlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.AlumnoDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.data.rest.dto.TutorDTO;
 import es.iespuertodelacruz.alejandrosamuel.studycircle.databinding.FragmentAlertsBinding;
@@ -61,11 +76,10 @@ public class AlertsFragment extends Fragment {
     private NavigationView navigationView;
     private BottomNavigationView bottomNavigationView;
     NavController navController;
-    private ProgressBar progressBar;
     private ImageView btnExpand;
     private RecyclerView solicitudesAmistadRecyclerView;
     private RecyclerView solicitudesCursosRecyclerView;
-    private RecyclerView alertasNuevaActividadRecyclerView;
+    private TextView txtInvitacionesCurso;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -164,17 +178,104 @@ public class AlertsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentAlertsBinding.inflate(inflater, container, false);
         mainActivity = (MainActivity) requireActivity();
-        progressBar = binding.progressBar;
         solicitudesCursosRecyclerView = binding.solicitudesCursosRecyclerView;
         solicitudesAmistadRecyclerView = binding.solicitudesAmistadRecyclerView;
-        alertasNuevaActividadRecyclerView = binding.alertasNuevaActividadRecyclerView;
-        progressBar.setVisibility(View.INVISIBLE);
         btnExpand = binding.btnExpand;
+        txtInvitacionesCurso = binding.txtInvitacionesCurso;
         navigationView  = mainActivity.getNavigationView();
         bottomNavigationView = mainActivity.getBottomNav();
         switchProfile = mainActivity.getSwitchProfile();
         mainActivity.enableDrawer(true);
         mainActivity.setBottomNavVisibility(View.VISIBLE);
+
+        String perfil = viewModel.recuperarPerfilSeleccionadoSharedPreferences(getContext());
+        LiveData<Object> alertasAmistadByUsuario = viewModel.findAlertasAmistadByUsuario(viewModel.recuperarTokenSharedPreferences(getContext()));
+        alertasAmistadByUsuario.observe(getViewLifecycleOwner(), new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                if(o instanceof List) {
+                    List<AlertaAmistadDTO> alertasAmistad = ((List<AlertaAmistadDTO>) o).stream().filter(a -> !a.getAmistad().getEstado().equals(EstadosAmistad.FRIENDSHIP_ACCEPTED.name())).collect(Collectors.toList());
+                    if(alertasAmistad.isEmpty()) {
+                        solicitudesAmistadRecyclerView.setVisibility(View.GONE);
+                        TextView textView = new TextView(getContext());
+                        textView.setText("No hay nuevas solicitudes");
+
+                        float scaledSizeInPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 5, getResources().getDisplayMetrics());
+                        textView.setTextSize(scaledSizeInPixels);
+
+                        textView.setTextColor(Color.GRAY);
+                        textView.setGravity(Gravity.CENTER_HORIZONTAL);
+
+                        LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                        textViewParams.weight = 1; // Establece el weight deseado
+
+                        LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                        containerParams.setMargins(90, 200, 90, 200); // Ajusta el valor del margen superior según sea necesario
+
+                        LinearLayout c = new LinearLayout(getContext());
+                        c.setLayoutParams(containerParams);
+                        c.addView(textView, textViewParams);
+
+                        LinearLayout layout = (LinearLayout) solicitudesAmistadRecyclerView.getParent();
+                        layout.setOrientation(LinearLayout.VERTICAL);
+                        layout.setGravity(Gravity.CENTER_VERTICAL);
+                        layout.addView(c, layout.indexOfChild(solicitudesAmistadRecyclerView)); // Índice 1 para insertar en la segunda posición
+                    }else {
+                        solicitudesAmistadRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                        solicitudesAmistadRecyclerView.setVisibility(View.VISIBLE);
+                        SolicitudesAdapter adapter = new SolicitudesAdapter(alertasAmistad, viewModel, container, getViewLifecycleOwner());
+                        solicitudesAmistadRecyclerView.setAdapter(adapter);
+                    }
+                }
+            }
+        });
+        if(perfil.equals(UserProfiles.TUTOR_PROFILE.name())) {
+            solicitudesCursosRecyclerView.setVisibility(View.GONE);
+            txtInvitacionesCurso.setVisibility(View.GONE);
+        }else if(perfil.equals(UserProfiles.STUDENT_PROFILE.name())) {
+            LiveData<Object> alertasCursoAlumnodByUsuario = viewModel.findAlertasCursoAlumnodByUsuario(viewModel.recuperarTokenSharedPreferences(getContext()));
+            alertasCursoAlumnodByUsuario.observe(getViewLifecycleOwner(), new Observer<Object>() {
+                @Override
+                public void onChanged(Object o) {
+                    if(o instanceof List) {
+                        if(((List<?>) o).isEmpty()) {
+                            solicitudesCursosRecyclerView.setVisibility(View.GONE);
+                            TextView textView = new TextView(getContext());
+                            textView.setText("No hay nuevas invitaciones");
+
+                            float scaledSizeInPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 5, getResources().getDisplayMetrics());
+                            textView.setTextSize(scaledSizeInPixels);
+
+                            textView.setTextColor(Color.GRAY);
+                            textView.setGravity(Gravity.CENTER_HORIZONTAL);
+
+                            LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                            textViewParams.weight = 1; // Establece el weight deseado
+
+                            LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                            containerParams.setMargins(90, 200, 90, 200); // Ajusta el valor del margen superior según sea necesario
+
+                            LinearLayout c = new LinearLayout(getContext());
+                            c.setLayoutParams(containerParams);
+                            c.addView(textView, textViewParams);
+
+                            LinearLayout layout = (LinearLayout) solicitudesCursosRecyclerView.getParent();
+                            layout.setOrientation(LinearLayout.VERTICAL);
+                            layout.setGravity(Gravity.CENTER_VERTICAL);
+                            layout.addView(c, layout.indexOfChild(solicitudesCursosRecyclerView)); // Índice 1 para insertar en la segunda posición
+                        }else {
+                            solicitudesCursosRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            solicitudesCursosRecyclerView.setVisibility(View.VISIBLE);
+                            InvitacionesAdapter adapter = new InvitacionesAdapter((List<AlertaCursoAlumnoDTO>) o, viewModel, container, getViewLifecycleOwner());
+                            solicitudesCursosRecyclerView.setAdapter(adapter);
+                        }
+                    }
+                }
+            });
+        }
+
+
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,8 +71,8 @@ public class AnunciosFragment extends Fragment {
     private List<AnuncioDTO> anuncioDTOList;
     private ImageView btnCrearAnuncio;
     private RecyclerView recyclerView;
-
     private AnuncioDTO anuncioDTO;
+    private Spinner spinner;
 
     public AnunciosFragment() {
         // Required empty public constructor
@@ -121,6 +123,7 @@ public class AnunciosFragment extends Fragment {
         progressBar = binding.progressBar;
         recyclerView = binding.recyclerView;
         btnCrearAnuncio = binding.btnCrearAnuncio;
+        spinner = binding.spinnerFiltrosAnuncios;
         progressBar.setVisibility(View.INVISIBLE);
 
         LiveData<Object> allAnuncios = viewModel.findAllAnuncios(viewModel.recuperarTokenSharedPreferences(getContext()));
@@ -151,6 +154,34 @@ public class AnunciosFragment extends Fragment {
                         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                         AnunciosAdapter anunciosAdapter = new AnunciosAdapter(getAnuncioDTOList(), viewModel, container, usuarioDTO, getViewLifecycleOwner());
                         recyclerView.setAdapter(anunciosAdapter);
+                        spinner.setVisibility(View.VISIBLE);
+                        List<String> opcionesFiltrado = Arrays.asList("Todos", "Búsqueda de alumnos", "Búsqueda de tutores");
+                        CustomArrayAdapter adapter = new CustomArrayAdapter(getContext(), R.layout.spinner_right_align, opcionesFiltrado);
+                        spinner.setAdapter(adapter);
+                        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                String tipoSeleccionado = parent.getItemAtPosition(position).toString();
+                                AnunciosAdapter adapter = (AnunciosAdapter) recyclerView.getAdapter();
+                                if(tipoSeleccionado.equals(opcionesFiltrado.get(2))) {
+                                    adapter.actualizarAnuncios(getAnuncioDTOList().stream().
+                                            filter(a -> a.getMotivo(). equals(MotivosAnuncio.SEARCHING_TUTOR.getName())).
+                                            collect(Collectors.toList()));
+                                }else if(tipoSeleccionado.equals(opcionesFiltrado.get(1))) {
+                                    adapter.actualizarAnuncios(getAnuncioDTOList().stream().
+                                            filter(a -> a.getMotivo(). equals(MotivosAnuncio.SEARCHING_STUDENTS.getName())).
+                                            collect(Collectors.toList()));
+                                }else {
+                                    adapter.actualizarAnuncios(getAnuncioDTOList());
+                                }
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                                AnunciosAdapter adapter = (AnunciosAdapter) recyclerView.getAdapter();
+                                adapter.actualizarAnuncios(getAnuncioDTOList());
+                            }
+                        });
                     }
                 }
             }
