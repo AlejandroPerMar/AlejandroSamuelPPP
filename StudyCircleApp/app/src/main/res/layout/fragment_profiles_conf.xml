@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ProfilesConfFragment" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/txtVerificarCuenta"
+                android:layout_gravity="center"
+                android:layout_width="350dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="62dp"
+                android:layout_marginTop="38dp"
+                android:layout_marginRight="62dp"
+                android:fontFamily="@font/poppins_medium"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:text="@string/creaci_n_de_perfiles"
+                android:textColor="#1566e0"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:id="@+id/txtExplicacion"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="62dp"
+                android:layout_marginTop="18dp"
+                android:justificationMode="inter_word"
+                android:layout_marginRight="62dp"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:text="@string/explicacion_creacion_perfiles"
+                android:textColor="#1566e0"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/btnConfAlumno"
+                android:layout_width="180dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="62dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="62dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/button_background1"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:text="@string/configurar_perfil_alumno"
+                android:textColor="#ffffff"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/btnConfTutor"
+                android:layout_width="180dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="62dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="62dp"
+                android:background="@drawable/button_background2"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:text="@string/configurar_perfil_tutor"
+                android:textColor="#1566e0"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="300dp"
+            android:gravity="center"
+            android:orientation="horizontal" android:layout_height="0dp">
+
+            <ImageView
+                android:id="@+id/btnSalir"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/exit" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

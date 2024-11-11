@@ -1,0 +1,38 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.StudyCircle" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.StudyCircle" parent="Base.Theme.StudyCircle" />
+
+    <style name="CustomAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
+        <item name="android:background">@drawable/custom_dialog_background</item>
+    </style>
+    <style name="MyTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Tu color de acento personalizado -->
+        <item name="colorAccent">#3F51B5</item>
+        <item name="navigationViewStyle">@style/MyNavigationViewStyle</item>
+    </style>
+    <style name="RoundedAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@drawable/rounded_dialog</item>
+    </style>
+    <style name="MyNavigationViewStyle" parent="Widget.Design.NavigationView">
+        <item name="android:listDivider">@drawable/my_divider</item>
+    </style>
+    <style name="EditTextCreateEvent">
+        <item name="android:background">@drawable/rounded_dialog</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+    <style name="DatePickerTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorAccent">@color/bluestd</item> <!-- color del indicador y botón -->
+    </style>
+
+</resources>

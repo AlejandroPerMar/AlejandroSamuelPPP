@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF"/> <!-- color de fondo del recyclerview -->
+
+    <corners
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp"
+        android:bottomLeftRadius="0dp"
+        android:bottomRightRadius="0dp"/> <!-- redondez de las esquinas -->
+
+    <stroke android:width="2dp" android:color="#1566e0"/> <!-- configuración del borde: ancho y color -->
+</shape>

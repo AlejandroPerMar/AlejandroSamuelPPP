@@ -25,4 +25,4 @@ Chat entre profesores y alumnos, Elegir clases(Telemática/presencial) o pedir c
 
 Base de datos
 
-De 7 a 10 tablas.
+Enlace a la documentación de la base de datos: https://dbdocs.io/samuglezmachado/studycircledb

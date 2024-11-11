@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home_nav" />
+        <item
+            android:id="@+id/nav_anouncements"
+            android:icon="@drawable/ic_board"
+            android:title="@string/tabl_n_de_anuncios" />
+        <item
+            android:id="@+id/nav_search_users"
+            android:icon="@drawable/ic_search"
+            android:title="@string/buscar_usuarios" />
+    </group>
+    <item android:title="@string/opciones"> <!-- Use this as a group title -->
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings"
+                android:title="@string/configuraci_n" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_logout"
+                android:title="@string/cerrar_sesi_n" />
+        </menu>
+    </item>
+</menu>
